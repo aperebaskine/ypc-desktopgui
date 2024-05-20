@@ -1,0 +1,26 @@
+package com.pinguela.yourpc.desktop.view;
+
+import javax.swing.Action;
+
+public interface ItemView<T> {
+	
+	String ITEM_PROPERTY = "item";
+
+	String ACTION_CARD = "actionCard";
+	String EDITOR_CARD = "editorCard";
+	
+	T getItem();
+	
+	T getModifiedItem();
+
+	void setItem(T item);
+	
+	void addAction(Action action);
+
+	void addAction(Action action, String card);
+
+	boolean showCard(String cardName);
+	
+	void resetFields();
+
+}

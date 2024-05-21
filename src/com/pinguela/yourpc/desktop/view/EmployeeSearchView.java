@@ -245,6 +245,10 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 			idTextField.setText("");
 		}
 		
+		if (!usernameTextField.equals(source)) {
+			usernameTextField.setText("");
+		}
+		
 		if (!firstNameTextField.equals(source)) {
 			firstNameTextField.setText("");
 		}

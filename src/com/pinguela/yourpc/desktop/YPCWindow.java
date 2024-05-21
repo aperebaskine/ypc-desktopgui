@@ -11,10 +11,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -30,12 +29,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.pinguela.yourpc.desktop.actions.OpenTabAction;
 import com.pinguela.yourpc.desktop.actions.UserPopupMenuAction;
 import com.pinguela.yourpc.desktop.components.CloseableTabComponent;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.LoginDialog;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.view.CustomerSearchView;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.model.Employee;
 
@@ -44,10 +45,10 @@ public class YPCWindow {
 	public static final String AUTHENTICATED_USER_PROPERTY = "authenticatedUser";
 
 	private static Logger logger = LogManager.getLogger();
-	
+
 	// Singleton
 	private static YPCWindow instance = null; 
-	
+
 	private Employee authenticatedUser;
 	private final PropertyChangeListener authenticationListener = (evt) -> {
 		authenticatedUser = (Employee) evt.getNewValue();
@@ -56,7 +57,7 @@ public class YPCWindow {
 	};
 
 	private JFrame frame;
-	
+
 	private JMenuItem productSearchMenuItem;
 	private JButton userMenuButton;
 	private JTabbedPane tabbedPane;
@@ -133,15 +134,32 @@ public class YPCWindow {
 		gbc_toolBar.gridy = 0;
 		panel.add(toolBar, gbc_toolBar);
 
-		JButton btnNewButton = new JButton(Icons.PRODUCT_ICON);
-		toolBar.add(btnNewButton);
+		JButton productTabButton = new JButton(Icons.PRODUCT_ICON);
+		toolBar.add(productTabButton);
 		
+		JButton customerTabButton = new JButton(Icons.USER_ICON);
+		toolBar.add(customerTabButton);
+		
+		JButton employeeTabButton = new JButton(Icons.USER_ICON);
+		toolBar.add(employeeTabButton);
+		
+		JButton customerOrderTabButton = new JButton("New button");
+		toolBar.add(customerOrderTabButton);
+		
+		JButton ticketTabButton = new JButton("");
+		ticketTabButton.setIcon(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1798_mail_to_post_to_post_mail.png")));
+		toolBar.add(ticketTabButton);
+		
+		JButton rmaTabButton = new JButton("");
+		rmaTabButton.setIcon(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
+		toolBar.add(rmaTabButton);
+
 		JToolBar userMenuToolBar = new JToolBar();
 		GridBagConstraints gbc_userMenuToolBar = new GridBagConstraints();
 		gbc_userMenuToolBar.gridx = 1;
 		gbc_userMenuToolBar.gridy = 0;
 		panel.add(userMenuToolBar, gbc_userMenuToolBar);
-		
+
 		userMenuButton = new JButton(new UserPopupMenuAction());
 		userMenuButton.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		userMenuToolBar.add(userMenuButton);
@@ -160,26 +178,23 @@ public class YPCWindow {
 		FlowLayout fl_eastPanel = (FlowLayout) eastPanel.getLayout();
 		fl_eastPanel.setAlignment(FlowLayout.RIGHT);
 		mainPanel.add(eastPanel, BorderLayout.EAST);
-		
+
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		mainPanel.add(tabbedPane, BorderLayout.CENTER);
 		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addCloseableTab("Product search", new ProductSearchView());
-			}
-		});
+		productTabButton.addActionListener(new OpenTabAction<>(ProductSearchView.class, "Product search"));
+		customerTabButton.addActionListener(new OpenTabAction<>(CustomerSearchView.class, "Customer search"));
 	}
 
 	public Employee getAuthenticatedUser() {
 		return authenticatedUser;
 	}
-	
+
 	public void setPermissions() {
 		// TODO: Make menus visible according to user's department
 	}
-	
+
 	public void addCloseableTab(final String title, final Component panel) {
 		tabbedPane.addTab(null, panel);
 		int lastIndex = tabbedPane.getTabCount() -1;
@@ -191,7 +206,7 @@ public class YPCWindow {
 		YPCDialog loginDialog = new LoginDialog();
 		loginDialog.getContentPane().addPropertyChangeListener(AUTHENTICATED_USER_PROPERTY, authenticationListener);
 	}
-	
+
 	private void onSuccessfulAuthentication() {
 		initializeFrame();
 		setPermissions();
@@ -200,7 +215,7 @@ public class YPCWindow {
 		frame.setVisible(true);
 		logger.info(String.format("Logged in as user %s.", authenticatedUser.getUsername()));
 	}
-	
+
 	public void logout() {
 		this.authenticatedUser = null;
 		frame.dispose();
@@ -208,19 +223,25 @@ public class YPCWindow {
 	}
 
 	/**
+	 * Unused entry point for WindowBuilder designer
+	 * @wbp.parser.entryPoint
+	 */
+	@SuppressWarnings("unused")
+	private void windowBuilderEntryPoint() {
+		main(null);
+		onSuccessfulAuthentication();
+	}
+
+	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					UIManager.setLookAndFeel(new FlatDarkLaf());
-					YPCWindow.getInstance();
-				} catch (Exception e) {
-					logger.fatal(e.getMessage(), e);
-				}
+		EventQueue.invokeLater(() -> {
+			try {
+				UIManager.setLookAndFeel(new FlatDarkLaf());
+				YPCWindow.getInstance();
+			} catch (Exception e) {
+				logger.fatal(e.getMessage(), e);
 			}
 		});
 	}

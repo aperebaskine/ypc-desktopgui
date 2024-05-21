@@ -49,8 +49,7 @@ implements ProductTableConstants {
 			columnValue = p.getSalePrice();
 		}
 		
-		return super.getTableCellRendererComponent(table, columnValue, isSelected,
-				hasFocus, row, column);
+		return super.getTableCellRendererComponent(table, columnValue, isSelected, hasFocus, row, column);
 	}
 
 }

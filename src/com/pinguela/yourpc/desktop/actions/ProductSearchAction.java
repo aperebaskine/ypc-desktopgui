@@ -1,10 +1,5 @@
 package com.pinguela.yourpc.desktop.actions;
 
-import java.awt.event.ItemListener;
-
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,8 +16,7 @@ import com.pinguela.yourpc.model.Results;
 import com.pinguela.yourpc.service.ProductService;
 import com.pinguela.yourpc.service.impl.ProductServiceImpl;
 
-public class ProductSearchAction extends SearchAction<Product>
-implements ItemListener, ChangeListener, DocumentListener, TableModelListener {
+public class ProductSearchAction extends SearchAction<Product> {
 
 	/**
 	 * 
@@ -39,7 +33,7 @@ implements ItemListener, ChangeListener, DocumentListener, TableModelListener {
 	}
 
 	@Override
-	protected TableModel getModel() {
+	protected TableModel fetchData() {
 
 		ProductSearchView view = (ProductSearchView) getView();
 		ProductCriteria criteria = view.getCriteria();

@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.view;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import javax.swing.border.EmptyBorder;
@@ -17,8 +18,12 @@ extends AbstractItemView<T> {
 	private static final long serialVersionUID = -3702324745329166746L;
 
 	private ImageGallery imageGalleryPanel;
+	private PropertyChangeListener editorListener = (evt) -> {
+		imageGalleryPanel.setEditable(isEditable());
+	};
 
 	public AbstractImageGalleryItemView() {
+		addPropertyChangeListener(CARD_PROPERTY, editorListener);
 		add(getViewPanel(), BorderLayout.WEST);
 
 		imageGalleryPanel = new ImageGallery();

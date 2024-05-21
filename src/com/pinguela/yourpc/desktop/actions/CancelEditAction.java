@@ -14,26 +14,16 @@ extends ItemAction<T> {
 	 * 
 	 */
 	private static final long serialVersionUID = -3158272366624004627L;
-	
-	private boolean closeOnCancel = false;
-	
-	public CancelEditAction(ItemView<T> view) {
-		this(view, false);
-	}
 
-	public CancelEditAction(ItemView<T> view, boolean closeWindow) {
+	public CancelEditAction(ItemView<T> view) {
 		super(view, "Cancel", Icons.CANCEL_ICON);
-		this.closeOnCancel = closeWindow;
 	}
 
 	@Override
-	protected void doAction() {
-		if (closeOnCancel) {
+	protected void doAction() {	
+		if (!getView().showCard(ItemView.ACTION_CARD)) {
 			SwingUtilities.getWindowAncestor((Component) getView()).dispose();
-		} else {
-			getView().resetFields();
-			getView().showCard(ItemView.ACTION_CARD);
-		}		
+		}	
 	}
 
 }

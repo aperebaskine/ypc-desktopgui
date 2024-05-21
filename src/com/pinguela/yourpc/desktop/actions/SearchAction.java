@@ -1,9 +1,6 @@
 package com.pinguela.yourpc.desktop.actions;
 
-import java.awt.event.ActionEvent;
-
 import javax.swing.Icon;
-import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
@@ -74,12 +71,11 @@ extends YPCAction {
 	protected void doAction() {
 		long now = System.currentTimeMillis();
 		if (now-lastSearchTime>DELAY) { // Cuando estés trabajando lo mejoras con un synchronize			
-			view.setModel(getModel());			
+			view.setModel(fetchData());			
 			this.lastSearchTime = System.currentTimeMillis();
 		}
 	}
 	
-
-	protected abstract TableModel getModel(); // fetchData 
+	protected abstract TableModel fetchData();
 
 }

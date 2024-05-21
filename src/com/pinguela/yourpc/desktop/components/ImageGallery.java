@@ -101,6 +101,7 @@ implements YPCComponent {
 		galleryScrollPane.setViewportView(galleryPanel);
 		
 		JPanel panel = new JPanel();
+		panel.setVisible(false);
 		panel.setPreferredSize(new Dimension(24, 148));
 		galleryPanel.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -182,6 +183,10 @@ implements YPCComponent {
 	}
 
 	public void removeImageAt(int index) {
+		
+		if (index == galleryPanel.getComponentCount()-1) {
+			throw new IllegalArgumentException("Cannot remove the component at the gallery panel's last index.");
+		}
 
 		imageEntries.remove(index);
 		galleryPanel.remove(index);
@@ -193,7 +198,9 @@ implements YPCComponent {
 
 	public void clearImages() {
 		imageEntries.removeAll(imageEntries);
-		galleryPanel.removeAll();
+		for (int i = 0; i < galleryPanel.getComponentCount() -1; i++) {
+			galleryPanel.remove(i);
+		}
 	}
 
 	private void setSelection(Integer index) {

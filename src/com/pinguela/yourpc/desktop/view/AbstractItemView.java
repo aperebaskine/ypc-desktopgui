@@ -54,8 +54,12 @@ implements ItemView<T> {
 		ActionPane actionPane = new ActionPane();
 		FlowLayout fl_actionPane = (FlowLayout) actionPane.getLayout();
 		fl_actionPane.setAlignment(FlowLayout.RIGHT);
-		southPanel.add(actionPane, name);
 		cards.put(name, actionPane);
+		
+		southPanel.add(actionPane, name);
+		if (cards.size() == 1) {
+			showCard(name);
+		}
 	}
 
 	@Override
@@ -100,6 +104,10 @@ implements ItemView<T> {
 		((CardLayout) southPanel.getLayout()).show(southPanel, cardName);
 		firePropertyChange(CARD_PROPERTY, null, cardName);
 		return true;
+	}
+	
+	public boolean isEditable() {
+		return ItemView.EDITOR_CARD.equals(southPanel.getComponent(0).getName());
 	}
 
 }

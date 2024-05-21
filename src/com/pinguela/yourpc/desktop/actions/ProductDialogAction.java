@@ -53,17 +53,16 @@ extends AbstractDialogAction<Product> {
 		int column = table.getSelectedColumn();
 
 		dialogView = new ProductItemView();
+		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
 		p = (Product) table.getValueAt(row, column);
 		dialogView.setItem(p);
-		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
-
 		if (!isEditing) {
 			dialogView.addAction(new ItemEditAction<Product>(dialogView, ItemView.ACTION_CARD));
 		}
-		dialogView.addAction(new CancelEditAction<Product>(dialogView, isEditing), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveProductAction(dialogView, isEditing), ItemView.EDITOR_CARD);
+		dialogView.addAction(new CancelEditAction<Product>(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new SaveProductAction(dialogView), ItemView.EDITOR_CARD);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);
@@ -77,9 +76,8 @@ extends AbstractDialogAction<Product> {
 		Product old = (Product) evt.getOldValue();
 		Product product = (Product) evt.getNewValue();
 
-		searchView.doSearch();
-
-		if (old != null && old.getId() == product.getId()) {
+		if (old != null && old.getId() == product.getId()) { // Product was updated
+			searchView.doSearch();
 			return;
 		}
 

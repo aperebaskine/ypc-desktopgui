@@ -48,7 +48,8 @@ implements SearchView<T> {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		searchPanel.add(actionPane, BorderLayout.SOUTH);
 
-		searchButton = new JButton(builder.setView(this).build());
+		// Null-check required for design-time support
+		searchButton = new JButton(builder == null ? null : builder.setView(this).build());
 		actionPane.add(searchButton);
 		addAction(new ResetCriteriaAction(this));
 

@@ -6,7 +6,7 @@ public interface ItemView<T> {
 	
 	String ITEM_PROPERTY = "item";
 
-	String ACTION_CARD = "actionCard";
+	String VIEW_CARD = "actionCard";
 	String EDITOR_CARD = "editorCard";
 	
 	T getItem();

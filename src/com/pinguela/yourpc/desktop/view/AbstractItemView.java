@@ -80,7 +80,7 @@ implements ItemView<T> {
 
 	@Override
 	public void addAction(Action action) {
-		addAction(action, ACTION_CARD); 
+		addAction(action, VIEW_CARD); 
 	}
 
 	@Override

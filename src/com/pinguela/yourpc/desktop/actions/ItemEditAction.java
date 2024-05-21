@@ -14,7 +14,7 @@ extends ItemAction<T> {
 	private static final long serialVersionUID = -4448781359085553435L;
 
 	public ItemEditAction(ItemView<T> view) {
-		this(view, ItemView.ACTION_CARD);
+		this(view, ItemView.VIEW_CARD);
 	}
 
 	public ItemEditAction(ItemView<T> view, String card) {

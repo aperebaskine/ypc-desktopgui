@@ -59,7 +59,7 @@ extends AbstractDialogAction<Product> {
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
-			dialogView.addAction(new ItemEditAction<Product>(dialogView, ItemView.ACTION_CARD));
+			dialogView.addAction(new ItemEditAction<Product>(dialogView, ItemView.VIEW_CARD));
 		}
 		dialogView.addAction(new CancelEditAction<Product>(dialogView), ItemView.EDITOR_CARD);
 		dialogView.addAction(new SaveProductAction(dialogView), ItemView.EDITOR_CARD);

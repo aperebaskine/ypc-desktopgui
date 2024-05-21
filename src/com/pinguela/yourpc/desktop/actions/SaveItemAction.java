@@ -41,9 +41,9 @@ extends ItemAction<T> {
 	protected void doAction() {
 		try {
 			doSave();
-			if (!getView().showCard(ItemView.ACTION_CARD)) {
-				getView().addAction(new ItemEditAction<T>(getView()), ItemView.ACTION_CARD);
-				getView().showCard(ItemView.ACTION_CARD);
+			if (!getView().showCard(ItemView.VIEW_CARD)) {
+				getView().addAction(new ItemEditAction<T>(getView()), ItemView.VIEW_CARD);
+				getView().showCard(ItemView.VIEW_CARD);
 			} 
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);

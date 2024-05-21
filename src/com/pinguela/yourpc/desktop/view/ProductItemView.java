@@ -1,4 +1,5 @@
 package com.pinguela.yourpc.desktop.view;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -43,7 +44,7 @@ extends AbstractImageGalleryItemView<Product> {
 	private JFormattedTextField salePriceField;
 	private JTextArea descriptionTextArea;
 	private JTable attributeTable;
-	
+
 	private PropertyChangeListener editorListener = (evt) -> {
 		boolean isEditable = ItemView.EDITOR_CARD.equals(evt.getNewValue());
 
@@ -55,7 +56,7 @@ extends AbstractImageGalleryItemView<Product> {
 		salePriceField.setEditable(isEditable);
 		descriptionTextArea.setEditable(isEditable);
 	};
-	
+
 	private PropertyChangeListener itemListener = (evt) -> {
 		idValueLabel.setText(getItem().getId().toString());
 		nameTextField.setText(getItem().getName());
@@ -65,7 +66,7 @@ extends AbstractImageGalleryItemView<Product> {
 		purchasePriceField.setValue(getItem().getPurchasePrice());
 		salePriceField.setValue(getItem().getSalePrice());
 		descriptionTextArea.setText(getItem().getDescription());
-		
+
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
 				AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
 	};
@@ -263,11 +264,11 @@ extends AbstractImageGalleryItemView<Product> {
 		addPropertyChangeListener(itemListener);
 		addPropertyChangeListener(editorListener);
 	}
-	
+
 	@Override
 	public Product getModifiedItem() {
 		Product product = new Product();
-		
+
 		product.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));
 		product.setName(nameTextField.getText());
 		product.setCategoryId(((Category) categoryComboBox.getSelectedItem()).getId());
@@ -276,7 +277,7 @@ extends AbstractImageGalleryItemView<Product> {
 		product.setPurchasePrice((Double) purchasePriceField.getValue());
 		product.setSalePrice((Double) salePriceField.getValue());
 		product.setDescription(descriptionTextArea.getText());
-		
+
 		return product;
 	}
 

@@ -22,5 +22,7 @@ public interface Icons {
 	Icon ADD_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1727_add_add.png"));
 	
 	Icon UNDO_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1859_undo_undo.png"));
+	
+	Icon CLOSE_TAB_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1855_tab_remove_remove_tab.png"));
 
 }

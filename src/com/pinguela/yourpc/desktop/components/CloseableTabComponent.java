@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import com.pinguela.yourpc.desktop.actions.CloseTabAction;
+import com.pinguela.yourpc.desktop.constants.Icons;
 
 /**
  * TODO: Handle index for tabs of the same type when they are not closed in order
@@ -42,6 +43,7 @@ extends JPanel {
 		add(horizontalStrut);
 		
 		JButton btnNewButton = new JButton(new CloseTabAction(container, tab));
+		btnNewButton.setIcon(Icons.CLOSE_TAB_ICON);
 		add(btnNewButton);
 		
 		setOpaque(false);

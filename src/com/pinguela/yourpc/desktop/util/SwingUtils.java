@@ -19,11 +19,8 @@ public class SwingUtils {
 	public static final int HORIZONTAL_MARGIN = 0;
 	public static final int VERTICAL_MARGIN = 1;
 
-	private static final SimpleDateFormat DATE_FORMAT;
-
-	static {
-		DATE_FORMAT = new SimpleDateFormat("dd/MM/YYYY");
-	}
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/YYYY");
+	private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
 
 	public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
 		Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
@@ -64,6 +61,10 @@ public class SwingUtils {
 
 	public static String formatDate(Date date) {
 		return DATE_FORMAT.format(date);
+	}	
+	
+	public static String formatDateTime(Date date) {
+		return DATETIME_FORMAT.format(date);
 	}	
 
 	public static boolean isDocumentEmpty(Document d) {

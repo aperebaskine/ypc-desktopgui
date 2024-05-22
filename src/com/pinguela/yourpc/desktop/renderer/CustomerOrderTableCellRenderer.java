@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.CustomerOrderTableConstants;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.CustomerOrder;
 
 public class CustomerOrderTableCellRenderer
@@ -34,7 +35,7 @@ implements CustomerOrderTableConstants {
                 columnValue = order.getCustomerId();
                 break;
             case DATE_COLUMN_INDEX:
-                columnValue = order.getOrderDate();
+                columnValue = SwingUtils.formatDateTime(order.getOrderDate());
                 break;
             case TRACKING_NUMBER_COLUMN_INDEX:
                 columnValue = order.getTrackingNumber();

@@ -1,5 +1,6 @@
 package com.pinguela.yourpc.desktop.constants;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -51,10 +52,10 @@ public class DBConstants {
             logger.fatal(t.getMessage(), t);
         }
 
-        TICKET_STATES = ticketStates;
-        TICKET_TYPES = ticketTypes;
-        RMA_STATES = rmaStates;
-        ORDER_STATES = orderStates;
+        TICKET_STATES = Collections.unmodifiableMap(ticketStates);
+        TICKET_TYPES = Collections.unmodifiableMap(ticketTypes);
+        RMA_STATES = Collections.unmodifiableMap(rmaStates);
+        ORDER_STATES = Collections.unmodifiableMap(orderStates);
     }
     
 }

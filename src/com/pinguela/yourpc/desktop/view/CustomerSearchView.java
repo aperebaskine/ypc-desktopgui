@@ -41,10 +41,10 @@ public class CustomerSearchView extends AbstractSearchView<Customer> {
 	
 	private void initialize() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 120, 48, 0, 120, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 120, 48, 0, 120, 48, 0, 120, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		getCriteriaPanel().setLayout(gridBagLayout);
 		
 		JLabel idLabel = new JLabel("ID:");
@@ -64,11 +64,28 @@ public class CustomerSearchView extends AbstractSearchView<Customer> {
 		getCriteriaPanel().add(idTextField, gbc_idTextField);
 		idTextField.setColumns(10);
 		
+		JLabel firstNameLabel = new JLabel("First name:");
+		GridBagConstraints gbc_firstNameLabel = new GridBagConstraints();
+		gbc_firstNameLabel.anchor = GridBagConstraints.EAST;
+		gbc_firstNameLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_firstNameLabel.gridx = 3;
+		gbc_firstNameLabel.gridy = 0;
+		getCriteriaPanel().add(firstNameLabel, gbc_firstNameLabel);
+		
+		firstNameTextField = new JTextField();
+		GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
+		gbc_firstNameTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_firstNameTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_firstNameTextField.gridx = 4;
+		gbc_firstNameTextField.gridy = 0;
+		getCriteriaPanel().add(firstNameTextField, gbc_firstNameTextField);
+		firstNameTextField.setColumns(10);
+		
 		JLabel documentNumberLabel = new JLabel("Document number:");
 		GridBagConstraints gbc_documentNumberLabel = new GridBagConstraints();
 		gbc_documentNumberLabel.anchor = GridBagConstraints.EAST;
 		gbc_documentNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_documentNumberLabel.gridx = 3;
+		gbc_documentNumberLabel.gridx = 6;
 		gbc_documentNumberLabel.gridy = 0;
 		getCriteriaPanel().add(documentNumberLabel, gbc_documentNumberLabel);
 		
@@ -76,77 +93,60 @@ public class CustomerSearchView extends AbstractSearchView<Customer> {
 		GridBagConstraints gbc_documentNumberTextField = new GridBagConstraints();
 		gbc_documentNumberTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_documentNumberTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_documentNumberTextField.gridx = 4;
+		gbc_documentNumberTextField.gridx = 7;
 		gbc_documentNumberTextField.gridy = 0;
 		getCriteriaPanel().add(documentNumberTextField, gbc_documentNumberTextField);
 		documentNumberTextField.setColumns(10);
 		
-		JLabel firstNameLabel = new JLabel("First name:");
-		GridBagConstraints gbc_firstNameLabel = new GridBagConstraints();
-		gbc_firstNameLabel.anchor = GridBagConstraints.EAST;
-		gbc_firstNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_firstNameLabel.gridx = 0;
-		gbc_firstNameLabel.gridy = 1;
-		getCriteriaPanel().add(firstNameLabel, gbc_firstNameLabel);
+		JLabel emailLabel = new JLabel("Email:");
+		GridBagConstraints gbc_emailLabel = new GridBagConstraints();
+		gbc_emailLabel.anchor = GridBagConstraints.EAST;
+		gbc_emailLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_emailLabel.gridx = 0;
+		gbc_emailLabel.gridy = 1;
+		getCriteriaPanel().add(emailLabel, gbc_emailLabel);
 		
-		firstNameTextField = new JTextField();
-		GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
-		gbc_firstNameTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_firstNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_firstNameTextField.gridx = 1;
-		gbc_firstNameTextField.gridy = 1;
-		getCriteriaPanel().add(firstNameTextField, gbc_firstNameTextField);
-		firstNameTextField.setColumns(10);
-		
-		JLabel phoneNumberLabel = new JLabel("Phone number:");
-		GridBagConstraints gbc_phoneNumberLabel = new GridBagConstraints();
-		gbc_phoneNumberLabel.anchor = GridBagConstraints.EAST;
-		gbc_phoneNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_phoneNumberLabel.gridx = 3;
-		gbc_phoneNumberLabel.gridy = 1;
-		getCriteriaPanel().add(phoneNumberLabel, gbc_phoneNumberLabel);
-		
-		phoneNumberTextField = new JTextField();
-		GridBagConstraints gbc_phoneNumberTextField = new GridBagConstraints();
-		gbc_phoneNumberTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_phoneNumberTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_phoneNumberTextField.gridx = 4;
-		gbc_phoneNumberTextField.gridy = 1;
-		getCriteriaPanel().add(phoneNumberTextField, gbc_phoneNumberTextField);
-		phoneNumberTextField.setColumns(10);
+		emailTextField = new JTextField();
+		GridBagConstraints gbc_emailTextField = new GridBagConstraints();
+		gbc_emailTextField.insets = new Insets(0, 0, 0, 5);
+		gbc_emailTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_emailTextField.gridx = 1;
+		gbc_emailTextField.gridy = 1;
+		getCriteriaPanel().add(emailTextField, gbc_emailTextField);
+		emailTextField.setColumns(10);
 		
 		JLabel lastNameLabel = new JLabel("Last name:");
 		GridBagConstraints gbc_lastNameLabel = new GridBagConstraints();
 		gbc_lastNameLabel.anchor = GridBagConstraints.EAST;
 		gbc_lastNameLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lastNameLabel.gridx = 0;
-		gbc_lastNameLabel.gridy = 2;
+		gbc_lastNameLabel.gridx = 3;
+		gbc_lastNameLabel.gridy = 1;
 		getCriteriaPanel().add(lastNameLabel, gbc_lastNameLabel);
 		
 		lastNameTextField = new JTextField();
 		GridBagConstraints gbc_lastNameTextField = new GridBagConstraints();
 		gbc_lastNameTextField.insets = new Insets(0, 0, 0, 5);
 		gbc_lastNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lastNameTextField.gridx = 1;
-		gbc_lastNameTextField.gridy = 2;
+		gbc_lastNameTextField.gridx = 4;
+		gbc_lastNameTextField.gridy = 1;
 		getCriteriaPanel().add(lastNameTextField, gbc_lastNameTextField);
 		lastNameTextField.setColumns(10);
 		
-		JLabel emailLabel = new JLabel("Email:");
-		GridBagConstraints gbc_emailLabel = new GridBagConstraints();
-		gbc_emailLabel.anchor = GridBagConstraints.EAST;
-		gbc_emailLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_emailLabel.gridx = 3;
-		gbc_emailLabel.gridy = 2;
-		getCriteriaPanel().add(emailLabel, gbc_emailLabel);
+		JLabel phoneNumberLabel = new JLabel("Phone number:");
+		GridBagConstraints gbc_phoneNumberLabel = new GridBagConstraints();
+		gbc_phoneNumberLabel.anchor = GridBagConstraints.EAST;
+		gbc_phoneNumberLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_phoneNumberLabel.gridx = 6;
+		gbc_phoneNumberLabel.gridy = 1;
+		getCriteriaPanel().add(phoneNumberLabel, gbc_phoneNumberLabel);
 		
-		emailTextField = new JTextField();
-		GridBagConstraints gbc_emailTextField = new GridBagConstraints();
-		gbc_emailTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_emailTextField.gridx = 4;
-		gbc_emailTextField.gridy = 2;
-		getCriteriaPanel().add(emailTextField, gbc_emailTextField);
-		emailTextField.setColumns(10);
+		phoneNumberTextField = new JTextField();
+		GridBagConstraints gbc_phoneNumberTextField = new GridBagConstraints();
+		gbc_phoneNumberTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_phoneNumberTextField.gridx = 7;
+		gbc_phoneNumberTextField.gridy = 1;
+		getCriteriaPanel().add(phoneNumberTextField, gbc_phoneNumberTextField);
+		phoneNumberTextField.setColumns(10);
 	}
 	
 	private void postinitialize() {

@@ -53,10 +53,10 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 
 	private void initialize() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 120, 120, 48, 0, 0, 120, 0, 120, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{38, 120, 48, 48, 120, 48, 0, 0, 120, 0, 120, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		getCriteriaPanel().setLayout(gridBagLayout);
 
 		JLabel idLabel = new JLabel("ID:");
@@ -69,26 +69,42 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 
 		idTextField = new JTextField();
 		GridBagConstraints gbc_idTextField = new GridBagConstraints();
-		gbc_idTextField.gridwidth = 2;
 		gbc_idTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_idTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_idTextField.gridx = 1;
 		gbc_idTextField.gridy = 0;
 		getCriteriaPanel().add(idTextField, gbc_idTextField);
 		idTextField.setColumns(10);
+		
+				JLabel customerIdLabel = new JLabel("Customer ID:");
+				GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
+				gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
+				gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_customerIdLabel.gridx = 3;
+				gbc_customerIdLabel.gridy = 0;
+				getCriteriaPanel().add(customerIdLabel, gbc_customerIdLabel);
+		
+				customerIdTextField = new JTextField();
+				GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
+				gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
+				gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_customerIdTextField.gridx = 4;
+				gbc_customerIdTextField.gridy = 0;
+				getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
+				customerIdTextField.setColumns(10);
 
 		JLabel dateLabel = new JLabel("Date:");
 		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
 		gbc_dateLabel.anchor = GridBagConstraints.EAST;
 		gbc_dateLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_dateLabel.gridx = 4;
+		gbc_dateLabel.gridx = 6;
 		gbc_dateLabel.gridy = 0;
 		getCriteriaPanel().add(dateLabel, gbc_dateLabel);
 
 		JLabel fromLabel = new JLabel("from");
 		GridBagConstraints gbc_fromLabel = new GridBagConstraints();
 		gbc_fromLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_fromLabel.gridx = 5;
+		gbc_fromLabel.gridx = 7;
 		gbc_fromLabel.gridy = 0;
 		getCriteriaPanel().add(fromLabel, gbc_fromLabel);
 
@@ -96,14 +112,14 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		GridBagConstraints gbc_dateFromChooser = new GridBagConstraints();
 		gbc_dateFromChooser.insets = new Insets(0, 0, 5, 5);
 		gbc_dateFromChooser.fill = GridBagConstraints.BOTH;
-		gbc_dateFromChooser.gridx = 6;
+		gbc_dateFromChooser.gridx = 8;
 		gbc_dateFromChooser.gridy = 0;
 		getCriteriaPanel().add(dateFromChooser, gbc_dateFromChooser);
 
 		JLabel toLabel = new JLabel("to");
 		GridBagConstraints gbc_toLabel = new GridBagConstraints();
 		gbc_toLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_toLabel.gridx = 7;
+		gbc_toLabel.gridx = 9;
 		gbc_toLabel.gridy = 0;
 		getCriteriaPanel().add(toLabel, gbc_toLabel);
 
@@ -111,42 +127,55 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
 		gbc_dateToChooser.insets = new Insets(0, 0, 5, 0);
 		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
-		gbc_dateToChooser.gridx = 8;
+		gbc_dateToChooser.gridx = 10;
 		gbc_dateToChooser.gridy = 0;
 		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
-
-		JLabel customerIdLabel = new JLabel("Customer ID:");
-		GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
-		gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
-		gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdLabel.gridx = 0;
-		gbc_customerIdLabel.gridy = 1;
-		getCriteriaPanel().add(customerIdLabel, gbc_customerIdLabel);
-
-		customerIdTextField = new JTextField();
-		GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
-		gbc_customerIdTextField.gridwidth = 2;
-		gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerIdTextField.gridx = 1;
-		gbc_customerIdTextField.gridy = 1;
-		getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
-		customerIdTextField.setColumns(10);
+				
+						JLabel stateLabel = new JLabel("State:");
+						GridBagConstraints gbc_stateLabel = new GridBagConstraints();
+						gbc_stateLabel.anchor = GridBagConstraints.EAST;
+						gbc_stateLabel.insets = new Insets(0, 0, 0, 5);
+						gbc_stateLabel.gridx = 0;
+						gbc_stateLabel.gridy = 1;
+						getCriteriaPanel().add(stateLabel, gbc_stateLabel);
+				stateComboBox = ComponentFactory.getComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+				GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
+				gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
+				gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_stateComboBox.gridx = 1;
+				gbc_stateComboBox.gridy = 1;
+				getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
+		
+				JLabel customerEmailLabel = new JLabel("Customer email:");
+				GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
+				gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
+				gbc_customerEmailLabel.insets = new Insets(0, 0, 0, 5);
+				gbc_customerEmailLabel.gridx = 3;
+				gbc_customerEmailLabel.gridy = 1;
+				getCriteriaPanel().add(customerEmailLabel, gbc_customerEmailLabel);
+		
+				customerEmailTextField = new JTextField();
+				GridBagConstraints gbc_customerEmailTextField = new GridBagConstraints();
+				gbc_customerEmailTextField.insets = new Insets(0, 0, 0, 5);
+				gbc_customerEmailTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_customerEmailTextField.gridx = 4;
+				gbc_customerEmailTextField.gridy = 1;
+				getCriteriaPanel().add(customerEmailTextField, gbc_customerEmailTextField);
+				customerEmailTextField.setColumns(10);
 
 		JLabel amountLabel = new JLabel("Amount:");
 		GridBagConstraints gbc_amountLabel = new GridBagConstraints();
 		gbc_amountLabel.anchor = GridBagConstraints.EAST;
-		gbc_amountLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_amountLabel.gridx = 4;
+		gbc_amountLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_amountLabel.gridx = 6;
 		gbc_amountLabel.gridy = 1;
 		getCriteriaPanel().add(amountLabel, gbc_amountLabel);
 
 		JPanel priceRangePanel = new JPanel();
 		GridBagConstraints gbc_priceRangePanel = new GridBagConstraints();
 		gbc_priceRangePanel.gridwidth = 4;
-		gbc_priceRangePanel.insets = new Insets(0, 0, 5, 5);
 		gbc_priceRangePanel.fill = GridBagConstraints.BOTH;
-		gbc_priceRangePanel.gridx = 5;
+		gbc_priceRangePanel.gridx = 7;
 		gbc_priceRangePanel.gridy = 1;
 		getCriteriaPanel().add(priceRangePanel, gbc_priceRangePanel);
 		priceRangePanel.setLayout(new BoxLayout(priceRangePanel, BoxLayout.X_AXIS));
@@ -167,42 +196,9 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		amountToLabel.setMinimumSize(new Dimension(48, 14));
 		amountToLabel.setMaximumSize(new Dimension(48, 14));
 		priceRangePanel.add(amountToLabel);
-
-		JLabel customerEmailLabel = new JLabel("Customer email:");
-		GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
-		gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
-		gbc_customerEmailLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_customerEmailLabel.gridx = 0;
-		gbc_customerEmailLabel.gridy = 2;
-		getCriteriaPanel().add(customerEmailLabel, gbc_customerEmailLabel);
-
-		customerEmailTextField = new JTextField();
-		GridBagConstraints gbc_customerEmailTextField = new GridBagConstraints();
-		gbc_customerEmailTextField.gridwidth = 2;
-		gbc_customerEmailTextField.insets = new Insets(0, 0, 0, 5);
-		gbc_customerEmailTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerEmailTextField.gridx = 1;
-		gbc_customerEmailTextField.gridy = 2;
-		getCriteriaPanel().add(customerEmailTextField, gbc_customerEmailTextField);
-		customerEmailTextField.setColumns(10);
-
-		JLabel stateLabel = new JLabel("State:");
-		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
-		gbc_stateLabel.anchor = GridBagConstraints.EAST;
-		gbc_stateLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_stateLabel.gridx = 4;
-		gbc_stateLabel.gridy = 2;
-		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
 	}
 	
 	private void postInitialize() {	
-		stateComboBox = ComponentFactory.getComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
-		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-		gbc_stateComboBox.gridwidth = 4;
-		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_stateComboBox.gridx = 5;
-		gbc_stateComboBox.gridy = 2;
-		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
 		
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(table);

@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.TicketSearchAction;
+import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.TicketTableCellRenderer;
@@ -20,7 +21,6 @@ import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketCriteria;
-import com.toedter.calendar.JDateChooser;
 
 public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 
@@ -32,8 +32,8 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 	private JTextField idTextField;
 	private JTextField customerIdTextField;
 	private JTextField customerEmailTextField;
-	private JDateChooser dateFromChooser;
-	private JDateChooser dateToChooser;
+	private ExtendedDateChooser dateFromChooser;
+	private ExtendedDateChooser dateToChooser;
 	private JComboBox<ItemType<Ticket>> typeComboBox;
 	private JComboBox<ItemState<Ticket>> stateComboBox;
 
@@ -49,10 +49,10 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 
 	private void initialize() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 120, 120, 48, 0, 0, 120, 0, 120, 0};
+		gridBagLayout.columnWidths = new int[]{0, 12, 120, 48, 31, 120, 48, -6, 120, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
 		getCriteriaPanel().setLayout(gridBagLayout);
 
 		JLabel idLabel = new JLabel("ID:");
@@ -73,113 +73,112 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		getCriteriaPanel().add(idTextField, gbc_idTextField);
 		idTextField.setColumns(10);
 
-		JLabel dateLabel = new JLabel("Date:");
-		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
-		gbc_dateLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_dateLabel.gridx = 4;
-		gbc_dateLabel.gridy = 0;
-		getCriteriaPanel().add(dateLabel, gbc_dateLabel);
-
-		JLabel fromLabel = new JLabel("from");
-		GridBagConstraints gbc_fromLabel = new GridBagConstraints();
-		gbc_fromLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_fromLabel.gridx = 5;
-		gbc_fromLabel.gridy = 0;
-		getCriteriaPanel().add(fromLabel, gbc_fromLabel);
-
-		dateFromChooser = new JDateChooser();
-		GridBagConstraints gbc_dateFromChooser = new GridBagConstraints();
-		gbc_dateFromChooser.insets = new Insets(0, 0, 5, 5);
-		gbc_dateFromChooser.fill = GridBagConstraints.BOTH;
-		gbc_dateFromChooser.gridx = 6;
-		gbc_dateFromChooser.gridy = 0;
-		getCriteriaPanel().add(dateFromChooser, gbc_dateFromChooser);
-
-		JLabel toLabel = new JLabel("to");
-		GridBagConstraints gbc_toLabel = new GridBagConstraints();
-		gbc_toLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_toLabel.gridx = 7;
-		gbc_toLabel.gridy = 0;
-		getCriteriaPanel().add(toLabel, gbc_toLabel);
-
-		dateToChooser = new JDateChooser();
-		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
-		gbc_dateToChooser.insets = new Insets(0, 0, 5, 0);
-		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
-		gbc_dateToChooser.gridx = 8;
-		gbc_dateToChooser.gridy = 0;
-		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
-
 		JLabel customerIdLabel = new JLabel("Customer ID:");
 		GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
 		gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
 		gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdLabel.gridx = 0;
-		gbc_customerIdLabel.gridy = 1;
+		gbc_customerIdLabel.gridx = 4;
+		gbc_customerIdLabel.gridy = 0;
 		getCriteriaPanel().add(customerIdLabel, gbc_customerIdLabel);
 
 		customerIdTextField = new JTextField();
 		GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
-		gbc_customerIdTextField.gridwidth = 2;
 		gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerIdTextField.gridx = 1;
-		gbc_customerIdTextField.gridy = 1;
+		gbc_customerIdTextField.gridx = 5;
+		gbc_customerIdTextField.gridy = 0;
 		getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
 		customerIdTextField.setColumns(10);
 
 		JLabel typeLabel = new JLabel("Type:");
 		GridBagConstraints gbc_typeLabel = new GridBagConstraints();
+		gbc_typeLabel.anchor = GridBagConstraints.EAST;
 		gbc_typeLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_typeLabel.gridx = 4;
-		gbc_typeLabel.gridy = 1;
+		gbc_typeLabel.gridx = 7;
+		gbc_typeLabel.gridy = 0;
 		getCriteriaPanel().add(typeLabel, gbc_typeLabel);
+
+		JLabel dateLabel = new JLabel("Date:");
+		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
+		gbc_dateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_dateLabel.gridx = 0;
+		gbc_dateLabel.gridy = 1;
+		getCriteriaPanel().add(dateLabel, gbc_dateLabel);
+
+		JLabel fromLabel = new JLabel("from");
+		GridBagConstraints gbc_fromLabel = new GridBagConstraints();
+		gbc_fromLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_fromLabel.gridx = 1;
+		gbc_fromLabel.gridy = 1;
+		getCriteriaPanel().add(fromLabel, gbc_fromLabel);
+
+		dateFromChooser = ComponentFactory.getDateChooser();
+		GridBagConstraints gbc_dateFromChooser = new GridBagConstraints();
+		gbc_dateFromChooser.insets = new Insets(0, 0, 5, 5);
+		gbc_dateFromChooser.fill = GridBagConstraints.BOTH;
+		gbc_dateFromChooser.gridx = 2;
+		gbc_dateFromChooser.gridy = 1;
+		getCriteriaPanel().add(dateFromChooser, gbc_dateFromChooser);
 
 		JLabel customerEmailLabel = new JLabel("Customer email:");
 		GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
 		gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
-		gbc_customerEmailLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_customerEmailLabel.gridx = 0;
-		gbc_customerEmailLabel.gridy = 2;
+		gbc_customerEmailLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_customerEmailLabel.gridx = 4;
+		gbc_customerEmailLabel.gridy = 1;
 		getCriteriaPanel().add(customerEmailLabel, gbc_customerEmailLabel);
 
 		customerEmailTextField = new JTextField();
 		GridBagConstraints gbc_customerEmailTextField = new GridBagConstraints();
-		gbc_customerEmailTextField.gridwidth = 2;
-		gbc_customerEmailTextField.insets = new Insets(0, 0, 0, 5);
+		gbc_customerEmailTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_customerEmailTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerEmailTextField.gridx = 1;
-		gbc_customerEmailTextField.gridy = 2;
+		gbc_customerEmailTextField.gridx = 5;
+		gbc_customerEmailTextField.gridy = 1;
 		getCriteriaPanel().add(customerEmailTextField, gbc_customerEmailTextField);
 		customerEmailTextField.setColumns(10);
 
 		JLabel stateLabel = new JLabel("State:");
 		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
 		gbc_stateLabel.anchor = GridBagConstraints.EAST;
-		gbc_stateLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_stateLabel.gridx = 4;
-		gbc_stateLabel.gridy = 2;
+		gbc_stateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_stateLabel.gridx = 7;
+		gbc_stateLabel.gridy = 1;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
+
+		JLabel toLabel = new JLabel("to");
+		GridBagConstraints gbc_toLabel = new GridBagConstraints();
+		gbc_toLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_toLabel.gridx = 1;
+		gbc_toLabel.gridy = 2;
+		getCriteriaPanel().add(toLabel, gbc_toLabel);
+
+		dateToChooser = ComponentFactory.getDateChooser();
+		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
+		gbc_dateToChooser.insets = new Insets(0, 0, 0, 5);
+		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
+		gbc_dateToChooser.gridx = 2;
+		gbc_dateToChooser.gridy = 2;
+		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
 	}
 
 	private void postInitialize() {
+		
 		typeComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
 		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
-		gbc_typeComboBox.gridwidth = 3;
 		gbc_typeComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_typeComboBox.gridx = 6;
-		gbc_typeComboBox.gridy = 1;
+		gbc_typeComboBox.gridx = 8;
+		gbc_typeComboBox.gridy = 0;
 		getCriteriaPanel().add(typeComboBox, gbc_typeComboBox);
 		
 		stateComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-		gbc_stateComboBox.gridwidth = 3;
+		gbc_stateComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_stateComboBox.gridx = 6;
-		gbc_stateComboBox.gridy = 2;
+		gbc_stateComboBox.gridx = 8;
+		gbc_stateComboBox.gridy = 1;
 		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
-		
+
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(table);
 		table.setDefaultRenderer(Object.class, new TicketTableCellRenderer());

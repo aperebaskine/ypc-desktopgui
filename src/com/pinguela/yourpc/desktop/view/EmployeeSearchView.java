@@ -12,8 +12,11 @@ import javax.swing.JTextField;
 import com.pinguela.yourpc.desktop.actions.EmployeeSearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.EmployeeTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
+import com.pinguela.yourpc.model.Department;
 import com.pinguela.yourpc.model.Employee;
 import com.pinguela.yourpc.model.EmployeeCriteria;
 
@@ -32,7 +35,7 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 	private JLabel usernameLabel;
 	private JTextField usernameTextField;
 	private JLabel departmentLabel;
-	private JComboBox departmentComboBox;
+	private JComboBox<Department> departmentComboBox;
 	
 	public EmployeeSearchView() {
 		this(new SearchActionBuilder<>(EmployeeSearchAction.class));
@@ -162,14 +165,6 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 		gbc_departmentLabel.gridy = 2;
 		getCriteriaPanel().add(departmentLabel, gbc_departmentLabel);
 		
-		departmentComboBox = new JComboBox();
-		GridBagConstraints gbc_departmentComboBox = new GridBagConstraints();
-		gbc_departmentComboBox.insets = new Insets(0, 0, 0, 5);
-		gbc_departmentComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_departmentComboBox.gridx = 1;
-		gbc_departmentComboBox.gridy = 2;
-		getCriteriaPanel().add(departmentComboBox, gbc_departmentComboBox);
-		
 		JLabel documentNumberLabel = new JLabel("Document number:");
 		GridBagConstraints gbc_documentNumberLabel = new GridBagConstraints();
 		gbc_documentNumberLabel.anchor = GridBagConstraints.EAST;
@@ -189,6 +184,14 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 	}
 	
 	private void postinitialize() {
+		departmentComboBox = ComponentFactory.getComboBox(DBConstants.DEPARTMENTS.values(), Department.class);
+		GridBagConstraints gbc_departmentComboBox = new GridBagConstraints();
+		gbc_departmentComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_departmentComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_departmentComboBox.gridx = 1;
+		gbc_departmentComboBox.gridy = 2;
+		getCriteriaPanel().add(departmentComboBox, gbc_departmentComboBox);
+		
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(getTable());
 		table.setDefaultRenderer(Object.class, new EmployeeTableCellRenderer());
@@ -225,6 +228,8 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 		if (!emailTextField.getText().isEmpty()) {
 			criteria.setEmail(emailTextField.getText());
 		}
+		
+		criteria.setDepartmentId(((Department) departmentComboBox.getSelectedItem()).getId());
 		
 		return criteria;
 	}
@@ -268,6 +273,10 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 		
 		if (!emailTextField.equals(source)) {
 			emailTextField.setText("");
+		}	
+		
+		if (!departmentComboBox.equals(source)) {
+			departmentComboBox.setSelectedIndex(0);
 		}	
 	}
 

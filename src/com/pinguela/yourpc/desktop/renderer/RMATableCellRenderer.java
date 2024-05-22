@@ -5,6 +5,7 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.constants.RMATableConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.RMA;
@@ -30,7 +31,7 @@ public class RMATableCellRenderer extends DefaultTableCellRenderer implements RM
 			columnValue = rma.getCustomerId();
 			break;
 		case STATE_COLUMN_INDEX:
-			columnValue = rma.getState();
+			columnValue = DBConstants.RMA_STATES.get(rma.getState());
 			break;
 		case CREATION_DATE_COLUMN_INDEX:
 			columnValue = SwingUtils.formatDate(rma.getCreationDate());

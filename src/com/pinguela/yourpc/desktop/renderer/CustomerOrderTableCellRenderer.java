@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.CustomerOrderTableConstants;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.CustomerOrder;
 
@@ -29,7 +30,7 @@ implements CustomerOrderTableConstants {
                 columnValue = order.getId();
                 break;
             case STATE_COLUMN_INDEX:
-                columnValue = order.getState();
+                columnValue = DBConstants.ORDER_STATES.get(order.getState());
                 break;
             case CUSTOMER_ID_COLUMN_INDEX:
                 columnValue = order.getCustomerId();
@@ -42,9 +43,6 @@ implements CustomerOrderTableConstants {
                 break;
             case AMOUNT_COLUMN_INDEX:
                 columnValue = order.getTotalPrice();
-                break;
-            default:
-                columnValue = "Unknown"; // Handle unexpected columns
                 break;
         }
 

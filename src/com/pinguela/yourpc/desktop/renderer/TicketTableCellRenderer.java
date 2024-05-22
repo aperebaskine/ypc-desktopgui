@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.constants.TicketTableConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Ticket;
@@ -31,10 +32,10 @@ implements TicketTableConstants {
                 columnValue = ticket.getId();
                 break;
             case TYPE_COLUMN_INDEX:
-                columnValue = ticket.getType();
+                columnValue = DBConstants.TICKET_TYPES.get(ticket.getType());
                 break;
             case STATE_COLUMN_INDEX:
-                columnValue = ticket.getState();
+                columnValue = DBConstants.TICKET_STATES.get(ticket.getState());
                 break;
             case CUSTOMER_ID_COLUMN_INDEX:
                 columnValue = ticket.getCustomerId();

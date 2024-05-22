@@ -40,6 +40,7 @@ import com.pinguela.yourpc.desktop.view.CustomerOrderSearchView;
 import com.pinguela.yourpc.desktop.view.CustomerSearchView;
 import com.pinguela.yourpc.desktop.view.EmployeeSearchView;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
+import com.pinguela.yourpc.desktop.view.RMASearchView;
 import com.pinguela.yourpc.desktop.view.TicketSearchView;
 import com.pinguela.yourpc.model.Employee;
 
@@ -191,6 +192,7 @@ public class YPCWindow {
 		employeeTabButton.addActionListener(new OpenTabAction<>(EmployeeSearchView.class, "Employee search"));
 		customerOrderTabButton.addActionListener(new OpenTabAction<>(CustomerOrderSearchView.class, "Customer order search"));
 		ticketTabButton.addActionListener(new OpenTabAction<>(TicketSearchView.class, "Ticket search"));
+		rmaTabButton.addActionListener(new OpenTabAction<>(RMASearchView.class, "RMA search"));
 	}
 
 	public Employee getAuthenticatedUser() {

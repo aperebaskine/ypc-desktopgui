@@ -1,18 +1,22 @@
 package com.pinguela.yourpc.desktop.view;
 
-import com.pinguela.yourpc.desktop.actions.SearchAction;
-import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
-import com.pinguela.yourpc.model.Criteria;
-import com.pinguela.yourpc.model.RMA;
-import com.toedter.calendar.JDateChooser;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+
+import com.pinguela.yourpc.desktop.actions.RMASearchAction;
+import com.pinguela.yourpc.desktop.actions.SearchAction;
+import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
+import com.pinguela.yourpc.desktop.renderer.RMATableCellRenderer;
+import com.pinguela.yourpc.desktop.util.TableUtils;
+import com.pinguela.yourpc.model.RMA;
+import com.pinguela.yourpc.model.RMACriteria;
+import com.toedter.calendar.JDateChooser;
 
 public class RMASearchView extends AbstractSearchView<RMA> {
 
@@ -20,7 +24,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 	 * 
 	 */
 	private static final long serialVersionUID = 5162559348467135343L;
-	
+
 	private JTextField idTextField;
 	private JTextField customerIdTextField;
 	private JTextField customerEmailTextField;
@@ -30,11 +34,16 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 	private JTextField ticketIdTextField;
 	private JTextField orderIdTextField;
 	
+	public RMASearchView() {
+		this(new SearchActionBuilder<>(RMASearchAction.class));
+	}
+	
 	public RMASearchView(SearchActionBuilder<RMA, ? extends SearchAction<RMA>> builder) {
 		super(builder);
 		initialize();
+		postInitialize();
 	}
-	
+
 	private void initialize() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 120, 0, 120, 48, 0, 0, 120, 0, 120, 0};
@@ -60,7 +69,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_idTextField.gridy = 0;
 		getCriteriaPanel().add(idTextField, gbc_idTextField);
 		idTextField.setColumns(10);
-		
+
 		JLabel ticketIdLabel = new JLabel("Ticket ID:");
 		GridBagConstraints gbc_ticketIdLabel = new GridBagConstraints();
 		gbc_ticketIdLabel.anchor = GridBagConstraints.EAST;
@@ -68,7 +77,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_ticketIdLabel.gridx = 6;
 		gbc_ticketIdLabel.gridy = 0;
 		getCriteriaPanel().add(ticketIdLabel, gbc_ticketIdLabel);
-		
+
 		ticketIdTextField = new JTextField();
 		GridBagConstraints gbc_ticketIdTextField = new GridBagConstraints();
 		gbc_ticketIdTextField.gridwidth = 4;
@@ -96,7 +105,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_customerIdTextField.gridy = 1;
 		getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
 		customerIdTextField.setColumns(10);
-		
+
 		JLabel orderIdLabel = new JLabel("Order ID:");
 		GridBagConstraints gbc_orderIdLabel = new GridBagConstraints();
 		gbc_orderIdLabel.anchor = GridBagConstraints.EAST;
@@ -104,7 +113,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_orderIdLabel.gridx = 6;
 		gbc_orderIdLabel.gridy = 1;
 		getCriteriaPanel().add(orderIdLabel, gbc_orderIdLabel);
-		
+
 		orderIdTextField = new JTextField();
 		GridBagConstraints gbc_orderIdTextField = new GridBagConstraints();
 		gbc_orderIdTextField.gridwidth = 4;
@@ -149,62 +158,129 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_stateComboBox.gridx = 7;
 		gbc_stateComboBox.gridy = 2;
 		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
-		
-				JLabel dateLabel = new JLabel("Date:");
-				GridBagConstraints gbc_dateLabel = new GridBagConstraints();
-				gbc_dateLabel.anchor = GridBagConstraints.EAST;
-				gbc_dateLabel.insets = new Insets(0, 0, 0, 5);
-				gbc_dateLabel.gridx = 0;
-				gbc_dateLabel.gridy = 3;
-				getCriteriaPanel().add(dateLabel, gbc_dateLabel);
-				
-						JLabel fromLabel = new JLabel("from");
-						GridBagConstraints gbc_fromLabel = new GridBagConstraints();
-						gbc_fromLabel.insets = new Insets(0, 0, 0, 5);
-						gbc_fromLabel.gridx = 1;
-						gbc_fromLabel.gridy = 3;
-						getCriteriaPanel().add(fromLabel, gbc_fromLabel);
-								
-										dateFromChooser = new JDateChooser();
-										GridBagConstraints gbc_dateFromChooser = new GridBagConstraints();
-										gbc_dateFromChooser.insets = new Insets(0, 0, 0, 5);
-										gbc_dateFromChooser.fill = GridBagConstraints.BOTH;
-										gbc_dateFromChooser.gridx = 2;
-										gbc_dateFromChooser.gridy = 3;
-										getCriteriaPanel().add(dateFromChooser, gbc_dateFromChooser);
-						
-								JLabel toLabel = new JLabel("to");
-								GridBagConstraints gbc_toLabel = new GridBagConstraints();
-								gbc_toLabel.insets = new Insets(0, 0, 0, 5);
-								gbc_toLabel.gridx = 3;
-								gbc_toLabel.gridy = 3;
-								getCriteriaPanel().add(toLabel, gbc_toLabel);
-								
-										dateToChooser = new JDateChooser();
-										GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
-										gbc_dateToChooser.insets = new Insets(0, 0, 0, 5);
-										gbc_dateToChooser.fill = GridBagConstraints.BOTH;
-										gbc_dateToChooser.gridx = 4;
-										gbc_dateToChooser.gridy = 3;
-										getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
+
+		JLabel dateLabel = new JLabel("Date:");
+		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
+		gbc_dateLabel.anchor = GridBagConstraints.EAST;
+		gbc_dateLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_dateLabel.gridx = 0;
+		gbc_dateLabel.gridy = 3;
+		getCriteriaPanel().add(dateLabel, gbc_dateLabel);
+
+		JLabel fromLabel = new JLabel("from");
+		GridBagConstraints gbc_fromLabel = new GridBagConstraints();
+		gbc_fromLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_fromLabel.gridx = 1;
+		gbc_fromLabel.gridy = 3;
+		getCriteriaPanel().add(fromLabel, gbc_fromLabel);
+
+		dateFromChooser = new JDateChooser();
+		GridBagConstraints gbc_dateFromChooser = new GridBagConstraints();
+		gbc_dateFromChooser.insets = new Insets(0, 0, 0, 5);
+		gbc_dateFromChooser.fill = GridBagConstraints.BOTH;
+		gbc_dateFromChooser.gridx = 2;
+		gbc_dateFromChooser.gridy = 3;
+		getCriteriaPanel().add(dateFromChooser, gbc_dateFromChooser);
+
+		JLabel toLabel = new JLabel("to");
+		GridBagConstraints gbc_toLabel = new GridBagConstraints();
+		gbc_toLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_toLabel.gridx = 3;
+		gbc_toLabel.gridy = 3;
+		getCriteriaPanel().add(toLabel, gbc_toLabel);
+
+		dateToChooser = new JDateChooser();
+		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
+		gbc_dateToChooser.insets = new Insets(0, 0, 0, 5);
+		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
+		gbc_dateToChooser.gridx = 4;
+		gbc_dateToChooser.gridy = 3;
+		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
 	}
- 
+	
+	private void postInitialize() {
+		JTable table = getTable();
+		TableUtils.initializeActionPanes(table);
+		table.setDefaultRenderer(Object.class, new RMATableCellRenderer());
+	}
+
 	@Override
-	public Criteria<?, RMA> getCriteria() {
-		// TODO Auto-generated method stub
-		return null;
+	public RMACriteria getCriteria() {
+		RMACriteria criteria = new RMACriteria();
+
+		if (!idTextField.getText().isEmpty()) {
+			criteria.setId(Long.valueOf(idTextField.getText()));
+		}
+
+		if (!customerIdTextField.getText().isEmpty()) {
+			criteria.setCustomerId(Integer.valueOf(customerIdTextField.getText()));
+		}
+
+		if (!customerEmailTextField.getText().isEmpty()) {
+			criteria.setCustomerEmail(customerEmailTextField.getText());
+		}
+
+		if (dateFromChooser.getDate() != null) {
+			criteria.setMinDate(dateFromChooser.getDate());
+		}
+
+		if (dateToChooser.getDate() != null) {
+			criteria.setMaxDate(dateToChooser.getDate());
+		}
+
+		// TODO: Implement combo box logic
+//		if (stateComboBox.getSelectedItem() != null && !stateComboBox.getSelectedItem().toString().isEmpty()) {
+//			criteria.setState(stateComboBox.getSelectedItem().toString());
+//		}
+
+		if (!ticketIdTextField.getText().isEmpty()) {
+			criteria.setTicketId(Long.valueOf(ticketIdTextField.getText()));
+		}
+
+		if (!orderIdTextField.getText().isEmpty()) {
+			criteria.setOrderId(Long.valueOf(orderIdTextField.getText()));
+		}
+
+		return criteria;
 	}
 
 	@Override
 	public void setFieldsEnabled(boolean isEnabled) {
-		// TODO Auto-generated method stub
-		
+		customerIdTextField.setEnabled(isEnabled);
+		customerEmailTextField.setEnabled(isEnabled);
+		dateFromChooser.setEnabled(isEnabled);
+		dateToChooser.setEnabled(isEnabled);
+		stateComboBox.setEnabled(isEnabled);
+		ticketIdTextField.setEnabled(isEnabled);
+		orderIdTextField.setEnabled(isEnabled);
 	}
 
 	@Override
 	protected void doResetCriteriaFields(Object source) {
-		// TODO Auto-generated method stub
-		
+		if (!idTextField.equals(source)) {
+	        idTextField.setText("");
+	    }
+	    if (!customerIdTextField.equals(source)) {
+	        customerIdTextField.setText("");
+	    }
+	    if (!customerEmailTextField.equals(source)) {
+	        customerEmailTextField.setText("");
+	    }
+	    if (!dateFromChooser.equals(source)) {
+	        dateFromChooser.setDate(null);
+	    }
+	    if (!dateToChooser.equals(source)) {
+	        dateToChooser.setDate(null);
+	    }
+	    if (!stateComboBox.equals(source)) {
+	        stateComboBox.setSelectedIndex(0);
+	    }
+	    if (!ticketIdTextField.equals(source)) {
+	        ticketIdTextField.setText("");
+	    }
+	    if (!orderIdTextField.equals(source)) {
+	        orderIdTextField.setText("");
+	    }
 	}
 
 }

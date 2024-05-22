@@ -32,10 +32,10 @@ implements TicketTableConstants {
                 columnValue = ticket.getId();
                 break;
             case TYPE_COLUMN_INDEX:
-                columnValue = DBConstants.TICKET_TYPES.get(ticket.getType());
+                columnValue = DBConstants.TICKET_TYPES.get(ticket.getType()).getName();
                 break;
             case STATE_COLUMN_INDEX:
-                columnValue = DBConstants.TICKET_STATES.get(ticket.getState());
+                columnValue = DBConstants.TICKET_STATES.get(ticket.getState()).getName();
                 break;
             case CUSTOMER_ID_COLUMN_INDEX:
                 columnValue = ticket.getCustomerId();

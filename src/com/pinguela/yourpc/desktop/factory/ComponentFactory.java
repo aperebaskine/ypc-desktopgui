@@ -45,7 +45,7 @@ public class ComponentFactory {
 	 * @return The resulting combo box instance
 	 */
 	@SuppressWarnings("unchecked") 
-	public static <T> JComboBox<T> getComboBox(Collection<T> content, Class<T> targetClass, Object... targetClassInitArgs) {
+	public static <T> JComboBox<T> getComboBox(Collection<T> content, Class<?> targetClass, Object... targetClassInitArgs) {
 		JComboBox<T> comboBox = new JComboBox<T>();
 
 		Constructor<T> constructor = (Constructor<T>) ReflectionUtils.getConstructor(targetClass, targetClassInitArgs);

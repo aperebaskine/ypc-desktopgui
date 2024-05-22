@@ -31,7 +31,7 @@ public class RMATableCellRenderer extends DefaultTableCellRenderer implements RM
 			columnValue = rma.getCustomerId();
 			break;
 		case STATE_COLUMN_INDEX:
-			columnValue = DBConstants.RMA_STATES.get(rma.getState());
+			columnValue = DBConstants.RMA_STATES.get(rma.getState()).getName();
 			break;
 		case CREATION_DATE_COLUMN_INDEX:
 			columnValue = SwingUtils.formatDate(rma.getCreationDate());

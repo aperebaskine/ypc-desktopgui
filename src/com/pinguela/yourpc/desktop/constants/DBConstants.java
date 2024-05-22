@@ -1,73 +1,60 @@
 package com.pinguela.yourpc.desktop.constants;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
-/**
- * TODO: Create services to access the data directly from the database
- */
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.yourpc.model.CustomerOrder;
+import com.pinguela.yourpc.model.ItemState;
+import com.pinguela.yourpc.model.ItemType;
+import com.pinguela.yourpc.model.RMA;
+import com.pinguela.yourpc.model.Ticket;
+import com.pinguela.yourpc.service.OrderStateService;
+import com.pinguela.yourpc.service.RMAStateService;
+import com.pinguela.yourpc.service.TicketStateService;
+import com.pinguela.yourpc.service.TicketTypeService;
+import com.pinguela.yourpc.service.impl.OrderStateServiceImpl;
+import com.pinguela.yourpc.service.impl.RMAStateServiceImpl;
+import com.pinguela.yourpc.service.impl.TicketStateServiceImpl;
+import com.pinguela.yourpc.service.impl.TicketTypeServiceImpl;
+
 public class DBConstants {
 	
-	// Define the final constants for the maps
-	public static final Map<String, String> TICKET_STATES;
-	public static final Map<String, String> TICKET_TYPES;
-	public static final Map<String, String> RMA_STATES;
-	public static final Map<String, String> ORDER_STATES;
-	public static final Map<String, String> DOCUMENT_TYPES;
-	public static final Map<String, String> DEPARTMENTS;
+	private static Logger logger = LogManager.getLogger(DBConstants.class);
 
-	static {
-		// Initialize and populate the TICKET_STATES map
-		Map<String, String> ticketStates = new HashMap<>();
-		ticketStates.put("OPN", "Open");
-		ticketStates.put("PGS", "In Progress");
-		ticketStates.put("RES", "Resolved");
-		ticketStates.put("CLO", "Closed");
-		TICKET_STATES = Collections.unmodifiableMap(ticketStates);
+    // Define the final constants for the maps
+    public static final Map<String, ItemState<Ticket>> TICKET_STATES;
+    public static final Map<String, ItemType<Ticket>> TICKET_TYPES;
+    public static final Map<String, ItemState<RMA>> RMA_STATES;
+    public static final Map<String, ItemState<CustomerOrder>> ORDER_STATES;
 
-		// Initialize and populate the TICKET_TYPES map
-		Map<String, String> ticketTypes = new HashMap<>();
-		ticketTypes.put("SUP", "Technical Support");
-		ticketTypes.put("BIL", "Billing Inquiry");
-		ticketTypes.put("PRO", "Product Inquiry");
-		ticketTypes.put("RMA", "Warranty and Returns");
-		TICKET_TYPES = Collections.unmodifiableMap(ticketTypes);
+    static {
+        Map<String, ItemState<Ticket>> ticketStates = null;
+        Map<String, ItemType<Ticket>> ticketTypes = null;
+        Map<String, ItemState<RMA>> rmaStates = null;
+        Map<String, ItemState<CustomerOrder>> orderStates = null;
 
-		// Initialize and populate the RMA_STATES map
-		Map<String, String> rmaStates = new HashMap<>();
-		rmaStates.put("REC", "Received");
-		rmaStates.put("PRS", "Processing");
-		rmaStates.put("APP", "Approved");
-		rmaStates.put("REJ", "Rejected");
-		RMA_STATES = Collections.unmodifiableMap(rmaStates);
+        try {
+            TicketStateService ticketStateService = new TicketStateServiceImpl();
+            ticketStates = ticketStateService.findAll();
+            
+            TicketTypeService ticketTypeService = new TicketTypeServiceImpl();
+            ticketTypes = ticketTypeService.findAll();
 
-		// Initialize and populate the ORDER_STATES map
-		Map<String, String> orderStates = new HashMap<>();
-		orderStates.put("PND", "Pending");
-		orderStates.put("PRS", "Processing");
-		orderStates.put("SPD", "Shipped");
-		orderStates.put("DEL", "Delivered");
-		orderStates.put("CAN", "Cancelled");
-		ORDER_STATES = Collections.unmodifiableMap(orderStates);
-		
-		// Initialize and populate the DOCUMENT_TYPES map
-		Map<String, String> documentTypes = new HashMap<>();
-		documentTypes.put("NIF", "National Identification Number");
-		documentTypes.put("NIE", "Foreign Identification Number");
-		documentTypes.put("PPT", "Passport");
-		documentTypes.put("FOR", "Foreign ID");
-		DOCUMENT_TYPES = Collections.unmodifiableMap(documentTypes);
+            RMAStateService rmaStateService = new RMAStateServiceImpl();
+            rmaStates = rmaStateService.findAll();
 
-		// Initialize and populate the DEPARTMENTS map
-		Map<String, String> departments = new HashMap<>();
-		departments.put("SAL", "Sales");
-		departments.put("MKT", "Marketing");
-		departments.put("HRS", "Human Resources");
-		departments.put("EXC", "Executive");
-		departments.put("FIN", "Finance");
-		departments.put("OPS", "Operations");
-		departments.put("SUP", "Support");
-		DEPARTMENTS = Collections.unmodifiableMap(departments);
-	}
+            OrderStateService orderStateService = new OrderStateServiceImpl();
+            orderStates = orderStateService.findAll();
+        } catch (Throwable t) {
+            logger.fatal(t.getMessage(), t);
+        }
+
+        TICKET_STATES = ticketStates;
+        TICKET_TYPES = ticketTypes;
+        RMA_STATES = rmaStates;
+        ORDER_STATES = orderStates;
+    }
+    
 }

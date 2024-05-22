@@ -30,7 +30,7 @@ implements CustomerOrderTableConstants {
                 columnValue = order.getId();
                 break;
             case STATE_COLUMN_INDEX:
-                columnValue = DBConstants.ORDER_STATES.get(order.getState());
+                columnValue = DBConstants.ORDER_STATES.get(order.getState()).getName();
                 break;
             case CUSTOMER_ID_COLUMN_INDEX:
                 columnValue = order.getCustomerId();

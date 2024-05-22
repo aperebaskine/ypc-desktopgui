@@ -12,8 +12,11 @@ import javax.swing.JTextField;
 import com.pinguela.yourpc.desktop.actions.RMASearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.RMATableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
+import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.model.RMACriteria;
 import com.toedter.calendar.JDateChooser;
@@ -30,7 +33,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 	private JTextField customerEmailTextField;
 	private JDateChooser dateFromChooser;
 	private JDateChooser dateToChooser;
-	private JComboBox stateComboBox;
+	private JComboBox<ItemState<RMA>> stateComboBox;
 	private JTextField ticketIdTextField;
 	private JTextField orderIdTextField;
 	
@@ -150,15 +153,6 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_stateLabel.gridy = 2;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
 
-		stateComboBox = new JComboBox();
-		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-		gbc_stateComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_stateComboBox.gridwidth = 4;
-		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_stateComboBox.gridx = 7;
-		gbc_stateComboBox.gridy = 2;
-		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
-
 		JLabel dateLabel = new JLabel("Date:");
 		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
 		gbc_dateLabel.anchor = GridBagConstraints.EAST;
@@ -199,12 +193,22 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 	}
 	
 	private void postInitialize() {
+		stateComboBox = ComponentFactory.getComboBox(DBConstants.RMA_STATES.values(), ItemState.class);
+		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
+		gbc_stateComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_stateComboBox.gridwidth = 4;
+		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_stateComboBox.gridx = 7;
+		gbc_stateComboBox.gridy = 2;
+		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
+		
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(table);
 		table.setDefaultRenderer(Object.class, new RMATableCellRenderer());
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public RMACriteria getCriteria() {
 		RMACriteria criteria = new RMACriteria();
 
@@ -228,11 +232,6 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 			criteria.setMaxDate(dateToChooser.getDate());
 		}
 
-		// TODO: Implement combo box logic
-//		if (stateComboBox.getSelectedItem() != null && !stateComboBox.getSelectedItem().toString().isEmpty()) {
-//			criteria.setState(stateComboBox.getSelectedItem().toString());
-//		}
-
 		if (!ticketIdTextField.getText().isEmpty()) {
 			criteria.setTicketId(Long.valueOf(ticketIdTextField.getText()));
 		}
@@ -240,6 +239,8 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		if (!orderIdTextField.getText().isEmpty()) {
 			criteria.setOrderId(Long.valueOf(orderIdTextField.getText()));
 		}
+		
+		criteria.setState(((ItemState<RMA>) stateComboBox.getSelectedItem()).getId());
 
 		return criteria;
 	}

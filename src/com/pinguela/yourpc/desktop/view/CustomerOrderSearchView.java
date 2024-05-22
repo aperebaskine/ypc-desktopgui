@@ -16,10 +16,13 @@ import javax.swing.SwingConstants;
 import com.pinguela.yourpc.desktop.actions.CustomerOrderSearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.model.CustomerOrderCriteria;
+import com.pinguela.yourpc.model.ItemState;
 import com.toedter.calendar.JDateChooser;
 
 import slider.RangeSlider;
@@ -36,7 +39,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 	private JDateChooser dateFromChooser;
 	private JDateChooser dateToChooser;
 	private RangeSlider amountRangeSlider;
-	private JComboBox stateComboBox;
+	private JComboBox<ItemState<CustomerOrder>> stateComboBox;
 	
 	public CustomerOrderSearchView() {
 		this(new SearchActionBuilder<>(CustomerOrderSearchAction.class));
@@ -52,7 +55,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 120, 120, 48, 0, 0, 120, 0, 120, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
 		getCriteriaPanel().setLayout(gridBagLayout);
 
@@ -76,6 +79,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 
 		JLabel dateLabel = new JLabel("Date:");
 		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
+		gbc_dateLabel.anchor = GridBagConstraints.EAST;
 		gbc_dateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_dateLabel.gridx = 4;
 		gbc_dateLabel.gridy = 0;
@@ -131,6 +135,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 
 		JLabel amountLabel = new JLabel("Amount:");
 		GridBagConstraints gbc_amountLabel = new GridBagConstraints();
+		gbc_amountLabel.anchor = GridBagConstraints.EAST;
 		gbc_amountLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_amountLabel.gridx = 4;
 		gbc_amountLabel.gridy = 1;
@@ -188,23 +193,24 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		gbc_stateLabel.gridx = 4;
 		gbc_stateLabel.gridy = 2;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
-
-		stateComboBox = new JComboBox();
-		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-		gbc_stateComboBox.gridwidth = 3;
-		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_stateComboBox.gridx = 6;
-		gbc_stateComboBox.gridy = 2;
-		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
 	}
 	
-	private void postInitialize() {
+	private void postInitialize() {	
+		stateComboBox = ComponentFactory.getComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
+		gbc_stateComboBox.gridwidth = 4;
+		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_stateComboBox.gridx = 5;
+		gbc_stateComboBox.gridy = 2;
+		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
+		
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(table);
 		table.setDefaultRenderer(Object.class, new CustomerOrderTableCellRenderer());
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public CustomerOrderCriteria getCriteria() {
 		CustomerOrderCriteria criteria = new CustomerOrderCriteria();
 
@@ -228,7 +234,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 			criteria.setMinDate(dateToChooser.getDate());
 		}
 		
-		// TODO: Combo box
+		criteria.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
 		
 		criteria.setMinAmount(Double.valueOf(amountRangeSlider.getValue()));
 		criteria.setMaxAmount(Double.valueOf(amountRangeSlider.getUpperValue()));
@@ -267,7 +273,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 			amountRangeSlider.setUpperValue(amountRangeSlider.getMaximum());
 	    }
 	    if (!stateComboBox.equals(source)) {
-	        stateComboBox.setSelectedItem(stateComboBox.getItemAt(0));
+	        stateComboBox.setSelectedIndex(0);
 	    }
 	}
 

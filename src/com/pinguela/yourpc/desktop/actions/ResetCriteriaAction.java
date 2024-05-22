@@ -24,12 +24,15 @@ extends YPCAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		view.resetCriteriaFields((JComponent) e.getSource());
-		doAction();
+		doAction(e);
 	}
 	
 	@Override
-	protected void doAction() {
+	protected void doAction() {}
+	
+	protected void doAction(ActionEvent e) {
+		view.resetCriteriaFields((JComponent) e.getSource());
+		view.doSearch();
 	}
 
 }

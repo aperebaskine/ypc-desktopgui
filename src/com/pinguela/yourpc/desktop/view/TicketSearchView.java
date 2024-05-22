@@ -12,8 +12,12 @@ import javax.swing.JTextField;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.TicketSearchAction;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.TicketTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
+import com.pinguela.yourpc.model.ItemState;
+import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketCriteria;
 import com.toedter.calendar.JDateChooser;
@@ -30,8 +34,8 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 	private JTextField customerEmailTextField;
 	private JDateChooser dateFromChooser;
 	private JDateChooser dateToChooser;
-	private JComboBox typeComboBox;
-	private JComboBox stateComboBox;
+	private JComboBox<ItemType<Ticket>> typeComboBox;
+	private JComboBox<ItemState<Ticket>> stateComboBox;
 
 	public TicketSearchView() {
 		this(new SearchActionBuilder<>(TicketSearchAction.class));
@@ -131,15 +135,6 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		gbc_typeLabel.gridy = 1;
 		getCriteriaPanel().add(typeLabel, gbc_typeLabel);
 
-		typeComboBox = new JComboBox();
-		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
-		gbc_typeComboBox.gridwidth = 3;
-		gbc_typeComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_typeComboBox.gridx = 6;
-		gbc_typeComboBox.gridy = 1;
-		getCriteriaPanel().add(typeComboBox, gbc_typeComboBox);
-
 		JLabel customerEmailLabel = new JLabel("Customer email:");
 		GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
 		gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
@@ -165,22 +160,32 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		gbc_stateLabel.gridx = 4;
 		gbc_stateLabel.gridy = 2;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
+	}
 
-		stateComboBox = new JComboBox();
+	private void postInitialize() {
+		typeComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
+		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
+		gbc_typeComboBox.gridwidth = 3;
+		gbc_typeComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_typeComboBox.gridx = 6;
+		gbc_typeComboBox.gridy = 1;
+		getCriteriaPanel().add(typeComboBox, gbc_typeComboBox);
+		
+		stateComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.gridwidth = 3;
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stateComboBox.gridx = 6;
 		gbc_stateComboBox.gridy = 2;
 		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
-	}
-
-	private void postInitialize() {
+		
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(table);
 		table.setDefaultRenderer(Object.class, new TicketTableCellRenderer());
 	}
 
+	@SuppressWarnings("unchecked")
 	public TicketCriteria getCriteria() {
 		TicketCriteria criteria = new TicketCriteria();
 
@@ -204,14 +209,8 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 			criteria.setMaxDate(dateToChooser.getDate());
 		}
 
-		// TODO: Implement combo boxes
-//		if (typeComboBox.getSelectedItem() != null && !typeComboBox.getSelectedItem().toString().isEmpty()) {
-//			criteria.setType(typeComboBox.getSelectedItem().toString());
-//		}
-//
-//		if (stateComboBox.getSelectedItem() != null && !stateComboBox.getSelectedItem().toString().isEmpty()) {
-//			criteria.setState(stateComboBox.getSelectedItem().toString());
-//		}
+		criteria.setType(((ItemType<Ticket>) typeComboBox.getSelectedItem()).getId());
+		criteria.setState(((ItemState<Ticket>) stateComboBox.getSelectedItem()).getId());
 
 		return criteria;
 	}

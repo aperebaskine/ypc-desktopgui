@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -44,32 +43,6 @@ extends AbstractImageGalleryItemView<Product> {
 	private JFormattedTextField salePriceField;
 	private JTextArea descriptionTextArea;
 	private JTable attributeTable;
-
-	private PropertyChangeListener editorListener = (evt) -> {
-		boolean isEditable = ItemView.EDITOR_CARD.equals(evt.getNewValue());
-
-		nameTextField.setEditable(isEditable);
-		categoryComboBox.setEnabled(isEditable);
-		launchDateChooser.setEditable(isEditable);
-		stockTextField.setEditable(isEditable);
-		purchasePriceField.setEditable(isEditable);
-		salePriceField.setEditable(isEditable);
-		descriptionTextArea.setEditable(isEditable);
-	};
-
-	private PropertyChangeListener itemListener = (evt) -> {
-		idValueLabel.setText(getItem().getId().toString());
-		nameTextField.setText(getItem().getName());
-		categoryComboBox.setSelectedIndex(getItem().getCategoryId());
-		launchDateChooser.setDate(getItem().getLaunchDate());
-		stockTextField.setValue(getItem().getStock());
-		purchasePriceField.setValue(getItem().getPurchasePrice());
-		salePriceField.setValue(getItem().getSalePrice());
-		descriptionTextArea.setText(getItem().getDescription());
-
-		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
-				AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
-	};
 
 	public ProductItemView() {
 		initialize();
@@ -260,9 +233,6 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_launchDateChooser.gridx = 1;
 		gbc_launchDateChooser.gridy = 3;
 		getViewPanel().add(launchDateChooser, gbc_launchDateChooser);
-
-		addPropertyChangeListener(itemListener);
-		addPropertyChangeListener(editorListener);
 	}
 
 	@Override
@@ -290,6 +260,32 @@ extends AbstractImageGalleryItemView<Product> {
 		purchasePriceField.setValue(getItem().getPurchasePrice());
 		salePriceField.setValue(getItem().getSalePrice());
 		descriptionTextArea.setText(getItem().getDescription());
+	}
+	
+	@Override
+	protected void setFieldsEditable(boolean isEditable) {
+	nameTextField.setEditable(isEditable);
+	categoryComboBox.setEnabled(isEditable);
+	launchDateChooser.setEditable(isEditable);
+	stockTextField.setEditable(isEditable);
+	purchasePriceField.setEditable(isEditable);
+	salePriceField.setEditable(isEditable);
+	descriptionTextArea.setEditable(isEditable);
+	}
+	
+	@Override
+	protected void onItemSet() {
+		idValueLabel.setText(getItem().getId().toString());
+		nameTextField.setText(getItem().getName());
+		categoryComboBox.setSelectedIndex(getItem().getCategoryId());
+		launchDateChooser.setDate(getItem().getLaunchDate());
+		stockTextField.setValue(getItem().getStock());
+		purchasePriceField.setValue(getItem().getPurchasePrice());
+		salePriceField.setValue(getItem().getSalePrice());
+		descriptionTextArea.setText(getItem().getDescription());
+
+		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
+				AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
 	}
 
 }

@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,20 @@ implements ItemView<T> {
 	private static final long serialVersionUID = 525919481888365709L;
 	
 	protected static final String CARD_PROPERTY = "card";
+	
+	private PropertyChangeListener editorListener = (evt) -> {
+		boolean isEditable = ItemView.EDITOR_CARD.equals(evt.getNewValue());
+		setFieldsEditable(isEditable);
+	};
+
+	private PropertyChangeListener itemListener = (evt) -> {
+		if (evt.getNewValue() == null) {
+			resetFields();
+		} else {
+			onItemSet();
+		}
+		
+	};
 
 	private T item;
 
@@ -41,6 +56,9 @@ implements ItemView<T> {
 		centerPanel.setLayout(gbl_viewerPanel);
 
 		cards = new HashMap<String, ActionPane>();
+		
+		addPropertyChangeListener(CARD_PROPERTY, editorListener);
+		addPropertyChangeListener(ITEM_PROPERTY, itemListener);
 	}
 
 	private void initializeSouthPanel() {
@@ -109,5 +127,9 @@ implements ItemView<T> {
 	public boolean isEditable() {
 		return ItemView.EDITOR_CARD.equals(southPanel.getComponent(0).getName());
 	}
+	
+	protected abstract void setFieldsEditable(boolean isEditable);
+	
+	protected abstract void onItemSet();
 
 }

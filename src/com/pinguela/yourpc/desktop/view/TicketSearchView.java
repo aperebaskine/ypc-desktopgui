@@ -49,9 +49,9 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 
 	private void initialize() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 12, 120, 48, 31, 120, 48, -6, 120, 0};
+		gridBagLayout.columnWidths = new int[]{0, 2, 60, 4, 60, 48, 31, 120, 48, -6, 120, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
 		getCriteriaPanel().setLayout(gridBagLayout);
 
@@ -65,7 +65,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 
 		idTextField = new JTextField();
 		GridBagConstraints gbc_idTextField = new GridBagConstraints();
-		gbc_idTextField.gridwidth = 2;
+		gbc_idTextField.gridwidth = 4;
 		gbc_idTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_idTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_idTextField.gridx = 1;
@@ -77,7 +77,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
 		gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
 		gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdLabel.gridx = 4;
+		gbc_customerIdLabel.gridx = 6;
 		gbc_customerIdLabel.gridy = 0;
 		getCriteriaPanel().add(customerIdLabel, gbc_customerIdLabel);
 
@@ -85,7 +85,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
 		gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerIdTextField.gridx = 5;
+		gbc_customerIdTextField.gridx = 7;
 		gbc_customerIdTextField.gridy = 0;
 		getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
 		customerIdTextField.setColumns(10);
@@ -94,7 +94,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		GridBagConstraints gbc_typeLabel = new GridBagConstraints();
 		gbc_typeLabel.anchor = GridBagConstraints.EAST;
 		gbc_typeLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_typeLabel.gridx = 7;
+		gbc_typeLabel.gridx = 9;
 		gbc_typeLabel.gridy = 0;
 		getCriteriaPanel().add(typeLabel, gbc_typeLabel);
 
@@ -120,11 +120,26 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		gbc_dateFromChooser.gridy = 1;
 		getCriteriaPanel().add(dateFromChooser, gbc_dateFromChooser);
 
+		JLabel toLabel = new JLabel("to");
+		GridBagConstraints gbc_toLabel = new GridBagConstraints();
+		gbc_toLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_toLabel.gridx = 3;
+		gbc_toLabel.gridy = 1;
+		getCriteriaPanel().add(toLabel, gbc_toLabel);
+
+		dateToChooser = ComponentFactory.getDateChooser();
+		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
+		gbc_dateToChooser.insets = new Insets(0, 0, 5, 5);
+		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
+		gbc_dateToChooser.gridx = 4;
+		gbc_dateToChooser.gridy = 1;
+		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
+
 		JLabel customerEmailLabel = new JLabel("Customer email:");
 		GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
 		gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
 		gbc_customerEmailLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_customerEmailLabel.gridx = 4;
+		gbc_customerEmailLabel.gridx = 6;
 		gbc_customerEmailLabel.gridy = 1;
 		getCriteriaPanel().add(customerEmailLabel, gbc_customerEmailLabel);
 
@@ -132,7 +147,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		GridBagConstraints gbc_customerEmailTextField = new GridBagConstraints();
 		gbc_customerEmailTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_customerEmailTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerEmailTextField.gridx = 5;
+		gbc_customerEmailTextField.gridx = 7;
 		gbc_customerEmailTextField.gridy = 1;
 		getCriteriaPanel().add(customerEmailTextField, gbc_customerEmailTextField);
 		customerEmailTextField.setColumns(10);
@@ -141,41 +156,26 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
 		gbc_stateLabel.anchor = GridBagConstraints.EAST;
 		gbc_stateLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_stateLabel.gridx = 7;
+		gbc_stateLabel.gridx = 9;
 		gbc_stateLabel.gridy = 1;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
-
-		JLabel toLabel = new JLabel("to");
-		GridBagConstraints gbc_toLabel = new GridBagConstraints();
-		gbc_toLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_toLabel.gridx = 1;
-		gbc_toLabel.gridy = 2;
-		getCriteriaPanel().add(toLabel, gbc_toLabel);
-
-		dateToChooser = ComponentFactory.getDateChooser();
-		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
-		gbc_dateToChooser.insets = new Insets(0, 0, 0, 5);
-		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
-		gbc_dateToChooser.gridx = 2;
-		gbc_dateToChooser.gridy = 2;
-		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
 	}
 
 	private void postInitialize() {
-		
+
 		typeComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
 		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_typeComboBox.gridx = 8;
+		gbc_typeComboBox.gridx = 10;
 		gbc_typeComboBox.gridy = 0;
 		getCriteriaPanel().add(typeComboBox, gbc_typeComboBox);
-		
+
 		stateComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_stateComboBox.gridx = 8;
+		gbc_stateComboBox.gridx = 10;
 		gbc_stateComboBox.gridy = 1;
 		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
 

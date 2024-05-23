@@ -16,14 +16,16 @@ import javax.swing.SwingConstants;
 import com.pinguela.yourpc.desktop.actions.CustomerOrderSearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
+import com.pinguela.yourpc.desktop.actions.SetCustomerOrderRangesAction;
+import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.model.CustomerOrderCriteria;
+import com.pinguela.yourpc.model.CustomerOrderRanges;
 import com.pinguela.yourpc.model.ItemState;
-import com.toedter.calendar.JDateChooser;
 
 import slider.RangeSlider;
 
@@ -36,11 +38,13 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 	private JTextField idTextField;
 	private JTextField customerIdTextField;
 	private JTextField customerEmailTextField;
-	private JDateChooser dateFromChooser;
-	private JDateChooser dateToChooser;
+	private ExtendedDateChooser dateFromChooser;
+	private ExtendedDateChooser dateToChooser;
 	private RangeSlider amountRangeSlider;
 	private JComboBox<ItemState<CustomerOrder>> stateComboBox;
-	
+	private JLabel minAmountLabel;
+	private JLabel maxAmountLabel;
+
 	public CustomerOrderSearchView() {
 		this(new SearchActionBuilder<>(CustomerOrderSearchAction.class));
 	}
@@ -75,23 +79,23 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		gbc_idTextField.gridy = 0;
 		getCriteriaPanel().add(idTextField, gbc_idTextField);
 		idTextField.setColumns(10);
-		
-				JLabel customerIdLabel = new JLabel("Customer ID:");
-				GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
-				gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
-				gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_customerIdLabel.gridx = 3;
-				gbc_customerIdLabel.gridy = 0;
-				getCriteriaPanel().add(customerIdLabel, gbc_customerIdLabel);
-		
-				customerIdTextField = new JTextField();
-				GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
-				gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
-				gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_customerIdTextField.gridx = 4;
-				gbc_customerIdTextField.gridy = 0;
-				getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
-				customerIdTextField.setColumns(10);
+
+		JLabel customerIdLabel = new JLabel("Customer ID:");
+		GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
+		gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
+		gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_customerIdLabel.gridx = 3;
+		gbc_customerIdLabel.gridy = 0;
+		getCriteriaPanel().add(customerIdLabel, gbc_customerIdLabel);
+
+		customerIdTextField = new JTextField();
+		GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
+		gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_customerIdTextField.gridx = 4;
+		gbc_customerIdTextField.gridy = 0;
+		getCriteriaPanel().add(customerIdTextField, gbc_customerIdTextField);
+		customerIdTextField.setColumns(10);
 
 		JLabel dateLabel = new JLabel("Date:");
 		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
@@ -108,7 +112,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		gbc_fromLabel.gridy = 0;
 		getCriteriaPanel().add(fromLabel, gbc_fromLabel);
 
-		dateFromChooser = new JDateChooser();
+		dateFromChooser = ComponentFactory.getDateChooser();
 		GridBagConstraints gbc_dateFromChooser = new GridBagConstraints();
 		gbc_dateFromChooser.insets = new Insets(0, 0, 5, 5);
 		gbc_dateFromChooser.fill = GridBagConstraints.BOTH;
@@ -123,45 +127,46 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		gbc_toLabel.gridy = 0;
 		getCriteriaPanel().add(toLabel, gbc_toLabel);
 
-		dateToChooser = new JDateChooser();
+		dateToChooser = ComponentFactory.getDateChooser();
 		GridBagConstraints gbc_dateToChooser = new GridBagConstraints();
 		gbc_dateToChooser.insets = new Insets(0, 0, 5, 0);
 		gbc_dateToChooser.fill = GridBagConstraints.BOTH;
 		gbc_dateToChooser.gridx = 10;
 		gbc_dateToChooser.gridy = 0;
 		getCriteriaPanel().add(dateToChooser, gbc_dateToChooser);
-				
-						JLabel stateLabel = new JLabel("State:");
-						GridBagConstraints gbc_stateLabel = new GridBagConstraints();
-						gbc_stateLabel.anchor = GridBagConstraints.EAST;
-						gbc_stateLabel.insets = new Insets(0, 0, 0, 5);
-						gbc_stateLabel.gridx = 0;
-						gbc_stateLabel.gridy = 1;
-						getCriteriaPanel().add(stateLabel, gbc_stateLabel);
-				stateComboBox = ComponentFactory.getComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
-				GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-				gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
-				gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
-				gbc_stateComboBox.gridx = 1;
-				gbc_stateComboBox.gridy = 1;
-				getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
+
+		JLabel stateLabel = new JLabel("State:");
+		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
+		gbc_stateLabel.anchor = GridBagConstraints.EAST;
+		gbc_stateLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_stateLabel.gridx = 0;
+		gbc_stateLabel.gridy = 1;
+		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
 		
-				JLabel customerEmailLabel = new JLabel("Customer email:");
-				GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
-				gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
-				gbc_customerEmailLabel.insets = new Insets(0, 0, 0, 5);
-				gbc_customerEmailLabel.gridx = 3;
-				gbc_customerEmailLabel.gridy = 1;
-				getCriteriaPanel().add(customerEmailLabel, gbc_customerEmailLabel);
-		
-				customerEmailTextField = new JTextField();
-				GridBagConstraints gbc_customerEmailTextField = new GridBagConstraints();
-				gbc_customerEmailTextField.insets = new Insets(0, 0, 0, 5);
-				gbc_customerEmailTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_customerEmailTextField.gridx = 4;
-				gbc_customerEmailTextField.gridy = 1;
-				getCriteriaPanel().add(customerEmailTextField, gbc_customerEmailTextField);
-				customerEmailTextField.setColumns(10);
+		stateComboBox = ComponentFactory.getComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
+		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_stateComboBox.gridx = 1;
+		gbc_stateComboBox.gridy = 1;
+		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
+
+		JLabel customerEmailLabel = new JLabel("Customer email:");
+		GridBagConstraints gbc_customerEmailLabel = new GridBagConstraints();
+		gbc_customerEmailLabel.anchor = GridBagConstraints.EAST;
+		gbc_customerEmailLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_customerEmailLabel.gridx = 3;
+		gbc_customerEmailLabel.gridy = 1;
+		getCriteriaPanel().add(customerEmailLabel, gbc_customerEmailLabel);
+
+		customerEmailTextField = new JTextField();
+		GridBagConstraints gbc_customerEmailTextField = new GridBagConstraints();
+		gbc_customerEmailTextField.insets = new Insets(0, 0, 0, 5);
+		gbc_customerEmailTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_customerEmailTextField.gridx = 4;
+		gbc_customerEmailTextField.gridy = 1;
+		getCriteriaPanel().add(customerEmailTextField, gbc_customerEmailTextField);
+		customerEmailTextField.setColumns(10);
 
 		JLabel amountLabel = new JLabel("Amount:");
 		GridBagConstraints gbc_amountLabel = new GridBagConstraints();
@@ -180,29 +185,38 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		getCriteriaPanel().add(priceRangePanel, gbc_priceRangePanel);
 		priceRangePanel.setLayout(new BoxLayout(priceRangePanel, BoxLayout.X_AXIS));
 
-		JLabel amountFromLabel = new JLabel("0");
-		amountFromLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		amountFromLabel.setPreferredSize(new Dimension(48, 14));
-		amountFromLabel.setMinimumSize(new Dimension(48, 14));
-		amountFromLabel.setMaximumSize(new Dimension(48, 14));
-		priceRangePanel.add(amountFromLabel);
+		minAmountLabel = new JLabel("0");
+		minAmountLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		minAmountLabel.setPreferredSize(new Dimension(48, 14));
+		minAmountLabel.setMinimumSize(new Dimension(48, 14));
+		minAmountLabel.setMaximumSize(new Dimension(48, 14));
+		priceRangePanel.add(minAmountLabel);
 
-		amountRangeSlider = new RangeSlider();
+		amountRangeSlider = new RangeSlider(0, Integer.MAX_VALUE);
 		priceRangePanel.add(amountRangeSlider);
+		amountRangeSlider.setValue(0);
+		amountRangeSlider.setUpperValue(Integer.MAX_VALUE);
 
-		JLabel amountToLabel = new JLabel("999999");
-		amountToLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		amountToLabel.setPreferredSize(new Dimension(48, 14));
-		amountToLabel.setMinimumSize(new Dimension(48, 14));
-		amountToLabel.setMaximumSize(new Dimension(48, 14));
-		priceRangePanel.add(amountToLabel);
+		maxAmountLabel = new JLabel(Integer.toString(amountRangeSlider.getUpperValue()));
+		maxAmountLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		maxAmountLabel.setPreferredSize(new Dimension(48, 14));
+		maxAmountLabel.setMinimumSize(new Dimension(48, 14));
+		maxAmountLabel.setMaximumSize(new Dimension(48, 14));
+		priceRangePanel.add(maxAmountLabel);
 	}
-	
+
 	private void postInitialize() {	
 		
+		amountRangeSlider.addChangeListener((e) -> {
+			minAmountLabel.setText(Integer.valueOf(amountRangeSlider.getValue()).toString());
+			maxAmountLabel.setText(Integer.valueOf(amountRangeSlider.getUpperValue()).toString());
+		});
+
 		JTable table = getTable();
 		TableUtils.initializeActionPanes(table);
 		table.setDefaultRenderer(Object.class, new CustomerOrderTableCellRenderer());
+		
+		addPropertyChangeListener(CRITERIA_PROPERTY, new SetCustomerOrderRangesAction(this));
 	}
 
 	@Override
@@ -213,29 +227,38 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		if (!idTextField.getText().isEmpty()) {
 			criteria.setId(Long.valueOf(idTextField.getText()));
 		}
-		
+
 		if (!customerIdTextField.getText().isEmpty()) {
 			criteria.setCustomerId(Integer.valueOf(customerIdTextField.getText()));
 		}
-		
+
 		if (!customerEmailTextField.getText().isEmpty()) {
 			criteria.setCustomerEmail(customerEmailTextField.getText());
 		}
-		
+
 		if (dateFromChooser.getDate() != null) {
 			criteria.setMinDate(dateFromChooser.getDate());
 		}
-		
+
 		if (dateToChooser.getDate() != null) {
-			criteria.setMinDate(dateToChooser.getDate());
+			criteria.setMaxDate(dateToChooser.getDate());
 		}
-		
+
 		criteria.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
-		
+
 		criteria.setMinAmount(Double.valueOf(amountRangeSlider.getValue()));
 		criteria.setMaxAmount(Double.valueOf(amountRangeSlider.getUpperValue()));
-		
+
 		return criteria;
+	}
+	
+	public void setRanges(CustomerOrderRanges ranges) {
+		dateFromChooser.setDate(ranges.getMinDate());
+		dateToChooser.setDate(ranges.getMaxDate());
+		amountRangeSlider.setMinimum(ranges.getMinAmount().intValue());
+		amountRangeSlider.setValue(amountRangeSlider.getMinimum());
+		amountRangeSlider.setMaximum(ranges.getMaxAmount().intValue());
+		amountRangeSlider.setUpperValue(amountRangeSlider.getMaximum());
 	}
 
 	@Override
@@ -250,27 +273,27 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 
 	@Override
 	protected void doResetCriteriaFields(Object source) {
-	    if (!customerIdTextField.equals(source)) {
-	        customerIdTextField.setText("");
-	    }
-	    if (!customerEmailTextField.equals(source)) {
-	        customerEmailTextField.setText("");
-	    }
-	    if (!dateFromChooser.equals(source)) {
-	        dateFromChooser.setDate(null); 
-	    }
-	    if (!dateToChooser.equals(source)) {
-	        dateToChooser.setDate(null);
-	    }
-	    if (!amountRangeSlider.equals(source)) {
+		if (!customerIdTextField.equals(source)) {
+			customerIdTextField.setText("");
+		}
+		if (!customerEmailTextField.equals(source)) {
+			customerEmailTextField.setText("");
+		}
+		if (!dateFromChooser.equals(source)) {
+			dateFromChooser.setDate(null); 
+		}
+		if (!dateToChooser.equals(source)) {
+			dateToChooser.setDate(null);
+		}
+		if (!amountRangeSlider.equals(source)) {
 			amountRangeSlider.setMinimum(0);
 			amountRangeSlider.setValue(amountRangeSlider.getMinimum());
 			amountRangeSlider.setMaximum(Integer.MAX_VALUE);
 			amountRangeSlider.setUpperValue(amountRangeSlider.getMaximum());
-	    }
-	    if (!stateComboBox.equals(source)) {
-	        stateComboBox.setSelectedIndex(0);
-	    }
+		}
+		if (!stateComboBox.equals(source)) {
+			stateComboBox.setSelectedIndex(0);
+		}
 	}
 
 }

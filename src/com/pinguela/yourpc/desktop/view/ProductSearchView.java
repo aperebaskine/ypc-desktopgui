@@ -195,7 +195,7 @@ extends AbstractPaginatedSearchView<Product> {
 		minPriceLabel.setPreferredSize(new Dimension(28, 14));
 		priceRangeSliderPanel.add(minPriceLabel);
 
-		priceRangeSlider = new RangeSlider(Integer.MIN_VALUE, Integer.MAX_VALUE);
+		priceRangeSlider = new RangeSlider(0, Integer.MAX_VALUE);
 		priceRangeSlider.setValue(0);
 		priceRangeSlider.setUpperValue(Integer.MAX_VALUE);
 		priceRangeSlider.setPreferredSize(new Dimension(160, 15));

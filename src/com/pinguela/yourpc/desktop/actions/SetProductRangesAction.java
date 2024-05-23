@@ -16,7 +16,6 @@ extends YPCAction {
 	 */
 	private static final long serialVersionUID = 3510016415541527075L;
 
-
 	private static Logger logger = LogManager.getLogger(SetProductRangesAction.class);
 
 	private ProductService productService;

@@ -92,7 +92,7 @@ implements ItemView<T> {
 		firePropertyChange(ITEM_PROPERTY, old, item);
 	}
 
-	public JPanel getViewPanel() {
+	protected JPanel getViewPanel() {
 		return centerPanel;
 	}
 

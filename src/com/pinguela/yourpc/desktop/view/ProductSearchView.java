@@ -281,7 +281,7 @@ extends AbstractPaginatedSearchView<Product> {
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES));
 
-		categoryComboBox = ComponentFactory.getComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
+		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 		gbc_categoryComboBox.gridwidth = 4;
 		gbc_categoryComboBox.anchor = GridBagConstraints.SOUTH;

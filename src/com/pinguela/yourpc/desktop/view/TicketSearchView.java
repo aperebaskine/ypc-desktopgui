@@ -163,7 +163,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 
 	private void postInitialize() {
 
-		typeComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
+		typeComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
 		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -171,7 +171,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		gbc_typeComboBox.gridy = 0;
 		getCriteriaPanel().add(typeComboBox, gbc_typeComboBox);
 
-		stateComboBox = ComponentFactory.getComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;

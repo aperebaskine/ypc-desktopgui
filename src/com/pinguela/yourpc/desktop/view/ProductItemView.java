@@ -215,7 +215,7 @@ extends AbstractImageGalleryItemView<Product> {
 
 	private void postInitialize() {
 
-		categoryComboBox = ComponentFactory.getComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
+		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 		gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;

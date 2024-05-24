@@ -1,5 +1,6 @@
 package com.pinguela.yourpc.desktop.util;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
@@ -10,7 +11,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 
 public class SwingUtils {
@@ -78,6 +81,11 @@ public class SwingUtils {
 		int y = (screenSize.height - window.getHeight()) /2;
 
 		window.setBounds(x, y, window.getWidth(), window.getHeight());
+	}
+	
+	public static void showDatabaseAccessErrorDialog(Component source) {
+		JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(source), 
+				"Could not connect to database.", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

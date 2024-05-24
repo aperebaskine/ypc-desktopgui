@@ -3,18 +3,36 @@ package com.pinguela.yourpc.desktop.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemListener;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.YPCException;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Address;
+import com.pinguela.yourpc.model.City;
+import com.pinguela.yourpc.model.Country;
+import com.pinguela.yourpc.model.Province;
+import com.pinguela.yourpc.service.CityService;
+import com.pinguela.yourpc.service.CountryService;
+import com.pinguela.yourpc.service.ProvinceService;
+import com.pinguela.yourpc.service.impl.CityServiceImpl;
+import com.pinguela.yourpc.service.impl.CountryServiceImpl;
+import com.pinguela.yourpc.service.impl.ProvinceServiceImpl;
 
-/**
- * TODO: Implement combo box functionality
- */
 public class AddressItemView 
 extends AbstractItemView<Address> {
 
@@ -23,18 +41,70 @@ extends AbstractItemView<Address> {
 	 */
 	private static final long serialVersionUID = -9029757229669312561L;
 	
+	private static Logger logger = LogManager.getLogger(AddressItemView.class);
+	
+	private CountryService countryService;
+	private ProvinceService provinceService;
+	private CityService cityService;
+	
+	{
+		countryService = new CountryServiceImpl();
+		provinceService = new ProvinceServiceImpl();
+		cityService = new CityServiceImpl();
+	}
+	
 	private JTextField streetNameTextField;
 	private JTextField doorTextField;
 	private JTextField zipCodeTextField;
-	private JComboBox cityComboBox;
-	private JComboBox provinceComboBox;
-	private JComboBox countryComboBox;
+	private JComboBox<City> cityComboBox;
+	private JComboBox<Province> provinceComboBox;
+	private JComboBox<Country> countryComboBox;
 	private JCheckBox defaultCheckbox;
 	private JCheckBox billingCheckbox;
 	private JFormattedTextField floorFormattedTextField;
 	
+	private ItemListener countryListener = (e) -> {
+		Country c = (Country) e.getItem();
+		
+		if (c.getId() == null)  {
+			provinceComboBox.setSelectedIndex(0);
+			provinceComboBox.setEnabled(false);
+			return;
+		}
+		
+		try {	
+			List<Province> provinces = provinceService.findByCountry(c.getId());
+			provinces.add(0, new Province());
+			provinceComboBox.setModel(new DefaultComboBoxModel<Province>(provinces.toArray(new Province[provinces.size()])));
+			provinceComboBox.setEnabled(true);
+		} catch (YPCException e1) {
+			logger.error(e1.getMessage(), e1);
+			SwingUtils.showDatabaseAccessErrorDialog(this);
+		}
+	};
+	
+	private ItemListener provinceListener = (e) -> {
+		Province p = (Province) e.getItem();
+		
+		if (p.getId() == null) {
+			cityComboBox.setSelectedIndex(0);
+			cityComboBox.setEnabled(false);
+			return;
+		}
+		
+		try {
+			List<City> cities = cityService.findByProvince(p.getId());
+			cities.add(0, new City());
+			cityComboBox.setModel(new DefaultComboBoxModel<City>(cities.toArray(new City[cities.size()])));
+		} catch (YPCException e1) {
+			logger.error(e1.getMessage(), e1);
+			SwingUtils.showDatabaseAccessErrorDialog(this);
+		}
+	};
+	
 	public AddressItemView() {
 		initialize();
+		postInitialize();
 	}
 	
 	private void initialize() {
@@ -139,15 +209,6 @@ extends AbstractItemView<Address> {
 		gbc_cityLabel.gridy = 5;
 		getViewPanel().add(cityLabel, gbc_cityLabel);
 		
-		cityComboBox = new JComboBox();
-		GridBagConstraints gbc_cityComboBox = new GridBagConstraints();
-		gbc_cityComboBox.gridwidth = 3;
-		gbc_cityComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_cityComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cityComboBox.gridx = 1;
-		gbc_cityComboBox.gridy = 5;
-		getViewPanel().add(cityComboBox, gbc_cityComboBox);
-		
 		JLabel provinceLabel = new JLabel("Province:");
 		GridBagConstraints gbc_provinceLabel = new GridBagConstraints();
 		gbc_provinceLabel.anchor = GridBagConstraints.EAST;
@@ -156,15 +217,6 @@ extends AbstractItemView<Address> {
 		gbc_provinceLabel.gridy = 6;
 		getViewPanel().add(provinceLabel, gbc_provinceLabel);
 		
-		provinceComboBox = new JComboBox();
-		GridBagConstraints gbc_provinceComboBox = new GridBagConstraints();
-		gbc_provinceComboBox.gridwidth = 3;
-		gbc_provinceComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_provinceComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_provinceComboBox.gridx = 1;
-		gbc_provinceComboBox.gridy = 6;
-		getViewPanel().add(provinceComboBox, gbc_provinceComboBox);
-		
 		JLabel countryLabel = new JLabel("Country:");
 		GridBagConstraints gbc_countryLabel = new GridBagConstraints();
 		gbc_countryLabel.anchor = GridBagConstraints.EAST;
@@ -172,15 +224,6 @@ extends AbstractItemView<Address> {
 		gbc_countryLabel.gridx = 0;
 		gbc_countryLabel.gridy = 7;
 		getViewPanel().add(countryLabel, gbc_countryLabel);
-		
-		countryComboBox = new JComboBox();
-		GridBagConstraints gbc_countryComboBox = new GridBagConstraints();
-		gbc_countryComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_countryComboBox.gridwidth = 3;
-		gbc_countryComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_countryComboBox.gridx = 1;
-		gbc_countryComboBox.gridy = 7;
-		getViewPanel().add(countryComboBox, gbc_countryComboBox);
 		
 		defaultCheckbox = new JCheckBox("Default address");
 		GridBagConstraints gbc_defaultCheckbox = new GridBagConstraints();
@@ -196,6 +239,44 @@ extends AbstractItemView<Address> {
 		getViewPanel().add(billingCheckbox, gbc_billingCheckbox);
 	}
 
+	private void postInitialize() {
+		try {
+			countryComboBox = ComponentFactory.createComboBox(countryService.findAll(), Country.class);
+			GridBagConstraints gbc_countryComboBox = new GridBagConstraints();
+			gbc_countryComboBox.insets = new Insets(0, 0, 5, 0);
+			gbc_countryComboBox.gridwidth = 3;
+			gbc_countryComboBox.fill = GridBagConstraints.HORIZONTAL;
+			gbc_countryComboBox.gridx = 1;
+			gbc_countryComboBox.gridy = 7;
+			getViewPanel().add(countryComboBox, gbc_countryComboBox);
+		} catch (YPCException e) {
+			logger.error(e.getMessage(), e);
+			JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), 
+					"Could not fetch country data.", "Error", JOptionPane.ERROR_MESSAGE);
+		} 
+		
+		provinceComboBox = ComponentFactory.createComboBox(Arrays.asList(new Province[0]), Province.class);
+		GridBagConstraints gbc_provinceComboBox = new GridBagConstraints();
+		gbc_provinceComboBox.gridwidth = 3;
+		gbc_provinceComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_provinceComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_provinceComboBox.gridx = 1;
+		gbc_provinceComboBox.gridy = 6;
+		getViewPanel().add(provinceComboBox, gbc_provinceComboBox);
+		
+		cityComboBox = ComponentFactory.createComboBox(Arrays.asList(new City[0]), City.class);
+		GridBagConstraints gbc_cityComboBox = new GridBagConstraints();
+		gbc_cityComboBox.gridwidth = 3;
+		gbc_cityComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_cityComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cityComboBox.gridx = 1;
+		gbc_cityComboBox.gridy = 5;
+		getViewPanel().add(cityComboBox, gbc_cityComboBox);
+		
+		countryComboBox.addItemListener(countryListener);
+		provinceComboBox.addItemListener(provinceListener);
+	}
+	
 	@Override
 	public Address getModifiedItem() {
 		Address address = new Address();

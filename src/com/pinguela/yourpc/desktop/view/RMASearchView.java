@@ -187,7 +187,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 		gbc_stateLabel.gridx = 3;
 		gbc_stateLabel.gridy = 2;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
-		stateComboBox = ComponentFactory.getComboBox(DBConstants.RMA_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.RMA_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;

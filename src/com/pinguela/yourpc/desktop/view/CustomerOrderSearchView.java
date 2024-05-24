@@ -143,7 +143,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		gbc_stateLabel.gridy = 1;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
 		
-		stateComboBox = ComponentFactory.getComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;

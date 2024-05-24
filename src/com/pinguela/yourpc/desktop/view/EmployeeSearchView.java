@@ -184,7 +184,7 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 	}
 	
 	private void postinitialize() {
-		departmentComboBox = ComponentFactory.getComboBox(DBConstants.DEPARTMENTS.values(), Department.class);
+		departmentComboBox = ComponentFactory.createComboBox(DBConstants.DEPARTMENTS.values(), Department.class);
 		GridBagConstraints gbc_departmentComboBox = new GridBagConstraints();
 		gbc_departmentComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_departmentComboBox.fill = GridBagConstraints.HORIZONTAL;

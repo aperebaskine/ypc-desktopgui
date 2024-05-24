@@ -20,17 +20,17 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		
 		ImagePanel imagePanel = new ImagePanel();
 		GridBagLayout gridBagLayout = (GridBagLayout) imagePanel.getLayout();
-		gridBagLayout.columnWidths = new int[]{320};
+		gridBagLayout.columnWidths = new int[]{240};
 		gridBagLayout.columnWeights = new double[]{0.0};
 		getViewPanel().add(imagePanel, BorderLayout.WEST);
 		
 		JPanel centerPanel = new JPanel();
 		getViewPanel().add(centerPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_centerPanel = new GridBagLayout();
-		gbl_centerPanel.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_centerPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_centerPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_centerPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_centerPanel.columnWidths = new int[]{0, 0};
+		gbl_centerPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_centerPanel.columnWeights = new double[]{0.0, 1.0};
+		gbl_centerPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		centerPanel.setLayout(gbl_centerPanel);
 		
 		JLabel idLabel = new JLabel("ID:");
@@ -43,8 +43,9 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		
 		idValueLabel = new JLabel("0");
 		GridBagConstraints gbc_idValueLabel = new GridBagConstraints();
+		gbc_idValueLabel.anchor = GridBagConstraints.WEST;
 		gbc_idValueLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_idValueLabel.gridx = 2;
+		gbc_idValueLabel.gridx = 1;
 		gbc_idValueLabel.gridy = 0;
 		centerPanel.add(idValueLabel, gbc_idValueLabel);
 		
@@ -60,7 +61,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_usernameTextField = new GridBagConstraints();
 		gbc_usernameTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_usernameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_usernameTextField.gridx = 2;
+		gbc_usernameTextField.gridx = 1;
 		gbc_usernameTextField.gridy = 1;
 		centerPanel.add(usernameTextField, gbc_usernameTextField);
 		usernameTextField.setColumns(10);
@@ -77,7 +78,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_firstNameTextField = new GridBagConstraints();
 		gbc_firstNameTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_firstNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_firstNameTextField.gridx = 2;
+		gbc_firstNameTextField.gridx = 1;
 		gbc_firstNameTextField.gridy = 2;
 		centerPanel.add(firstNameTextField, gbc_firstNameTextField);
 		firstNameTextField.setColumns(10);
@@ -94,7 +95,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_lastName1TextField = new GridBagConstraints();
 		gbc_lastName1TextField.insets = new Insets(0, 0, 5, 0);
 		gbc_lastName1TextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lastName1TextField.gridx = 2;
+		gbc_lastName1TextField.gridx = 1;
 		gbc_lastName1TextField.gridy = 3;
 		centerPanel.add(lastName1TextField, gbc_lastName1TextField);
 		lastName1TextField.setColumns(10);
@@ -111,7 +112,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_lastName2TextField = new GridBagConstraints();
 		gbc_lastName2TextField.insets = new Insets(0, 0, 5, 0);
 		gbc_lastName2TextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lastName2TextField.gridx = 2;
+		gbc_lastName2TextField.gridx = 1;
 		gbc_lastName2TextField.gridy = 4;
 		centerPanel.add(lastName2TextField, gbc_lastName2TextField);
 		lastName2TextField.setColumns(10);
@@ -128,7 +129,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_documentTypeComboBox = new GridBagConstraints();
 		gbc_documentTypeComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_documentTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_documentTypeComboBox.gridx = 2;
+		gbc_documentTypeComboBox.gridx = 1;
 		gbc_documentTypeComboBox.gridy = 5;
 		centerPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
 		
@@ -144,7 +145,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 2;
+		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 6;
 		centerPanel.add(textField, gbc_textField);
 		textField.setColumns(10);
@@ -159,7 +160,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		
 		phoneNumberFormattedTextField = new JFormattedTextField();
 		GridBagConstraints gbc_phoneNumberFormattedTextField = new GridBagConstraints();
-		gbc_phoneNumberFormattedTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_phoneNumberFormattedTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_phoneNumberFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_phoneNumberFormattedTextField.gridx = 1;
 		gbc_phoneNumberFormattedTextField.gridy = 7;
@@ -177,7 +178,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 2;
+		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 8;
 		centerPanel.add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
@@ -194,7 +195,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 2;
+		gbc_textField_2.gridx = 1;
 		gbc_textField_2.gridy = 9;
 		centerPanel.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
@@ -210,7 +211,7 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		textField_3 = new JTextField();
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 2;
+		gbc_textField_3.gridx = 1;
 		gbc_textField_3.gridy = 10;
 		centerPanel.add(textField_3, gbc_textField_3);
 		textField_3.setColumns(10);
@@ -226,6 +227,8 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		labelPanel.add(addressLabel);
 		
 		AddressItemView addressView = new AddressItemView();
+		GridBagLayout gridBagLayout_1 = (GridBagLayout) addressView.getViewPanel().getLayout();
+		gridBagLayout_1.columnWidths = new int[]{0, 90, 0, 90};
 		eastPanel.add(addressView, BorderLayout.CENTER);
 	}
 

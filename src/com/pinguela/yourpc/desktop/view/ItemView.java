@@ -11,7 +11,7 @@ public interface ItemView<T> {
 	
 	T getItem();
 	
-	T getModifiedItem();
+	T getNewItem();
 
 	void setItem(T item);
 	

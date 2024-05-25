@@ -236,7 +236,7 @@ extends AbstractImageGalleryItemView<Product> {
 	}
 
 	@Override
-	public Product getModifiedItem() {
+	public Product getNewItem() {
 		Product product = new Product();
 
 		product.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));

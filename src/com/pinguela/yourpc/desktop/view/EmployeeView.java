@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.pinguela.yourpc.desktop.components.ImagePanel;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
+import com.pinguela.yourpc.model.DocumentType;
 import com.pinguela.yourpc.model.Employee;
 
 public class EmployeeView extends AbstractItemView<Employee> {
@@ -24,16 +27,21 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	private JTextField firstNameTextField;
 	private JTextField lastName1TextField;
 	private JTextField lastName2TextField;
-	private JTextField textField;
+	private JComboBox<DocumentType> documentTypeComboBox;
+	private JTextField documentNumberTextField;
 	private JTextField usernameTextField;
 	private JFormattedTextField phoneNumberFormattedTextField;
 	private JLabel idValueLabel;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField emailTextField;
+	private JTextField ibanTextField;
+	private JTextField bicTextField;
+	
+	private JPanel centerPanel;
+	private AddressView addressView;
 	
 	public EmployeeView() {
 		initialize();
+		postInitialize();
 	}
 	
 	private void initialize() {
@@ -45,7 +53,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gridBagLayout.columnWeights = new double[]{0.0};
 		getViewPanel().add(imagePanel, BorderLayout.WEST);
 		
-		JPanel centerPanel = new JPanel();
+		centerPanel = new JPanel();
 		getViewPanel().add(centerPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_centerPanel = new GridBagLayout();
 		gbl_centerPanel.columnWidths = new int[]{0, 0};
@@ -146,14 +154,6 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gbc_documentTypeLabel.gridy = 5;
 		centerPanel.add(documentTypeLabel, gbc_documentTypeLabel);
 		
-		JComboBox documentTypeComboBox = new JComboBox();
-		GridBagConstraints gbc_documentTypeComboBox = new GridBagConstraints();
-		gbc_documentTypeComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_documentTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_documentTypeComboBox.gridx = 1;
-		gbc_documentTypeComboBox.gridy = 5;
-		centerPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
-		
 		JLabel documentNumberLabel = new JLabel("Document number:");
 		GridBagConstraints gbc_documentNumberLabel = new GridBagConstraints();
 		gbc_documentNumberLabel.anchor = GridBagConstraints.EAST;
@@ -162,14 +162,14 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gbc_documentNumberLabel.gridy = 6;
 		centerPanel.add(documentNumberLabel, gbc_documentNumberLabel);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 6;
-		centerPanel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		documentNumberTextField = new JTextField();
+		GridBagConstraints gbc_documentNumberTextField = new GridBagConstraints();
+		gbc_documentNumberTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_documentNumberTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_documentNumberTextField.gridx = 1;
+		gbc_documentNumberTextField.gridy = 6;
+		centerPanel.add(documentNumberTextField, gbc_documentNumberTextField);
+		documentNumberTextField.setColumns(10);
 		
 		JLabel phoneNumberLabel = new JLabel("Phone number:");
 		GridBagConstraints gbc_phoneNumberLabel = new GridBagConstraints();
@@ -195,14 +195,14 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gbc_emailLabel.gridy = 8;
 		centerPanel.add(emailLabel, gbc_emailLabel);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 8;
-		centerPanel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		emailTextField = new JTextField();
+		GridBagConstraints gbc_emailTextField = new GridBagConstraints();
+		gbc_emailTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_emailTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_emailTextField.gridx = 1;
+		gbc_emailTextField.gridy = 8;
+		centerPanel.add(emailTextField, gbc_emailTextField);
+		emailTextField.setColumns(10);
 		
 		JLabel ibanLabel = new JLabel("IBAN:");
 		GridBagConstraints gbc_ibanLabel = new GridBagConstraints();
@@ -212,14 +212,14 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gbc_ibanLabel.gridy = 9;
 		centerPanel.add(ibanLabel, gbc_ibanLabel);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 9;
-		centerPanel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		ibanTextField = new JTextField();
+		GridBagConstraints gbc_ibanTextField = new GridBagConstraints();
+		gbc_ibanTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_ibanTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_ibanTextField.gridx = 1;
+		gbc_ibanTextField.gridy = 9;
+		centerPanel.add(ibanTextField, gbc_ibanTextField);
+		ibanTextField.setColumns(10);
 		
 		JLabel bicLabel = new JLabel("BIC:");
 		GridBagConstraints gbc_bicLabel = new GridBagConstraints();
@@ -229,13 +229,13 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gbc_bicLabel.gridy = 10;
 		centerPanel.add(bicLabel, gbc_bicLabel);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 1;
-		gbc_textField_3.gridy = 10;
-		centerPanel.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		bicTextField = new JTextField();
+		GridBagConstraints gbc_bicTextField = new GridBagConstraints();
+		gbc_bicTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_bicTextField.gridx = 1;
+		gbc_bicTextField.gridy = 10;
+		centerPanel.add(bicTextField, gbc_bicTextField);
+		bicTextField.setColumns(10);
 		
 		JPanel eastPanel = new JPanel();
 		getViewPanel().add(eastPanel, BorderLayout.EAST);
@@ -247,34 +247,89 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		JLabel addressLabel = new JLabel("Address:");
 		labelPanel.add(addressLabel);
 		
-		AddressView addressView = new AddressView();
+		addressView = new AddressView(AddressView.EMPLOYEE);
 		GridBagLayout gridBagLayout_1 = (GridBagLayout) addressView.getViewPanel().getLayout();
 		gridBagLayout_1.columnWidths = new int[]{0, 90, 0, 90};
 		eastPanel.add(addressView, BorderLayout.CENTER);
 	}
+	
+	private void postInitialize() {
+		documentTypeComboBox = ComponentFactory.createComboBox(DBConstants.DOCUMENT_TYPES.values(), DocumentType.class);
+		GridBagConstraints gbc_documentTypeComboBox = new GridBagConstraints();
+		gbc_documentTypeComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_documentTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_documentTypeComboBox.gridx = 1;
+		gbc_documentTypeComboBox.gridy = 5;
+		centerPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
+	}
 
 	@Override
-	public Employee getModifiedItem() {
-		// TODO Auto-generated method stub
-		return null;
+	public Employee getNewItem() {
+        Employee employee = new Employee();
+        
+        employee.setFirstName(firstNameTextField.getText());
+        employee.setLastName1(lastName1TextField.getText());
+        employee.setLastName2(lastName2TextField.getText());
+        employee.setDocumentTypeId(((DocumentType) documentTypeComboBox.getSelectedItem()).getId());
+        employee.setDocumentNumber(documentNumberTextField.getText());
+        employee.setUsername(usernameTextField.getText());
+        employee.setPhoneNumber(phoneNumberFormattedTextField.getText());
+        employee.setEmail(emailTextField.getText());
+        employee.setIban(ibanTextField.getText());
+        employee.setBic(bicTextField.getText());
+        employee.setAddress(addressView.getNewItem());
+        
+        return employee;
 	}
 
 	@Override
 	public void resetFields() {
-		// TODO Auto-generated method stub
-		
+        firstNameTextField.setText("");
+        lastName1TextField.setText("");
+        lastName2TextField.setText("");
+        documentTypeComboBox.setSelectedIndex(0);
+        documentNumberTextField.setText("");
+        usernameTextField.setText("");
+        phoneNumberFormattedTextField.setText("");
+        idValueLabel.setText("");
+        emailTextField.setText("");
+        ibanTextField.setText("");
+        bicTextField.setText("");
 	}
 
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
-		// TODO Auto-generated method stub
-		
+        firstNameTextField.setEditable(isEditable);
+        lastName1TextField.setEditable(isEditable);
+        lastName2TextField.setEditable(isEditable);
+        documentTypeComboBox.setEnabled(isEditable);
+        documentNumberTextField.setEditable(isEditable);
+        usernameTextField.setEditable(isEditable);
+        phoneNumberFormattedTextField.setEditable(isEditable);
+        emailTextField.setEditable(isEditable);
+        ibanTextField.setEditable(isEditable);
+        bicTextField.setEditable(isEditable);
 	}
 
 	@Override
 	protected void onItemSet() {
-		// TODO Auto-generated method stub
-		
+	    Employee employee = getItem();
+
+	    if (employee != null) {
+	        firstNameTextField.setText(employee.getFirstName());
+	        lastName1TextField.setText(employee.getLastName1());
+	        lastName2TextField.setText(employee.getLastName2());
+	        documentTypeComboBox.setSelectedItem(employee.getDocumentType());
+	        documentNumberTextField.setText(employee.getDocumentNumber());
+	        usernameTextField.setText(employee.getUsername());
+	        phoneNumberFormattedTextField.setText(employee.getPhoneNumber());
+	        idValueLabel.setText(employee.getId() != null ? employee.getId().toString() : "");
+	        emailTextField.setText(employee.getEmail());
+	        ibanTextField.setText(employee.getIban());
+	        bicTextField.setText(employee.getBic());
+	    } else {
+	        resetFields();
+	    }
 	}
 
 }

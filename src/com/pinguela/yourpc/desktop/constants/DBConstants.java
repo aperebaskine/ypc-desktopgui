@@ -8,16 +8,19 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.model.Department;
+import com.pinguela.yourpc.model.DocumentType;
 import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.service.DepartmentService;
+import com.pinguela.yourpc.service.DocumentTypeService;
 import com.pinguela.yourpc.service.OrderStateService;
 import com.pinguela.yourpc.service.RMAStateService;
 import com.pinguela.yourpc.service.TicketStateService;
 import com.pinguela.yourpc.service.TicketTypeService;
 import com.pinguela.yourpc.service.impl.DepartmentServiceImpl;
+import com.pinguela.yourpc.service.impl.DocumentTypeServiceImpl;
 import com.pinguela.yourpc.service.impl.OrderStateServiceImpl;
 import com.pinguela.yourpc.service.impl.RMAStateServiceImpl;
 import com.pinguela.yourpc.service.impl.TicketStateServiceImpl;
@@ -33,6 +36,7 @@ public class DBConstants {
     public static final Map<String, ItemState<RMA>> RMA_STATES;
     public static final Map<String, ItemState<CustomerOrder>> ORDER_STATES;
     public static final Map<String, Department> DEPARTMENTS;
+    public static final Map<String, DocumentType> DOCUMENT_TYPES;
 
     static {
         Map<String, ItemState<Ticket>> ticketStates = null;
@@ -40,6 +44,7 @@ public class DBConstants {
         Map<String, ItemState<RMA>> rmaStates = null;
         Map<String, ItemState<CustomerOrder>> orderStates = null;
         Map<String, Department> departments = null;
+        Map<String, DocumentType> documentTypes = null;
 
         try {
             TicketStateService ticketStateService = new TicketStateServiceImpl();
@@ -56,6 +61,9 @@ public class DBConstants {
             
             DepartmentService departmentService = new DepartmentServiceImpl();
             departments = departmentService.findAll();
+            
+            DocumentTypeService documentTypeService = new DocumentTypeServiceImpl();
+            documentTypes = documentTypeService.findAll();
         } catch (Throwable t) {
             logger.fatal(t.getMessage(), t);
         }
@@ -65,6 +73,7 @@ public class DBConstants {
         RMA_STATES = Collections.unmodifiableMap(rmaStates);
         ORDER_STATES = Collections.unmodifiableMap(orderStates);
         DEPARTMENTS = Collections.unmodifiableMap(departments);
+        DOCUMENT_TYPES = Collections.unmodifiableMap(documentTypes);
     }
     
 }

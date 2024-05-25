@@ -28,7 +28,7 @@ extends SaveItemAction<Product> {
 
 	@Override
 	protected void doSave() throws YPCException {
-		Product editedProduct = getView().getModifiedItem();
+		Product editedProduct = getView().getNewItem();
 		productService.update(editedProduct);
 		getView().setItem(editedProduct);
 		imageFileService.update(ImageFileService.PRODUCT_TYPE,

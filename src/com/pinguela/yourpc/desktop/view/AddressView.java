@@ -43,6 +43,11 @@ extends AbstractItemView<Address> {
 	
 	private static Logger logger = LogManager.getLogger(AddressView.class);
 	
+	public static final int CUSTOMER = 0;
+	public static final int EMPLOYEE = 1;
+	
+	private int ownerType;
+	
 	private CountryService countryService;
 	private ProvinceService provinceService;
 	private CityService cityService;
@@ -102,7 +107,8 @@ extends AbstractItemView<Address> {
 		}
 	};
 	
-	public AddressView() {
+	public AddressView(int ownerType) {
+		this.ownerType = ownerType;
 		initialize();
 		postInitialize();
 	}
@@ -224,22 +230,24 @@ extends AbstractItemView<Address> {
 		gbc_countryLabel.gridx = 0;
 		gbc_countryLabel.gridy = 7;
 		getViewPanel().add(countryLabel, gbc_countryLabel);
-		
-		defaultCheckbox = new JCheckBox("Default address");
-		GridBagConstraints gbc_defaultCheckbox = new GridBagConstraints();
-		gbc_defaultCheckbox.insets = new Insets(0, 0, 0, 5);
-		gbc_defaultCheckbox.gridx = 1;
-		gbc_defaultCheckbox.gridy = 8;
-		getViewPanel().add(defaultCheckbox, gbc_defaultCheckbox);
-		
-		billingCheckbox = new JCheckBox("Billing address");
-		GridBagConstraints gbc_billingCheckbox = new GridBagConstraints();
-		gbc_billingCheckbox.gridx = 3;
-		gbc_billingCheckbox.gridy = 8;
-		getViewPanel().add(billingCheckbox, gbc_billingCheckbox);
 	}
 
 	private void postInitialize() {
+		if (CUSTOMER == ownerType) {
+			defaultCheckbox = new JCheckBox("Default address");
+			GridBagConstraints gbc_defaultCheckbox = new GridBagConstraints();
+			gbc_defaultCheckbox.insets = new Insets(0, 0, 0, 5);
+			gbc_defaultCheckbox.gridx = 1;
+			gbc_defaultCheckbox.gridy = 8;
+			getViewPanel().add(defaultCheckbox, gbc_defaultCheckbox);
+			
+			billingCheckbox = new JCheckBox("Billing address");
+			GridBagConstraints gbc_billingCheckbox = new GridBagConstraints();
+			gbc_billingCheckbox.gridx = 3;
+			gbc_billingCheckbox.gridy = 8;
+			getViewPanel().add(billingCheckbox, gbc_billingCheckbox);
+		}
+		
 		try {
 			countryComboBox = ComponentFactory.createComboBox(countryService.findAll(), Country.class);
 			GridBagConstraints gbc_countryComboBox = new GridBagConstraints();
@@ -278,8 +286,15 @@ extends AbstractItemView<Address> {
 	}
 	
 	@Override
-	public Address getModifiedItem() {
+	public Address getNewItem() {
 		Address address = new Address();
+		
+		if (getItem() != null) {
+			address.setId(getItem().getId());
+			address.setCustomerId(getItem().getCustomerId());
+			address.setEmployeeId(getItem().getEmployeeId());
+		}
+		
         address.setStreetName(streetNameTextField.getText());
         address.setFloor(Short.valueOf(floorFormattedTextField.getText()));
         address.setDoor(doorTextField.getText());
@@ -289,6 +304,7 @@ extends AbstractItemView<Address> {
         address.setCountry((String) countryComboBox.getSelectedItem());
         address.setIsDefault(defaultCheckbox.isSelected());
         address.setIsBilling(billingCheckbox.isSelected());
+        
         return address;
 	}
 

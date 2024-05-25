@@ -26,7 +26,7 @@ import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.util.CategoryUtils;
 
-public class ProductItemView 
+public class ProductView 
 extends AbstractImageGalleryItemView<Product> {
 
 	/**
@@ -44,7 +44,7 @@ extends AbstractImageGalleryItemView<Product> {
 	private JTextArea descriptionTextArea;
 	private JTable attributeTable;
 
-	public ProductItemView() {
+	public ProductView() {
 		initialize();
 		postInitialize();
 	}

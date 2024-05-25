@@ -16,7 +16,7 @@ import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.ItemView;
-import com.pinguela.yourpc.desktop.view.ProductItemView;
+import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.model.ImageEntry;
 import com.pinguela.yourpc.model.Product;
@@ -34,7 +34,7 @@ extends AbstractDialogAction<Product> {
 	private static Logger logger = LogManager.getLogger(ProductDialogAction.class);
 
 	private ProductSearchView searchView;
-	private ProductItemView dialogView;
+	private ProductView dialogView;
 
 	private Product p;
 
@@ -52,7 +52,7 @@ extends AbstractDialogAction<Product> {
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
 
-		dialogView = new ProductItemView();
+		dialogView = new ProductView();
 		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
 		p = (Product) table.getValueAt(row, column);
 		dialogView.setItem(p);
@@ -72,7 +72,7 @@ extends AbstractDialogAction<Product> {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		ProductItemView view = (ProductItemView) evt.getSource();
+		ProductView view = (ProductView) evt.getSource();
 		Product old = (Product) evt.getOldValue();
 		Product product = (Product) evt.getNewValue();
 

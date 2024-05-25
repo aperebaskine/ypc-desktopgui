@@ -33,7 +33,7 @@ import com.pinguela.yourpc.service.impl.CityServiceImpl;
 import com.pinguela.yourpc.service.impl.CountryServiceImpl;
 import com.pinguela.yourpc.service.impl.ProvinceServiceImpl;
 
-public class AddressItemView 
+public class AddressView 
 extends AbstractItemView<Address> {
 
 	/**
@@ -41,7 +41,7 @@ extends AbstractItemView<Address> {
 	 */
 	private static final long serialVersionUID = -9029757229669312561L;
 	
-	private static Logger logger = LogManager.getLogger(AddressItemView.class);
+	private static Logger logger = LogManager.getLogger(AddressView.class);
 	
 	private CountryService countryService;
 	private ProvinceService provinceService;
@@ -102,7 +102,7 @@ extends AbstractItemView<Address> {
 		}
 	};
 	
-	public AddressItemView() {
+	public AddressView() {
 		initialize();
 		postInitialize();
 	}

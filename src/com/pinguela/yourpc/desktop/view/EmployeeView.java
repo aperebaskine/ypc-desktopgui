@@ -14,8 +14,29 @@ import javax.swing.JTextField;
 import com.pinguela.yourpc.desktop.components.ImagePanel;
 import com.pinguela.yourpc.model.Employee;
 
-public class EmployeeItemView extends AbstractItemView<Employee> {
-	public EmployeeItemView() {
+public class EmployeeView extends AbstractItemView<Employee> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5614891033513128985L;
+	
+	private JTextField firstNameTextField;
+	private JTextField lastName1TextField;
+	private JTextField lastName2TextField;
+	private JTextField textField;
+	private JTextField usernameTextField;
+	private JFormattedTextField phoneNumberFormattedTextField;
+	private JLabel idValueLabel;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	
+	public EmployeeView() {
+		initialize();
+	}
+	
+	private void initialize() {
 		getViewPanel().setLayout(new BorderLayout(0, 0));
 		
 		ImagePanel imagePanel = new ImagePanel();
@@ -226,26 +247,11 @@ public class EmployeeItemView extends AbstractItemView<Employee> {
 		JLabel addressLabel = new JLabel("Address:");
 		labelPanel.add(addressLabel);
 		
-		AddressItemView addressView = new AddressItemView();
+		AddressView addressView = new AddressView();
 		GridBagLayout gridBagLayout_1 = (GridBagLayout) addressView.getViewPanel().getLayout();
 		gridBagLayout_1.columnWidths = new int[]{0, 90, 0, 90};
 		eastPanel.add(addressView, BorderLayout.CENTER);
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5614891033513128985L;
-	private JTextField firstNameTextField;
-	private JTextField lastName1TextField;
-	private JTextField lastName2TextField;
-	private JTextField textField;
-	private JTextField usernameTextField;
-	private JFormattedTextField phoneNumberFormattedTextField;
-	private JLabel idValueLabel;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
 
 	@Override
 	public Employee getModifiedItem() {

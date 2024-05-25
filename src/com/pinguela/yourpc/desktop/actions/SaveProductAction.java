@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.view.ProductItemView;
+import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.ProductService;
@@ -20,7 +20,7 @@ extends SaveItemAction<Product> {
 	private ProductService productService;
 	private ImageFileService imageFileService;
 
-	public SaveProductAction(ProductItemView view) {
+	public SaveProductAction(ProductView view) {
 		super(view, "Save", Icons.OK_ICON);
 		this.productService = new ProductServiceImpl();
 		this.imageFileService = new ImageFileServiceImpl();
@@ -32,7 +32,7 @@ extends SaveItemAction<Product> {
 		productService.update(editedProduct);
 		getView().setItem(editedProduct);
 		imageFileService.update(ImageFileService.PRODUCT_TYPE,
-				getView().getItem().getId(), ((ProductItemView) getView()).getModifiedImageEntries());
+				getView().getItem().getId(), ((ProductView) getView()).getModifiedImageEntries());
 	}
 
 }

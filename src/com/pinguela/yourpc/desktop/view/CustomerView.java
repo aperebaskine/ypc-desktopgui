@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
+import com.pinguela.yourpc.desktop.renderer.CustomerAddressTableCellRenderer;
+import com.pinguela.yourpc.desktop.renderer.OrderLineTableCellRenderer;
+import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.DocumentType;
 
@@ -71,42 +74,30 @@ extends AbstractItemView<Customer> {
 		gbc_idValueLabel.gridx = 1;
 		gbc_idValueLabel.gridy = 0;
 		centerPanel.add(idValueLabel, gbc_idValueLabel);
-				
-				JLabel recentOrdersLabel = new JLabel("Recent orders:");
-				GridBagConstraints gbc_recentOrdersLabel = new GridBagConstraints();
-				gbc_recentOrdersLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_recentOrdersLabel.gridx = 3;
-				gbc_recentOrdersLabel.gridy = 0;
-				centerPanel.add(recentOrdersLabel, gbc_recentOrdersLabel);
-				
-				JScrollPane recentOrderScrollPane = new JScrollPane();
-				GridBagConstraints gbc_recentOrderScrollPane = new GridBagConstraints();
-				gbc_recentOrderScrollPane.gridheight = 10;
-				gbc_recentOrderScrollPane.insets = new Insets(0, 0, 5, 0);
-				gbc_recentOrderScrollPane.fill = GridBagConstraints.BOTH;
-				gbc_recentOrderScrollPane.gridx = 4;
-				gbc_recentOrderScrollPane.gridy = 0;
-				centerPanel.add(recentOrderScrollPane, gbc_recentOrderScrollPane);
-				
-				recentOrderTable = new JTable();
-				recentOrderScrollPane.setViewportView(recentOrderTable);
+
+		JLabel recentOrdersLabel = new JLabel("Recent orders:");
+		GridBagConstraints gbc_recentOrdersLabel = new GridBagConstraints();
+		gbc_recentOrdersLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_recentOrdersLabel.gridx = 3;
+		gbc_recentOrdersLabel.gridy = 0;
+		centerPanel.add(recentOrdersLabel, gbc_recentOrdersLabel);
 		
-				JLabel emailLabel = new JLabel("Email:");
-				GridBagConstraints gbc_emailLabel = new GridBagConstraints();
-				gbc_emailLabel.anchor = GridBagConstraints.EAST;
-				gbc_emailLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_emailLabel.gridx = 0;
-				gbc_emailLabel.gridy = 1;
-				centerPanel.add(emailLabel, gbc_emailLabel);
-		
-				emailTextField = new JTextField();
-				GridBagConstraints gbc_emailTextField = new GridBagConstraints();
-				gbc_emailTextField.insets = new Insets(0, 0, 5, 5);
-				gbc_emailTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_emailTextField.gridx = 1;
-				gbc_emailTextField.gridy = 1;
-				centerPanel.add(emailTextField, gbc_emailTextField);
-				emailTextField.setColumns(10);
+		JLabel emailLabel = new JLabel("Email:");
+		GridBagConstraints gbc_emailLabel = new GridBagConstraints();
+		gbc_emailLabel.anchor = GridBagConstraints.EAST;
+		gbc_emailLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_emailLabel.gridx = 0;
+		gbc_emailLabel.gridy = 1;
+		centerPanel.add(emailLabel, gbc_emailLabel);
+
+		emailTextField = new JTextField();
+		GridBagConstraints gbc_emailTextField = new GridBagConstraints();
+		gbc_emailTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_emailTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_emailTextField.gridx = 1;
+		gbc_emailTextField.gridy = 1;
+		centerPanel.add(emailTextField, gbc_emailTextField);
+		emailTextField.setColumns(10);
 
 		JLabel firstNameLabel = new JLabel("First name:");
 		GridBagConstraints gbc_firstNameLabel = new GridBagConstraints();
@@ -209,7 +200,7 @@ extends AbstractItemView<Customer> {
 		gbc_documentTypeComboBox.gridx = 1;
 		gbc_documentTypeComboBox.gridy = 5;
 		centerPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
-		
+
 		JLabel addressesLabel = new JLabel("Addresses:");
 		GridBagConstraints gbc_addressesLabel = new GridBagConstraints();
 		gbc_addressesLabel.anchor = GridBagConstraints.EAST;
@@ -217,7 +208,7 @@ extends AbstractItemView<Customer> {
 		gbc_addressesLabel.gridx = 0;
 		gbc_addressesLabel.gridy = 8;
 		centerPanel.add(addressesLabel, gbc_addressesLabel);
-		
+
 		JScrollPane addressesScrollPane = new JScrollPane();
 		GridBagConstraints gbc_addressesScrollPane = new GridBagConstraints();
 		gbc_addressesScrollPane.gridheight = 2;
@@ -226,9 +217,26 @@ extends AbstractItemView<Customer> {
 		gbc_addressesScrollPane.gridx = 1;
 		gbc_addressesScrollPane.gridy = 8;
 		centerPanel.add(addressesScrollPane, gbc_addressesScrollPane);
-		
+
 		addressTable = new JTable();
+		addressTable.setDefaultRenderer(Object.class, new CustomerAddressTableCellRenderer());
+		TableUtils.initializeActionPanes(addressTable);
 		addressesScrollPane.setViewportView(addressTable);
+		
+		JScrollPane recentOrderScrollPane = new JScrollPane();
+		GridBagConstraints gbc_recentOrderScrollPane = new GridBagConstraints();
+		gbc_recentOrderScrollPane.gridheight = 10;
+		gbc_recentOrderScrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_recentOrderScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_recentOrderScrollPane.gridx = 4;
+		gbc_recentOrderScrollPane.gridy = 0;
+		centerPanel.add(recentOrderScrollPane, gbc_recentOrderScrollPane);
+
+		recentOrderTable = new JTable();
+		recentOrderTable.setDefaultRenderer(Object.class, new OrderLineTableCellRenderer());
+		TableUtils.initializeActionPanes(recentOrderTable);
+		recentOrderScrollPane.setViewportView(recentOrderTable);
+		
 	}
 
 	@Override

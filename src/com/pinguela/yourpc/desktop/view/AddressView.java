@@ -40,24 +40,24 @@ extends AbstractItemView<Address> {
 	 * 
 	 */
 	private static final long serialVersionUID = -9029757229669312561L;
-	
+
 	private static Logger logger = LogManager.getLogger(AddressView.class);
-	
+
 	public static final int CUSTOMER = 0;
 	public static final int EMPLOYEE = 1;
-	
+
 	private int ownerType;
-	
+
 	private CountryService countryService;
 	private ProvinceService provinceService;
 	private CityService cityService;
-	
+
 	{
 		countryService = new CountryServiceImpl();
 		provinceService = new ProvinceServiceImpl();
 		cityService = new CityServiceImpl();
 	}
-	
+
 	private JTextField streetNameTextField;
 	private JTextField doorTextField;
 	private JTextField zipCodeTextField;
@@ -67,16 +67,16 @@ extends AbstractItemView<Address> {
 	private JCheckBox defaultCheckbox;
 	private JCheckBox billingCheckbox;
 	private JFormattedTextField floorFormattedTextField;
-	
+
 	private ItemListener countryListener = (e) -> {
 		Country c = (Country) e.getItem();
-		
+
 		if (c.getId() == null)  {
 			provinceComboBox.setSelectedIndex(0);
 			provinceComboBox.setEnabled(false);
 			return;
 		}
-		
+
 		try {	
 			List<Province> provinces = provinceService.findByCountry(c.getId());
 			provinces.add(0, new Province());
@@ -87,16 +87,16 @@ extends AbstractItemView<Address> {
 			SwingUtils.showDatabaseAccessErrorDialog(this);
 		}
 	};
-	
+
 	private ItemListener provinceListener = (e) -> {
 		Province p = (Province) e.getItem();
-		
+
 		if (p.getId() == null) {
 			cityComboBox.setSelectedIndex(0);
 			cityComboBox.setEnabled(false);
 			return;
 		}
-		
+
 		try {
 			List<City> cities = cityService.findByProvince(p.getId());
 			cities.add(0, new City());
@@ -106,19 +106,19 @@ extends AbstractItemView<Address> {
 			SwingUtils.showDatabaseAccessErrorDialog(this);
 		}
 	};
-	
+
 	public AddressView(int ownerType) {
 		this.ownerType = ownerType;
 		initialize();
 		postInitialize();
 	}
-	
+
 	private void initialize() {
 		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
 		gridBagLayout.columnWidths = new int[]{80, 28, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		
+
 		JLabel streetNameLabel = new JLabel("Street name:");
 		GridBagConstraints gbc_streetNameLabel = new GridBagConstraints();
 		gbc_streetNameLabel.anchor = GridBagConstraints.EAST;
@@ -126,7 +126,7 @@ extends AbstractItemView<Address> {
 		gbc_streetNameLabel.gridx = 0;
 		gbc_streetNameLabel.gridy = 0;
 		getViewPanel().add(streetNameLabel, gbc_streetNameLabel);
-		
+
 		streetNameTextField = new JTextField();
 		GridBagConstraints gbc_streetNameTextField = new GridBagConstraints();
 		gbc_streetNameTextField.gridwidth = 3;
@@ -136,7 +136,7 @@ extends AbstractItemView<Address> {
 		gbc_streetNameTextField.gridy = 0;
 		getViewPanel().add(streetNameTextField, gbc_streetNameTextField);
 		streetNameTextField.setColumns(10);
-		
+
 		JLabel streetNumberLabel = new JLabel("Street number:");
 		GridBagConstraints gbc_streetNumberLabel = new GridBagConstraints();
 		gbc_streetNumberLabel.anchor = GridBagConstraints.EAST;
@@ -144,7 +144,7 @@ extends AbstractItemView<Address> {
 		gbc_streetNumberLabel.gridx = 0;
 		gbc_streetNumberLabel.gridy = 1;
 		getViewPanel().add(streetNumberLabel, gbc_streetNumberLabel);
-		
+
 		JFormattedTextField streetNumberFormattedTextField = new JFormattedTextField();
 		GridBagConstraints gbc_streetNumberFormattedTextField = new GridBagConstraints();
 		gbc_streetNumberFormattedTextField.gridwidth = 3;
@@ -153,7 +153,7 @@ extends AbstractItemView<Address> {
 		gbc_streetNumberFormattedTextField.gridx = 1;
 		gbc_streetNumberFormattedTextField.gridy = 1;
 		getViewPanel().add(streetNumberFormattedTextField, gbc_streetNumberFormattedTextField);
-		
+
 		JLabel floorLabel = new JLabel("Floor:");
 		GridBagConstraints gbc_floorLabel = new GridBagConstraints();
 		gbc_floorLabel.anchor = GridBagConstraints.EAST;
@@ -161,7 +161,7 @@ extends AbstractItemView<Address> {
 		gbc_floorLabel.gridx = 0;
 		gbc_floorLabel.gridy = 2;
 		getViewPanel().add(floorLabel, gbc_floorLabel);
-		
+
 		floorFormattedTextField = new JFormattedTextField();
 		GridBagConstraints gbc_floorFormattedTextField = new GridBagConstraints();
 		gbc_floorFormattedTextField.gridwidth = 3;
@@ -170,7 +170,7 @@ extends AbstractItemView<Address> {
 		gbc_floorFormattedTextField.gridx = 1;
 		gbc_floorFormattedTextField.gridy = 2;
 		getViewPanel().add(floorFormattedTextField, gbc_floorFormattedTextField);
-		
+
 		JLabel doorLabel = new JLabel("Door:");
 		GridBagConstraints gbc_doorLabel = new GridBagConstraints();
 		gbc_doorLabel.anchor = GridBagConstraints.EAST;
@@ -178,7 +178,7 @@ extends AbstractItemView<Address> {
 		gbc_doorLabel.gridx = 0;
 		gbc_doorLabel.gridy = 3;
 		getViewPanel().add(doorLabel, gbc_doorLabel);
-		
+
 		doorTextField = new JTextField();
 		GridBagConstraints gbc_doorTextField = new GridBagConstraints();
 		gbc_doorTextField.gridwidth = 3;
@@ -188,7 +188,7 @@ extends AbstractItemView<Address> {
 		gbc_doorTextField.gridy = 3;
 		getViewPanel().add(doorTextField, gbc_doorTextField);
 		doorTextField.setColumns(10);
-		
+
 		JLabel zipCodeLabel = new JLabel("ZIP Code:");
 		GridBagConstraints gbc_zipCodeLabel = new GridBagConstraints();
 		gbc_zipCodeLabel.anchor = GridBagConstraints.EAST;
@@ -196,7 +196,7 @@ extends AbstractItemView<Address> {
 		gbc_zipCodeLabel.gridx = 0;
 		gbc_zipCodeLabel.gridy = 4;
 		getViewPanel().add(zipCodeLabel, gbc_zipCodeLabel);
-		
+
 		zipCodeTextField = new JTextField();
 		GridBagConstraints gbc_zipCodeTextField = new GridBagConstraints();
 		gbc_zipCodeTextField.gridwidth = 3;
@@ -206,7 +206,7 @@ extends AbstractItemView<Address> {
 		gbc_zipCodeTextField.gridy = 4;
 		getViewPanel().add(zipCodeTextField, gbc_zipCodeTextField);
 		zipCodeTextField.setColumns(10);
-		
+
 		JLabel cityLabel = new JLabel("City:");
 		GridBagConstraints gbc_cityLabel = new GridBagConstraints();
 		gbc_cityLabel.anchor = GridBagConstraints.EAST;
@@ -214,7 +214,7 @@ extends AbstractItemView<Address> {
 		gbc_cityLabel.gridx = 0;
 		gbc_cityLabel.gridy = 5;
 		getViewPanel().add(cityLabel, gbc_cityLabel);
-		
+
 		JLabel provinceLabel = new JLabel("Province:");
 		GridBagConstraints gbc_provinceLabel = new GridBagConstraints();
 		gbc_provinceLabel.anchor = GridBagConstraints.EAST;
@@ -222,7 +222,7 @@ extends AbstractItemView<Address> {
 		gbc_provinceLabel.gridx = 0;
 		gbc_provinceLabel.gridy = 6;
 		getViewPanel().add(provinceLabel, gbc_provinceLabel);
-		
+
 		JLabel countryLabel = new JLabel("Country:");
 		GridBagConstraints gbc_countryLabel = new GridBagConstraints();
 		gbc_countryLabel.anchor = GridBagConstraints.EAST;
@@ -240,14 +240,14 @@ extends AbstractItemView<Address> {
 			gbc_defaultCheckbox.gridx = 1;
 			gbc_defaultCheckbox.gridy = 8;
 			getViewPanel().add(defaultCheckbox, gbc_defaultCheckbox);
-			
+
 			billingCheckbox = new JCheckBox("Billing address");
 			GridBagConstraints gbc_billingCheckbox = new GridBagConstraints();
 			gbc_billingCheckbox.gridx = 3;
 			gbc_billingCheckbox.gridy = 8;
 			getViewPanel().add(billingCheckbox, gbc_billingCheckbox);
 		}
-		
+
 		try {
 			countryComboBox = ComponentFactory.createComboBox(countryService.findAll(), Country.class);
 			GridBagConstraints gbc_countryComboBox = new GridBagConstraints();
@@ -262,7 +262,7 @@ extends AbstractItemView<Address> {
 			JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), 
 					"Could not fetch country data.", "Error", JOptionPane.ERROR_MESSAGE);
 		} 
-		
+
 		provinceComboBox = ComponentFactory.createComboBox(Arrays.asList(new Province[0]), Province.class);
 		GridBagConstraints gbc_provinceComboBox = new GridBagConstraints();
 		gbc_provinceComboBox.gridwidth = 3;
@@ -271,7 +271,7 @@ extends AbstractItemView<Address> {
 		gbc_provinceComboBox.gridx = 1;
 		gbc_provinceComboBox.gridy = 6;
 		getViewPanel().add(provinceComboBox, gbc_provinceComboBox);
-		
+
 		cityComboBox = ComponentFactory.createComboBox(Arrays.asList(new City[0]), City.class);
 		GridBagConstraints gbc_cityComboBox = new GridBagConstraints();
 		gbc_cityComboBox.gridwidth = 3;
@@ -280,71 +280,77 @@ extends AbstractItemView<Address> {
 		gbc_cityComboBox.gridx = 1;
 		gbc_cityComboBox.gridy = 5;
 		getViewPanel().add(cityComboBox, gbc_cityComboBox);
-		
+
 		countryComboBox.addItemListener(countryListener);
 		provinceComboBox.addItemListener(provinceListener);
 	}
-	
+
 	@Override
 	public Address getNewItem() {
 		Address address = new Address();
-		
+
 		if (getItem() != null) {
 			address.setId(getItem().getId());
 			address.setCustomerId(getItem().getCustomerId());
 			address.setEmployeeId(getItem().getEmployeeId());
 		}
-		
-        address.setStreetName(streetNameTextField.getText());
-        address.setFloor(Short.valueOf(floorFormattedTextField.getText()));
-        address.setDoor(doorTextField.getText());
-        address.setZipCode(zipCodeTextField.getText());
-        address.setCity((String) cityComboBox.getSelectedItem());
-        address.setProvince((String) provinceComboBox.getSelectedItem());
-        address.setCountry((String) countryComboBox.getSelectedItem());
-        address.setIsDefault(defaultCheckbox.isSelected());
-        address.setIsBilling(billingCheckbox.isSelected());
-        
-        return address;
+
+		address.setStreetName(streetNameTextField.getText());
+		address.setFloor(Short.valueOf(floorFormattedTextField.getText()));
+		address.setDoor(doorTextField.getText());
+		address.setZipCode(zipCodeTextField.getText());
+		address.setCity((String) cityComboBox.getSelectedItem());
+		address.setProvince((String) provinceComboBox.getSelectedItem());
+		address.setCountry((String) countryComboBox.getSelectedItem());
+		address.setIsDefault(defaultCheckbox.isSelected());
+		address.setIsBilling(billingCheckbox.isSelected());
+
+		return address;
 	}
 
 	@Override
 	public void resetFields() {
-        streetNameTextField.setText("");
-        floorFormattedTextField.setText("");
-        doorTextField.setText("");
-        zipCodeTextField.setText("");
-        cityComboBox.setSelectedIndex(0);
-        provinceComboBox.setSelectedIndex(0);
-        countryComboBox.setSelectedIndex(0);
-        defaultCheckbox.setSelected(false);
-        billingCheckbox.setSelected(false);
+		streetNameTextField.setText("");
+		floorFormattedTextField.setText("");
+		doorTextField.setText("");
+		zipCodeTextField.setText("");
+		cityComboBox.setSelectedIndex(0);
+		provinceComboBox.setSelectedIndex(0);
+		countryComboBox.setSelectedIndex(0);
+		if (ownerType == CUSTOMER) {
+			defaultCheckbox.setSelected(false);
+			billingCheckbox.setSelected(false);
+		}
 	}
 
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
-        streetNameTextField.setEditable(isEditable);
-        floorFormattedTextField.setEditable(isEditable);
-        doorTextField.setEditable(isEditable);
-        zipCodeTextField.setEditable(isEditable);
-        cityComboBox.setEnabled(isEditable);
-        provinceComboBox.setEnabled(isEditable);
-        countryComboBox.setEnabled(isEditable);
-        defaultCheckbox.setEnabled(isEditable);
-        billingCheckbox.setEnabled(isEditable);
+		streetNameTextField.setEditable(isEditable);
+		floorFormattedTextField.setEditable(isEditable);
+		doorTextField.setEditable(isEditable);
+		zipCodeTextField.setEditable(isEditable);
+		cityComboBox.setEnabled(isEditable);
+		provinceComboBox.setEnabled(isEditable);
+		countryComboBox.setEnabled(isEditable);
+		if (ownerType == CUSTOMER) {
+			defaultCheckbox.setEnabled(isEditable);
+			billingCheckbox.setEnabled(isEditable);
+		}
 	}
 
 	@Override
 	protected void onItemSet() {
-        streetNameTextField.setText(getItem().getStreetName());
-        floorFormattedTextField.setText(getItem().getFloor().toString());
-        doorTextField.setText(getItem().getDoor());
-        zipCodeTextField.setText(getItem().getZipCode());
-        cityComboBox.setSelectedItem(getItem().getCity());
-        provinceComboBox.setSelectedItem(getItem().getProvince());
-        countryComboBox.setSelectedItem(getItem().getCountry());
-        defaultCheckbox.setSelected(getItem().isDefault());
-        billingCheckbox.setSelected(getItem().isBilling());
+		streetNameTextField.setText(getItem().getStreetName());
+		floorFormattedTextField.setText(getItem().getFloor().toString());
+		doorTextField.setText(getItem().getDoor());
+		zipCodeTextField.setText(getItem().getZipCode());
+		countryComboBox.setSelectedItem(getItem().getCountry());
+		provinceComboBox.setSelectedItem(getItem().getProvince());
+		cityComboBox.setSelectedItem(getItem().getCity());
+		if (ownerType == CUSTOMER) {
+			defaultCheckbox.setSelected(getItem().isDefault());
+			billingCheckbox.setSelected(getItem().isBilling());
+		}
 	}
 
 }

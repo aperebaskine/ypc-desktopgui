@@ -313,23 +313,17 @@ public class EmployeeView extends AbstractItemView<Employee> {
 
 	@Override
 	protected void onItemSet() {
-	    Employee employee = getItem();
-
-	    if (employee != null) {
-	        firstNameTextField.setText(employee.getFirstName());
-	        lastName1TextField.setText(employee.getLastName1());
-	        lastName2TextField.setText(employee.getLastName2());
-	        documentTypeComboBox.setSelectedItem(employee.getDocumentType());
-	        documentNumberTextField.setText(employee.getDocumentNumber());
-	        usernameTextField.setText(employee.getUsername());
-	        phoneNumberFormattedTextField.setText(employee.getPhoneNumber());
-	        idValueLabel.setText(employee.getId() != null ? employee.getId().toString() : "");
-	        emailTextField.setText(employee.getEmail());
-	        ibanTextField.setText(employee.getIban());
-	        bicTextField.setText(employee.getBic());
-	    } else {
-	        resetFields();
-	    }
+		idValueLabel.setText(getItem().getId() != null ? getItem().getId().toString() : "");
+	    firstNameTextField.setText(getItem().getFirstName());
+	    lastName1TextField.setText(getItem().getLastName1());
+	    lastName2TextField.setText(getItem().getLastName2());
+	    documentTypeComboBox.setSelectedItem(getItem().getDocumentType());
+	    documentNumberTextField.setText(getItem().getDocumentNumber());
+	    usernameTextField.setText(getItem().getUsername());
+	    phoneNumberFormattedTextField.setText(getItem().getPhoneNumber());
+	    emailTextField.setText(getItem().getEmail());
+	    ibanTextField.setText(getItem().getIban());
+	    bicTextField.setText(getItem().getBic());
 	}
 
 }

@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public abstract class YPCView
-extends JPanel  {
+extends JPanel {
 
 	/**
 	 * 

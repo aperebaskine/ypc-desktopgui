@@ -35,7 +35,6 @@ implements ItemView<T> {
 		} else {
 			onItemSet();
 		}
-		
 	};
 
 	private T item;
@@ -106,11 +105,9 @@ implements ItemView<T> {
 		if (southPanel == null) {
 			initializeSouthPanel();
 		}
-		
 		if (!cards.containsKey(card)) {	
 			initializeCard(card);
 		}
-		
 		cards.get(card).addAction(action);
 	}
 

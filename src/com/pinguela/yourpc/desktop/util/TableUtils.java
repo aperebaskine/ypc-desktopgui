@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import com.pinguela.yourpc.desktop.actions.ActionCommands;
 import com.pinguela.yourpc.desktop.components.ActionPane;
@@ -23,6 +24,7 @@ implements TableConstants {
 	
 	public static void initializeActionPanes(JTable table, Action... actions) {
 		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setRowHeight(30);
 		
@@ -39,8 +41,6 @@ implements TableConstants {
 		
 		table.setDefaultRenderer(ActionPane.class, renderer);
 		table.setDefaultEditor(ActionPane.class, editor);
-		
-		
 	}
 
 }

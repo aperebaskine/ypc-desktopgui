@@ -8,6 +8,7 @@ import javax.swing.JTable;
 
 import com.pinguela.yourpc.desktop.constants.OrderLineTableConstants;
 import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
+import com.pinguela.yourpc.desktop.renderer.OrderLineTableCellRenderer;
 import com.pinguela.yourpc.model.OrderLine;
 
 public class OrderLineListView 
@@ -27,6 +28,7 @@ extends AbstractItemView<List<OrderLine>> {
 		getViewPanel().add(orderLineTableScrollPane);
 		
 		orderLineTable = new JTable();
+		orderLineTable.setDefaultRenderer(Object.class, new OrderLineTableCellRenderer());
 		orderLineTableScrollPane.setViewportView(orderLineTable);
 	}
 	

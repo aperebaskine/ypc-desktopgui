@@ -8,7 +8,6 @@ public interface CustomerOrderTableConstants {
     int STATE_COLUMN_INDEX = 1;
     int CUSTOMER_ID_COLUMN_INDEX = 2;
     int DATE_COLUMN_INDEX = 3;
-    int TRACKING_NUMBER_COLUMN_INDEX = 4;
-    int AMOUNT_COLUMN_INDEX = 5;
+    int AMOUNT_COLUMN_INDEX = 4;
 
 }

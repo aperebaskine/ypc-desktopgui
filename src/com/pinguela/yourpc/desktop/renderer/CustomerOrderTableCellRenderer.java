@@ -38,9 +38,6 @@ implements CustomerOrderTableConstants {
             case DATE_COLUMN_INDEX:
                 columnValue = SwingUtils.formatDateTime(order.getOrderDate());
                 break;
-            case TRACKING_NUMBER_COLUMN_INDEX:
-                columnValue = order.getTrackingNumber();
-                break;
             case AMOUNT_COLUMN_INDEX:
                 columnValue = order.getTotalPrice();
                 break;

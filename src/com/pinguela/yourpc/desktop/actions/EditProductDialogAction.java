@@ -16,14 +16,14 @@ import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.ItemView;
-import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
+import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.model.ImageEntry;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 
-public class ProductDialogAction 
+public class EditProductDialogAction 
 extends AbstractDialogAction<Product> {
 
 	/**
@@ -31,7 +31,7 @@ extends AbstractDialogAction<Product> {
 	 */
 	private static final long serialVersionUID = 6020214024891107072L;
 
-	private static Logger logger = LogManager.getLogger(ProductDialogAction.class);
+	private static Logger logger = LogManager.getLogger(EditProductDialogAction.class);
 
 	private ProductSearchView searchView;
 	private ProductView dialogView;
@@ -40,7 +40,7 @@ extends AbstractDialogAction<Product> {
 
 	private ImageFileService imageFileService;
 
-	public ProductDialogAction(ProductSearchView view) {
+	public EditProductDialogAction(ProductSearchView view) {
 		super(Icons.EDIT_ICON);
 		this.imageFileService = new ImageFileServiceImpl();
 		this.searchView = view;

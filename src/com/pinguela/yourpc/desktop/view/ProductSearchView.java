@@ -19,12 +19,13 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
-import com.pinguela.yourpc.desktop.actions.ProductDialogAction;
+import com.pinguela.yourpc.desktop.actions.EditProductDialogAction;
 import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
 import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.SetProductRangesAction;
+import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
@@ -296,9 +297,10 @@ extends AbstractPaginatedSearchView<Product> {
 			maxPriceLabel.setText(Integer.valueOf(priceRangeSlider.getUpperValue()).toString());
 		});
 
-		TableUtils.initializeActionPanes(getTable(), new ProductDialogAction(this));
+		YPCAction editProductDialogAction = new EditProductDialogAction(this);
+		TableUtils.initializeActionPanes(getTable(), editProductDialogAction);
 		getTable().setDefaultRenderer(Object.class, new ProductTableCellRenderer());
-		getTable().addMouseListener(new ProductDialogAction(this));
+		getTable().addMouseListener(editProductDialogAction);
 
 		// TODO: Add listener for ID field
 

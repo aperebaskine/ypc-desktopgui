@@ -13,13 +13,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.YPCException;
+import com.pinguela.yourpc.desktop.constants.CustomerAddressTableConstants;
+import com.pinguela.yourpc.desktop.constants.CustomerOrderTableConstants;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
+import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
 import com.pinguela.yourpc.desktop.renderer.CustomerAddressTableCellRenderer;
-import com.pinguela.yourpc.desktop.renderer.OrderLineTableCellRenderer;
+import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.DocumentType;
+import com.pinguela.yourpc.service.CustomerOrderService;
+import com.pinguela.yourpc.service.impl.CustomerOrderServiceImpl;
 
 public class CustomerView 
 extends AbstractItemView<Customer> {
@@ -28,6 +38,10 @@ extends AbstractItemView<Customer> {
 	 * 
 	 */
 	private static final long serialVersionUID = -9033122820930954981L;
+	
+	private static Logger logger = LogManager.getLogger(CustomerView.class);
+	
+	private CustomerOrderService customerOrderService;
 
 	private JTextField firstNameTextField;
 	private JTextField lastName1TextField;
@@ -45,6 +59,7 @@ extends AbstractItemView<Customer> {
 	public CustomerView() {
 		initialize();
 		postInitialize();
+		initServices();
 	}
 
 	private void initialize() {
@@ -233,12 +248,16 @@ extends AbstractItemView<Customer> {
 		centerPanel.add(recentOrderScrollPane, gbc_recentOrderScrollPane);
 
 		recentOrderTable = new JTable();
-		recentOrderTable.setDefaultRenderer(Object.class, new OrderLineTableCellRenderer());
+		recentOrderTable.setDefaultRenderer(Object.class, new CustomerOrderTableCellRenderer());
 		TableUtils.initializeActionPanes(recentOrderTable);
 		recentOrderScrollPane.setViewportView(recentOrderTable);
 		
 	}
 
+	private void initServices() {
+		this.customerOrderService = new CustomerOrderServiceImpl();
+	}
+	
 	@Override
 	public Customer getNewItem() {
 		Customer customer = new Customer();
@@ -283,10 +302,20 @@ extends AbstractItemView<Customer> {
 		firstNameTextField.setText(getItem().getFirstName());
 		lastName1TextField.setText(getItem().getLastName1());
 		lastName2TextField.setText(getItem().getLastName2());
-		documentTypeComboBox.setSelectedItem(getItem().getDocumentType());
+		documentTypeComboBox.setSelectedItem(DBConstants.DOCUMENT_TYPES.get(getItem().getDocumentTypeId()));
 		documentNumberTextField.setText(getItem().getDocumentNumber());
 		phoneNumberFormattedTextField.setText(getItem().getPhoneNumber());
 		emailTextField.setText(getItem().getEmail());
+		
+		addressTable.setModel(new ActionPaneListTableModel<>(CustomerAddressTableConstants.COLUMN_NAMES, getItem().getAddresses()));
+		
+		try {
+			recentOrderTable.setModel(new ActionPaneListTableModel<>(CustomerOrderTableConstants.COLUMN_NAMES,
+					customerOrderService.findByCustomer(getItem().getId())));
+		} catch (YPCException e) {
+			logger.error(e.getMessage(), e);
+			SwingUtils.showDatabaseAccessErrorDialog(this);
+		}
 	}
 
 }

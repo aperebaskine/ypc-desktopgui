@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.ImageIcon;
@@ -62,7 +63,6 @@ public class YPCWindow {
 
 	private JFrame frame;
 
-	private JMenuItem productSearchMenuItem;
 	private JButton userMenuButton;
 	private JTabbedPane tabbedPane;
 
@@ -118,8 +118,38 @@ public class YPCWindow {
 		JMenu productMenu = new JMenu("Products");
 		menuBar.add(productMenu);
 
-		productSearchMenuItem = new JMenuItem("Search...");
+		JMenuItem productSearchMenuItem = new JMenuItem("Search...");
 		productMenu.add(productSearchMenuItem);
+		
+		JMenu customerMenu = new JMenu("Customers");
+		menuBar.add(customerMenu);
+		
+		JMenuItem customerSearchMenuItem = new JMenuItem("Search...");
+		customerMenu.add(customerSearchMenuItem);
+		
+		JMenu employeeMenu = new JMenu("Employees");
+		menuBar.add(employeeMenu);
+		
+		JMenuItem employeeSearchMenuItem = new JMenuItem("Search...");
+		employeeMenu.add(employeeSearchMenuItem);
+		
+		JMenu orderMenu = new JMenu("Orders");
+		menuBar.add(orderMenu);
+		
+		JMenuItem orderSearchMenuItem = new JMenuItem("Search...");
+		orderMenu.add(orderSearchMenuItem);
+		
+		JMenu ticketMenu = new JMenu("Tickets");
+		menuBar.add(ticketMenu);
+		
+		JMenuItem ticketSearchMenuItem = new JMenuItem("Search...");
+		ticketMenu.add(ticketSearchMenuItem);
+		
+		JMenu rmaMenu = new JMenu("RMAs");
+		menuBar.add(rmaMenu);
+		
+		JMenuItem rmaSearchMenuItem = new JMenuItem("Search...");
+		rmaMenu.add(rmaSearchMenuItem);
 
 		JPanel panel = new JPanel();
 		northPanel.add(panel, BorderLayout.SOUTH);
@@ -147,15 +177,13 @@ public class YPCWindow {
 		JButton employeeTabButton = new JButton(Icons.USER_ICON);
 		toolBar.add(employeeTabButton);
 		
-		JButton customerOrderTabButton = new JButton("New button");
+		JButton customerOrderTabButton = new JButton(Icons.DOCUMENT_ICON);
 		toolBar.add(customerOrderTabButton);
 		
-		JButton ticketTabButton = new JButton("");
-		ticketTabButton.setIcon(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1798_mail_to_post_to_post_mail.png")));
+		JButton ticketTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1798_mail_to_post_to_post_mail.png")));
 		toolBar.add(ticketTabButton);
 		
-		JButton rmaTabButton = new JButton("");
-		rmaTabButton.setIcon(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
+		JButton rmaTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
 		toolBar.add(rmaTabButton);
 
 		JToolBar userMenuToolBar = new JToolBar();
@@ -187,12 +215,26 @@ public class YPCWindow {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		mainPanel.add(tabbedPane, BorderLayout.CENTER);
 		
-		productTabButton.addActionListener(new OpenTabAction<>(ProductSearchView.class, "Product search"));
-		customerTabButton.addActionListener(new OpenTabAction<>(CustomerSearchView.class, "Customer search"));
-		employeeTabButton.addActionListener(new OpenTabAction<>(EmployeeSearchView.class, "Employee search"));
-		customerOrderTabButton.addActionListener(new OpenTabAction<>(CustomerOrderSearchView.class, "Customer order search"));
-		ticketTabButton.addActionListener(new OpenTabAction<>(TicketSearchView.class, "Ticket search"));
-		rmaTabButton.addActionListener(new OpenTabAction<>(RMASearchView.class, "RMA search"));
+		ActionListener productSearchActionListener = new OpenTabAction<>(ProductSearchView.class, "Product search");
+		ActionListener customerSearchActionListener = new OpenTabAction<>(CustomerSearchView.class, "Customer search");
+		ActionListener employeeSearchActionListener = new OpenTabAction<>(EmployeeSearchView.class, "Employee search");
+		ActionListener customerOrderSearchActionListener = new OpenTabAction<>(CustomerOrderSearchView.class, "Customer order search");
+		ActionListener ticketSearchActionListener = new OpenTabAction<>(TicketSearchView.class, "Ticket search");
+		ActionListener rmaSearchActionListener = new OpenTabAction<>(RMASearchView.class, "RMA search");
+
+		productTabButton.addActionListener(productSearchActionListener);
+		customerTabButton.addActionListener(customerSearchActionListener);
+		employeeTabButton.addActionListener(employeeSearchActionListener);
+		customerOrderTabButton.addActionListener(customerOrderSearchActionListener);
+		ticketTabButton.addActionListener(ticketSearchActionListener);
+		rmaTabButton.addActionListener(rmaSearchActionListener);
+
+		productSearchMenuItem.addActionListener(productSearchActionListener);
+		customerSearchMenuItem.addActionListener(customerSearchActionListener);
+		employeeSearchMenuItem.addActionListener(employeeSearchActionListener);
+		orderSearchMenuItem.addActionListener(customerOrderSearchActionListener);
+		ticketSearchMenuItem.addActionListener(ticketSearchActionListener);
+		rmaSearchMenuItem.addActionListener(rmaSearchActionListener);
 	}
 
 	public Employee getAuthenticatedUser() {

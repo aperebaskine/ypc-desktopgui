@@ -1,5 +1,7 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import javax.swing.Action;
+
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.CustomerView;
@@ -27,6 +29,11 @@ extends SaveItemAction<Customer> {
 		Customer newCustomer = getView().getNewItem();
 		customerService.update(newCustomer);
 		getView().setItem(customerService.findById(newCustomer.getId()));
+	}
+	
+	@Override
+	protected Action[] getViewerActions() {
+		return new Action[]{new DeleteCustomerAction(getView()), new EditItemAction<Customer>(getView())};
 	}
 	
 }

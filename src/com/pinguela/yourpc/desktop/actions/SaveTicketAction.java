@@ -1,5 +1,7 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import javax.swing.Action;
+
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.TicketView;
@@ -27,6 +29,11 @@ extends SaveItemAction<Ticket> {
 		Ticket newTicket = getView().getNewItem();
 		ticketService.update(newTicket);
 		getView().setItem(ticketService.findById(newTicket.getId()));
+	}
+	
+	@Override
+	protected Action[] getViewerActions() {
+		return new Action[]{new EditItemAction<Ticket>(getView())};
 	}
 
 }

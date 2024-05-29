@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import com.pinguela.yourpc.desktop.actions.CustomerSearchAction;
+import com.pinguela.yourpc.desktop.actions.DeleteCustomerAction;
 import com.pinguela.yourpc.desktop.actions.EditCustomerDialogAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
@@ -155,7 +156,7 @@ public class CustomerSearchView extends AbstractSearchView<Customer> {
 		JTable table = getTable();
 		
 		YPCAction editCustomerDialogAction = new EditCustomerDialogAction(this);
-		TableUtils.initializeActionPanes(getTable(), editCustomerDialogAction);
+		TableUtils.initializeActionPanes(getTable(), new DeleteCustomerAction(this), editCustomerDialogAction);
 		table.setDefaultRenderer(Object.class, new CustomerTableCellRenderer());
 		table.addMouseListener(editCustomerDialogAction);
 	}

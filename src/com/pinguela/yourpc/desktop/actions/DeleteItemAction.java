@@ -5,6 +5,13 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.DataException;
+import com.pinguela.ServiceException;
+import com.pinguela.yourpc.desktop.constants.Icons;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 
@@ -15,14 +22,18 @@ extends YPCAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 6391546410855771841L;
+	
+	private static Logger logger = LogManager.getLogger(DeleteItemAction.class);
 
 	private DeleteActionDelegate delegate;
 
 	public DeleteItemAction(ItemView<T> source) {
+		super("Delete", Icons.DELETE_ICON);
 		delegate = new ItemViewDeleteActionDelegate(source);
 	}
 
 	public DeleteItemAction(SearchView<T> source) {
+		super("Delete", Icons.DELETE_ICON);
 		delegate = new SearchViewDeleteActionDelegate(source);
 	}
 
@@ -33,7 +44,12 @@ extends YPCAction {
 
 		if (option == JOptionPane.OK_OPTION) {
 			if (shouldDeleteFromDatabase()) {
-				deleteFromDatabase(delegate.getItem());
+				try {
+					deleteFromDatabase(delegate.getItem());
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
+					SwingUtils.showDatabaseAccessErrorDialog(delegate.getSource());
+				}
 			}
 			delegate.onConfirm();
 		}
@@ -41,7 +57,7 @@ extends YPCAction {
 
 	protected abstract boolean shouldDeleteFromDatabase();
 
-	protected abstract void deleteFromDatabase(T item);
+	protected abstract void deleteFromDatabase(T item) throws ServiceException, DataException;
 
 	private abstract class DeleteActionDelegate {
 

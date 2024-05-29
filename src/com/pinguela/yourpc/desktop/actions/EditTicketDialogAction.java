@@ -15,26 +15,24 @@ import com.pinguela.yourpc.desktop.view.TicketView;
 import com.pinguela.yourpc.model.Ticket;
 
 public class EditTicketDialogAction 
-extends AbstractDialogAction<Ticket> {
+extends AbstractSearchViewDialogAction<Ticket> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7730348390083143906L;
 	
-	private TicketSearchView searchView;
 	private TicketView dialogView;
 	
 	private Ticket t;
 
 	public EditTicketDialogAction(TicketSearchView view) {
-		super(Icons.EDIT_ICON);
-		this.searchView = view;
+		super(view, Icons.EDIT_ICON);
 	}
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		JTable table = searchView.getTable();
+		JTable table = getSearchView().getTable();
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
 
@@ -45,7 +43,7 @@ extends AbstractDialogAction<Ticket> {
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
-			dialogView.addAction(new ItemEditAction<Ticket>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new EditItemAction<Ticket>(dialogView, ItemView.VIEW_CARD));
 		}
 		dialogView.addAction(new CancelEditAction<Ticket>(dialogView), ItemView.EDITOR_CARD);
 		dialogView.addAction(new SaveTicketAction(dialogView), ItemView.EDITOR_CARD);
@@ -62,7 +60,7 @@ extends AbstractDialogAction<Ticket> {
 		Ticket ticket = (Ticket) evt.getNewValue();
 
 		if (old != null && old.getId() == ticket.getId()) {
-			searchView.doSearch();
+			getSearchView().doSearch();
 			return;
 		}
 	}
@@ -71,8 +69,5 @@ extends AbstractDialogAction<Ticket> {
 	protected boolean shouldSetRelativeLocation() {
 		return false;
 	}
-
-	@Override
-	protected void onClose() {}
 
 }

@@ -269,7 +269,13 @@ public class EmployeeView extends AbstractItemView<Employee> {
         
         employee.setFirstName(firstNameTextField.getText());
         employee.setLastName1(lastName1TextField.getText());
-        employee.setLastName2(lastName2TextField.getText());
+        
+		if (lastName2TextField.getText().isEmpty()) {
+			employee.setLastName2(null);
+		} else {
+			employee.setLastName2(lastName2TextField.getText());
+		}
+		
         employee.setDocumentTypeId(((DocumentType) documentTypeComboBox.getSelectedItem()).getId());
         employee.setDocumentNumber(documentNumberTextField.getText());
         employee.setUsername(usernameTextField.getText());

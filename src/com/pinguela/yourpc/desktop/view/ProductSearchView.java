@@ -18,6 +18,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+import com.pinguela.yourpc.desktop.actions.DeleteProductAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditProductDialogAction;
 import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
@@ -298,7 +299,7 @@ extends AbstractPaginatedSearchView<Product> {
 		});
 
 		YPCAction editProductDialogAction = new EditProductDialogAction(this);
-		TableUtils.initializeActionPanes(getTable(), editProductDialogAction);
+		TableUtils.initializeActionPanes(getTable(), new DeleteProductAction(this), editProductDialogAction);
 		getTable().setDefaultRenderer(Object.class, new ProductTableCellRenderer());
 		getTable().addMouseListener(editProductDialogAction);
 

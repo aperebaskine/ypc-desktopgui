@@ -24,7 +24,7 @@ import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 
 public class EditProductDialogAction 
-extends AbstractDialogAction<Product> {
+extends AbstractSearchViewDialogAction<Product> {
 
 	/**
 	 * 
@@ -32,23 +32,20 @@ extends AbstractDialogAction<Product> {
 	private static final long serialVersionUID = 6020214024891107072L;
 
 	private static Logger logger = LogManager.getLogger(EditProductDialogAction.class);
-
-	private ProductSearchView searchView;
+	
 	private ProductView dialogView;
-
 	private Product p;
 
 	private ImageFileService imageFileService;
 
 	public EditProductDialogAction(ProductSearchView view) {
-		super(Icons.EDIT_ICON);
+		super(view, Icons.EDIT_ICON);
 		this.imageFileService = new ImageFileServiceImpl();
-		this.searchView = view;
 	}
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		JTable table = searchView.getTable();
+		JTable table = getSearchView().getTable();
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
 
@@ -59,7 +56,8 @@ extends AbstractDialogAction<Product> {
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
-			dialogView.addAction(new ItemEditAction<Product>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new DeleteProductAction(dialogView));
+			dialogView.addAction(new EditItemAction<Product>(dialogView, ItemView.VIEW_CARD));
 		}
 		dialogView.addAction(new CancelEditAction<Product>(dialogView), ItemView.EDITOR_CARD);
 		dialogView.addAction(new SaveProductAction(dialogView), ItemView.EDITOR_CARD);
@@ -77,7 +75,7 @@ extends AbstractDialogAction<Product> {
 		Product product = (Product) evt.getNewValue();
 
 		if (old != null && old.getId() == product.getId()) { // Product was updated
-			searchView.doSearch();
+			getSearchView().doSearch();
 			return;
 		}
 
@@ -96,8 +94,5 @@ extends AbstractDialogAction<Product> {
 	protected boolean shouldSetRelativeLocation() {
 		return false;
 	}
-
-	@Override
-	protected void onClose() {}
 
 }

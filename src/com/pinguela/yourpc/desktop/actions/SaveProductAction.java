@@ -1,5 +1,7 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import javax.swing.Action;
+
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.ProductView;
@@ -33,6 +35,11 @@ extends SaveItemAction<Product> {
 		getView().setItem(productService.findById(newProduct.getId()));
 		imageFileService.update(ImageFileService.PRODUCT_TYPE,
 				getView().getItem().getId(), ((ProductView) getView()).getModifiedImageEntries());
+	}
+	
+	@Override
+	protected Action[] getViewerActions() {
+		return new Action[]{new DeleteProductAction(getView()), new EditItemAction<Product>(getView())};
 	}
 
 }

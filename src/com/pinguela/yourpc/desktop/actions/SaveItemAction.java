@@ -2,6 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
 
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
@@ -42,7 +43,9 @@ extends ItemAction<T> {
 		try {
 			doSave();
 			if (!getView().showCard(ItemView.VIEW_CARD)) {
-				getView().addAction(new ItemEditAction<T>(getView()), ItemView.VIEW_CARD);
+				for (Action action : getViewerActions()) {
+					getView().addAction(action, ItemView.VIEW_CARD);
+				}
 				getView().showCard(ItemView.VIEW_CARD);
 			} 
 		} catch (YPCException e) {
@@ -51,6 +54,8 @@ extends ItemAction<T> {
 					"An error occured while updating the product.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	protected abstract Action[] getViewerActions();
 
 	protected abstract void doSave() throws YPCException;
 

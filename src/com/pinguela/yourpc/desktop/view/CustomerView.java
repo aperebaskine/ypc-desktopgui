@@ -264,7 +264,13 @@ extends AbstractItemView<Customer> {
 
 		customer.setFirstName(firstNameTextField.getText());
 		customer.setLastName1(lastName1TextField.getText());
-		customer.setLastName2(lastName2TextField.getText());
+		
+		if (lastName2TextField.getText().isEmpty()) {
+			customer.setLastName2(null);
+		} else {
+			customer.setLastName2(lastName2TextField.getText());
+		}
+		
 		customer.setDocumentTypeId(((DocumentType) documentTypeComboBox.getSelectedItem()).getId());
 		customer.setDocumentNumber(documentNumberTextField.getText());
 		customer.setPhoneNumber(phoneNumberFormattedTextField.getText());

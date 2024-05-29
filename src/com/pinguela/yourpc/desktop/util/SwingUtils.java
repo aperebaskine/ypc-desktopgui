@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 
+import com.pinguela.yourpc.model.AbstractPerson;
+
 public class SwingUtils {
 
 	// During resizing, specify whether to check the horizontal or vertical margin size
@@ -86,6 +88,12 @@ public class SwingUtils {
 	public static void showDatabaseAccessErrorDialog(Component source) {
 		JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(source), 
 				"Could not connect to database.", "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public static String formatFullName(AbstractPerson person) {
+		return person.getLastName2() == null ?
+				person.getLastName1() :
+					String.join(" ", person.getLastName1(), person.getLastName2());
 	}
 
 }

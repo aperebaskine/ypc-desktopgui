@@ -2,6 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import com.pinguela.DataException;
 import com.pinguela.ServiceException;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 import com.pinguela.yourpc.model.Customer;
@@ -27,6 +28,11 @@ public class DeleteCustomerAction extends DeleteItemAction<Customer> {
 
 	public DeleteCustomerAction(SearchView<Customer> source) {
 		super(source);
+	}
+	
+	@Override
+	protected String getItemName(Customer item) {
+		return SwingUtils.formatFullName(item);
 	}
 
 	@Override

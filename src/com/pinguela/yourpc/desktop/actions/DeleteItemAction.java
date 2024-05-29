@@ -40,7 +40,7 @@ extends YPCAction {
 	@Override
 	protected void doAction() {
 		int option = JOptionPane.showConfirmDialog(delegate.getSource(), 
-				"Are you sure you want to delete this item?", "Confirm deletion", JOptionPane.OK_CANCEL_OPTION);
+				String.format("Are you sure you want to delete %s?", getItemName(delegate.getItem())), "Confirm deletion", JOptionPane.OK_CANCEL_OPTION);
 
 		if (option == JOptionPane.OK_OPTION) {
 			if (shouldDeleteFromDatabase()) {
@@ -54,6 +54,8 @@ extends YPCAction {
 			delegate.onConfirm();
 		}
 	}
+	
+	protected abstract String getItemName(T item);
 
 	protected abstract boolean shouldDeleteFromDatabase();
 

@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.CustomerTableConstants;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Customer;
 
 public class CustomerTableCellRenderer 
@@ -31,10 +32,7 @@ implements CustomerTableConstants {
 			columnValue = customer.getFirstName();
 			break;
 		case LAST_NAMES_COLUMN_INDEX:
-			columnValue = 
-			customer.getLastName2() == null ?
-					customer.getLastName1() :
-						String.join(" ", customer.getLastName1(), customer.getLastName2());
+			columnValue = SwingUtils.formatFullName(customer);
 			break;
 		case DOCUMENT_NUMBER_COLUMN_INDEX:
 			columnValue = customer.getDocumentNumber();

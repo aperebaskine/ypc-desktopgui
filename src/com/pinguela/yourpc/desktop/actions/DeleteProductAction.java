@@ -28,6 +28,11 @@ public class DeleteProductAction extends DeleteItemAction<Product> {
 	public DeleteProductAction(SearchView<Product> source) {
 		super(source);
 	}
+	
+	@Override
+	protected String getItemName(Product item) {
+		return item.getName();
+	}
 
 	@Override
 	protected boolean shouldDeleteFromDatabase() {

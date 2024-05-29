@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.model.AbstractTerritory;
 import com.pinguela.yourpc.model.Address;
 import com.pinguela.yourpc.model.City;
 import com.pinguela.yourpc.model.Country;
@@ -59,6 +60,7 @@ extends AbstractItemView<Address> {
 	}
 
 	private JTextField streetNameTextField;
+	private JFormattedTextField floorFormattedTextField;
 	private JTextField doorTextField;
 	private JTextField zipCodeTextField;
 	private JComboBox<City> cityComboBox;
@@ -66,9 +68,12 @@ extends AbstractItemView<Address> {
 	private JComboBox<Country> countryComboBox;
 	private JCheckBox defaultCheckbox;
 	private JCheckBox billingCheckbox;
-	private JFormattedTextField floorFormattedTextField;
 
 	private ItemListener countryListener = (e) -> {
+		
+		cityComboBox.setSelectedIndex(0);
+		cityComboBox.setEnabled(false);
+		
 		Country c = (Country) e.getItem();
 
 		if (c.getId() == null)  {
@@ -81,6 +86,7 @@ extends AbstractItemView<Address> {
 			List<Province> provinces = provinceService.findByCountry(c.getId());
 			provinces.add(0, new Province());
 			provinceComboBox.setModel(new DefaultComboBoxModel<Province>(provinces.toArray(new Province[provinces.size()])));
+			provinceComboBox.setSelectedIndex(0);
 			provinceComboBox.setEnabled(true);
 		} catch (YPCException e1) {
 			logger.error(e1.getMessage(), e1);
@@ -101,11 +107,15 @@ extends AbstractItemView<Address> {
 			List<City> cities = cityService.findByProvince(p.getId());
 			cities.add(0, new City());
 			cityComboBox.setModel(new DefaultComboBoxModel<City>(cities.toArray(new City[cities.size()])));
+			cityComboBox.setSelectedIndex(0);
+			cityComboBox.setEnabled(true);
 		} catch (YPCException e1) {
 			logger.error(e1.getMessage(), e1);
 			SwingUtils.showDatabaseAccessErrorDialog(this);
 		}
 	};
+
+	private JFormattedTextField streetNumberFormattedTextField;
 
 	public AddressView(int ownerType) {
 		this.ownerType = ownerType;
@@ -145,7 +155,7 @@ extends AbstractItemView<Address> {
 		gbc_streetNumberLabel.gridy = 1;
 		getViewPanel().add(streetNumberLabel, gbc_streetNumberLabel);
 
-		JFormattedTextField streetNumberFormattedTextField = new JFormattedTextField();
+		streetNumberFormattedTextField = new JFormattedTextField();
 		GridBagConstraints gbc_streetNumberFormattedTextField = new GridBagConstraints();
 		gbc_streetNumberFormattedTextField.gridwidth = 3;
 		gbc_streetNumberFormattedTextField.insets = new Insets(0, 0, 5, 0);
@@ -264,6 +274,7 @@ extends AbstractItemView<Address> {
 		} 
 
 		provinceComboBox = ComponentFactory.createComboBox(Arrays.asList(new Province[0]), Province.class);
+		provinceComboBox.setEnabled(false);
 		GridBagConstraints gbc_provinceComboBox = new GridBagConstraints();
 		gbc_provinceComboBox.gridwidth = 3;
 		gbc_provinceComboBox.insets = new Insets(0, 0, 5, 0);
@@ -273,6 +284,7 @@ extends AbstractItemView<Address> {
 		getViewPanel().add(provinceComboBox, gbc_provinceComboBox);
 
 		cityComboBox = ComponentFactory.createComboBox(Arrays.asList(new City[0]), City.class);
+		cityComboBox.setEnabled(false);
 		GridBagConstraints gbc_cityComboBox = new GridBagConstraints();
 		gbc_cityComboBox.gridwidth = 3;
 		gbc_cityComboBox.insets = new Insets(0, 0, 5, 0);
@@ -296,6 +308,7 @@ extends AbstractItemView<Address> {
 		}
 
 		address.setStreetName(streetNameTextField.getText());
+		address.setStreetNumber(Short.valueOf(streetNumberFormattedTextField.getText()));
 		address.setFloor(Short.valueOf(floorFormattedTextField.getText()));
 		address.setDoor(doorTextField.getText());
 		address.setZipCode(zipCodeTextField.getText());
@@ -311,6 +324,7 @@ extends AbstractItemView<Address> {
 	@Override
 	public void resetFields() {
 		streetNameTextField.setText("");
+		streetNumberFormattedTextField.setValue(null);
 		floorFormattedTextField.setText("");
 		doorTextField.setText("");
 		zipCodeTextField.setText("");
@@ -326,6 +340,7 @@ extends AbstractItemView<Address> {
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
 		streetNameTextField.setEditable(isEditable);
+		streetNumberFormattedTextField.setEditable(isEditable);
 		floorFormattedTextField.setEditable(isEditable);
 		doorTextField.setEditable(isEditable);
 		zipCodeTextField.setEditable(isEditable);
@@ -340,16 +355,46 @@ extends AbstractItemView<Address> {
 
 	@Override
 	protected void onItemSet() {
-		streetNameTextField.setText(getItem().getStreetName());
-		floorFormattedTextField.setText(getItem().getFloor().toString());
-		doorTextField.setText(getItem().getDoor());
-		zipCodeTextField.setText(getItem().getZipCode());
-		countryComboBox.setSelectedItem(getItem().getCountry());
-		provinceComboBox.setSelectedItem(getItem().getProvince());
-		cityComboBox.setSelectedItem(getItem().getCity());
+		Address address = getItem();
+		
+		streetNameTextField.setText(address.getStreetName());
+		if (address.getStreetNumber() == null) {
+			streetNumberFormattedTextField.setText(null);
+		} else {
+			streetNumberFormattedTextField.setText(address.getStreetNumber().toString());
+		}
+		
+		if (address.getFloor() == null) {
+			floorFormattedTextField.setText("");
+		} else {
+			floorFormattedTextField.setText(address.getFloor().toString());
+		}
+		
+		doorTextField.setText(address.getDoor());
+		zipCodeTextField.setText(address.getZipCode());
+		selectItemById(countryComboBox, address.getCountryId());
+		selectItemById(provinceComboBox, address.getProvinceId());
+		selectItemById(cityComboBox, address.getCityId());
+		
 		if (ownerType == CUSTOMER) {
-			defaultCheckbox.setSelected(getItem().isDefault());
-			billingCheckbox.setSelected(getItem().isBilling());
+			defaultCheckbox.setSelected(address.isDefault());
+			billingCheckbox.setSelected(address.isBilling());
+		}
+	}
+	
+	private static <PK> void selectItemById(JComboBox<? extends AbstractTerritory<PK>> comboBox, PK id) {
+		
+		if (id == null) {
+			comboBox.setSelectedIndex(0);
+			return;
+		}
+		
+		for (int i = 0; i < comboBox.getItemCount(); i++) {
+			AbstractTerritory<PK> territory = comboBox.getItemAt(i);
+			if (id.equals(territory.getId())) {
+				comboBox.setSelectedItem(territory);
+				return;
+			}
 		}
 	}
 

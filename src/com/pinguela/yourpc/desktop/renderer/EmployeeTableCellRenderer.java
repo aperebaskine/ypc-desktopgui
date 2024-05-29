@@ -35,7 +35,7 @@ implements EmployeeTableConstants {
 			columnValue = employee.getFirstName();
 			break;
 		case LAST_NAMES_COLUMN_INDEX:
-			columnValue = SwingUtils.formatFullName(employee);
+			columnValue = SwingUtils.formatLastNames(employee);
 			break;
 		case DOCUMENT_NUMBER_COLUMN_INDEX:
 			columnValue = employee.getDocumentNumber();

@@ -9,9 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.pinguela.yourpc.desktop.actions.EditEmployeeDialogAction;
 import com.pinguela.yourpc.desktop.actions.EmployeeSearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
+import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.EmployeeTableCellRenderer;
@@ -193,8 +195,11 @@ public class EmployeeSearchView extends AbstractSearchView<Employee> {
 		getCriteriaPanel().add(departmentComboBox, gbc_departmentComboBox);
 		
 		JTable table = getTable();
-		TableUtils.initializeActionPanes(getTable());
+		
+		YPCAction editEmployeeDialogAction = new EditEmployeeDialogAction(this);
+		TableUtils.initializeActionPanes(getTable(), editEmployeeDialogAction);
 		table.setDefaultRenderer(Object.class, new EmployeeTableCellRenderer());
+		table.addMouseListener(editEmployeeDialogAction);
 	}
 	
 	@Override

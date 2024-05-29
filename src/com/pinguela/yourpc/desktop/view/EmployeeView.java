@@ -315,6 +315,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
         emailTextField.setEditable(isEditable);
         ibanTextField.setEditable(isEditable);
         bicTextField.setEditable(isEditable);
+        addressView.setFieldsEditable(isEditable);
 	}
 
 	@Override
@@ -330,6 +331,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	    emailTextField.setText(getItem().getEmail());
 	    ibanTextField.setText(getItem().getIban());
 	    bicTextField.setText(getItem().getBic());
+	    addressView.setItem(getItem().getAddress());
 	}
 
 }

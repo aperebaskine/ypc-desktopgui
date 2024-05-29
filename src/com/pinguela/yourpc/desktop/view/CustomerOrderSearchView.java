@@ -14,9 +14,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.pinguela.yourpc.desktop.actions.CustomerOrderSearchAction;
+import com.pinguela.yourpc.desktop.actions.EditCustomerOrderDialogAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.SetCustomerOrderRangesAction;
+import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
@@ -35,6 +37,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 	 * 
 	 */
 	private static final long serialVersionUID = -4514845996718947204L;
+	
 	private JTextField idTextField;
 	private JTextField customerIdTextField;
 	private JTextField customerEmailTextField;
@@ -213,8 +216,11 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 		});
 
 		JTable table = getTable();
-		TableUtils.initializeActionPanes(table);
+		
+		YPCAction openDialogAction = new EditCustomerOrderDialogAction(this);
+		TableUtils.initializeActionPanes(table, openDialogAction);
 		table.setDefaultRenderer(Object.class, new CustomerOrderTableCellRenderer());
+		table.addMouseListener(openDialogAction);
 		
 		addPropertyChangeListener(CRITERIA_PROPERTY, new SetCustomerOrderRangesAction(this));
 	}

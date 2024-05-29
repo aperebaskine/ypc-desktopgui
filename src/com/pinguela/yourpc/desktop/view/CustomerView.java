@@ -260,7 +260,14 @@ extends AbstractItemView<Customer> {
 	
 	@Override
 	public Customer getNewItem() {
+		Customer old = getItem();
 		Customer customer = new Customer();
+		
+		if (old != null) {
+			customer.setId(old.getId());
+			customer.setCreationDate(old.getCreationDate());
+			customer.setEncryptedPassword(old.getEncryptedPassword());
+		}
 
 		customer.setFirstName(firstNameTextField.getText());
 		customer.setLastName1(lastName1TextField.getText());

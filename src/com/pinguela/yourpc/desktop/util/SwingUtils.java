@@ -91,8 +91,11 @@ public class SwingUtils {
 	}
 
 	public static String formatFullName(AbstractPerson person) {
-		return person.getLastName2() == null ?
-				person.getLastName1() :
+		return String.join(" ", person.getFirstName(), formatLastNames(person));
+	}
+	
+	public static String formatLastNames(AbstractPerson person) {
+		return person.getLastName2() == null ? person.getLastName1() :
 					String.join(" ", person.getLastName1(), person.getLastName2());
 	}
 

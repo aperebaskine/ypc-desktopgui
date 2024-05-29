@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Action;
@@ -33,6 +34,7 @@ implements SearchView<T> {
 	private JScrollPane resultScrollPane;
 	private JTable table;
 	private JButton searchButton;
+	private Action searchAction;
 
 	public AbstractSearchView(SearchActionBuilder<T, ? extends SearchAction<T>> builder) {
 		
@@ -102,7 +104,7 @@ implements SearchView<T> {
 	
 	@Override
 	public void doSearch() {
-		searchButton.doClick();
+		searchButton.getAction().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 	}
 	
 	protected abstract void doResetCriteriaFields(Object source);

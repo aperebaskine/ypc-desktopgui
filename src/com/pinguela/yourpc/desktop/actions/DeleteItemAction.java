@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import com.pinguela.DataException;
 import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.constants.Icons;
+import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.desktop.view.SearchView;
@@ -81,7 +83,10 @@ extends YPCAction {
 
 		@Override
 		protected void onConfirm() {
-			SwingUtilities.getWindowAncestor((Component) view).dispose();
+			YPCDialog dialog = (YPCDialog) SwingUtilities.getAncestorOfClass(YPCDialog.class, (Component) view);
+			if (dialog != null) {
+				dialog.dispatchEvent(new WindowEvent(dialog, WindowEvent.WINDOW_CLOSING));
+			}
 		}
 
 		@Override

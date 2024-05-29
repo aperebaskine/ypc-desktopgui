@@ -32,7 +32,7 @@ implements CustomerTableConstants {
 			columnValue = customer.getFirstName();
 			break;
 		case LAST_NAMES_COLUMN_INDEX:
-			columnValue = SwingUtils.formatFullName(customer);
+			columnValue = SwingUtils.formatLastNames(customer);
 			break;
 		case DOCUMENT_NUMBER_COLUMN_INDEX:
 			columnValue = customer.getDocumentNumber();

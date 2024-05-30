@@ -243,9 +243,9 @@ extends AbstractImageGalleryItemView<Product> {
 		product.setName(nameTextField.getText());
 		product.setCategoryId(((Category) categoryComboBox.getSelectedItem()).getId());
 		product.setLaunchDate(launchDateChooser.getDate());
-		product.setStock((Integer) stockTextField.getValue());
-		product.setPurchasePrice((Double) purchasePriceField.getValue());
-		product.setSalePrice((Double) salePriceField.getValue());
+		product.setStock(Integer.valueOf(stockTextField.getText()));
+		product.setPurchasePrice(Double.valueOf(purchasePriceField.getText()));
+		product.setSalePrice(Double.valueOf(salePriceField.getText()));
 		product.setDescription(descriptionTextArea.getText());
 
 		return product;

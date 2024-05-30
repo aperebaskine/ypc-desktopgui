@@ -1,0 +1,44 @@
+package com.pinguela.yourpc.desktop.actions;
+
+import java.awt.event.ActionEvent;
+
+import com.pinguela.yourpc.desktop.dialog.YPCDialog;
+import com.pinguela.yourpc.desktop.view.EmployeeView;
+import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.model.Employee;
+
+public class OpenEmployeeViewDialogAction 
+extends AbstractDialogAction<Employee> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8768640695470145782L;
+
+	private EmployeeView dialogView;
+
+	public OpenEmployeeViewDialogAction() {
+		super("Create...");
+	}
+
+	@Override
+	protected YPCDialog createDialog(ActionEvent e) {
+		dialogView = new EmployeeView();
+		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
+		dialogView.addAction(new CancelEditAction<Employee>(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new SaveEmployeeAction(dialogView), ItemView.EDITOR_CARD);
+
+		YPCDialog dialog = new YPCDialog(null, dialogView);
+		dialog.setTitle("Employee editor");
+		return dialog;
+	}
+
+	@Override
+	protected boolean shouldSetRelativeLocation() {
+		return false;
+	}
+	
+	@Override
+	protected void onClose() {}
+
+}

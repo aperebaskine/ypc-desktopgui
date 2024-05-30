@@ -32,8 +32,11 @@ import org.apache.logging.log4j.Logger;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerOrderSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenCustomerViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenEmployeeSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenEmployeeViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenProductViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenRMASearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenTicketSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.UserPopupMenuAction;
@@ -116,6 +119,9 @@ public class YPCWindow {
 
 		JMenu productMenu = new JMenu("Products");
 		menuBar.add(productMenu);
+		
+		JMenuItem createProductMenuItem = new JMenuItem(new OpenProductViewDialogAction());
+		productMenu.add(createProductMenuItem);
 
 		JMenuItem productSearchMenuItem = new JMenuItem("Search...");
 		productMenu.add(productSearchMenuItem);
@@ -123,11 +129,17 @@ public class YPCWindow {
 		JMenu customerMenu = new JMenu("Customers");
 		menuBar.add(customerMenu);
 		
+		JMenuItem createCustomerMenuItem = new JMenuItem(new OpenCustomerViewDialogAction());
+		customerMenu.add(createCustomerMenuItem);
+		
 		JMenuItem customerSearchMenuItem = new JMenuItem("Search...");
 		customerMenu.add(customerSearchMenuItem);
 		
 		JMenu employeeMenu = new JMenu("Employees");
 		menuBar.add(employeeMenu);
+		
+		JMenuItem createEmployeeMenuItem = new JMenuItem(new OpenEmployeeViewDialogAction());
+		employeeMenu.add(createEmployeeMenuItem);
 		
 		JMenuItem employeeSearchMenuItem = new JMenuItem("Search...");
 		employeeMenu.add(employeeSearchMenuItem);

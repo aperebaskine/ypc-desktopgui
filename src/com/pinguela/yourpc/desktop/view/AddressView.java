@@ -312,12 +312,11 @@ extends AbstractItemView<Address> {
 		address.setFloor(Short.valueOf(floorFormattedTextField.getText()));
 		address.setDoor(doorTextField.getText());
 		address.setZipCode(zipCodeTextField.getText());
-		address.setCity((String) cityComboBox.getSelectedItem());
-		address.setProvince((String) provinceComboBox.getSelectedItem());
-		address.setCountry((String) countryComboBox.getSelectedItem());
-		address.setIsDefault(defaultCheckbox.isSelected());
-		address.setIsBilling(billingCheckbox.isSelected());
-
+		address.setCityId(((City) cityComboBox.getSelectedItem()).getId());
+		if (ownerType == CUSTOMER) {
+			address.setIsDefault(defaultCheckbox.isSelected());
+			address.setIsBilling(billingCheckbox.isSelected());
+		}
 		return address;
 	}
 

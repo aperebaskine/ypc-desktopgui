@@ -1,0 +1,44 @@
+package com.pinguela.yourpc.desktop.actions;
+
+import java.awt.event.ActionEvent;
+
+import com.pinguela.yourpc.desktop.dialog.YPCDialog;
+import com.pinguela.yourpc.desktop.view.CustomerView;
+import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.model.Customer;
+
+public class OpenCustomerViewDialogAction 
+extends AbstractDialogAction<Customer> {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6305915703964331087L;
+	
+	private CustomerView dialogView;
+
+	public OpenCustomerViewDialogAction() {
+		super("Create...");
+	}
+
+	@Override
+	protected YPCDialog createDialog(ActionEvent e) {
+		dialogView = new CustomerView();
+		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
+		dialogView.addAction(new CancelEditAction<Customer>(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new SaveCustomerAction(dialogView), ItemView.EDITOR_CARD);
+
+		YPCDialog dialog = new YPCDialog(null, dialogView);
+		dialog.setTitle("Customer editor");
+		return dialog;
+	}
+
+	@Override
+	protected boolean shouldSetRelativeLocation() {
+		return false;
+	}
+	
+	@Override
+	protected void onClose() {}
+
+}

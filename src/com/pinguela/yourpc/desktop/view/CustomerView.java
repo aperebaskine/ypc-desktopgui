@@ -54,7 +54,12 @@ extends AbstractItemView<Customer> {
 
 	private JPanel centerPanel;
 	private JTable addressTable;
+	
+	private JLabel recentOrdersLabel;
+	private JScrollPane recentOrderScrollPane;
 	private JTable recentOrderTable;
+	private JScrollPane addressesScrollPane;
+	private JLabel addressesLabel;
 
 	public CustomerView() {
 		initialize();
@@ -90,7 +95,8 @@ extends AbstractItemView<Customer> {
 		gbc_idValueLabel.gridy = 0;
 		centerPanel.add(idValueLabel, gbc_idValueLabel);
 
-		JLabel recentOrdersLabel = new JLabel("Recent orders:");
+		recentOrdersLabel = new JLabel("Recent orders:");
+		recentOrdersLabel.setVisible(false);
 		GridBagConstraints gbc_recentOrdersLabel = new GridBagConstraints();
 		gbc_recentOrdersLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_recentOrdersLabel.gridx = 3;
@@ -216,7 +222,8 @@ extends AbstractItemView<Customer> {
 		gbc_documentTypeComboBox.gridy = 5;
 		centerPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
 
-		JLabel addressesLabel = new JLabel("Addresses:");
+		addressesLabel = new JLabel("Addresses:");
+		addressesLabel.setVisible(false);
 		GridBagConstraints gbc_addressesLabel = new GridBagConstraints();
 		gbc_addressesLabel.anchor = GridBagConstraints.EAST;
 		gbc_addressesLabel.insets = new Insets(0, 0, 5, 5);
@@ -224,7 +231,8 @@ extends AbstractItemView<Customer> {
 		gbc_addressesLabel.gridy = 8;
 		centerPanel.add(addressesLabel, gbc_addressesLabel);
 
-		JScrollPane addressesScrollPane = new JScrollPane();
+		addressesScrollPane = new JScrollPane();
+		addressesScrollPane.setVisible(false);
 		GridBagConstraints gbc_addressesScrollPane = new GridBagConstraints();
 		gbc_addressesScrollPane.gridheight = 2;
 		gbc_addressesScrollPane.insets = new Insets(0, 0, 0, 5);
@@ -238,7 +246,8 @@ extends AbstractItemView<Customer> {
 		TableUtils.initializeActionPanes(addressTable);
 		addressesScrollPane.setViewportView(addressTable);
 		
-		JScrollPane recentOrderScrollPane = new JScrollPane();
+		recentOrderScrollPane = new JScrollPane();
+		recentOrderScrollPane.setVisible(false);
 		GridBagConstraints gbc_recentOrderScrollPane = new GridBagConstraints();
 		gbc_recentOrderScrollPane.gridheight = 10;
 		gbc_recentOrderScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -311,6 +320,9 @@ extends AbstractItemView<Customer> {
 
 	@Override
 	protected void onItemSet() {
+		recentOrdersLabel.setVisible(true);
+		recentOrderScrollPane.setVisible(true);
+		
 		idValueLabel.setText(getItem().getId() != null ? getItem().getId().toString() : "");
 		firstNameTextField.setText(getItem().getFirstName());
 		lastName1TextField.setText(getItem().getLastName1());

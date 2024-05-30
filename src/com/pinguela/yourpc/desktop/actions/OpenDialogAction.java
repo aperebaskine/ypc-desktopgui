@@ -13,7 +13,7 @@ import javax.swing.JTable;
 
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 
-public abstract class AbstractDialogAction<T> 
+public abstract class OpenDialogAction<T> 
 extends YPCAction 
 implements WindowListener {
 
@@ -22,19 +22,19 @@ implements WindowListener {
 	 */
 	private static final long serialVersionUID = -3786210364953347617L;
 
-	public AbstractDialogAction() {
+	public OpenDialogAction() {
 		this(null, null);
 	}
 
-	public AbstractDialogAction(Icon icon) {
+	public OpenDialogAction(Icon icon) {
 		this(null, icon);
 	}
 
-	public AbstractDialogAction(String name, Icon icon) {
+	public OpenDialogAction(String name, Icon icon) {
 		super(name, icon);
 	}
 
-	public AbstractDialogAction(String name) {
+	public OpenDialogAction(String name) {
 		this(name, null);
 	}
 

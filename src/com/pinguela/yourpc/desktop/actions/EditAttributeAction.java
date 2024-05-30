@@ -13,7 +13,7 @@ import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.model.Attribute;
 
 public class EditAttributeAction 
-extends AbstractDialogAction<Attribute<?>> {
+extends OpenDialogAction<Attribute<?>> {
 
 	/**
 	 * 

@@ -239,7 +239,7 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 	}
 
 	@Override
-	public void setFieldsEnabled(boolean isEnabled) {
+	public void setCriteriaFieldsEnabled(boolean isEnabled) {
 		customerIdTextField.setEnabled(isEnabled);
 		customerEmailTextField.setEnabled(isEnabled);
 		dateFromChooser.setEnabled(isEnabled);

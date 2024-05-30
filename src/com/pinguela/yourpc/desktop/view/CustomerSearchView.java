@@ -185,7 +185,7 @@ public class CustomerSearchView extends AbstractSearchView<Customer> {
 	}
 	
 	@Override
-	public void setFieldsEnabled(boolean isEnabled) {
+	public void setCriteriaFieldsEnabled(boolean isEnabled) {
 		idTextField.setEnabled(isEnabled);
 		firstNameTextField.setEnabled(isEnabled);
 		lastNameTextField.setEnabled(isEnabled);

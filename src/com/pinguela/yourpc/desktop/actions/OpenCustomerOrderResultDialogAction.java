@@ -9,23 +9,22 @@ import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
+import com.pinguela.yourpc.desktop.view.CustomerOrderSearchView;
+import com.pinguela.yourpc.desktop.view.CustomerOrderView;
 import com.pinguela.yourpc.desktop.view.ItemView;
-import com.pinguela.yourpc.desktop.view.RMASearchView;
-import com.pinguela.yourpc.desktop.view.RMAView;
-import com.pinguela.yourpc.model.RMA;
+import com.pinguela.yourpc.model.CustomerOrder;
 
-public class EditRMADialogAction 
-extends AbstractSearchViewDialogAction<RMA> {
+public class OpenCustomerOrderResultDialogAction extends OpenSearchResultDialogAction<CustomerOrder> {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2430812179643361360L;
+	private static final long serialVersionUID = -4798996272514762277L;
 	
-	private RMAView dialogView;
-	private RMA rma;
+	private CustomerOrderView dialogView;
+	private CustomerOrder order;
 
-	public EditRMADialogAction(RMASearchView view) {
+	public OpenCustomerOrderResultDialogAction(CustomerOrderSearchView view) {
 		super(view, Icons.EDIT_ICON);
 	}
 
@@ -35,28 +34,28 @@ extends AbstractSearchViewDialogAction<RMA> {
 		int row = table.getSelectedRow();
 		int column = table.getSelectedColumn();
 
-		dialogView = new RMAView();
+		dialogView = new CustomerOrderView();
 		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
-		rma = (RMA) table.getValueAt(row, column);
-		dialogView.setItem(rma);
+		order = (CustomerOrder) table.getValueAt(row, column);
+		dialogView.setItem(order);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
-			dialogView.addAction(new EditItemAction<RMA>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new EditItemAction<CustomerOrder>(dialogView, ItemView.VIEW_CARD));
 		}
-		dialogView.addAction(new CancelEditAction<RMA>(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveRMAAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new CancelEditAction<CustomerOrder>(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new SaveCustomerOrderAction(dialogView), ItemView.EDITOR_CARD);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);
-		dialog.setTitle("RMA editor");
+		dialog.setTitle("Customer order editor");
 		return dialog;
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		RMA old = (RMA) evt.getOldValue();
-		RMA product = (RMA) evt.getNewValue();
+		CustomerOrder old = (CustomerOrder) evt.getOldValue();
+		CustomerOrder product = (CustomerOrder) evt.getNewValue();
 
 		if (old != null && old.getId() == product.getId()) { // Product was updated
 			getSearchView().doSearch();

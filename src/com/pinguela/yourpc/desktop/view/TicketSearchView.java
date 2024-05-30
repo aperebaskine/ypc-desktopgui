@@ -213,7 +213,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 	}
 
 	@Override
-	public void setFieldsEnabled(boolean isEnabled) {
+	public void setCriteriaFieldsEnabled(boolean isEnabled) {
 		customerIdTextField.setEnabled(isEnabled);
 		customerEmailTextField.setEnabled(isEnabled);
 		dateFromChooser.setEnabled(isEnabled);

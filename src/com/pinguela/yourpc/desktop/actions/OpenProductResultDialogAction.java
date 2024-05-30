@@ -23,22 +23,22 @@ import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 
-public class EditProductDialogAction 
-extends AbstractSearchViewDialogAction<Product> {
+public class OpenProductResultDialogAction 
+extends OpenSearchResultDialogAction<Product> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6020214024891107072L;
 
-	private static Logger logger = LogManager.getLogger(EditProductDialogAction.class);
+	private static Logger logger = LogManager.getLogger(OpenProductResultDialogAction.class);
 	
 	private ProductView dialogView;
 	private Product p;
 
 	private ImageFileService imageFileService;
 
-	public EditProductDialogAction(ProductSearchView view) {
+	public OpenProductResultDialogAction(ProductSearchView view) {
 		super(view, Icons.EDIT_ICON);
 		this.imageFileService = new ImageFileServiceImpl();
 	}

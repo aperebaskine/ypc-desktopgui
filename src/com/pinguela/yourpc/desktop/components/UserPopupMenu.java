@@ -6,6 +6,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import com.pinguela.yourpc.desktop.actions.LogoutAction;
+import com.pinguela.yourpc.desktop.actions.OpenUserProfileDialogAction;
 
 public class UserPopupMenu 
 extends JPopupMenu {
@@ -19,7 +20,7 @@ extends JPopupMenu {
 		super();
 		setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
-		JMenuItem profileMenuItem = new JMenuItem("Profile");
+		JMenuItem profileMenuItem = new JMenuItem(new OpenUserProfileDialogAction());
 		add(profileMenuItem);
 
 		JMenuItem logOutMenuItem = new JMenuItem(new LogoutAction());

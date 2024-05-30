@@ -34,7 +34,7 @@ extends AbstractSearchView<T> {
 	private Integer pageSize = 16;
 	private Integer resultCount = 0;
 	
-	private final PropertyChangeListener clampPos = (evt) -> {
+	private final PropertyChangeListener posOverflowListener = (evt) -> {
 		if (pos > resultCount) {
 			setPos(resultCount - pageSize +1);
 		} else if (pos <= pageSize || resultCount <= pageSize) {
@@ -103,13 +103,13 @@ extends AbstractSearchView<T> {
 		PaginationAction firstPageAction = new FirstPageAction(this);
 		addPropertyChangeListener(CRITERIA_PROPERTY, firstPageAction);
 		
-		addListenerToSearchButton(firstPageAction);
+		addSearchAction(firstPageAction);
 		firstPageButton.addActionListener(firstPageAction);
 		previousPageButton.addActionListener(new PreviousPageAction(this));
 		nextPageButton.addActionListener(new NextPageAction(this));
 		lastPageButton.addActionListener(new LastPageAction(this));
 		
-		addPropertyChangeListener(RESULT_COUNT_PROPERTY, clampPos);
+		addPropertyChangeListener(RESULT_COUNT_PROPERTY, posOverflowListener);
 	}
 
 	private void updatePageLabel() {

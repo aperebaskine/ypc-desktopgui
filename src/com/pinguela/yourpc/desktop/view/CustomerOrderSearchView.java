@@ -261,7 +261,7 @@ public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
 	}
 
 	@Override
-	public void setFieldsEnabled(boolean isEnabled) {
+	public void setCriteriaFieldsEnabled(boolean isEnabled) {
 		customerIdTextField.setEnabled(isEnabled);
 		customerEmailTextField.setEnabled(isEnabled);
 		dateFromChooser.setEnabled(isEnabled);

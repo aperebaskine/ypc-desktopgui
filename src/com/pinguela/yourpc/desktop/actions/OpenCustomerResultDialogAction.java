@@ -14,8 +14,8 @@ import com.pinguela.yourpc.desktop.view.CustomerView;
 import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.model.Customer;
 
-public class EditCustomerDialogAction 
-extends AbstractSearchViewDialogAction<Customer> {
+public class OpenCustomerResultDialogAction 
+extends OpenSearchResultDialogAction<Customer> {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ extends AbstractSearchViewDialogAction<Customer> {
 	
 	private Customer c;
 	
-	public EditCustomerDialogAction(CustomerSearchView view) {
+	public OpenCustomerResultDialogAction(CustomerSearchView view) {
 		super(view, Icons.EDIT_ICON);
 	}
 

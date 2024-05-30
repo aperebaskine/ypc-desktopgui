@@ -8,7 +8,7 @@ import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.model.Employee;
 
 public class OpenEmployeeViewDialogAction 
-extends AbstractDialogAction<Employee> {
+extends OpenDialogAction<Employee> {
 
 	/**
 	 * 

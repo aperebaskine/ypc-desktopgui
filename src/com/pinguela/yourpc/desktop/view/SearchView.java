@@ -1,7 +1,5 @@
 package com.pinguela.yourpc.desktop.view;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
@@ -11,19 +9,17 @@ public interface SearchView<T> {
 
 	String TABLE_MODEL_PROPERTY = "tableModel";
 	String CRITERIA_PROPERTY = "criteria";
-
-	void setModel(TableModel model);
-	
-	void addListenerToSearchButton(ActionListener listener);
 	
 	Criteria<?, T> getCriteria();
 	
+	JTable getTable();
+
+	void setModel(TableModel model);
+	
 	void resetCriteriaFields(Object source);
 	
-	void setFieldsEnabled(boolean isEnabled);
+	void setCriteriaFieldsEnabled(boolean isEnabled);
 	
 	void doSearch();
-	
-	JTable getTable();
 
 }

@@ -8,7 +8,7 @@ import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.model.Customer;
 
 public class OpenCustomerViewDialogAction 
-extends AbstractDialogAction<Customer> {
+extends OpenDialogAction<Customer> {
 	
 	/**
 	 * 

@@ -14,8 +14,8 @@ import com.pinguela.yourpc.desktop.view.TicketSearchView;
 import com.pinguela.yourpc.desktop.view.TicketView;
 import com.pinguela.yourpc.model.Ticket;
 
-public class EditTicketDialogAction 
-extends AbstractSearchViewDialogAction<Ticket> {
+public class OpenTicketResultDialogAction 
+extends OpenSearchResultDialogAction<Ticket> {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ extends AbstractSearchViewDialogAction<Ticket> {
 	
 	private Ticket t;
 
-	public EditTicketDialogAction(TicketSearchView view) {
+	public OpenTicketResultDialogAction(TicketSearchView view) {
 		super(view, Icons.EDIT_ICON);
 	}
 

@@ -11,7 +11,7 @@ import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.desktop.view.YPCView;
 
 public class OpenItemViewDialogAction<T>
-extends AbstractDialogAction<T> {
+extends OpenDialogAction<T> {
 
 	/**
 	 * 

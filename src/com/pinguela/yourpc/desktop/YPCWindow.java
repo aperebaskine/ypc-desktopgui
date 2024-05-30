@@ -39,7 +39,7 @@ import com.pinguela.yourpc.desktop.actions.OpenProductSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenRMASearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenTicketSearchTabAction;
-import com.pinguela.yourpc.desktop.actions.UserPopupMenuAction;
+import com.pinguela.yourpc.desktop.actions.OpenUserPopupMenuAction;
 import com.pinguela.yourpc.desktop.components.CloseableTabComponent;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.LoginDialog;
@@ -203,7 +203,7 @@ public class YPCWindow {
 		gbc_userMenuToolBar.gridy = 0;
 		panel.add(userMenuToolBar, gbc_userMenuToolBar);
 
-		userMenuButton = new JButton(new UserPopupMenuAction());
+		userMenuButton = new JButton(new OpenUserPopupMenuAction());
 		userMenuButton.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		userMenuToolBar.add(userMenuButton);
 

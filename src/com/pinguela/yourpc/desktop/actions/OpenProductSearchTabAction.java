@@ -19,7 +19,7 @@ public class OpenProductSearchTabAction extends OpenTabAction {
 	@Override
 	protected Component initializeTab() {
 		ProductSearchView view = new ProductSearchView();
-		YPCAction editProductDialogAction = new EditProductDialogAction(view);
+		YPCAction editProductDialogAction = new OpenProductResultDialogAction(view);
 		TableUtils.initializeActionPanes(view.getTable(), new DeleteProductAction(view), editProductDialogAction);
 		view.getTable().addMouseListener(editProductDialogAction);
 		return view;

@@ -49,10 +49,9 @@ implements SearchView<T> {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		searchPanel.add(actionPane, BorderLayout.SOUTH);
 
-		// Null-check required for design-time support
-		searchButton = new JButton(builder == null ? null : builder.setView(this).build());
+		searchButton = new JButton(builder.setView(this).build());
 		actionPane.add(searchButton);
-		addAction(new ResetCriteriaAction(this));
+		addActionButton(new ResetCriteriaAction(this));
 
 		Component verticalStrut = Box.createVerticalStrut(40);
 		verticalStrut.setPreferredSize(new Dimension(0, 50));
@@ -79,12 +78,11 @@ implements SearchView<T> {
 		return table;
 	}
 	
-	@Override
-	public final void addListenerToSearchButton(ActionListener listener) {
+	public final void addSearchAction(ActionListener listener) {
 		searchButton.addActionListener(listener);
 	}
 	
-	public final void addAction(Action action) {
+	public final void addActionButton(Action action) {
 		actionPane.addAction(action);
 	}
 

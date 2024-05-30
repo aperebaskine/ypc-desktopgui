@@ -4,7 +4,11 @@ import javax.swing.Icon;
 
 import com.pinguela.yourpc.desktop.view.SearchView;
 
-public abstract class AbstractSearchViewDialogAction<T> extends AbstractDialogAction<T> {
+/**
+ * TODO: Factorize subclasses
+ * @param <T>
+ */
+public abstract class OpenSearchResultDialogAction<T> extends OpenDialogAction<T> {
 	
 	/**
 	 * 
@@ -13,20 +17,20 @@ public abstract class AbstractSearchViewDialogAction<T> extends AbstractDialogAc
 	
 	private SearchView<T> searchView;
 
-	public AbstractSearchViewDialogAction(SearchView<T> view) {
+	public OpenSearchResultDialogAction(SearchView<T> view) {
 		this(view, null, null);
 	}
 
-	public AbstractSearchViewDialogAction(SearchView<T> view, Icon icon) {
+	public OpenSearchResultDialogAction(SearchView<T> view, Icon icon) {
 		this(view, null, icon);
 	}
 
-	public AbstractSearchViewDialogAction(SearchView<T> view, String name, Icon icon) {
+	public OpenSearchResultDialogAction(SearchView<T> view, String name, Icon icon) {
 		super(name, icon);
 		this.searchView = view;
 	}
 
-	public AbstractSearchViewDialogAction(SearchView<T> view, String name) {
+	public OpenSearchResultDialogAction(SearchView<T> view, String name) {
 		this(view, name, null);
 	}
 	

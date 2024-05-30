@@ -14,8 +14,8 @@ import com.pinguela.yourpc.desktop.view.EmployeeView;
 import com.pinguela.yourpc.desktop.view.ItemView;
 import com.pinguela.yourpc.model.Employee;
 
-public class EditEmployeeDialogAction 
-extends AbstractSearchViewDialogAction<Employee> {
+public class OpenEmployeeResultDialogAction 
+extends OpenSearchResultDialogAction<Employee> {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ extends AbstractSearchViewDialogAction<Employee> {
 	private EmployeeView dialogView;
 	private Employee employee;
 
-	public EditEmployeeDialogAction(EmployeeSearchView view) {
+	public OpenEmployeeResultDialogAction(EmployeeSearchView view) {
 		super(view, Icons.EDIT_ICON);
 	}
 

@@ -22,7 +22,7 @@ public class OpenTicketSearchTabAction extends OpenTabAction {
 	protected Component initializeTab() {
 		TicketSearchView view = new TicketSearchView();
 
-		YPCAction editTicketDialogAction = new EditTicketDialogAction(view);
+		YPCAction editTicketDialogAction = new OpenTicketResultDialogAction(view);
 		
 		JTable table = view.getTable();
 		TableUtils.initializeActionPanes(table, editTicketDialogAction);

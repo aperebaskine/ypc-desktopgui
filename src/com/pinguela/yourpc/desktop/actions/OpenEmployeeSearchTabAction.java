@@ -19,7 +19,7 @@ public class OpenEmployeeSearchTabAction extends OpenTabAction {
 	@Override
 	protected Component initializeTab() {
 		EmployeeSearchView view = new EmployeeSearchView();
-		YPCAction editEmployeeDialogAction = new EditEmployeeDialogAction(view);
+		YPCAction editEmployeeDialogAction = new OpenEmployeeResultDialogAction(view);
 		TableUtils.initializeActionPanes(view.getTable(), editEmployeeDialogAction);
 		view.getTable().addMouseListener(editEmployeeDialogAction);
 		return view;

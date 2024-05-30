@@ -404,7 +404,7 @@ extends AbstractPaginatedSearchView<Product> {
 	}
 
 	@Override
-	public void setFieldsEnabled(boolean isEnabled) {
+	public void setCriteriaFieldsEnabled(boolean isEnabled) {
 		productNameField.setEnabled(isEnabled);
 		categoryComboBox.setEnabled(isEnabled);
 		minLaunchDateChooser.setEnabled(isEnabled);

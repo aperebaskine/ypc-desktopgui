@@ -21,7 +21,7 @@ public class OpenRMASearchTabAction extends OpenTabAction {
 	@Override
 	protected Component initializeTab() {
 		RMASearchView view = new RMASearchView();
-		YPCAction openEditDialogAction = new EditRMADialogAction(view);
+		YPCAction openEditDialogAction = new OpenRMAResultDialogAction(view);
 		
 		JTable table = view.getTable();
 		TableUtils.initializeActionPanes(table, openEditDialogAction);

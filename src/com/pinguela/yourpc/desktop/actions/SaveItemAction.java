@@ -41,7 +41,11 @@ extends ItemAction<T> {
 	@Override
 	protected void doAction() {
 		try {
-			doSave();
+			if (getView().getItem() == null) {
+				doCreate(getView().getNewItem());
+			} else {
+				doUpdate(getView().getNewItem());
+			}
 			if (!getView().showCard(ItemView.VIEW_CARD)) {
 				for (Action action : getViewerActions()) {
 					getView().addAction(action, ItemView.VIEW_CARD);
@@ -57,6 +61,8 @@ extends ItemAction<T> {
 	
 	protected abstract Action[] getViewerActions();
 
-	protected abstract void doSave() throws YPCException;
+	protected abstract void doCreate(T item) throws YPCException;
+	
+	protected abstract void doUpdate(T item) throws YPCException;
 
 }

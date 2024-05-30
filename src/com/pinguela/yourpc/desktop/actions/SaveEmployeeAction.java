@@ -22,12 +22,17 @@ public class SaveEmployeeAction extends SaveItemAction<Employee> {
 		super(view, "Save", Icons.OK_ICON);
 		this.employeeService = new EmployeeServiceImpl();
 	}
-
+	
 	@Override
-	protected void doSave() throws YPCException {
-		Employee newEmployee = getView().getNewItem();
-		employeeService.update(newEmployee);
-		getView().setItem(employeeService.findById(newEmployee.getId()));
+	protected void doCreate(Employee item) throws YPCException {
+		employeeService.register(item);
+		getView().setItem(employeeService.findById(item.getId()));
+	}
+	
+	@Override
+	protected void doUpdate(Employee item) throws YPCException {
+		employeeService.update(item);
+		getView().setItem(employeeService.findById(item.getId()));
 	}
 	
 	@Override

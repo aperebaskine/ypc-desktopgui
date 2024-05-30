@@ -30,19 +30,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.pinguela.yourpc.desktop.actions.OpenTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenCustomerOrderSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenCustomerSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenEmployeeSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenProductSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenRMASearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenTicketSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.UserPopupMenuAction;
 import com.pinguela.yourpc.desktop.components.CloseableTabComponent;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.LoginDialog;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
-import com.pinguela.yourpc.desktop.view.CustomerOrderSearchView;
-import com.pinguela.yourpc.desktop.view.CustomerSearchView;
-import com.pinguela.yourpc.desktop.view.EmployeeSearchView;
-import com.pinguela.yourpc.desktop.view.ProductSearchView;
-import com.pinguela.yourpc.desktop.view.RMASearchView;
-import com.pinguela.yourpc.desktop.view.TicketSearchView;
 import com.pinguela.yourpc.model.Employee;
 
 public class YPCWindow {
@@ -215,12 +214,12 @@ public class YPCWindow {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		mainPanel.add(tabbedPane, BorderLayout.CENTER);
 		
-		ActionListener productSearchActionListener = new OpenTabAction<>(ProductSearchView.class, "Product search");
-		ActionListener customerSearchActionListener = new OpenTabAction<>(CustomerSearchView.class, "Customer search");
-		ActionListener employeeSearchActionListener = new OpenTabAction<>(EmployeeSearchView.class, "Employee search");
-		ActionListener customerOrderSearchActionListener = new OpenTabAction<>(CustomerOrderSearchView.class, "Customer order search");
-		ActionListener ticketSearchActionListener = new OpenTabAction<>(TicketSearchView.class, "Ticket search");
-		ActionListener rmaSearchActionListener = new OpenTabAction<>(RMASearchView.class, "RMA search");
+		ActionListener productSearchActionListener = new OpenProductSearchTabAction();
+		ActionListener customerSearchActionListener = new OpenCustomerSearchTabAction();
+		ActionListener employeeSearchActionListener = new OpenEmployeeSearchTabAction();
+		ActionListener customerOrderSearchActionListener = new OpenCustomerOrderSearchTabAction();
+		ActionListener ticketSearchActionListener = new OpenTicketSearchTabAction();
+		ActionListener rmaSearchActionListener = new OpenRMASearchTabAction();
 
 		productTabButton.addActionListener(productSearchActionListener);
 		customerTabButton.addActionListener(customerSearchActionListener);

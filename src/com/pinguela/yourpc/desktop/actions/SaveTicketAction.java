@@ -23,12 +23,17 @@ extends SaveItemAction<Ticket> {
 		super(view, "Save", Icons.OK_ICON);
 		this.ticketService = new TicketServiceImpl();
 	}
-
+	
 	@Override
-	protected void doSave() throws YPCException {
-		Ticket newTicket = getView().getNewItem();
-		ticketService.update(newTicket);
-		getView().setItem(ticketService.findById(newTicket.getId()));
+	protected void doCreate(Ticket item) throws YPCException {
+		ticketService.update(item);
+		getView().setItem(ticketService.findById(item.getId()));
+	}
+	
+	@Override
+	protected void doUpdate(Ticket item) throws YPCException {
+		ticketService.update(item);
+		getView().setItem(ticketService.findById(item.getId()));
 	}
 	
 	@Override

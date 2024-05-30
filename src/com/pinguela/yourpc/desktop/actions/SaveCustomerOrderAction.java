@@ -23,12 +23,17 @@ extends SaveItemAction<CustomerOrder> {
 		super(view, "Save", Icons.OK_ICON);
 		this.customerOrderService = new CustomerOrderServiceImpl();
 	}
-
+	
 	@Override
-	protected void doSave() throws YPCException {
-		CustomerOrder newOrder = getView().getNewItem();
-		customerOrderService.update(newOrder);
-		getView().setItem(customerOrderService.findById(newOrder.getId()));
+	protected void doCreate(CustomerOrder item) throws YPCException {
+		customerOrderService.create(item);
+		getView().setItem(customerOrderService.findById(item.getId()));
+	}
+	
+	@Override
+	protected void doUpdate(CustomerOrder item) throws YPCException {
+		customerOrderService.update(item);
+		getView().setItem(customerOrderService.findById(item.getId()));
 	}
 	
 	@Override

@@ -9,10 +9,18 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.YPCException;
+import com.pinguela.yourpc.desktop.components.CustomerSelector;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
+import com.pinguela.yourpc.service.CustomerService;
+import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
 public class RMAView 
 extends AbstractItemView<RMA> {
@@ -21,9 +29,13 @@ extends AbstractItemView<RMA> {
 	 * 
 	 */
 	private static final long serialVersionUID = -2240496953079459574L;
+	
+	private static Logger logger = LogManager.getLogger(RMAView.class);
+	
+	private CustomerService customerService;
 
 	private JLabel idValueLabel;
-	private JTextField customerIdTextField;
+	private CustomerSelector customerSelectionPanel;
 	private JTextField trackingNumberTextField;
 	private JComboBox<ItemState<RMA>> stateComboBox;
 	private OrderLineListView orderLineListView;
@@ -31,12 +43,13 @@ extends AbstractItemView<RMA> {
 	public RMAView() {
 		initialize();
 		postInitialize();
+		this.customerService = new CustomerServiceImpl();
 	}
 
 	private void initialize() {
 		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
 		gridBagLayout.columnWidths = new int[]{0, 152, 48, 0, 240};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 
 		JLabel idLabel = new JLabel("ID:");
@@ -89,22 +102,21 @@ extends AbstractItemView<RMA> {
 		gbc_creationDateValueLabel.gridy = 1;
 		getViewPanel().add(creationDateValueLabel, gbc_creationDateValueLabel);
 
-		JLabel customerIdLabel = new JLabel("Customer ID:");
-		GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
-		gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
-		gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdLabel.gridx = 0;
-		gbc_customerIdLabel.gridy = 2;
-		getViewPanel().add(customerIdLabel, gbc_customerIdLabel);
-
-		customerIdTextField = new JTextField();
-		GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
-		gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerIdTextField.gridx = 1;
-		gbc_customerIdTextField.gridy = 2;
-		getViewPanel().add(customerIdTextField, gbc_customerIdTextField);
-		customerIdTextField.setColumns(10);
+		JLabel customerLabel = new JLabel("Customer:");
+		GridBagConstraints gbc_customerLabel = new GridBagConstraints();
+		gbc_customerLabel.anchor = GridBagConstraints.EAST;
+		gbc_customerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_customerLabel.gridx = 0;
+		gbc_customerLabel.gridy = 2;
+		getViewPanel().add(customerLabel, gbc_customerLabel);
+		
+		customerSelectionPanel = new CustomerSelector();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 2;
+		getViewPanel().add(customerSelectionPanel, gbc_panel);
 
 		JLabel stateLabel = new JLabel("State:");
 		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
@@ -158,9 +170,7 @@ extends AbstractItemView<RMA> {
             rma.setId(Long.parseLong(idValueLabel.getText()));
         }
 
-        if (!customerIdTextField.getText().isEmpty()) {
-            rma.setCustomerId(Integer.parseInt(customerIdTextField.getText()));
-        }
+        rma.setCustomerId(customerSelectionPanel.getCustomerId());
 
         if (!trackingNumberTextField.getText().isEmpty()) {
         	rma.setTrackingNumber(trackingNumberTextField.getText());
@@ -176,7 +186,9 @@ extends AbstractItemView<RMA> {
 	@Override
 	public void resetFields() {
 		idValueLabel.setText("");
-		customerIdTextField.setText("");
+		if (getItem() == null) {
+			customerSelectionPanel.setItem(null);
+		}
 		trackingNumberTextField.setText("");
 		stateComboBox.setSelectedIndex(0);
 		orderLineListView.resetFields();
@@ -184,7 +196,6 @@ extends AbstractItemView<RMA> {
 
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
-		customerIdTextField.setEditable(isEditable);
 		trackingNumberTextField.setEditable(isEditable);
 		stateComboBox.setEnabled(isEditable);
 		orderLineListView.setFieldsEditable(isEditable);
@@ -196,7 +207,12 @@ extends AbstractItemView<RMA> {
 		RMA rma = getItem();
 		
 		idValueLabel.setText(rma.getId() != null ? rma.getId().toString() : "");
-		customerIdTextField.setText(rma.getCustomerId() != null ? rma.getCustomerId().toString() : "");
+		try {
+			customerSelectionPanel.setItem(customerService.findById(rma.getCustomerId()));
+		} catch (YPCException e) {
+			logger.error(e.getMessage(), e);
+			SwingUtils.showDatabaseAccessErrorDialog(this);
+		}
 		trackingNumberTextField.setText(rma.getTrackingNumber());
 		stateComboBox.setSelectedItem(DBConstants.RMA_STATES.get(rma.getState()));
 		orderLineListView.setItem(rma.getOrderLines());

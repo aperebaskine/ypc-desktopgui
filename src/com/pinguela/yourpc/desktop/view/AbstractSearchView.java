@@ -34,7 +34,6 @@ implements SearchView<T> {
 	private JScrollPane resultScrollPane;
 	private JTable table;
 	private JButton searchButton;
-	private Action searchAction;
 
 	public AbstractSearchView(SearchActionBuilder<T, ? extends SearchAction<T>> builder) {
 		

@@ -1,6 +1,9 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.Icon;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
@@ -18,13 +21,19 @@ extends YPCAction {
 
 	private static final String LABEL = "Search...";
 
-	private static final int DELAY = 150;
+	private static final int DELAY = 75;
 
 	private SearchView<T> view;
-	private long lastSearchTime = 0;
+	
+	private Timer timer;
+	private final ActionListener timerActionListener = (e) -> {
+		view.setModel(fetchData());	
+	};
 
 	public SearchAction(SearchView<T> view) {
 		this(view, LABEL, Icons.SEARCH_ICON);
+		timer = new Timer(DELAY, timerActionListener);
+		timer.setRepeats(false);
 	}
 
 	public SearchAction(SearchView<T> view, Icon icon) {
@@ -69,10 +78,10 @@ extends YPCAction {
 
 	@Override
 	protected void doAction() {
-		long now = System.currentTimeMillis();
-		if (now-lastSearchTime>DELAY) { // Cuando estés trabajando lo mejoras con un synchronize			
-			view.setModel(fetchData());			
-			this.lastSearchTime = System.currentTimeMillis();
+		if (timer.isRunning()) {
+			timer.restart();
+		} else {
+			timer.start();
 		}
 	}
 	

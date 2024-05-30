@@ -9,16 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.pinguela.yourpc.desktop.actions.EditRMADialogAction;
 import com.pinguela.yourpc.desktop.actions.RMASearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
-import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.RMATableCellRenderer;
-import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.model.RMACriteria;
@@ -199,13 +196,8 @@ public class RMASearchView extends AbstractSearchView<RMA> {
 	}
 
 	private void postInitialize() {
-
 		JTable table = getTable();
-		
-		YPCAction openEditDialogAction = new EditRMADialogAction(this);
-		TableUtils.initializeActionPanes(table, openEditDialogAction);
 		table.setDefaultRenderer(Object.class, new RMATableCellRenderer());
-		table.addMouseListener(openEditDialogAction);
 	}
 
 	@Override

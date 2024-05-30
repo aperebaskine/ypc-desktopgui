@@ -1,38 +1,27 @@
 package com.pinguela.yourpc.desktop.actions;
 
-import javax.swing.JOptionPane;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.awt.Component;
 
 import com.pinguela.yourpc.desktop.YPCWindow;
-import com.pinguela.yourpc.desktop.view.YPCView;
 
-public class OpenTabAction<T extends YPCView> extends YPCAction {
+public abstract class OpenTabAction extends YPCAction {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1477001024461349414L;
 	
-	private static Logger logger = LogManager.getLogger(OpenTabAction.class);
-	
-	private Class<T> target;
 	private String title;
 	
-	public OpenTabAction(Class<T> target, String title) {
-		this.target = target;
+	public OpenTabAction(String title) {
 		this.title = title;
 	}
-
+	
 	@Override
 	protected void doAction() {
-		try {
-			YPCWindow.getInstance().addCloseableTab(title, target.getDeclaredConstructor().newInstance());
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			JOptionPane.showMessageDialog(null, "An error occured while opening the tab.", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+		YPCWindow.getInstance().addCloseableTab(title, initializeTab());
 	}
+	
+	protected abstract Component initializeTab();
 
 }

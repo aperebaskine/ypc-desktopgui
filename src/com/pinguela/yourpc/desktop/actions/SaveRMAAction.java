@@ -23,12 +23,17 @@ extends SaveItemAction<RMA> {
 		super(view, "Save", Icons.OK_ICON);
 		this.rmaService = new RMAServiceImpl();
 	}
-
+	
 	@Override
-	protected void doSave() throws YPCException {
-		RMA newRma = getView().getNewItem();
-		rmaService.update(newRma);
-		getView().setItem(rmaService.findById(newRma.getId()));
+	protected void doCreate(RMA item) throws YPCException {
+		rmaService.create(item);
+		getView().setItem(rmaService.findById(item.getId()));
+	}
+	
+	@Override
+	protected void doUpdate(RMA item) throws YPCException {
+		rmaService.update(item);
+		getView().setItem(rmaService.findById(item.getId()));
 	}
 	
 	@Override

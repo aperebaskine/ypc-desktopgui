@@ -9,16 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.pinguela.yourpc.desktop.actions.EditTicketDialogAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.TicketSearchAction;
-import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.TicketTableCellRenderer;
-import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
@@ -182,11 +179,7 @@ public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
 		getCriteriaPanel().add(stateComboBox, gbc_stateComboBox);
 
 		JTable table = getTable();
-		
-		YPCAction editTicketDialogAction = new EditTicketDialogAction(this);
-		TableUtils.initializeActionPanes(table, editTicketDialogAction);
 		table.setDefaultRenderer(Object.class, new TicketTableCellRenderer());
-		table.addMouseListener(editTicketDialogAction);
 	}
 
 	@SuppressWarnings("unchecked")

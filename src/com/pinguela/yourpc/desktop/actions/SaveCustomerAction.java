@@ -23,12 +23,17 @@ extends SaveItemAction<Customer> {
 		super(view, "Save", Icons.OK_ICON);
 		this.customerService = new CustomerServiceImpl();
 	}
-
+	
 	@Override
-	protected void doSave() throws YPCException {
-		Customer newCustomer = getView().getNewItem();
-		customerService.update(newCustomer);
-		getView().setItem(customerService.findById(newCustomer.getId()));
+	protected void doCreate(Customer item) throws YPCException {
+		customerService.register(item);
+		getView().setItem(customerService.findById(item.getId()));
+	}
+	
+	@Override
+	protected void doUpdate(Customer item) throws YPCException {
+		customerService.update(item);
+		getView().setItem(customerService.findById(item.getId()));
 	}
 	
 	@Override

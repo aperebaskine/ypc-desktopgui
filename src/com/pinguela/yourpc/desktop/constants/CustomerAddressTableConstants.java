@@ -7,5 +7,6 @@ extends TableConstants {
 	
 	int ID_COLUMN_INDEX = 0;
 	int CREATION_DATE_COLUMN_INDEX = 1;
+	int IS_DEFAULT_COLUMN_INDEX = 2;
 	
 }

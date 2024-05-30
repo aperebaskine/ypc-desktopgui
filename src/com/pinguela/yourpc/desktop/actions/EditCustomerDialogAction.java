@@ -41,8 +41,8 @@ extends AbstractSearchViewDialogAction<Customer> {
 		c = (Customer) table.getValueAt(row, column);
 		dialogView.setItem(c);
 
-		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
-		if (!isEditing) {
+		boolean editOnOpen = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
+		if (!editOnOpen) {
 			dialogView.addAction(new DeleteCustomerAction(dialogView));
 			dialogView.addAction(new EditItemAction<Customer>(dialogView, ItemView.VIEW_CARD));
 		}
@@ -64,6 +64,10 @@ extends AbstractSearchViewDialogAction<Customer> {
 			getSearchView().doSearch();
 			return;
 		}
+	}
+	
+	protected CustomerView getDialogView() {
+		return dialogView;
 	}
 
 	@Override

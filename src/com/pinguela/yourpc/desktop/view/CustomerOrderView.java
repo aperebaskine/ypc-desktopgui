@@ -3,19 +3,30 @@ package com.pinguela.yourpc.desktop.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
-import com.pinguela.yourpc.desktop.components.ActionPane;
+import com.pinguela.yourpc.desktop.components.CustomerAddressSelector;
+import com.pinguela.yourpc.desktop.components.CustomerSelector;
+import com.pinguela.yourpc.desktop.constants.DBConstants;
+import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.model.Address;
+import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.CustomerOrder;
+import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.service.AddressService;
+import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.AddressServiceImpl;
+import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
 public class CustomerOrderView 
 extends AbstractItemView<CustomerOrder> {
@@ -24,30 +35,50 @@ extends AbstractItemView<CustomerOrder> {
 	 * 
 	 */
 	private static final long serialVersionUID = -4439375266039375673L;
-	
+
 	private static Logger logger = LogManager.getLogger(CustomerOrderView.class);
-	
+
+	private CustomerService customerService;
 	private AddressService addressService;
 
-	private JTextField customerIdTextField;
 	private JLabel idValueLabel;
+	private JComboBox<ItemState<CustomerOrder>> stateComboBox;
 	private OrderLineListView orderLineListView;
-	private ActionPane billingAddressActionPane;
-	private ActionPane shippingAddressActionPane;
-	private AddressView billingAddressView;
-	private AddressView shippingAddressView;
+	private CustomerSelector customerSelector;
+	private CustomerAddressSelector billingAddressSelector;
+	private CustomerAddressSelector shippingAddressSelector;
+
+	private final PropertyChangeListener customerSelectionListener = (evt) -> {
+		Customer customer = (Customer) evt.getNewValue();
+		
+		billingAddressSelector.setEnabled(customer != null);
+		shippingAddressSelector.setEnabled(customer != null);
+		
+		if (getItem() == null && customer != null) {
+			for (Address address : customer.getAddresses()) {
+				if (address.isDefault()) {
+					shippingAddressSelector.setItem(address);
+				}
+				if (address.isBilling()) {
+					billingAddressSelector.setItem(address);
+				}
+			}
+		}
+	};
+	private JTextField trackingNumberTextField;
 
 	public CustomerOrderView() {
 		initialize();
+		this.customerService = new CustomerServiceImpl();
 		this.addressService = new AddressServiceImpl(); 
 	}
 
 	private void initialize() {
 		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
-		gridBagLayout.rowHeights = new int[]{0, 0, 28};
-		gridBagLayout.columnWidths = new int[]{0, 200, 48, 0, 200, 0, 0, 0};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 28, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 200, 48, 0, 200};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0};
 
 		JLabel idLabel = new JLabel("ID:");
 		GridBagConstraints gbc_idLabel = new GridBagConstraints();
@@ -65,123 +96,164 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_idValueLabel.gridy = 0;
 		getViewPanel().add(idValueLabel, gbc_idValueLabel);
 
-		JLabel customerIdLabel = new JLabel("Customer ID:");
-		GridBagConstraints gbc_customerIdLabel = new GridBagConstraints();
-		gbc_customerIdLabel.anchor = GridBagConstraints.EAST;
-		gbc_customerIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdLabel.gridx = 3;
-		gbc_customerIdLabel.gridy = 0;
-		getViewPanel().add(customerIdLabel, gbc_customerIdLabel);
+		JLabel customerLabel = new JLabel("Customer:");
+		GridBagConstraints gbc_customerLabel = new GridBagConstraints();
+		gbc_customerLabel.anchor = GridBagConstraints.EAST;
+		gbc_customerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_customerLabel.gridx = 0;
+		gbc_customerLabel.gridy = 1;
+		getViewPanel().add(customerLabel, gbc_customerLabel);
 
-		customerIdTextField = new JTextField();
-		GridBagConstraints gbc_customerIdTextField = new GridBagConstraints();
-		gbc_customerIdTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_customerIdTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_customerIdTextField.gridx = 4;
-		gbc_customerIdTextField.gridy = 0;
-		getViewPanel().add(customerIdTextField, gbc_customerIdTextField);
-		customerIdTextField.setColumns(10);
-
-		JLabel orderLineListLabel = new JLabel("Products:");
-		GridBagConstraints gbc_orderLineListLabel = new GridBagConstraints();
-		gbc_orderLineListLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_orderLineListLabel.anchor = GridBagConstraints.NORTHEAST;
-		gbc_orderLineListLabel.gridx = 6;
-		gbc_orderLineListLabel.gridy = 0;
-		getViewPanel().add(orderLineListLabel, gbc_orderLineListLabel);
-
-		orderLineListView = new OrderLineListView();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.gridheight = 3;
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 7;
-		gbc_panel_2.gridy = 0;
-		getViewPanel().add(orderLineListView, gbc_panel_2);
+		customerSelector = new CustomerSelector();
+		customerSelector.addPropertyChangeListener(CustomerSelector.ITEM_PROPERTY, customerSelectionListener);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 1;
+		getViewPanel().add(customerSelector, gbc_panel);
+		
+		JLabel stateLabel = new JLabel("State:");
+		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
+		gbc_stateLabel.anchor = GridBagConstraints.EAST;
+		gbc_stateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_stateLabel.gridx = 3;
+		gbc_stateLabel.gridy = 1;
+		getViewPanel().add(stateLabel, gbc_stateLabel);
+		
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 4;
+		gbc_comboBox.gridy = 1;
+		getViewPanel().add(stateComboBox, gbc_comboBox);
 
 		JLabel billingAddressLabel = new JLabel("Billing address:");
 		GridBagConstraints gbc_billingAddressLabel = new GridBagConstraints();
 		gbc_billingAddressLabel.anchor = GridBagConstraints.EAST;
 		gbc_billingAddressLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_billingAddressLabel.gridx = 0;
-		gbc_billingAddressLabel.gridy = 1;
+		gbc_billingAddressLabel.gridy = 2;
 		getViewPanel().add(billingAddressLabel, gbc_billingAddressLabel);
 
-		billingAddressActionPane = new ActionPane();
+		billingAddressSelector = new CustomerAddressSelector(customerSelector);
+		billingAddressSelector.setEnabled(false);
 		GridBagConstraints gbc_billingAddressActionPane;
 		gbc_billingAddressActionPane = new GridBagConstraints();
 		gbc_billingAddressActionPane.insets = new Insets(0, 0, 5, 5);
 		gbc_billingAddressActionPane.fill = GridBagConstraints.BOTH;
 		gbc_billingAddressActionPane.gridx = 1;
-		gbc_billingAddressActionPane.gridy = 1;
-		getViewPanel().add(billingAddressActionPane, gbc_billingAddressActionPane);
+		gbc_billingAddressActionPane.gridy = 2;
+		getViewPanel().add(billingAddressSelector, gbc_billingAddressActionPane);
+		
+		JLabel trackingNumberLabel = new JLabel("Tracking number:");
+		GridBagConstraints gbc_trackingNumberLabel = new GridBagConstraints();
+		gbc_trackingNumberLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_trackingNumberLabel.anchor = GridBagConstraints.EAST;
+		gbc_trackingNumberLabel.gridx = 3;
+		gbc_trackingNumberLabel.gridy = 2;
+		getViewPanel().add(trackingNumberLabel, gbc_trackingNumberLabel);
+		
+		trackingNumberTextField = new JTextField();
+		GridBagConstraints gbc_trackingNumberTextField = new GridBagConstraints();
+		gbc_trackingNumberTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_trackingNumberTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_trackingNumberTextField.gridx = 4;
+		gbc_trackingNumberTextField.gridy = 2;
+		getViewPanel().add(trackingNumberTextField, gbc_trackingNumberTextField);
+		trackingNumberTextField.setColumns(10);
 
 		JLabel shippingAddressLabel = new JLabel("Shipping address:");
 		GridBagConstraints gbc_shippingAddressLabel = new GridBagConstraints();
 		gbc_shippingAddressLabel.anchor = GridBagConstraints.EAST;
 		gbc_shippingAddressLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_shippingAddressLabel.gridx = 3;
-		gbc_shippingAddressLabel.gridy = 1;
+		gbc_shippingAddressLabel.gridx = 0;
+		gbc_shippingAddressLabel.gridy = 3;
 		getViewPanel().add(shippingAddressLabel, gbc_shippingAddressLabel);
 
-		shippingAddressActionPane = new ActionPane();
+		shippingAddressSelector = new CustomerAddressSelector(customerSelector);
+		shippingAddressSelector.setEnabled(false);
 		GridBagConstraints gbc_shippingAddressActionPane = new GridBagConstraints();
 		gbc_shippingAddressActionPane.insets = new Insets(0, 0, 5, 5);
 		gbc_shippingAddressActionPane.fill = GridBagConstraints.BOTH;
-		gbc_shippingAddressActionPane.gridx = 4;
-		gbc_shippingAddressActionPane.gridy = 1;
-		getViewPanel().add(shippingAddressActionPane, gbc_shippingAddressActionPane);
+		gbc_shippingAddressActionPane.gridx = 1;
+		gbc_shippingAddressActionPane.gridy = 3;
+		getViewPanel().add(shippingAddressSelector, gbc_shippingAddressActionPane);
 
-		billingAddressView = new AddressView(AddressView.CUSTOMER);
-		GridBagConstraints gbc_billingAddressView;
-		gbc_billingAddressView = new GridBagConstraints();
-		gbc_billingAddressView.insets = new Insets(0, 0, 0, 5);
-		gbc_billingAddressView.fill = GridBagConstraints.BOTH;
-		gbc_billingAddressView.gridx = 1;
-		gbc_billingAddressView.gridy = 2;
-		getViewPanel().add(billingAddressView, gbc_billingAddressView);
+		JLabel orderLineListLabel = new JLabel("Products:");
+		GridBagConstraints gbc_orderLineListLabel = new GridBagConstraints();
+		gbc_orderLineListLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_orderLineListLabel.anchor = GridBagConstraints.NORTHEAST;
+		gbc_orderLineListLabel.gridx = 0;
+		gbc_orderLineListLabel.gridy = 4;
+		getViewPanel().add(orderLineListLabel, gbc_orderLineListLabel);
 
-		shippingAddressView = new AddressView(AddressView.CUSTOMER);
-		GridBagConstraints gbc_shippingAddressView = new GridBagConstraints();
-		gbc_shippingAddressView.insets = new Insets(0, 0, 0, 5);
-		gbc_shippingAddressView.fill = GridBagConstraints.BOTH;
-		gbc_shippingAddressView.gridx = 4;
-		gbc_shippingAddressView.gridy = 2;
-		getViewPanel().add(shippingAddressView, gbc_shippingAddressView);
+		orderLineListView = new OrderLineListView();
+		orderLineListView.setBorder(new EmptyBorder(0, 0, 0, 0));
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.gridwidth = 4;
+		gbc_panel_2.gridheight = 5;
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 1;
+		gbc_panel_2.gridy = 4;
+		getViewPanel().add(orderLineListView, gbc_panel_2);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public CustomerOrder getNewItem() {
-		// TODO Auto-generated method stub
-		return null;
+		CustomerOrder order = new CustomerOrder();
+		CustomerOrder updating = getItem();
+	
+		if (updating != null) {
+			order.setId(updating.getId());
+			order.setOrderDate(updating.getOrderDate());
+		}
+		
+		order.setOrderLines(orderLineListView.getItem());
+		order.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
+		order.setBillingAddressId(billingAddressSelector.getItem().getId());
+		order.setShippingAddressId(shippingAddressSelector.getItem().getId());
+		order.setTrackingNumber(trackingNumberTextField.getText());
+		
+		return order;
 	}
 
 	@Override
 	public void resetFields() {
-		idValueLabel.setText("");
-		customerIdTextField.setText("");	
+
+		if (getItem() == null) {
+			customerSelector.setItem(null);
+			billingAddressSelector.setItem(null);
+			shippingAddressSelector.setItem(null);
+		}
+		idValueLabel.setText("");	
 		orderLineListView.resetFields();
-		billingAddressView.resetFields();
-		shippingAddressView.resetFields();
+		stateComboBox.setSelectedIndex(0);
+		trackingNumberTextField.setText("");
 	}
 
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
-        customerIdTextField.setEditable(isEditable);
-        orderLineListView.setFieldsEditable(isEditable);
-        billingAddressView.setFieldsEditable(isEditable);
-        shippingAddressView.setFieldsEditable(isEditable);
+		orderLineListView.setFieldsEditable(isEditable);
+		stateComboBox.setEnabled(isEditable);
+		trackingNumberTextField.setEditable(isEditable);
 	}
 
 	@Override
 	protected void onItemSet() {
 		CustomerOrder order = getItem();
+
+		idValueLabel.setText(order.getId() != null ? order.getId().toString() : "");
+		orderLineListView.setItem(order.getOrderLines());
+		stateComboBox.setSelectedItem(DBConstants.ORDER_STATES.get(order.getState()));
+		trackingNumberTextField.setText(order.getTrackingNumber());
 		
-        idValueLabel.setText(order.getId() != null ? order.getId().toString() : "");
-        customerIdTextField.setText(order.getCustomerId() != null ? order.getCustomerId().toString() : "");
-        orderLineListView.setItem(order.getOrderLines());
-        try {
-			billingAddressView.setItem(addressService.findById(order.getBillingAddressId()));
-			shippingAddressView.setItem(addressService.findById(order.getShippingAddressId()));
+		try {
+			customerSelector.setItem(customerService.findById(order.getCustomerId()));
+			billingAddressSelector.setItem(addressService.findById(order.getBillingAddressId()));
+			shippingAddressSelector.setItem(addressService.findById(order.getShippingAddressId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			SwingUtils.showDatabaseAccessErrorDialog(this);

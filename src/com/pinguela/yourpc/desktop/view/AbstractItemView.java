@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.view;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.beans.PropertyChangeListener;
@@ -58,6 +59,10 @@ implements ItemView<T> {
 		
 		addPropertyChangeListener(CARD_PROPERTY, editorListener);
 		addPropertyChangeListener(ITEM_PROPERTY, itemListener);
+		
+		EventQueue.invokeLater(() -> {
+			setFieldsEditable(isEditable());
+		});
 	}
 
 	private void initializeSouthPanel() {
@@ -122,7 +127,7 @@ implements ItemView<T> {
 	}
 	
 	public boolean isEditable() {
-		return ItemView.EDITOR_CARD.equals(southPanel.getComponent(0).getName());
+		return southPanel != null && ItemView.EDITOR_CARD.equals(southPanel.getComponent(0).getName());
 	}
 	
 	protected abstract void setFieldsEditable(boolean isEditable);

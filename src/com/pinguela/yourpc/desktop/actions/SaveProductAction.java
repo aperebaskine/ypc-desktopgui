@@ -27,12 +27,22 @@ extends SaveItemAction<Product> {
 		this.productService = new ProductServiceImpl();
 		this.imageFileService = new ImageFileServiceImpl();
 	}
-
+	
 	@Override
-	protected void doSave() throws YPCException {
-		Product newProduct = getView().getNewItem();
-		productService.update(newProduct);
-		getView().setItem(productService.findById(newProduct.getId()));
+	protected void doCreate(Product item) throws YPCException {
+		productService.create(item);
+		getView().setItem(productService.findById(item.getId()));
+		saveImages(item);
+	}
+	
+	@Override
+	protected void doUpdate(Product item) throws YPCException {
+		productService.update(item);
+		getView().setItem(productService.findById(item.getId()));
+		saveImages(item);
+	}
+	
+	private void saveImages(Product item) throws YPCException {
 		imageFileService.update(ImageFileService.PRODUCT_TYPE,
 				getView().getItem().getId(), ((ProductView) getView()).getModifiedImageEntries());
 	}

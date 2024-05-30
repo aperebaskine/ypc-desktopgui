@@ -5,6 +5,9 @@ import javax.swing.Action;
 public interface ItemView<T> {
 	
 	String ITEM_PROPERTY = "item";
+	
+	int VIEWING = 0;
+	int EDITING = 1;
 
 	String VIEW_CARD = "actionCard";
 	String EDITOR_CARD = "editorCard";

@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,8 @@ extends AbstractItemView<Ticket> {
 	
 	private static Logger logger = LogManager.getLogger(TicketView.class);
 	
+	private static final String MESSAGE_LIST_SIZE_PROPERTY = "messageListSize";
+	
 	private CustomerService customerService;
 
 	private JLabel idValueLabel;
@@ -53,6 +56,12 @@ extends AbstractItemView<Ticket> {
 	private JTextArea descriptionTextArea;
 	private JPanel messageListPanel;
 	private List<TicketMessage> messages;
+	
+	private PropertyChangeListener messageListSizeListener = (evt) -> {
+		GridLayout layout = (GridLayout) messageListPanel.getLayout();
+		layout.setRows(layout.getRows() +1);
+		messageListPanel.add(new TicketMessagePanel(messages.get((int) evt.getNewValue() -1)));
+	};
 
 	public TicketView() {
 		initialize();
@@ -209,6 +218,7 @@ extends AbstractItemView<Ticket> {
 		getViewPanel().add(stateComboBox, gbc_stateComboBox);
 
 		messages = new ArrayList<TicketMessage>();
+		addPropertyChangeListener(MESSAGE_LIST_SIZE_PROPERTY, messageListSizeListener);
 	}
 
 	@Override
@@ -260,7 +270,7 @@ extends AbstractItemView<Ticket> {
 		descriptionTextArea.setText("");
 		typeComboBox.setSelectedIndex(0);
 		stateComboBox.setSelectedIndex(0);
-		messages.removeAll(messages);
+		messages.clear();
 		messageListPanel.removeAll();
 		((GridLayout) messageListPanel.getLayout()).setRows(1);
 	}
@@ -275,10 +285,10 @@ extends AbstractItemView<Ticket> {
 
 	@Override
 	protected void onItemSet() {
+		resetFields();
+		
 		Ticket ticket = getItem();
 		
-		resetFields();
-
 		idValueLabel.setText(ticket.getId() != null ? ticket.getId().toString() : "");
 		creationDateValueLabel.setText(ticket.getCreationDate() != null ? SwingUtils.formatDateTime(ticket.getCreationDate()): "");
 		try {
@@ -292,16 +302,16 @@ extends AbstractItemView<Ticket> {
 		typeComboBox.setSelectedItem(DBConstants.TICKET_TYPES.get(ticket.getType()));
 		stateComboBox.setSelectedItem(DBConstants.TICKET_STATES.get(ticket.getState()));
 		
+		messages.clear();
 		for (TicketMessage message : ticket.getMessageList()) {
 			addMessage(message);
 		}
 	}
 
 	public void addMessage(TicketMessage message) {
+		int size = messages.size();
 		messages.add(message);
-		GridLayout layout = (GridLayout) messageListPanel.getLayout();
-		layout.setRows(layout.getRows() +1);
-		messageListPanel.add(new TicketMessagePanel(message));
+		firePropertyChange(MESSAGE_LIST_SIZE_PROPERTY, size, size+1);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Collections;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -260,19 +261,22 @@ extends AbstractImageGalleryItemView<Product> {
 		purchasePriceField.setValue(getItem().getPurchasePrice());
 		salePriceField.setValue(getItem().getSalePrice());
 		descriptionTextArea.setText(getItem().getDescription());
+		
+		attributeTable.setModel(
+				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
 	}
-	
+
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
-	nameTextField.setEditable(isEditable);
-	categoryComboBox.setEnabled(isEditable);
-	launchDateChooser.setEditable(isEditable);
-	stockTextField.setEditable(isEditable);
-	purchasePriceField.setEditable(isEditable);
-	salePriceField.setEditable(isEditable);
-	descriptionTextArea.setEditable(isEditable);
+		nameTextField.setEditable(isEditable);
+		categoryComboBox.setEnabled(isEditable);
+		launchDateChooser.setEditable(isEditable);
+		stockTextField.setEditable(isEditable);
+		purchasePriceField.setEditable(isEditable);
+		salePriceField.setEditable(isEditable);
+		descriptionTextArea.setEditable(isEditable);
 	}
-	
+
 	@Override
 	protected void onItemSet() {
 		idValueLabel.setText(getItem().getId().toString());

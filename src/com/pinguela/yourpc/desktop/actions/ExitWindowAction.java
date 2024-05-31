@@ -17,6 +17,11 @@ extends YPCAction {
 	
 	private Component component;
 	
+	public ExitWindowAction(String name, Component component) {
+		super(name, Icons.CANCEL_ICON);
+		this.component = component;
+	}
+	
 	public ExitWindowAction(Component component) {
 		super("Exit", Icons.CANCEL_ICON);
 		this.component = component;

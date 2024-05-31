@@ -1,10 +1,12 @@
 package com.pinguela.yourpc.desktop.view;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,17 +28,23 @@ implements ItemView<T> {
 	
 	protected static final String CARD_PROPERTY = "card";
 	
-	private PropertyChangeListener editorListener = (evt) -> {
-		boolean isEditable = ItemView.EDITOR_CARD.equals(evt.getNewValue());
-		setFieldsEditable(isEditable);
+	private PropertyChangeListener cardListener = (evt) -> {
+		setFieldsEditable(isEditable());
 	};
 
 	private PropertyChangeListener itemListener = (evt) -> {
-		if (evt.getNewValue() == null) {
-			resetFields();
-		} else {
+		resetFields();
+		
+		if (evt.getNewValue() != null) {
 			onItemSet();
 		}
+	};
+	
+	private ComponentListener onFirstShown = new ComponentAdapter() {
+		public void componentResized(ComponentEvent e) {
+			setFieldsEditable(isEditable());
+			((Component) e.getSource()).removeComponentListener(this);
+		};
 	};
 
 	private T item;
@@ -58,15 +66,9 @@ implements ItemView<T> {
 
 		cards = new HashMap<String, ActionPane>();
 		
-		addPropertyChangeListener(CARD_PROPERTY, editorListener);
+		addPropertyChangeListener(CARD_PROPERTY, cardListener);
 		addPropertyChangeListener(ITEM_PROPERTY, itemListener);
-		
-		addComponentListener(new ComponentAdapter() {
-		@Override
-			public void componentShown(ComponentEvent e) {
-				setFieldsEditable(isEditable());
-			}	
-		});
+		addComponentListener(onFirstShown);
 	}
 
 	private void initializeSouthPanel() {

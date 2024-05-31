@@ -18,12 +18,12 @@ extends AbstractItemView<T> {
 	private static final long serialVersionUID = -3702324745329166746L;
 
 	private ImageGallery imageGalleryPanel;
-	private PropertyChangeListener editorListener = (evt) -> {
+	private PropertyChangeListener cardListener = (evt) -> {
 		imageGalleryPanel.setEditable(isEditable());
 	};
 
 	public AbstractImageGalleryItemView() {
-		addPropertyChangeListener(CARD_PROPERTY, editorListener);
+		addPropertyChangeListener(CARD_PROPERTY, cardListener);
 		add(getViewPanel(), BorderLayout.WEST);
 
 		imageGalleryPanel = new ImageGallery();
@@ -47,7 +47,7 @@ extends AbstractItemView<T> {
 		imageGalleryPanel.clearImages();
 	}
 
-	public List<ImageEntry> getModifiedImageEntries() {
+	public List<ImageEntry> getModifiedImages() {
 		return imageGalleryPanel.getImages();
 	}
 

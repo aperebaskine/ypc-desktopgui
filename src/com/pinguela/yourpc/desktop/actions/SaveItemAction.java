@@ -55,7 +55,7 @@ extends ItemAction<T> {
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			JOptionPane.showMessageDialog((Component) getView(), 
-					"An error occured while updating the product.", "Error", JOptionPane.ERROR_MESSAGE);
+					"An error occured while communicating with the database.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

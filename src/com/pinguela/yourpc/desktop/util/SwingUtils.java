@@ -42,6 +42,7 @@ public class SwingUtils {
 		int panelWidth = targetPanel.getWidth();
 		int panelHeight = targetPanel.getHeight();
 
+		// TODO: factorize
 		if (panelHeight > panelWidth) {
 			width = panelWidth - getMarginSize(targetPanel, HORIZONTAL_MARGIN);
 			height = image.getHeight() * width / image.getWidth();

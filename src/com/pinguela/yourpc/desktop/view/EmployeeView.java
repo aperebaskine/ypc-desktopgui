@@ -44,7 +44,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	private AddressView addressView;
 	
 	public EmployeeView() {
-		setPreferredSize(new Dimension(900, 336));
+		setPreferredSize(new Dimension(900, 360));
 		initialize();
 		postInitialize();
 	}

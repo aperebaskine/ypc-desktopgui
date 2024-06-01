@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemListener;
+import java.util.Collections;
 
 import javax.swing.Action;
 import javax.swing.JComboBox;
@@ -236,6 +237,8 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_launchDateChooser.gridy = 3;
 		getViewPanel().add(launchDateChooser, gbc_launchDateChooser);
 		
+		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
+				AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable), 
 				new EditAttributeAction(attributeTable, AttributeService.RETURN_UNASSIGNED_VALUES));
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());

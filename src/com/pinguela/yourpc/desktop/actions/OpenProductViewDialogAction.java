@@ -15,19 +15,17 @@ extends OpenDialogAction<Product> {
 	 */
 	private static final long serialVersionUID = 8174388122343707197L;
 
-	private ProductView dialogView;
-
 	public OpenProductViewDialogAction() {
 		super("Create...");
 	}
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		dialogView = new ProductView();
+		ProductView dialogView = new ProductView();
 		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
 		dialogView.addAction(new CancelEditAction<Product>(dialogView), ItemView.EDITOR_CARD);
 		dialogView.addAction(new SaveProductAction(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new AddAttributeAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAttributeAction(new AddAttributeAction(dialogView));
 
 		YPCDialog dialog = new YPCDialog(null, dialogView);
 		dialog.setTitle("Product editor");

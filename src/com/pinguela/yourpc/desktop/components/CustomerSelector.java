@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.components;
 
 import com.pinguela.yourpc.desktop.actions.OpenItemViewDialogAction;
+import com.pinguela.yourpc.desktop.actions.SelectCustomerAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.CustomerView;
@@ -16,8 +17,7 @@ extends ItemSelector<Customer> {
 
 	@Override
 	protected YPCAction initializeSelectAction() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SelectCustomerAction(this);
 	}
 
 	@Override

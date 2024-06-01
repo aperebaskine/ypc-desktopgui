@@ -13,6 +13,11 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +44,7 @@ import com.pinguela.yourpc.desktop.actions.OpenProductSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenRMASearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenTicketSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenTicketViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenUserPopupMenuAction;
 import com.pinguela.yourpc.desktop.components.CloseableTabComponent;
 import com.pinguela.yourpc.desktop.constants.Icons;
@@ -52,6 +58,20 @@ public class YPCWindow {
 	public static final String AUTHENTICATED_USER_PROPERTY = "authenticatedUser";
 
 	private static Logger logger = LogManager.getLogger();
+	
+	// TODO: Rewrite implementation
+	private static final Map<String, List<String>> PERMISSION_MAP;
+	
+	static {
+		Map<String, List<String>> permissionMap = new HashMap<String, List<String>>();
+		permissionMap.put("product", Arrays.asList("EXC", "FIN", "MKT", "OPS", "SAL", "SUP"));
+		permissionMap.put("customer", Arrays.asList("EXC", "SAL", "SUP"));
+		permissionMap.put("employee", Arrays.asList("EXC", "HRS"));
+		permissionMap.put("customerOrder", Arrays.asList("EXC", "SUP", "OPS"));
+		permissionMap.put("ticket", Arrays.asList("EXC", "SUP"));
+		permissionMap.put("rma", Arrays.asList("EXC", "SUP"));
+		PERMISSION_MAP = Collections.unmodifiableMap(permissionMap);
+	}
 
 	// Singleton
 	private static YPCWindow instance = null; 
@@ -67,6 +87,20 @@ public class YPCWindow {
 
 	private JButton userMenuButton;
 	private JTabbedPane tabbedPane;
+
+	private JMenu productMenu;
+	private JMenu customerMenu;
+	private JMenu employeeMenu;
+	private JMenu customerOrderMenu;
+	private JMenu ticketMenu;
+	private JMenu rmaMenu;
+
+	private JButton productTabButton;
+	private JButton customerTabButton;
+	private JButton employeeTabButton;
+	private JButton customerOrderTabButton;
+	private JButton ticketTabButton;
+	private JButton rmaTabButton;
 
 	static {
 		try {
@@ -117,7 +151,7 @@ public class YPCWindow {
 		JMenuBar menuBar = new JMenuBar();
 		northPanel.add(menuBar, BorderLayout.NORTH);
 
-		JMenu productMenu = new JMenu("Products");
+		productMenu = new JMenu("Products");
 		menuBar.add(productMenu);
 		
 		JMenuItem createProductMenuItem = new JMenuItem(new OpenProductViewDialogAction());
@@ -126,7 +160,7 @@ public class YPCWindow {
 		JMenuItem productSearchMenuItem = new JMenuItem("Search...");
 		productMenu.add(productSearchMenuItem);
 		
-		JMenu customerMenu = new JMenu("Customers");
+		customerMenu = new JMenu("Customers");
 		menuBar.add(customerMenu);
 		
 		JMenuItem createCustomerMenuItem = new JMenuItem(new OpenCustomerViewDialogAction());
@@ -135,7 +169,7 @@ public class YPCWindow {
 		JMenuItem customerSearchMenuItem = new JMenuItem("Search...");
 		customerMenu.add(customerSearchMenuItem);
 		
-		JMenu employeeMenu = new JMenu("Employees");
+		employeeMenu = new JMenu("Employees");
 		menuBar.add(employeeMenu);
 		
 		JMenuItem createEmployeeMenuItem = new JMenuItem(new OpenEmployeeViewDialogAction());
@@ -144,19 +178,22 @@ public class YPCWindow {
 		JMenuItem employeeSearchMenuItem = new JMenuItem("Search...");
 		employeeMenu.add(employeeSearchMenuItem);
 		
-		JMenu orderMenu = new JMenu("Orders");
-		menuBar.add(orderMenu);
+		customerOrderMenu = new JMenu("Orders");
+		menuBar.add(customerOrderMenu);
 		
 		JMenuItem orderSearchMenuItem = new JMenuItem("Search...");
-		orderMenu.add(orderSearchMenuItem);
+		customerOrderMenu.add(orderSearchMenuItem);
 		
-		JMenu ticketMenu = new JMenu("Tickets");
+		ticketMenu = new JMenu("Tickets");
 		menuBar.add(ticketMenu);
+		
+		JMenuItem createTicketMenuItem = new JMenuItem(new OpenTicketViewDialogAction());
+		ticketMenu.add(createTicketMenuItem);
 		
 		JMenuItem ticketSearchMenuItem = new JMenuItem("Search...");
 		ticketMenu.add(ticketSearchMenuItem);
 		
-		JMenu rmaMenu = new JMenu("RMAs");
+		rmaMenu = new JMenu("RMAs");
 		menuBar.add(rmaMenu);
 		
 		JMenuItem rmaSearchMenuItem = new JMenuItem("Search...");
@@ -179,22 +216,22 @@ public class YPCWindow {
 		gbc_toolBar.gridy = 0;
 		panel.add(toolBar, gbc_toolBar);
 
-		JButton productTabButton = new JButton(Icons.PRODUCT_ICON);
+		productTabButton = new JButton(Icons.PRODUCT_ICON);
 		toolBar.add(productTabButton);
 		
-		JButton customerTabButton = new JButton(Icons.USER_ICON);
+		customerTabButton = new JButton(Icons.USER_ICON);
 		toolBar.add(customerTabButton);
 		
-		JButton employeeTabButton = new JButton(Icons.USER_ICON);
+		employeeTabButton = new JButton(Icons.USER_ICON);
 		toolBar.add(employeeTabButton);
 		
-		JButton customerOrderTabButton = new JButton(Icons.DOCUMENT_ICON);
+		customerOrderTabButton = new JButton(Icons.DOCUMENT_ICON);
 		toolBar.add(customerOrderTabButton);
 		
-		JButton ticketTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1798_mail_to_post_to_post_mail.png")));
+		ticketTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1798_mail_to_post_to_post_mail.png")));
 		toolBar.add(ticketTabButton);
 		
-		JButton rmaTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
+		rmaTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
 		toolBar.add(rmaTabButton);
 
 		JToolBar userMenuToolBar = new JToolBar();
@@ -253,7 +290,44 @@ public class YPCWindow {
 	}
 
 	public void setPermissions() {
-		// TODO: Make menus visible according to user's department
+		String department = authenticatedUser.getDepartmentHistory().get(0).getDepartmentId();
+
+	    for (Map.Entry<String, List<String>> entry : PERMISSION_MAP.entrySet()) {
+	        String entity = entry.getKey();
+	        List<String> allowedDepartments = entry.getValue();
+
+	        boolean hasPermission = allowedDepartments.contains(department);
+
+	        switch (entity) {
+	            case "product":
+	                productMenu.setVisible(hasPermission);
+	                productTabButton.setVisible(hasPermission);
+	                break;
+	            case "customer":
+	                customerMenu.setVisible(hasPermission);
+	                customerTabButton.setVisible(hasPermission);
+	                break;
+	            case "employee":
+	                employeeMenu.setVisible(hasPermission);
+	                employeeTabButton.setVisible(hasPermission);
+	                break;
+	            case "customerOrder":
+	                customerOrderMenu.setVisible(hasPermission);
+	                customerOrderTabButton.setVisible(hasPermission);
+	                break;
+	            case "ticket":
+	                ticketMenu.setVisible(hasPermission);
+	                ticketTabButton.setVisible(hasPermission);
+	                break;
+	            case "rma":
+	                rmaMenu.setVisible(hasPermission);
+	                rmaTabButton.setVisible(hasPermission);
+	                break;
+	            default:
+	                // Handle unexpected entity case if necessary
+	                break;
+	        }
+	    }
 	}
 
 	public void addCloseableTab(final String title, final Component panel) {

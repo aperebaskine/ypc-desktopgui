@@ -6,12 +6,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -322,6 +324,13 @@ extends AbstractItemView<Customer> {
 	protected void onItemSet() {
 		recentOrdersLabel.setVisible(true);
 		recentOrderScrollPane.setVisible(true);
+		addressesLabel.setVisible(true);
+		addressesScrollPane.setVisible(true);
+		
+		JDialog dialog = (JDialog) SwingUtilities.getAncestorOfClass(JDialog.class, this);
+		if (dialog != null) {
+			dialog.pack();
+		}
 		
 		idValueLabel.setText(getItem().getId() != null ? getItem().getId().toString() : "");
 		firstNameTextField.setText(getItem().getFirstName());

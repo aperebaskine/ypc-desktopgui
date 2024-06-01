@@ -26,7 +26,7 @@ extends SaveItemAction<Ticket> {
 	
 	@Override
 	protected void doCreate(Ticket item) throws YPCException {
-		ticketService.update(item);
+		ticketService.create(item);
 		getView().setItem(ticketService.findById(item.getId()));
 	}
 	

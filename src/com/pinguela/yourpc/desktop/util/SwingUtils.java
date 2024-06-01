@@ -45,9 +45,17 @@ public class SwingUtils {
 		if (panelHeight > panelWidth) {
 			width = panelWidth - getMarginSize(targetPanel, HORIZONTAL_MARGIN);
 			height = image.getHeight() * width / image.getWidth();
+			if (height > panelHeight - getMarginSize(targetPanel, VERTICAL_MARGIN)) {
+				height = panelHeight - getMarginSize(targetPanel, VERTICAL_MARGIN);
+				width = image.getWidth() * height / image.getHeight();
+			}
 		} else {
 			height = panelHeight - getMarginSize(targetPanel, VERTICAL_MARGIN);
 			width = image.getWidth() * height / image.getHeight();
+			if (width > panelWidth - getMarginSize(targetPanel, HORIZONTAL_MARGIN)) {
+				width = panelWidth - getMarginSize(targetPanel, HORIZONTAL_MARGIN);
+				height = image.getHeight() * width / image.getWidth();
+			}
 		}
 
 		try {

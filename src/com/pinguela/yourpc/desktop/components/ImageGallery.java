@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -28,7 +27,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import com.pinguela.yourpc.desktop.constants.Icons;
+import com.pinguela.yourpc.desktop.actions.ChooseImageFileAction;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.AbstractItemView;
 import com.pinguela.yourpc.model.ImageEntry;
@@ -44,7 +43,7 @@ implements YPCComponent {
 
 	protected static final String SELECTION_INDEX_PROPERTY = "selectionIndex";
 	private Integer selectionIndex;
-	
+
 	protected static final String IS_EDITABLE_PROPERTY = "isEditable";
 	private boolean isEditable = false;
 
@@ -57,14 +56,14 @@ implements YPCComponent {
 
 	private JButton previousImageButton;
 	private JButton nextImageButton;
-	
+
 	private final PropertyChangeListener editableListener = (evt) -> {
 		if (galleryPanel.getComponentCount() == 0) {
 			return;
 		}
 		galleryPanel.getComponent(galleryPanel.getComponentCount() -1).setVisible(isEditable);
 	};
-	
+
 	private final PropertyChangeListener selectionListener = (evt) -> {
 		displaySelection((Integer) evt.getNewValue());
 	};
@@ -92,21 +91,19 @@ implements YPCComponent {
 
 		galleryPanel = new JPanel();
 		galleryPanel.setBorder(new EmptyBorder(2, 2, 2, 2));
-		FlowLayout fl_galleryPanel = (FlowLayout) galleryPanel.getLayout();
-		fl_galleryPanel.setVgap(0);
-		fl_galleryPanel.setHgap(10);
 		galleryPanel.setPreferredSize(new Dimension(300, 150));
 		galleryPanel.setMinimumSize(new Dimension(10, 150));
 		galleryPanel.setMaximumSize(new Dimension(32767, 150));
 		galleryScrollPane.setViewportView(galleryPanel);
-		
+
 		JPanel panel = new JPanel();
 		panel.setVisible(false);
+		galleryPanel.setLayout(new BoxLayout(galleryPanel, BoxLayout.X_AXIS));
 		panel.setPreferredSize(new Dimension(24, 148));
 		galleryPanel.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		
-		JButton btnNewButton = new JButton(Icons.ADD_ICON);
+
+		JButton btnNewButton = new JButton(new ChooseImageFileAction(this));
 		btnNewButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnNewButton.setPreferredSize(new Dimension(24, 24));
 		btnNewButton.setMinimumSize(new Dimension(24, 24));
@@ -135,7 +132,7 @@ implements YPCComponent {
 	}
 
 	private void postInitialize() {
-		
+
 		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
 		addComponentListener(new FirstImageAutoDisplayer());
 
@@ -160,6 +157,7 @@ implements YPCComponent {
 	}
 
 	public void addImage(ImageEntry imageEntry) {
+
 		EventQueue.invokeLater(() -> {
 			BufferedImage resizedImage = SwingUtils.resize(imageEntry.getImage(), galleryPanel);
 
@@ -171,8 +169,12 @@ implements YPCComponent {
 
 			JLabel imageLabel = new JLabel(new ImageIcon(resizedImage));
 			imageLabel.addMouseListener(imageMouseListener);
+			imageLabel.setVisible(true);
 
 			galleryPanel.add(imageLabel, galleryPanel.getComponentCount() -1);
+
+			galleryPanel.revalidate();
+			galleryPanel.repaint();
 		});
 	}
 
@@ -183,7 +185,7 @@ implements YPCComponent {
 	}
 
 	public void removeImageAt(int index) {
-		
+
 		if (index == galleryPanel.getComponentCount()-1) {
 			throw new IllegalArgumentException("Cannot remove the component at the gallery panel's last index.");
 		}
@@ -217,7 +219,7 @@ implements YPCComponent {
 	private void displaySelection(int index) {
 		imagePanel.setImage(imageEntries.get(index).getImage());
 	}
-	
+
 	public void setEditable(boolean isEditable) {
 		boolean old = this.isEditable;
 		this.isEditable = isEditable;
@@ -255,17 +257,17 @@ implements YPCComponent {
 	private static class AutoResizer implements ContainerListener {
 
 		private void setSize(Container container) {
-			EventQueue.invokeLater(() -> {
-				int componentCount = container.getComponentCount();
-				int hGap = ((FlowLayout) container.getLayout()).getHgap();
-				Insets insets = container.getInsets();
+			int componentCount = container.getComponentCount();
+			int hGap = 10;
+			Insets insets = container.getInsets();
 
-				int width = insets.left + insets.right + (hGap * (componentCount + 1));
-				for (Component component : container.getComponents()) {
-					width += component.getWidth();
-				}
-				container.setPreferredSize(new Dimension(width, container.getHeight()));
-			});
+			int width = insets.left + insets.right + (hGap * (componentCount + 1));
+			for (Component component : container.getComponents()) {
+				width += component.getWidth();
+			}
+			container.setPreferredSize(new Dimension(width, container.getHeight()));
+			container.revalidate();
+			container.repaint();
 		}
 
 		@Override
@@ -275,7 +277,12 @@ implements YPCComponent {
 
 		@Override
 		public void componentAdded(ContainerEvent e) {
-			setSize(e.getContainer());
+			e.getChild().addComponentListener(new ComponentAdapter() {
+				@Override
+				public void componentResized(ComponentEvent e1) {
+					setSize(e.getContainer());
+				}
+			});
 		}
 	};
 

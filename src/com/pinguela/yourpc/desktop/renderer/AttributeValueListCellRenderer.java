@@ -5,9 +5,9 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.AttributeValue;
 
-public class AttributeListCellRenderer 
+public class AttributeValueListCellRenderer 
 extends DefaultListCellRenderer {
 
 	/**
@@ -18,14 +18,14 @@ extends DefaultListCellRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
-		
-		Attribute<?> attribute = (Attribute<?>) value;
+
+		AttributeValue<?> attributeValue = (AttributeValue<?>) value;
 		String valueString;
 		
-		if (attribute.getName() == null) {
-			valueString = "Select an attribute...";
+		if (attributeValue.getValue() == null) {
+			valueString = "Select a value...";
 		} else {
-			valueString = attribute.getName();
+			valueString = (String) attributeValue.getValue();
 		}
 		
 		return super.getListCellRendererComponent(list, valueString, index, isSelected, cellHasFocus);

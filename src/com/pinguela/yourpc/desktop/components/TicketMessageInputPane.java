@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,7 +11,7 @@ import com.pinguela.yourpc.desktop.YPCWindow;
 import com.pinguela.yourpc.model.TicketMessage;
 
 public class TicketMessageInputPane 
-extends InputPane {
+extends InputPane<TicketMessage> {
 	/**
 	 * 
 	 */
@@ -19,8 +20,8 @@ extends InputPane {
 	private JTextArea messageTextArea;
 	
 	public TicketMessageInputPane() {
-		super();
-		setMessage("Enter message:");
+		super("Enter message:");
+		setPreferredSize(new Dimension(480, 360));
 	}
 
 	@Override
@@ -37,7 +38,7 @@ extends InputPane {
 		return contentPanel;
 	}
 	
-	public TicketMessage getMessage() {
+	public TicketMessage getInput() {
 		TicketMessage tm = new TicketMessage();
 		tm.setEmployeeId(YPCWindow.getInstance().getAuthenticatedUser().getId());
 		tm.setText(messageTextArea.getText());

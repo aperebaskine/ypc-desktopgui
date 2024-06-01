@@ -39,11 +39,16 @@ extends AbstractActionPaneTableModel {
 	}
 	
 	@Override
-	public int getIndexOf(Object o) {
-		return tableIndex.indexOf(o);
+	public int getIndexOf(Object key) {
+		return tableIndex.indexOf(key);
 	}
 	
 	public void addRow(K key, V value) {
+		
+		if (tableData.containsKey(key)) {
+			updateRow(value, tableIndex.indexOf(key));
+			return;
+		}
 
 		tableIndex.add(key);
 		Collections.sort(tableIndex);

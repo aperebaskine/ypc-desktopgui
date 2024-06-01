@@ -4,8 +4,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Collections;
+import java.awt.event.ItemListener;
 
+import javax.swing.Action;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -16,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
+import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
+import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
@@ -25,6 +28,7 @@ import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.Product;
+import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 public class ProductView 
@@ -206,12 +210,9 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_attributeScrollPane.gridx = 1;
 		gbc_attributeScrollPane.gridy = 10;
 		getViewPanel().add(attributeScrollPane, gbc_attributeScrollPane);
-
+		
 		attributeTable = new JTable();
 		attributeScrollPane.setViewportView(attributeTable);
-		TableUtils.initializeActionPanes(attributeTable);
-		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
-		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 	private void postInitialize() {
@@ -234,9 +235,15 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_launchDateChooser.gridx = 1;
 		gbc_launchDateChooser.gridy = 3;
 		getViewPanel().add(launchDateChooser, gbc_launchDateChooser);
+		
+		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable), 
+				new EditAttributeAction(attributeTable, AttributeService.RETURN_UNASSIGNED_VALUES));
+		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
+		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Product getNewItem() {
 		Product product = new Product();
 
@@ -248,6 +255,8 @@ extends AbstractImageGalleryItemView<Product> {
 		product.setPurchasePrice(Double.valueOf(purchasePriceField.getText()));
 		product.setSalePrice(Double.valueOf(salePriceField.getText()));
 		product.setDescription(descriptionTextArea.getText());
+		
+		product.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
 
 		return product;
 	}
@@ -263,7 +272,7 @@ extends AbstractImageGalleryItemView<Product> {
 		descriptionTextArea.setText(getItem().getDescription());
 		
 		attributeTable.setModel(
-				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
+				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
 	}
 
 	@Override
@@ -290,6 +299,16 @@ extends AbstractImageGalleryItemView<Product> {
 
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
 				AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void addAttribute(Attribute<?> attribute) {
+		((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).addRow(attribute.getName(), attribute);
+	}
+	
+	public <T extends Action & ItemListener> void addAttributeAction(T action) {
+		categoryComboBox.addItemListener(action);
+		addAction(action, EDITOR_CARD);
 	}
 
 }

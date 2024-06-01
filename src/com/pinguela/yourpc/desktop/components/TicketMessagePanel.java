@@ -34,6 +34,11 @@ extends JPanel {
 	}
 	
 	private String formatMetadata(TicketMessage message) {	
+		
+		if (message.getTimestamp() == null) {
+			return String.format("You - unsent");
+		}
+		
 		StringBuilder sender = new StringBuilder();
 		
 		if (message.getLastName2() == null) {

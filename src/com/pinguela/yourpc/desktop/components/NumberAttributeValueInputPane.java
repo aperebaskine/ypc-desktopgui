@@ -2,6 +2,8 @@ package com.pinguela.yourpc.desktop.components;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,9 +12,10 @@ import javax.swing.SwingConstants;
 
 import com.pinguela.yourpc.desktop.util.AttributeUtils;
 import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.service.AttributeService;
 
-public class NumberAttributeInputPane<T extends Number & Comparable<T>>
-extends AttributeInputPane<T> {
+public class NumberAttributeValueInputPane<T extends Number & Comparable<T>>
+extends AttributeValueInputPane<T> {
 
 	/**
 	 * 
@@ -28,12 +31,12 @@ extends AttributeInputPane<T> {
 	 * Unused constructor required for rendering within a WindowBuilder designer.
 	 */
 	@SuppressWarnings({"unused", "unchecked"})
-	private NumberAttributeInputPane() {
-		this((Attribute<T>) Attribute.getInstance(Long.class));
+	private NumberAttributeValueInputPane() {
+		this((Attribute<T>) Attribute.getInstance(Long.class), AttributeService.RETURN_UNASSIGNED_VALUES, true);
 	}
 
-	public NumberAttributeInputPane(Attribute<T> attribute) {
-		super(attribute);
+	public NumberAttributeValueInputPane(Attribute<T> attribute, boolean showUnassignedValues, boolean showActions) {
+		super(attribute, showUnassignedValues, showActions);
 	}
 
 	@Override
@@ -67,8 +70,8 @@ extends AttributeInputPane<T> {
 
 	@SuppressWarnings("unchecked")
 	protected void setInitialValues() {
-		
-		Attribute<T> attribute = getAttribute();
+
+		Attribute<T> attribute = getSavedAttribute();
 
 		if (attribute.getValues().size() < 1) {
 			return;
@@ -91,6 +94,20 @@ extends AttributeInputPane<T> {
 				minValueSpinner.setValue(maxValueSpinner.getValue());
 			}
 		});
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Collection<T> getInputValues() {
+
+		T min = (T) minValueSpinner.getValue();
+		T max = (T) maxValueSpinner.getValue();
+
+		if (min.equals(max)) {
+			return Arrays.asList(min);
+		} else {
+			return Arrays.asList(min, max);
+		}
 	}
 
 }

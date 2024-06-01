@@ -1,90 +1,105 @@
 package com.pinguela.yourpc.desktop.components;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ItemListener;
+import java.util.Iterator;
+import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import com.pinguela.yourpc.config.ConfigManager;
-import com.pinguela.yourpc.desktop.util.ReflectionUtils;
+import com.pinguela.yourpc.desktop.renderer.AttributeListCellRenderer;
 import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.StringAttribute;
 
-public abstract class AttributeInputPane<T>
-extends InputPane {
+public class AttributeInputPane 
+extends InputPane<Attribute<?>> {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9050555982076114344L;
-
-	private static Logger logger = LogManager.getLogger(AttributeInputPane.class);
-
-	private static final String INPUT_PANE_CLASSES_PNAME = "ui.attribute.input.pane.classes";
-	private static Collection<Class<?>> inputPaneClasses;
-
-	static {
-		String packageName = AttributeInputPane.class.getPackage().getName();
-		try {
-			inputPaneClasses = ReflectionUtils.loadClassesFromPackage(packageName, Arrays.asList(getSubclassNames()));
-		} catch (Throwable t) {
-			logger.fatal(String.format("Exception thrown while loading classes during initialization. Message: %s",
-					t.getMessage()), t);
-			throw new ExceptionInInitializerError(t);
+	private static final long serialVersionUID = -7573147727441938261L;
+	
+	private boolean showUnassignedValues;
+	
+	private JPanel contentPane;
+	private JComboBox<Attribute<?>> attributeComboBox;
+	private InputPane<Attribute<?>> valueInputPane;
+	
+	private ItemListener selectionListener = (evt) -> {
+		if (valueInputPane != null) {
+			contentPane.remove(valueInputPane);
 		}
-	}
+		Attribute<?> attribute = (Attribute<?>) evt.getItem();
+		if (attribute.getName() != null) {
+			initializeValueInputPane();
+		}
+		revalidate();
+		repaint();
+	};
 
-	private static String[] getSubclassNames() {
-		return ConfigManager.getValue(INPUT_PANE_CLASSES_PNAME).split(ConfigManager.DELIMITER);
-	}
-
-	private Attribute<T> attribute;
-
-	/**
-	 * Unused constructor, required for panel rendering within a WindowBuilder designer.
-	 */
-	@SuppressWarnings({"unused", "unchecked"})
-	private AttributeInputPane() {
-		this(Attribute.getInstance((Class<T>) String.class));
-	}
-
-	protected AttributeInputPane(Attribute<T> attribute) {
-		this.attribute = attribute;
-
-		String message = String.format("Select value(s) for %s:", attribute.getName());
-		setMessage(message);
+	public AttributeInputPane(Map<String, Attribute<?>> attributes, boolean showUnassignedValues) {
+		super("Select attribute:");
+		this.showUnassignedValues = showUnassignedValues;
 		
-		setInitialValues();
-	}
-	
-	public Attribute<T> getAttribute() {
-		return attribute;
-	}
-
-	public static final InputPane getInstance(Attribute<?> attribute) {
-
-		Class<?> targetClass = getClassByTypeParameter(attribute.getParameterizedTypeClass());
-		try {
-			return (InputPane) targetClass.getDeclaredConstructor(Attribute.class).newInstance(attribute);
-		} catch (Exception e) {
-			String message = String.format("Exception thrown while instantiating %s. Message: %s",
-					targetClass.getName(), e.getMessage());
-			logger.error(message, e);
-			throw new IllegalStateException(message, e);
-		} 
-	}
-
-	private static final Class<?> getClassByTypeParameter(Class<?> typeParameter) {
-
-		for (Class<?> subclass : inputPaneClasses) {
-			if (ReflectionUtils.isAssignableToTypeParameter(typeParameter, subclass)) {
-				return subclass;
-			}	
+		Attribute<?> emptyAttribute = new StringAttribute();
+		Attribute<?>[] attributeArray = new Attribute<?>[attributes.values().size()+1];
+		attributeArray[0] = emptyAttribute;
+		
+		Iterator<Attribute<?>> iterator = attributes.values().iterator();
+		for (int i = 1; i<attributeArray.length; i++) {
+			attributeArray[i] = iterator.next();
 		}
-		throw new IllegalArgumentException(String.format(
-				"No corresponding class returned for type parameter %s, cannot instantiate.", typeParameter.getName()));
+		
+		attributeComboBox.setModel(new DefaultComboBoxModel<>(attributeArray));
+		attributeComboBox.addItemListener(selectionListener);
+	}
+
+	@Override
+	protected JPanel initializeContentPane() {
+		contentPane = new JPanel();
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{450, 0};
+		gbl_contentPane.rowHeights = new int[]{15, 114, 0};
+		gbl_contentPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		attributeComboBox = new JComboBox<Attribute<?>>();
+		attributeComboBox.setRenderer(new AttributeListCellRenderer());
+		
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.gridx = 0;
+		gbc_comboBox.gridy = 0;
+		contentPane.add(attributeComboBox, gbc_comboBox);
+		
+		return contentPane;
 	}
 	
-	protected abstract void setInitialValues();
+	@SuppressWarnings("unchecked")
+	private void initializeValueInputPane() {
+		valueInputPane = (InputPane<Attribute<?>>) AttributeValueInputPane.getInstance((Attribute<?>) attributeComboBox.getSelectedItem(), showUnassignedValues, false);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 1;
+		contentPane.add(valueInputPane, gbc_panel);
+		
+		JDialog dialog = (JDialog) SwingUtilities.getAncestorOfClass(JDialog.class, this);
+		
+		if (dialog != null) {
+			dialog.pack();
+		}
+	}
+
+	@Override
+	public Attribute<?> getInput() {
+		return valueInputPane.getInput();
+	}
 
 }

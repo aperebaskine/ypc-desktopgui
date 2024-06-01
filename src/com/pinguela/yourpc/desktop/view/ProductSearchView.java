@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -18,16 +17,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+import com.pinguela.yourpc.desktop.actions.AddAttributeCriteriaAction;
+import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
 import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.SetProductRangesAction;
+import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.listener.SetAttributeCriteriaAction;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
 import com.pinguela.yourpc.desktop.renderer.ProductTableCellRenderer;
@@ -37,6 +38,7 @@ import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.pinguela.yourpc.model.ProductRanges;
+import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 import slider.RangeSlider;
@@ -275,10 +277,11 @@ extends AbstractPaginatedSearchView<Product> {
 		getCriteriaPanel().add(productIdField, gbc_productIdField);
 		productIdField.setColumns(10);
 
-		TableUtils.initializeActionPanes(attributeTable, new EditAttributeAction(attributeTable));
+		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES));
+		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable),
+				new EditAttributeAction(attributeTable, AttributeService.NO_UNASSIGNED_VALUES));
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES));
 
 		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
@@ -307,11 +310,15 @@ extends AbstractPaginatedSearchView<Product> {
 		stockMaxField.addPropertyChangeListener("value", action);
 		attributeTable.getModel().addTableModelListener(action);
 
-		categoryComboBox.addActionListener(new SetAttributeCriteriaAction(this));
 		categoryComboBox.addActionListener(new SetProductRangesAction(this));
 		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
+		
+		YPCAction addAttributeCriteriaAction = new AddAttributeCriteriaAction(this);
+		addActionButton(addAttributeCriteriaAction);
+		categoryComboBox.addItemListener(addAttributeCriteriaAction);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ProductCriteria getCriteria() {
 		ProductCriteria criteria = new ProductCriteria();
 
@@ -351,6 +358,8 @@ extends AbstractPaginatedSearchView<Product> {
 
 		criteria.setStockMin((Integer) stockMinField.getValue());
 		criteria.setStockMax((Integer) stockMaxField.getValue());
+		
+		criteria.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
 
 		return criteria;
 	}
@@ -414,8 +423,9 @@ extends AbstractPaginatedSearchView<Product> {
 		priceRangeSlider.setEnabled(isEnabled);
 	}
 
-	public void addAttributes(Map<String, Attribute<?>> attributes) {
-		attributeTable.setModel(new ActionPaneMapTableModel<>(AttributeTableConstants.COLUMN_NAMES, attributes));
+	@SuppressWarnings("unchecked")
+	public void addAttribute(Attribute<?> attribute) {
+		((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).addRow(attribute.getName(), attribute);
 	}
 
 }

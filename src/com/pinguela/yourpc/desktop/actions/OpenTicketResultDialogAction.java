@@ -47,6 +47,7 @@ extends OpenSearchResultDialogAction<Ticket> {
 		}
 		dialogView.addAction(new CancelEditAction<Ticket>(dialogView), ItemView.EDITOR_CARD);
 		dialogView.addAction(new SaveTicketAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new AddTicketMessageAction(dialogView), ItemView.EDITOR_CARD);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);

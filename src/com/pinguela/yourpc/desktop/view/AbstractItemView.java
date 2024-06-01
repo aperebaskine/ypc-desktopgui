@@ -1,12 +1,8 @@
 package com.pinguela.yourpc.desktop.view;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,13 +35,6 @@ implements ItemView<T> {
 			onItemSet();
 		}
 	};
-	
-	private ComponentListener onFirstShown = new ComponentAdapter() {
-		public void componentResized(ComponentEvent e) {
-			setFieldsEditable(isEditable());
-			((Component) e.getSource()).removeComponentListener(this);
-		};
-	};
 
 	private T item;
 
@@ -53,6 +42,7 @@ implements ItemView<T> {
 	private JPanel southPanel;
 
 	private Map<String, ActionPane> cards;
+	private String currentCard;
 	
 	public AbstractItemView() {
 		centerPanel = new JPanel();
@@ -68,7 +58,6 @@ implements ItemView<T> {
 		
 		addPropertyChangeListener(CARD_PROPERTY, cardListener);
 		addPropertyChangeListener(ITEM_PROPERTY, itemListener);
-		addComponentListener(onFirstShown);
 	}
 
 	private void initializeSouthPanel() {
@@ -128,12 +117,13 @@ implements ItemView<T> {
 			return false;
 		}
 		((CardLayout) southPanel.getLayout()).show(southPanel, cardName);
+		currentCard = cardName;
 		firePropertyChange(CARD_PROPERTY, null, cardName);
 		return true;
 	}
 	
 	public boolean isEditable() {
-		return southPanel != null && ItemView.EDITOR_CARD.equals(southPanel.getComponent(0).getName());
+		return southPanel != null && ItemView.EDITOR_CARD.equals(currentCard);
 	}
 	
 	protected abstract void setFieldsEditable(boolean isEditable);

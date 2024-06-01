@@ -51,8 +51,6 @@ extends OpenSearchResultDialogAction<Product> {
 
 		dialogView = new ProductView();
 		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
-		p = (Product) table.getValueAt(row, column);
-		dialogView.setItem(p);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
@@ -61,6 +59,10 @@ extends OpenSearchResultDialogAction<Product> {
 		}
 		dialogView.addAction(new CancelEditAction<Product>(dialogView), ItemView.EDITOR_CARD);
 		dialogView.addAction(new SaveProductAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAttributeAction(new AddAttributeAction(dialogView));
+
+		p = (Product) table.getValueAt(row, column);
+		dialogView.setItem(p);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);

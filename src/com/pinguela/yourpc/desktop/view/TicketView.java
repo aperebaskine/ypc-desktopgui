@@ -61,6 +61,8 @@ extends AbstractItemView<Ticket> {
 		GridLayout layout = (GridLayout) messageListPanel.getLayout();
 		layout.setRows(layout.getRows() +1);
 		messageListPanel.add(new TicketMessagePanel(messages.get((int) evt.getNewValue() -1)));
+		messageListPanel.revalidate();
+		messageListPanel.repaint();
 	};
 
 	public TicketView() {

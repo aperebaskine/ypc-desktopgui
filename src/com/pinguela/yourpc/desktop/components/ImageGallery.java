@@ -288,5 +288,14 @@ implements YPCComponent {
 			});
 		}
 	};
+	
+	private class ImageLabelPanel extends JPanel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -2195789467862228246L;
+		
+	}
 
 }

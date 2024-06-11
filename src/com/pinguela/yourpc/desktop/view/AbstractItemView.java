@@ -29,6 +29,7 @@ implements ItemView<T> {
 	};
 
 	private PropertyChangeListener itemListener = (evt) -> {
+		setFieldsEditable(isEditable());
 		resetFields();
 		
 		if (evt.getNewValue() != null) {

@@ -12,7 +12,6 @@ import java.awt.event.ContainerListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,7 @@ implements YPCComponent {
 	protected static final String IS_EDITABLE_PROPERTY = "isEditable";
 	private boolean isEditable = false;
 
-	private ImageMouseListener imageMouseListener;
+	private ThumbnailMouseListener imageMouseListener;
 
 	private List<ImageEntry> imageEntries;
 
@@ -59,14 +58,6 @@ implements YPCComponent {
 
 	private JButton previousImageButton;
 	private JButton nextImageButton;
-
-	private final PropertyChangeListener editableListener = (evt) -> {
-		addPanel.setVisible(isEditable);
-	};
-
-	private final PropertyChangeListener selectionListener = (evt) -> {
-		displaySelection((Integer) evt.getNewValue());
-	};
 
 	public ImageGalleryPanel() {
 		initialize();
@@ -83,6 +74,7 @@ implements YPCComponent {
 		JPanel southPanel = new JPanel();
 		add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.X_AXIS));
+		southPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		JPanel previousImageButtonPanel = new JPanel();
 		previousImageButtonPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
@@ -91,7 +83,6 @@ implements YPCComponent {
 
 		JScrollPane galleryScrollPane = new JScrollPane();
 		galleryScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		galleryScrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		southPanel.add(galleryScrollPane);
 
 		galleryPanel = new JPanel();
@@ -129,12 +120,35 @@ implements YPCComponent {
 
 	private void postInitialize() {
 
-		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
+		galleryPanel.addContainerListener(new ContainerListener() {
 
-		imageMouseListener = new ImageMouseListener();
+			@Override
+			@SuppressWarnings("unlikely-arg-type")
+			public void componentRemoved(ContainerEvent e) {
+				int index = imageEntries.indexOf(e.getChild());
+				if (index == selectionIndex) {
+					setSelectionIndex(index-1 < 0 ? index : index-1); 
+				}
+			}
+
+			@Override
+			public void componentAdded(ContainerEvent e) {
+				if (imageEntries.size() == 1) {
+					setSelectionIndex(0);
+				}
+			}
+		});
+
+		addPropertyChangeListener(IS_EDITABLE_PROPERTY, (evt) -> {
+			addPanel.setVisible(isEditable);
+		});
+
+		imageMouseListener = new ThumbnailMouseListener();
 		imageEntries = new ArrayList<ImageEntry>();
 
-		addPropertyChangeListener(SELECTION_INDEX_PROPERTY, selectionListener);
+		addPropertyChangeListener(SELECTION_INDEX_PROPERTY, (evt) -> {
+			displaySelection((Integer) evt.getNewValue());
+		});
 		galleryPanel.addContainerListener(new AutoGalleryPanelResizer());
 	}
 
@@ -146,14 +160,10 @@ implements YPCComponent {
 
 		EventQueue.invokeLater(() -> {
 			imageEntries.add(imageEntry);
-			galleryPanel.add(new ImageEntryThumbnailPanel(imageEntry));
+			galleryPanel.add(new ThumbnailPanel(imageEntry));
 
 			galleryPanel.revalidate();
 			galleryPanel.repaint();
-
-			if (imageEntries.size() == 1) {
-				setSelectionIndex(0);
-			}
 		});
 	}
 
@@ -164,33 +174,37 @@ implements YPCComponent {
 	}
 
 	public void removeImageAt(int index) {
-
 		imageEntries.remove(index);
 		galleryPanel.remove(index);
-
-		if (selectionIndex == index) {
-			setSelectionIndex(index-1 < 0 ? index : index-1); 
-		}
+	}
+	
+	public void removeImage(Component image) {
+		
 	}
 
 	public void clearImages() {
 		imageEntries.removeAll(imageEntries);
 		galleryPanel.removeAll();
 	}
-	
+
 	public Integer getSelectionIndex() {
 		return selectionIndex;
 	}
+	
+	public int indexOf(ThumbnailPanel thumbnail) {
+		return galleryPanel.getComponentZOrder(thumbnail);
+	}
 
-	public void setSelectionIndex(Integer index) {
+	public boolean setSelectionIndex(Integer index) {
 
 		if (index < 0 || index >= imageEntries.size()) {
-			return;
+			return false;
 		}
 
 		Integer oldIndex = selectionIndex;
 		selectionIndex = index;
 		firePropertyChange(SELECTION_INDEX_PROPERTY, oldIndex, index);
+		return true;
 	}
 
 	private void displaySelection(int index) {
@@ -202,8 +216,8 @@ implements YPCComponent {
 		this.isEditable = isEditable;
 		firePropertyChange(IS_EDITABLE_PROPERTY, old, isEditable);
 	}
-	
-	private class ImageEntryThumbnailPanel extends JPanel {
+
+	private class ThumbnailPanel extends JPanel {
 
 		/**
 		 * 
@@ -212,7 +226,7 @@ implements YPCComponent {
 
 		private JButton deleteButton;
 
-		private ImageEntryThumbnailPanel(ImageEntry imageEntry) {
+		private ThumbnailPanel(ImageEntry imageEntry) {
 
 			BufferedImage resizedImage = SwingUtils.resize(imageEntry.getImage(), galleryPanel);
 
@@ -223,6 +237,10 @@ implements YPCComponent {
 			setLayout(new OverlayLayout(this));
 
 			deleteButton = new JButton(Icons.DELETE_ICON);
+			deleteButton.addActionListener((e) -> {
+				int index = galleryPanel.getComponentZOrder(ThumbnailPanel.this);
+				removeImageAt(index);
+			});
 			deleteButton.setVisible(isEditable);
 			deleteButton.setAlignmentX(1.0f);
 			deleteButton.setAlignmentY(0.0f);
@@ -232,7 +250,7 @@ implements YPCComponent {
 			imageLabel.setAlignmentX(1.0f);
 			imageLabel.setAlignmentY(0.0f);
 			add(imageLabel);
-			
+
 			// Add property change listener to outer class instance
 			ImageGalleryPanel.this.addPropertyChangeListener((evt) -> {
 				deleteButton.setVisible(isEditable);
@@ -241,8 +259,8 @@ implements YPCComponent {
 		}
 
 	}
-	
-	private class ImageMouseListener extends MouseAdapter {
+
+	private class ThumbnailMouseListener extends MouseAdapter {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
@@ -272,7 +290,7 @@ implements YPCComponent {
 				for (Component component : container.getComponents()) {
 					width += component.getWidth();
 				}
-				
+
 				container.setPreferredSize(new Dimension(width, container.getHeight()));
 				container.revalidate();
 				container.repaint();

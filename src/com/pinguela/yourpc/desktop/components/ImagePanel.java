@@ -37,10 +37,6 @@ implements YPCComponent {
 	};
 
 	public ImagePanel(Dimension size) {
-		initialize(size);
-	}
-
-	private void initialize(Dimension size) {
 		setPreferredSize(size);
 		setBorder(new CompoundBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), new EmptyBorder(2, 2, 2, 2)));
 		setLayout(new GridLayout(0, 1, 0, 0));

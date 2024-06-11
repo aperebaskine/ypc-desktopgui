@@ -2,6 +2,8 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.table.TableCellEditor;
+
 import com.pinguela.yourpc.desktop.components.CustomerSelector;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
@@ -39,11 +41,19 @@ extends OpenDialogAction<Customer> {
 
 	@Override
 	protected void onClose() {
+		TableCellEditor editor = view.getTable().getCellEditor();
+		
+		if (editor == null) {
+			return;
+		}
+		
 		Customer c = (Customer) view.getTable().getCellEditor().getCellEditorValue();
 		
-		if (c != null) {
-			selector.setItem(c);
+		if (c == null) {
+			return;
 		}
+		
+		selector.setItem(c);
 	}
 
 }

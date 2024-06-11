@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -64,13 +65,18 @@ implements YPCComponent {
 		if (NO_IMAGE_LABEL.equals(label)) {
 			return false;
 		}
+		
+		Icon icon = label.getIcon();
 
-		int width = getWidth();
-		int height = getHeight();
+		int panelWidth = getWidth();
+		int panelHeight = getHeight();
+		
+		int iconWidth = icon.getIconWidth();
+		int iconHeight = icon.getIconHeight();
 
 		// If image still fully fills the panel, resizing isn't required
-		if ((height > width	&& width - SwingUtils.getMarginSize(this, SwingUtils.HORIZONTAL_MARGIN) == label.getWidth())
-				|| ((width >= height && height - SwingUtils.getMarginSize(this, SwingUtils.VERTICAL_MARGIN) == label.getHeight()))) {
+		if ((panelHeight > panelWidth && panelWidth - SwingUtils.getMarginSize(this, SwingUtils.HORIZONTAL_MARGIN) == iconWidth)
+				|| ((panelWidth >= panelHeight && panelHeight - SwingUtils.getMarginSize(this, SwingUtils.VERTICAL_MARGIN) == iconHeight))) {
 			return false;
 		} 
 

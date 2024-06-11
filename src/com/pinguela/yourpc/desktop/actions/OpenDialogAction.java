@@ -69,7 +69,7 @@ implements WindowListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() >= 2 && e.getSource() instanceof JTable) {
+		if (e.getClickCount() == 2 && e.getSource() instanceof JTable) {
 			doAction(new ActionEvent(e.getSource(), ActionEvent.ACTION_PERFORMED, ActionCommands.TABLE_CELL));
 		}
 

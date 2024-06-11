@@ -26,5 +26,8 @@ public interface Icons {
 	Icon CLOSE_TAB_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1855_tab_remove_remove_tab.png"));
 	
 	Icon DOCUMENT_ICON = new ImageIcon(Icons.class.getResource("/nuvola/32x32/1582_document_document.png"));
+	
+	Icon PREVIOUS_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1700_back_next_back_next.png"));
+	Icon NEXT_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1749_forward_forward.png"));
 
 }

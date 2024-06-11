@@ -13,12 +13,12 @@ import javax.swing.filechooser.FileSystemView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.pinguela.yourpc.desktop.components.ImageGallery;
+import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.model.ImageEntry;
 
 public class ChooseImageFileAction 
-extends YPCAction {
+extends ImageGalleryAction {
 
 	/**
 	 * 
@@ -27,30 +27,29 @@ extends YPCAction {
 	
 	private static Logger logger = LogManager.getLogger(ChooseImageFileAction.class);
 	
-	private ImageGallery imageGallery;
-	
-	public ChooseImageFileAction(ImageGallery imageGallery) {
-		super(Icons.ADD_ICON);
-		this.imageGallery = imageGallery;
+	public ChooseImageFileAction(ImageGalleryPanel panel) {
+		super(Icons.ADD_ICON, panel);
 	}
 
 	@Override
 	protected void doAction() {
+		ImageGalleryPanel panel = getPanel();
+		
 		JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView());
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Images", "jpg", "png");
 		fileChooser.addChoosableFileFilter(filter);
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		
-		int option = fileChooser.showSaveDialog(imageGallery);
+		int option = fileChooser.showSaveDialog(panel);
 		
 		if (option == JFileChooser.APPROVE_OPTION) {
 			File f = fileChooser.getSelectedFile();
 			try {
 				BufferedImage image = ImageIO.read(f);
-				imageGallery.addImage(new ImageEntry(image, null));
+				panel.addImage(new ImageEntry(image, null));
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
-				JOptionPane.showMessageDialog(imageGallery, "Error while loading image.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(panel, "Error while loading image.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}

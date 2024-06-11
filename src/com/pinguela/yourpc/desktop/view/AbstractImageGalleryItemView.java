@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.border.EmptyBorder;
 
-import com.pinguela.yourpc.desktop.components.ImageGallery;
+import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 import com.pinguela.yourpc.model.ImageEntry;
 
 public abstract class AbstractImageGalleryItemView<T>
@@ -17,7 +17,7 @@ extends AbstractItemView<T> {
 	 */
 	private static final long serialVersionUID = -3702324745329166746L;
 
-	private ImageGallery imageGalleryPanel;
+	private ImageGalleryPanel imageGalleryPanel;
 	private PropertyChangeListener cardListener = (evt) -> {
 		imageGalleryPanel.setEditable(isEditable());
 	};
@@ -26,7 +26,7 @@ extends AbstractItemView<T> {
 		addPropertyChangeListener(CARD_PROPERTY, cardListener);
 		add(getViewPanel(), BorderLayout.WEST);
 
-		imageGalleryPanel = new ImageGallery();
+		imageGalleryPanel = new ImageGalleryPanel();
 		imageGalleryPanel.setBorder(new EmptyBorder(0, 16, 0, 0));
 		add(imageGalleryPanel, BorderLayout.CENTER);
 

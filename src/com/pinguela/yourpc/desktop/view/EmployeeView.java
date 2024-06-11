@@ -52,10 +52,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	private void initialize() {
 		getViewPanel().setLayout(new BorderLayout(0, 0));
 		
-		ImagePanel imagePanel = new ImagePanel();
-		GridBagLayout gridBagLayout = (GridBagLayout) imagePanel.getLayout();
-		gridBagLayout.columnWidths = new int[]{240};
-		gridBagLayout.columnWeights = new double[]{0.0};
+		ImagePanel imagePanel = new ImagePanel(new Dimension(240, 360));
 		getViewPanel().add(imagePanel, BorderLayout.WEST);
 		
 		JPanel centerPanel = new JPanel();

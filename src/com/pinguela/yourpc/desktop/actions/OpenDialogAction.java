@@ -83,7 +83,7 @@ implements WindowListener {
 		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		dialog.addWindowListener(this);
 		dialog.pack();
-		dialog.setResizable(false);
+		dialog.setResizable(true);
 		if (shouldSetRelativeLocation()) {
 			dialog.setLocationRelativeTo((Component) e.getSource());
 		}

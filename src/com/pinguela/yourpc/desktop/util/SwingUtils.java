@@ -70,7 +70,7 @@ public class SwingUtils {
 
 		Insets insets = panel.getBorder().getBorderInsets(panel);
 		int margin = orientation == VERTICAL_MARGIN ? insets.top + insets.bottom : insets.left + insets.right;
-		return margin % 2 == 0 ? margin + 1 : margin;
+		return margin;
 	}
 
 	public static String formatDate(Date date) {

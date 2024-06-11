@@ -1,13 +1,16 @@
 package com.pinguela.yourpc.desktop.components;
 
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -23,38 +26,41 @@ implements YPCComponent {
 	 */
 	private static final long serialVersionUID = 6873380702577151479L;
 
-	private static final JLabel NO_IMAGE_LABEL = new JLabel("No image to display");
+	private static final String IMAGE_PROPERTY = "image";
+
+	private static final JLabel NO_IMAGE_LABEL = new JLabel("No image to display", SwingConstants.CENTER);
 
 	private BufferedImage image;
+	private final PropertyChangeListener imagePropertyListener = (evt) -> {
+		updateDisplay();
+	};
 
-	public ImagePanel() {
+	public ImagePanel(Dimension size) {
+		initialize(size);
+	}
+
+	private void initialize(Dimension size) {
+		setPreferredSize(size);
 		setBorder(new CompoundBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), new EmptyBorder(2, 2, 2, 2)));
-		GridBagLayout gbl_centerPanel = new GridBagLayout();
-		gbl_centerPanel.columnWidths = new int[]{640, 0};
-		gbl_centerPanel.rowHeights = new int[]{480, 0};
-		gbl_centerPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_centerPanel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		setLayout(gbl_centerPanel);
+		setLayout(new GridLayout(0, 1, 0, 0));
 		add(NO_IMAGE_LABEL);
 
-		AutoImageResizer resizer = new AutoImageResizer();
-		addComponentListener(resizer);
-	}
-	
-	private void displayImage(BufferedImage image) {
-		remove(0);
-		add(image == null ? NO_IMAGE_LABEL : new JLabel(new ImageIcon(resize(image))));
-		revalidate();
-		repaint();
+		addPropertyChangeListener(IMAGE_PROPERTY, imagePropertyListener);
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				onResize();
+			}
+		});
 	}
 
 	private BufferedImage resize(BufferedImage input) {
 		return SwingUtils.resize(image, this);
 	}
-	
+
 	private boolean shouldResizeImage() {
 		JLabel label = (JLabel) getComponent(0);
-		
+
 		if (NO_IMAGE_LABEL.equals(label)) {
 			return false;
 		}
@@ -70,30 +76,30 @@ implements YPCComponent {
 
 		return true;
 	}
-	
-	
+
 	private void onResize() {
 		if (shouldResizeImage()) {
-			displayImage(resize(image));
+			updateDisplay();
 		}
 	}
 
 	public void setImage(BufferedImage image) {
+		BufferedImage old = this.image;
 		this.image = image;
-		displayImage(image);
+		firePropertyChange(IMAGE_PROPERTY, old, image);
 	}
 
 	public void removeImage() {
-		this.image = null;
-		add(NO_IMAGE_LABEL);
+		setImage(null);
 	}
-
-	private class AutoImageResizer extends ComponentAdapter {
-
-		@Override
-		public void componentResized(ComponentEvent e) {
-			onResize();
-		}
+	
+	private void updateDisplay() {
+		remove(0);
+		add(image == null ? 
+				NO_IMAGE_LABEL : 
+					new JLabel(new ImageIcon(resize(image))));
+		revalidate();
+		repaint();	
 	}
 
 }

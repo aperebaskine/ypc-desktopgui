@@ -34,9 +34,6 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.ImageEntry;
 
-/**
- * TODO: Optimize gallery panel layout implementation
- */
 public class ImageGalleryPanel 
 extends JPanel 
 implements YPCComponent {

@@ -25,5 +25,7 @@ public interface ItemView<T> {
 	boolean showCard(String cardName);
 	
 	void resetFields();
+	
+	void toDefaultState();
 
 }

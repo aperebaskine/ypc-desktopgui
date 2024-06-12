@@ -21,9 +21,14 @@ extends ItemAction<T> {
 
 	@Override
 	protected void doAction() {	
-		if (!getView().showCard(ItemView.VIEW_CARD)) {
+		
+		ItemView<T> view = getView();
+		
+		if (!view.showCard(ItemView.VIEW_CARD)) {
 			SwingUtilities.getWindowAncestor((Component) getView()).dispose();
-		}	
+		} else {
+			view.toDefaultState();
+		}
 	}
 
 }

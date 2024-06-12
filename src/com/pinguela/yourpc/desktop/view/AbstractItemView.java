@@ -23,18 +23,20 @@ implements ItemView<T> {
 	private static final long serialVersionUID = 525919481888365709L;
 	
 	protected static final String CARD_PROPERTY = "card";
+	protected static final String IS_EDITABLE_PROPERTY = "isEditable";
+	
+	private boolean isEditable = false;
 	
 	private PropertyChangeListener cardListener = (evt) -> {
-		setFieldsEditable(isEditable());
+		setEditable(EDITOR_CARD.equals(evt.getNewValue()));
+	};
+	
+	private PropertyChangeListener editableListener = (evt) -> {
+		setFieldsEditable(isEditable);
 	};
 
 	private PropertyChangeListener itemListener = (evt) -> {
-		setFieldsEditable(isEditable());
-		resetFields();
-		
-		if (evt.getNewValue() != null) {
-			onItemSet();
-		}
+		toDefaultState();
 	};
 
 	private T item;
@@ -43,7 +45,6 @@ implements ItemView<T> {
 	private JPanel southPanel;
 
 	private Map<String, ActionPane> cards;
-	private String currentCard;
 	
 	public AbstractItemView() {
 		centerPanel = new JPanel();
@@ -56,6 +57,9 @@ implements ItemView<T> {
 		centerPanel.setLayout(gbl_viewerPanel);
 
 		cards = new HashMap<String, ActionPane>();
+		
+		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
+		addPropertyChangeListener(ITEM_PROPERTY, editableListener);
 		
 		addPropertyChangeListener(CARD_PROPERTY, cardListener);
 		addPropertyChangeListener(ITEM_PROPERTY, itemListener);
@@ -118,13 +122,26 @@ implements ItemView<T> {
 			return false;
 		}
 		((CardLayout) southPanel.getLayout()).show(southPanel, cardName);
-		currentCard = cardName;
 		firePropertyChange(CARD_PROPERTY, null, cardName);
 		return true;
 	}
 	
 	public boolean isEditable() {
-		return southPanel != null && ItemView.EDITOR_CARD.equals(currentCard);
+		return isEditable;
+	}
+	
+	public void setEditable(boolean isEditable) {
+		boolean old = this.isEditable;
+		this.isEditable = isEditable;
+		firePropertyChange(IS_EDITABLE_PROPERTY, old, isEditable);
+	}
+	
+	public void toDefaultState() {
+		if (getItem() == null) {
+			resetFields();
+		} else {
+			onItemSet();
+		}
 	}
 	
 	protected abstract void setFieldsEditable(boolean isEditable);

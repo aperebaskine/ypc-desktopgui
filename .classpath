@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="lib/flatlaf-3.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.5.jar"/>
 	<classpathentry kind="lib" path="lib/range-slider.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.5.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

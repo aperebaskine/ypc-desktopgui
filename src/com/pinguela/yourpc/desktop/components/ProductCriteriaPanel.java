@@ -1,4 +1,4 @@
-package com.pinguela.yourpc.desktop.view;
+package com.pinguela.yourpc.desktop.components;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -22,16 +23,12 @@ import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
 import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
-import com.pinguela.yourpc.desktop.actions.SearchAction;
-import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.SetProductRangesAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
-import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
-import com.pinguela.yourpc.desktop.renderer.ProductTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
@@ -43,13 +40,12 @@ import com.pinguela.yourpc.util.CategoryUtils;
 
 import slider.RangeSlider;
 
-public class ProductSearchView 
-extends AbstractPaginatedSearchView<Product> {
+public class ProductCriteriaPanel extends CriteriaPanel<Long, Product> {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7152408520216308616L;
+	private static final long serialVersionUID = -421803802091788772L;
 
 	private JFormattedTextField productIdField;
 	private JTextField productNameField;
@@ -64,14 +60,9 @@ extends AbstractPaginatedSearchView<Product> {
 	private JTable attributeTable;
 	private JScrollPane attributePane;
 
-	public ProductSearchView() {
-		this(new SearchActionBuilder<>(ProductSearchAction.class));
-	}
-
-	private ProductSearchView(SearchActionBuilder<Product, ? extends SearchAction<Product>> builder) {
-		super(builder);
+	public ProductCriteriaPanel(ProductSearchAction action) {
 		initialize();
-		postInitialize((ProductSearchAction) builder.getAfterBuild());
+		postInitialize(action);
 	}
 
 	private void initialize() {
@@ -81,7 +72,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbl_searchCriteriaPanel.rowHeights = new int[]{0, 0, 0, 26, 0, 0};
 		gbl_searchCriteriaPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_searchCriteriaPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		getCriteriaPanel().setLayout(gbl_searchCriteriaPanel);
+		setLayout(gbl_searchCriteriaPanel);
 
 		JLabel productIdLabel = new JLabel("Product ID:");
 		GridBagConstraints gbc_productIdLabel = new GridBagConstraints();
@@ -89,14 +80,14 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productIdLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_productIdLabel.gridx = 0;
 		gbc_productIdLabel.gridy = 0;
-		getCriteriaPanel().add(productIdLabel, gbc_productIdLabel);
+		add(productIdLabel, gbc_productIdLabel);
 
 		JLabel attributeLabel = new JLabel("Attributes:");
 		GridBagConstraints gbc_attributeLabel = new GridBagConstraints();
 		gbc_attributeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_attributeLabel.gridx = 6;
 		gbc_attributeLabel.gridy = 0;
-		getCriteriaPanel().add(attributeLabel, gbc_attributeLabel);
+		add(attributeLabel, gbc_attributeLabel);
 
 		JLabel productNameLabel = new JLabel("Product name:");
 		GridBagConstraints gbc_productNameLabel = new GridBagConstraints();
@@ -104,7 +95,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_productNameLabel.gridx = 0;
 		gbc_productNameLabel.gridy = 1;
-		getCriteriaPanel().add(productNameLabel, gbc_productNameLabel);
+		add(productNameLabel, gbc_productNameLabel);
 
 		productNameField = new JTextField();
 		productNameLabel.setLabelFor(productNameField);
@@ -114,7 +105,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productNameField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_productNameField.gridx = 1;
 		gbc_productNameField.gridy = 1;
-		getCriteriaPanel().add(productNameField, gbc_productNameField);
+		add(productNameField, gbc_productNameField);
 		productNameField.setColumns(10);
 
 		JLabel categoryLabel = new JLabel("Category:");
@@ -123,7 +114,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_categoryLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_categoryLabel.gridx = 0;
 		gbc_categoryLabel.gridy = 2;
-		getCriteriaPanel().add(categoryLabel, gbc_categoryLabel);
+		add(categoryLabel, gbc_categoryLabel);
 
 		JLabel launchDateLabel = new JLabel("Launch date:");
 		GridBagConstraints gbc_launchDateLabel = new GridBagConstraints();
@@ -131,7 +122,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_launchDateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_launchDateLabel.gridx = 0;
 		gbc_launchDateLabel.gridy = 3;
-		getCriteriaPanel().add(launchDateLabel, gbc_launchDateLabel);
+		add(launchDateLabel, gbc_launchDateLabel);
 
 		JLabel launchDateFromLabel = new JLabel("from");
 		GridBagConstraints gbc_launchDateFromLabel = new GridBagConstraints();
@@ -139,7 +130,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_launchDateFromLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_launchDateFromLabel.gridx = 1;
 		gbc_launchDateFromLabel.gridy = 3;
-		getCriteriaPanel().add(launchDateFromLabel, gbc_launchDateFromLabel);
+		add(launchDateFromLabel, gbc_launchDateFromLabel);
 
 		JPanel launchDateFromPanel = new JPanel();
 		GridBagConstraints gbc_launchDateFromPanel = new GridBagConstraints();
@@ -147,7 +138,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_launchDateFromPanel.fill = GridBagConstraints.BOTH;
 		gbc_launchDateFromPanel.gridx = 2;
 		gbc_launchDateFromPanel.gridy = 3;
-		getCriteriaPanel().add(launchDateFromPanel, gbc_launchDateFromPanel);
+		add(launchDateFromPanel, gbc_launchDateFromPanel);
 		launchDateFromPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		minLaunchDateChooser = ComponentFactory.getDateChooser();
@@ -159,7 +150,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_launchDateToLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_launchDateToLabel.gridx = 3;
 		gbc_launchDateToLabel.gridy = 3;
-		getCriteriaPanel().add(launchDateToLabel, gbc_launchDateToLabel);
+		add(launchDateToLabel, gbc_launchDateToLabel);
 
 		JPanel launchDateToPanel = new JPanel();
 		GridBagConstraints gbc_launchDateToPanel = new GridBagConstraints();
@@ -167,7 +158,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_launchDateToPanel.fill = GridBagConstraints.BOTH;
 		gbc_launchDateToPanel.gridx = 4;
 		gbc_launchDateToPanel.gridy = 3;
-		getCriteriaPanel().add(launchDateToPanel, gbc_launchDateToPanel);
+		add(launchDateToPanel, gbc_launchDateToPanel);
 		launchDateToPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		maxLaunchDateChooser = ComponentFactory.getDateChooser();
@@ -179,7 +170,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_priceLabel.anchor = GridBagConstraints.EAST;
 		gbc_priceLabel.gridx = 0;
 		gbc_priceLabel.gridy = 4;
-		getCriteriaPanel().add(priceLabel, gbc_priceLabel);
+		add(priceLabel, gbc_priceLabel);
 
 		JPanel priceRangeSliderPanel = new JPanel();
 		priceRangeSliderPanel.setBorder(null);
@@ -189,7 +180,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_priceRangeSliderPanel.fill = GridBagConstraints.BOTH;
 		gbc_priceRangeSliderPanel.gridx = 1;
 		gbc_priceRangeSliderPanel.gridy = 4;
-		getCriteriaPanel().add(priceRangeSliderPanel, gbc_priceRangeSliderPanel);
+		add(priceRangeSliderPanel, gbc_priceRangeSliderPanel);
 
 		minPriceLabel = new JLabel("0");
 		minPriceLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -213,7 +204,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_stockLabel.gridx = 0;
 		gbc_stockLabel.gridy = 5;
-		getCriteriaPanel().add(stockLabel, gbc_stockLabel);
+		add(stockLabel, gbc_stockLabel);
 
 		JLabel stockFromLabel = new JLabel("from");
 		GridBagConstraints gbc_stockFromLabel = new GridBagConstraints();
@@ -221,7 +212,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockFromLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_stockFromLabel.gridx = 1;
 		gbc_stockFromLabel.gridy = 5;
-		getCriteriaPanel().add(stockFromLabel, gbc_stockFromLabel);
+		add(stockFromLabel, gbc_stockFromLabel);
 
 		stockMinField = new JFormattedTextField();
 		stockFromLabel.setLabelFor(stockMinField);
@@ -230,7 +221,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockFromField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stockFromField.gridx = 2;
 		gbc_stockFromField.gridy = 5;
-		getCriteriaPanel().add(stockMinField, gbc_stockFromField);
+		add(stockMinField, gbc_stockFromField);
 
 		JLabel stockToLabel = new JLabel("to");
 		GridBagConstraints gbc_stockToLabel = new GridBagConstraints();
@@ -238,7 +229,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockToLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_stockToLabel.gridx = 3;
 		gbc_stockToLabel.gridy = 5;
-		getCriteriaPanel().add(stockToLabel, gbc_stockToLabel);
+		add(stockToLabel, gbc_stockToLabel);
 
 		attributePane = new JScrollPane();
 		attributePane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -250,7 +241,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_attributePane.fill = GridBagConstraints.BOTH;
 		gbc_attributePane.gridx = 7;
 		gbc_attributePane.gridy = 0;
-		getCriteriaPanel().add(attributePane, gbc_attributePane);
+		add(attributePane, gbc_attributePane);
 
 		stockMaxField = new JFormattedTextField();
 		stockToLabel.setLabelFor(stockMaxField);
@@ -259,14 +250,14 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockToField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stockToField.gridx = 4;
 		gbc_stockToField.gridy = 5;
-		getCriteriaPanel().add(stockMaxField, gbc_stockToField);
+		add(stockMaxField, gbc_stockToField);
 
 		attributeTable = new JTable();
 		attributePane.setViewportView(attributeTable);
+
 	}
 
 	private void postInitialize(ProductSearchAction action) {
-
 		productIdField = ComponentFactory.createNullableNumberTextField(Long.class);
 		GridBagConstraints gbc_productIdField = new GridBagConstraints();
 		gbc_productIdField.gridwidth = 4;
@@ -274,7 +265,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productIdField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_productIdField.gridx = 1;
 		gbc_productIdField.gridy = 0;
-		getCriteriaPanel().add(productIdField, gbc_productIdField);
+		add(productIdField, gbc_productIdField);
 		productIdField.setColumns(10);
 
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES));
@@ -291,13 +282,12 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_categoryComboBox.gridx = 1;
 		gbc_categoryComboBox.gridy = 2;
-		getCriteriaPanel().add(categoryComboBox, gbc_categoryComboBox);
+		add(categoryComboBox, gbc_categoryComboBox);
 
 		priceRangeSlider.addChangeListener((e) -> {
 			minPriceLabel.setText(Integer.valueOf(priceRangeSlider.getValue()).toString());
 			maxPriceLabel.setText(Integer.valueOf(priceRangeSlider.getUpperValue()).toString());
 		});
-		getTable().setDefaultRenderer(Object.class, new ProductTableCellRenderer());
 
 		// TODO: Add listener for ID field
 
@@ -310,14 +300,21 @@ extends AbstractPaginatedSearchView<Product> {
 		stockMaxField.addPropertyChangeListener("value", action);
 		attributeTable.getModel().addTableModelListener(action);
 
-		categoryComboBox.addActionListener(new SetProductRangesAction(this));
-		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
+		categoryComboBox.addActionListener(new SetProductRangesAction(null));
+		categoryComboBox.addActionListener(new ResetCriteriaAction(null));
 		
-		YPCAction addAttributeCriteriaAction = new AddAttributeCriteriaAction(this);
-		addActionButton(addAttributeCriteriaAction);
+		YPCAction addAttributeCriteriaAction = new AddAttributeCriteriaAction(null);
+		
 		categoryComboBox.addItemListener(addAttributeCriteriaAction);
+		JButton btnNewButton = new JButton(addAttributeCriteriaAction);
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 6;
+		gbc_btnNewButton.gridy = 1;
+		add(btnNewButton, gbc_btnNewButton);	
+		
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public ProductCriteria getCriteria() {
 		ProductCriteria criteria = new ProductCriteria();
@@ -376,8 +373,18 @@ extends AbstractPaginatedSearchView<Product> {
 	}
 
 	@Override
-	protected void doResetCriteriaFields(Object source) {
+	public void setFieldsEnabled(boolean isEnabled) {
+		productNameField.setEnabled(isEnabled);
+		categoryComboBox.setEnabled(isEnabled);
+		minLaunchDateChooser.setEnabled(isEnabled);
+		maxLaunchDateChooser.setEnabled(isEnabled);
+		stockMinField.setEnabled(isEnabled);
+		stockMaxField.setEnabled(isEnabled);
+		priceRangeSlider.setEnabled(isEnabled);
+	}
 
+	@Override
+	public void resetFields(Object source) {
 		if (!productNameField.equals(source)) {
 			productNameField.setText(null);
 		}
@@ -411,21 +418,4 @@ extends AbstractPaginatedSearchView<Product> {
 
 		((ActionPaneMapTableModel<?, ?>) attributeTable.getModel()).clear();
 	}
-
-	@Override
-	public void setCriteriaFieldsEnabled(boolean isEnabled) {
-		productNameField.setEnabled(isEnabled);
-		categoryComboBox.setEnabled(isEnabled);
-		minLaunchDateChooser.setEnabled(isEnabled);
-		maxLaunchDateChooser.setEnabled(isEnabled);
-		stockMinField.setEnabled(isEnabled);
-		stockMaxField.setEnabled(isEnabled);
-		priceRangeSlider.setEnabled(isEnabled);
-	}
-
-	@SuppressWarnings("unchecked")
-	public void addAttribute(Attribute<?> attribute) {
-		((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).addRow(attribute.getName(), attribute);
-	}
-
 }

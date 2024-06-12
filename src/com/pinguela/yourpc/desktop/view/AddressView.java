@@ -87,7 +87,7 @@ extends AbstractItemView<Address> {
 			provinces.add(0, new Province());
 			provinceComboBox.setModel(new DefaultComboBoxModel<Province>(provinces.toArray(new Province[provinces.size()])));
 			provinceComboBox.setSelectedIndex(0);
-			provinceComboBox.setEnabled(true);
+			provinceComboBox.setEnabled(isEditable());
 		} catch (YPCException e1) {
 			logger.error(e1.getMessage(), e1);
 			SwingUtils.showDatabaseAccessErrorDialog(this);
@@ -108,7 +108,7 @@ extends AbstractItemView<Address> {
 			cities.add(0, new City());
 			cityComboBox.setModel(new DefaultComboBoxModel<City>(cities.toArray(new City[cities.size()])));
 			cityComboBox.setSelectedIndex(0);
-			cityComboBox.setEnabled(true);
+			cityComboBox.setEnabled(isEditable());
 		} catch (YPCException e1) {
 			logger.error(e1.getMessage(), e1);
 			SwingUtils.showDatabaseAccessErrorDialog(this);
@@ -343,9 +343,9 @@ extends AbstractItemView<Address> {
 		floorFormattedTextField.setEditable(isEditable);
 		doorTextField.setEditable(isEditable);
 		zipCodeTextField.setEditable(isEditable);
-		cityComboBox.setEnabled(isEditable);
-		provinceComboBox.setEnabled(isEditable);
 		countryComboBox.setEnabled(isEditable);
+		provinceComboBox.setEnabled(isEditable && countryComboBox.getSelectedIndex() > 0);
+		cityComboBox.setEnabled(isEditable && provinceComboBox.getSelectedIndex() > 0);
 		if (ownerType == CUSTOMER) {
 			defaultCheckbox.setEnabled(isEditable);
 			billingCheckbox.setEnabled(isEditable);

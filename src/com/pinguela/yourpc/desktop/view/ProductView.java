@@ -18,6 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
@@ -25,11 +29,14 @@ import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.AttributeService;
+import com.pinguela.yourpc.service.ImageFileService;
+import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 public class ProductView 
@@ -39,6 +46,10 @@ extends AbstractImageGalleryItemView<Product> {
 	 * 
 	 */
 	private static final long serialVersionUID = -3702324745329166746L;
+	
+	private static Logger logger = LogManager.getLogger(ProductView.class);
+	
+	private ImageFileService imageFileService;
 
 	private JLabel idValueLabel;
 	private JTextField nameTextField;
@@ -243,6 +254,8 @@ extends AbstractImageGalleryItemView<Product> {
 				new EditAttributeAction(attributeTable, AttributeService.RETURN_UNASSIGNED_VALUES));
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		imageFileService = new ImageFileServiceImpl();
 	}
 
 	@Override
@@ -276,6 +289,8 @@ extends AbstractImageGalleryItemView<Product> {
 		
 		attributeTable.setModel(
 				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
+		
+		findProductImages();
 	}
 
 	@Override
@@ -302,6 +317,24 @@ extends AbstractImageGalleryItemView<Product> {
 
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
 				AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
+		
+		findProductImages();
+	}
+	
+	private void findProductImages() {
+		clearImages();
+		Product p = getItem();
+		
+		if (p == null || p.getId() == null) {
+			return;
+		}
+		
+		try {
+			addImages(imageFileService.getFiles("product", getItem().getId()));
+		} catch (ServiceException e) {
+			logger.error(e.getMessage(), e);
+			SwingUtils.showDatabaseAccessErrorDialog(this);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

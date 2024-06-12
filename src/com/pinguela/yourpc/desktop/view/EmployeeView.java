@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -42,6 +43,10 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	
 	private JPanel detailsPanel;
 	private AddressView addressView;
+	
+	private final PropertyChangeListener editableListener = (evt) -> {
+		addressView.setEditable(isEditable());
+	};
 	
 	public EmployeeView() {
 		setPreferredSize(new Dimension(900, 360));
@@ -273,6 +278,8 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		gbc_documentTypeComboBox.gridx = 1;
 		gbc_documentTypeComboBox.gridy = 6;
 		detailsPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
+		
+		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
 	}
 
 	@Override
@@ -313,6 +320,12 @@ public class EmployeeView extends AbstractItemView<Employee> {
         emailTextField.setText("");
         ibanTextField.setText("");
         bicTextField.setText("");
+        
+        if (getItem() == null) {
+        	addressView.resetFields();
+        } else {
+        	addressView.setItem(getItem().getAddress());
+        }
 	}
 
 	@Override
@@ -337,7 +350,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	    firstNameTextField.setText(getItem().getFirstName());
 	    lastName1TextField.setText(getItem().getLastName1());
 	    lastName2TextField.setText(getItem().getLastName2());
-	    documentTypeComboBox.setSelectedItem(getItem().getDocumentType());
+	    selectDocumentType(getItem().getDocumentTypeId());
 	    documentNumberTextField.setText(getItem().getDocumentNumber());
 	    usernameTextField.setText(getItem().getUsername());
 	    phoneNumberFormattedTextField.setText(getItem().getPhoneNumber());
@@ -345,6 +358,21 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	    ibanTextField.setText(getItem().getIban());
 	    bicTextField.setText(getItem().getBic());
 	    addressView.setItem(getItem().getAddress());
+	}
+	
+	private void selectDocumentType(String id) {
+		if (id == null) {
+			documentTypeComboBox.setSelectedIndex(0);
+			return;
+		}
+		
+		for (int i = 0; i < documentTypeComboBox.getItemCount(); i++) {
+			DocumentType documentType = documentTypeComboBox.getItemAt(i);
+			if (id.equals(documentType.getId())) {
+				documentTypeComboBox.setSelectedItem(documentType);
+				return;
+			}
+		}
 	}
 
 }

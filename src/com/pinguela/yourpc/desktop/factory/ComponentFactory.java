@@ -70,7 +70,7 @@ public class ComponentFactory {
 		return comboBox;
 	}
 
-	public static JFormattedTextField getNullableNumberTextField(Class<? extends Number> target) {
+	public static JFormattedTextField createNullableNumberTextField(Class<? extends Number> target) {
 
 		NumberFormatter formatter = new NumberFormatter(new DecimalFormat());
 		formatter.setValueClass(target);

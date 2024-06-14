@@ -4,6 +4,7 @@ import java.awt.event.ItemEvent;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,10 +34,22 @@ extends GetInputAction<Attribute<?>> {
 	private T view;
 
 	public GetAttributeInputAction(T view) {
-		super("Add attribute...", Icons.ADD_ICON);
+		this(null, null, view);
+	}
+
+	public GetAttributeInputAction(Icon icon, T view) {
+		this(null, icon, view);
+	}
+
+	public GetAttributeInputAction(String name, Icon icon, T view) {
+		super(name, Icons.ADD_ICON);
 		this.attributeService = new AttributeServiceImpl();
 		this.view = view;
 		setEnabled(false);
+	}
+
+	public GetAttributeInputAction(String name, T view) {
+		this(name, null, view);
 	}
 
 	@Override

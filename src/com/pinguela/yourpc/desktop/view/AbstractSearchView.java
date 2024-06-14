@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.Action;
 import javax.swing.Box;
@@ -67,6 +69,21 @@ implements SearchView<T> {
 		
 		this.table = new JTable();
 		resultScrollPane.setViewportView(table);
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				if (getRootPane() != null) {
+					getRootPane().setDefaultButton(searchButton);
+				}
+			}
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				if (getRootPane() != null) {
+					getRootPane().setDefaultButton(null);
+				}
+			}
+		});
 	}
 
 	protected JPanel getCriteriaPanel() {

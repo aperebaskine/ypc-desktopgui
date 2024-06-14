@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -63,6 +64,7 @@ extends AbstractPaginatedSearchView<Product> {
 	private JLabel maxPriceLabel;
 	private JTable attributeTable;
 	private JScrollPane attributePane;
+	private JButton addAttributeButton;
 
 	public ProductSearchView() {
 		this(new SearchActionBuilder<>(ProductSearchAction.class));
@@ -116,6 +118,13 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productNameField.gridy = 1;
 		getCriteriaPanel().add(productNameField, gbc_productNameField);
 		productNameField.setColumns(10);
+		
+		addAttributeButton = new JButton();
+		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
+		gbc_addAttributeButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addAttributeButton.gridx = 6;
+		gbc_addAttributeButton.gridy = 1;
+		getCriteriaPanel().add(addAttributeButton, gbc_addAttributeButton);
 
 		JLabel categoryLabel = new JLabel("Category:");
 		GridBagConstraints gbc_categoryLabel = new GridBagConstraints();
@@ -314,7 +323,7 @@ extends AbstractPaginatedSearchView<Product> {
 		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
 		
 		YPCAction addAttributeCriteriaAction = new AddAttributeCriteriaAction(this);
-		addActionButton(addAttributeCriteriaAction);
+		addAttributeButton.setAction(addAttributeCriteriaAction);
 		categoryComboBox.addItemListener(addAttributeCriteriaAction);
 	}
 

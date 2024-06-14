@@ -27,7 +27,7 @@ extends YPCAction {
 	
 	private Timer timer;
 	private final ActionListener timerActionListener = (e) -> {
-		view.setModel(fetchData());	
+		view.setModel(fetchData());
 	};
 
 	public SearchAction(SearchView<T> view) {

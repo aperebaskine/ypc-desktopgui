@@ -40,7 +40,7 @@ public class ReflectionUtils {
 		return classes;
 	}
 	
-	public static <T> Constructor<?> getConstructor(Class<T> clazz, Object... initArgs) {
+	public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... initArgs) {
 		Constructor<T> constructor;
 		try {
 			constructor = clazz
@@ -52,8 +52,10 @@ public class ReflectionUtils {
 	}
 
 	public static String appendPackageName(String packageName, String className) {
-		StringBuilder builder = new StringBuilder(packageName).append('.');
-		return builder.append(className.substring(className.lastIndexOf('.')+1)).toString();
+		return new StringBuilder(packageName)
+				.append('.')
+				.append(className.substring(className.lastIndexOf('.')+1))
+				.toString();
 	}
 
 	public static Collection<Class<?>> loadClasses(Collection<String> fullyQualifiedNames) 

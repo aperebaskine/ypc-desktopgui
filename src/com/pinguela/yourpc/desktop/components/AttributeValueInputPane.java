@@ -24,12 +24,12 @@ extends InputPane<Attribute<T>> {
 	private static Logger logger = LogManager.getLogger(AttributeValueInputPane.class);
 
 	private static final String INPUT_PANE_CLASSES_PNAME = "ui.attribute.input.pane.classes";
-	private static Collection<Class<?>> inputPaneClasses;
+	private static final Collection<Class<?>> INPUT_PANE_CLASSES;
 
 	static {
 		String packageName = AttributeValueInputPane.class.getPackage().getName();
 		try {
-			inputPaneClasses = ReflectionUtils.loadClassesFromPackage(packageName, Arrays.asList(getSubclassNames()));
+			INPUT_PANE_CLASSES = ReflectionUtils.loadClassesFromPackage(packageName, Arrays.asList(getSubclassNames()));
 		} catch (Throwable t) {
 			logger.fatal(String.format("Exception thrown while loading classes during initialization. Message: %s",
 					t.getMessage()), t);
@@ -76,7 +76,9 @@ extends InputPane<Attribute<T>> {
 
 		Class<?> targetClass = getClassByTypeParameter(attribute.getParameterizedTypeClass());
 		try {
-			return (InputPane<T>) targetClass.getDeclaredConstructor(Attribute.class, boolean.class, boolean.class).newInstance(attribute, showUnassignedValues, showActions);
+			return (InputPane<T>) targetClass
+					.getDeclaredConstructor(Attribute.class, boolean.class, boolean.class)
+					.newInstance(attribute, showUnassignedValues, showActions);
 		} catch (Exception e) {
 			String message = String.format("Exception thrown while instantiating %s. Message: %s",
 					targetClass.getName(), e.getMessage());
@@ -87,13 +89,13 @@ extends InputPane<Attribute<T>> {
 
 	private static final Class<?> getClassByTypeParameter(Class<?> typeParameter) {
 
-		for (Class<?> subclass : inputPaneClasses) {
+		for (Class<?> subclass : INPUT_PANE_CLASSES) {
 			if (ReflectionUtils.isAssignableToTypeParameter(typeParameter, subclass)) {
 				return subclass;
 			}	
 		}
 		throw new IllegalArgumentException(String.format(
-				"No corresponding class returned for type parameter %s, cannot instantiate.", typeParameter.getName()));
+				"No class found for attribute type parameter %s, cannot instantiate.", typeParameter.getName()));
 	}
 	
 	@SuppressWarnings("unchecked")

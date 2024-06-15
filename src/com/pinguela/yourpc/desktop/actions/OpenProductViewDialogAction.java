@@ -25,7 +25,6 @@ extends OpenDialogAction<Product> {
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		dialogView.addAction(new CancelEditAction<Product>(dialogView), EntityView.EDITOR_CARD);
 		dialogView.addAction(new SaveProductAction(dialogView), EntityView.EDITOR_CARD);
-		dialogView.addAttributeAction(new AddAttributeAction(dialogView));
 
 		YPCDialog dialog = new YPCDialog(null, dialogView);
 		dialog.setTitle("Product editor");

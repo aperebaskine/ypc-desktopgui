@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -27,6 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.ServiceException;
+import com.pinguela.yourpc.desktop.actions.AddAttributeAction;
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
@@ -272,6 +274,14 @@ extends AbstractEntityView<Product> {
 				AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable), 
 				new EditAttributeAction(attributeTable, AttributeService.RETURN_UNASSIGNED_VALUES));
+		
+		JButton addAttributeButton = new JButton(new AddAttributeAction(this));
+		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
+		gbc_addAttributeButton.anchor = GridBagConstraints.EAST;
+		gbc_addAttributeButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addAttributeButton.gridx = 0;
+		gbc_addAttributeButton.gridy = 11;
+		getViewPanel().add(addAttributeButton, gbc_addAttributeButton);
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		

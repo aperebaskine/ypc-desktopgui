@@ -95,6 +95,7 @@ extends AbstractPaginatedSearchView<Product> {
 
 		JLabel attributeLabel = new JLabel("Attributes:");
 		GridBagConstraints gbc_attributeLabel = new GridBagConstraints();
+		gbc_attributeLabel.anchor = GridBagConstraints.EAST;
 		gbc_attributeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_attributeLabel.gridx = 6;
 		gbc_attributeLabel.gridy = 0;
@@ -121,6 +122,7 @@ extends AbstractPaginatedSearchView<Product> {
 		
 		addAttributeButton = new JButton();
 		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
+		gbc_addAttributeButton.anchor = GridBagConstraints.EAST;
 		gbc_addAttributeButton.insets = new Insets(0, 0, 5, 5);
 		gbc_addAttributeButton.gridx = 6;
 		gbc_addAttributeButton.gridy = 1;

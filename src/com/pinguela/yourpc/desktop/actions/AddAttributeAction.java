@@ -12,7 +12,7 @@ extends GetAttributeInputAction<ProductView> {
 	private static final long serialVersionUID = 5019193350081032906L;
 	
 	public AddAttributeAction(ProductView view) {
-		super("Add...", view);
+		super(view);
 	}
 
 	@Override

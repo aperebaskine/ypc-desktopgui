@@ -64,7 +64,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
 		viewPanel.add(imagePanel, BorderLayout.WEST);
 		
 		JPanel centerPanel = new JPanel();
-		centerPanel.add(centerPanel, BorderLayout.CENTER);
+		viewPanel.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
 		
 		detailsPanel = new JPanel();

@@ -45,7 +45,6 @@ extends OpenSearchResultDialogAction<Product> {
 		}
 		dialogView.addAction(new CancelEditAction<Product>(dialogView), EntityView.EDITOR_CARD);
 		dialogView.addAction(new SaveProductAction(dialogView), EntityView.EDITOR_CARD);
-		dialogView.addAttributeAction(new AddAttributeAction(dialogView));
 
 		p = (Product) table.getValueAt(row, column);
 		dialogView.setItem(p);

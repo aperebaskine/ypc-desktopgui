@@ -6,6 +6,7 @@ import java.awt.Insets;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -23,7 +24,7 @@ import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
 public class RMAView 
-extends AbstractItemView<RMA> {
+extends AbstractEntityView<RMA> {
 
 	/**
 	 * 
@@ -47,7 +48,10 @@ extends AbstractItemView<RMA> {
 	}
 
 	private void initialize() {
-		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
+		
+		JPanel viewPanel = getViewPanel();
+		
+		GridBagLayout gridBagLayout = (GridBagLayout) viewPanel.getLayout();
 		gridBagLayout.columnWidths = new int[]{0, 152, 48, 0, 240};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
@@ -58,7 +62,7 @@ extends AbstractItemView<RMA> {
 		gbc_idLabel.anchor = GridBagConstraints.EAST;
 		gbc_idLabel.gridx = 0;
 		gbc_idLabel.gridy = 0;
-		getViewPanel().add(idLabel, gbc_idLabel);
+		viewPanel.add(idLabel, gbc_idLabel);
 
 		idValueLabel = new JLabel("0");
 		GridBagConstraints gbc_idValueLabel = new GridBagConstraints();
@@ -66,14 +70,14 @@ extends AbstractItemView<RMA> {
 		gbc_idValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_idValueLabel.gridx = 1;
 		gbc_idValueLabel.gridy = 0;
-		getViewPanel().add(idValueLabel, gbc_idValueLabel);
+		viewPanel.add(idValueLabel, gbc_idValueLabel);
 
 		JLabel orderLineListLabel = new JLabel("Products:");
 		GridBagConstraints gbc_orderLineListLabel = new GridBagConstraints();
 		gbc_orderLineListLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_orderLineListLabel.gridx = 3;
 		gbc_orderLineListLabel.gridy = 0;
-		getViewPanel().add(orderLineListLabel, gbc_orderLineListLabel);
+		viewPanel.add(orderLineListLabel, gbc_orderLineListLabel);
 
 		JScrollPane messageListScrollPane = new JScrollPane();
 		GridBagConstraints gbc_messageListScrollPane = new GridBagConstraints();
@@ -81,7 +85,7 @@ extends AbstractItemView<RMA> {
 		gbc_messageListScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_messageListScrollPane.gridx = 4;
 		gbc_messageListScrollPane.gridy = 0;
-		getViewPanel().add(messageListScrollPane, gbc_messageListScrollPane);
+		viewPanel.add(messageListScrollPane, gbc_messageListScrollPane);
 
 		orderLineListView = new OrderLineListView();
 		messageListScrollPane.setViewportView(orderLineListView);
@@ -92,7 +96,7 @@ extends AbstractItemView<RMA> {
 		gbc_creationDateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_creationDateLabel.gridx = 0;
 		gbc_creationDateLabel.gridy = 1;
-		getViewPanel().add(creationDateLabel, gbc_creationDateLabel);
+		viewPanel.add(creationDateLabel, gbc_creationDateLabel);
 
 		JLabel creationDateValueLabel = new JLabel("01/01/1970");
 		GridBagConstraints gbc_creationDateValueLabel = new GridBagConstraints();
@@ -100,7 +104,7 @@ extends AbstractItemView<RMA> {
 		gbc_creationDateValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_creationDateValueLabel.gridx = 1;
 		gbc_creationDateValueLabel.gridy = 1;
-		getViewPanel().add(creationDateValueLabel, gbc_creationDateValueLabel);
+		viewPanel.add(creationDateValueLabel, gbc_creationDateValueLabel);
 
 		JLabel customerLabel = new JLabel("Customer:");
 		GridBagConstraints gbc_customerLabel = new GridBagConstraints();
@@ -108,7 +112,7 @@ extends AbstractItemView<RMA> {
 		gbc_customerLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_customerLabel.gridx = 0;
 		gbc_customerLabel.gridy = 2;
-		getViewPanel().add(customerLabel, gbc_customerLabel);
+		viewPanel.add(customerLabel, gbc_customerLabel);
 		
 		customerSelectionPanel = new CustomerSelector();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -116,7 +120,7 @@ extends AbstractItemView<RMA> {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 2;
-		getViewPanel().add(customerSelectionPanel, gbc_panel);
+		viewPanel.add(customerSelectionPanel, gbc_panel);
 
 		JLabel stateLabel = new JLabel("State:");
 		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
@@ -124,7 +128,7 @@ extends AbstractItemView<RMA> {
 		gbc_stateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_stateLabel.gridx = 0;
 		gbc_stateLabel.gridy = 3;
-		getViewPanel().add(stateLabel, gbc_stateLabel);
+		viewPanel.add(stateLabel, gbc_stateLabel);
 
 		JLabel trackingNumberLabel = new JLabel("Tracking number:");
 		GridBagConstraints gbc_trackingNumberLabel = new GridBagConstraints();
@@ -132,7 +136,7 @@ extends AbstractItemView<RMA> {
 		gbc_trackingNumberLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_trackingNumberLabel.gridx = 0;
 		gbc_trackingNumberLabel.gridy = 4;
-		getViewPanel().add(trackingNumberLabel, gbc_trackingNumberLabel);
+		viewPanel.add(trackingNumberLabel, gbc_trackingNumberLabel);
 
 		trackingNumberTextField = new JTextField();
 		GridBagConstraints gbc_titleTextField = new GridBagConstraints();
@@ -140,7 +144,7 @@ extends AbstractItemView<RMA> {
 		gbc_titleTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_titleTextField.gridx = 1;
 		gbc_titleTextField.gridy = 4;
-		getViewPanel().add(trackingNumberTextField, gbc_titleTextField);
+		viewPanel.add(trackingNumberTextField, gbc_titleTextField);
 		trackingNumberTextField.setColumns(10);
 	}
 

@@ -13,9 +13,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.pinguela.yourpc.desktop.components.ActionPane;
 
-public abstract class AbstractItemView<T> 
+public abstract class AbstractEntityView<T> 
 extends YPCView 
-implements ItemView<T> {
+implements EntityView<T> {
 
 	/**
 	 * 
@@ -46,7 +46,7 @@ implements ItemView<T> {
 
 	private Map<String, ActionPane> cards;
 	
-	public AbstractItemView() {
+	public AbstractEntityView() {
 		centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_viewerPanel = new GridBagLayout();

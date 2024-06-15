@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 
 public abstract class SaveItemAction<T> 
 extends ItemAction<T> {
@@ -22,19 +22,19 @@ extends ItemAction<T> {
 
 	private static Logger logger = LogManager.getLogger(SaveItemAction.class);
 
-	public SaveItemAction(ItemView<T> view, Icon icon) {
+	public SaveItemAction(EntityView<T> view, Icon icon) {
 		super(view, icon);
 	}
 
-	public SaveItemAction(ItemView<T> view, String name, Icon icon) {
+	public SaveItemAction(EntityView<T> view, String name, Icon icon) {
 		super(view, name, icon);
 	}
 
-	public SaveItemAction(ItemView<T> view, String name) {
+	public SaveItemAction(EntityView<T> view, String name) {
 		super(view, name);
 	}
 
-	public SaveItemAction(ItemView<T> view) {
+	public SaveItemAction(EntityView<T> view) {
 		super(view);
 	}
 
@@ -46,11 +46,11 @@ extends ItemAction<T> {
 			} else {
 				doUpdate(getView().getNewItem());
 			}
-			if (!getView().showCard(ItemView.VIEW_CARD)) {
+			if (!getView().showCard(EntityView.VIEW_CARD)) {
 				for (Action action : getViewerActions()) {
-					getView().addAction(action, ItemView.VIEW_CARD);
+					getView().addAction(action, EntityView.VIEW_CARD);
 				}
-				getView().showCard(ItemView.VIEW_CARD);
+				getView().showCard(EntityView.VIEW_CARD);
 			} 
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);

@@ -11,7 +11,7 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.CustomerSearchView;
 import com.pinguela.yourpc.desktop.view.CustomerView;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Customer;
 
 public class OpenCustomerResultDialogAction 
@@ -37,17 +37,17 @@ extends OpenSearchResultDialogAction<Customer> {
 		int column = table.getSelectedColumn();
 
 		dialogView = new CustomerView();
-		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
+		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		c = (Customer) table.getValueAt(row, column);
 		dialogView.setItem(c);
 
 		boolean editOnOpen = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!editOnOpen) {
 			dialogView.addAction(new DeleteCustomerAction(dialogView));
-			dialogView.addAction(new EditItemAction<Customer>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new EditItemAction<Customer>(dialogView, EntityView.VIEW_CARD));
 		}
-		dialogView.addAction(new CancelEditAction<Customer>(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveCustomerAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new CancelEditAction<Customer>(dialogView), EntityView.EDITOR_CARD);
+		dialogView.addAction(new SaveCustomerAction(dialogView), EntityView.EDITOR_CARD);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);

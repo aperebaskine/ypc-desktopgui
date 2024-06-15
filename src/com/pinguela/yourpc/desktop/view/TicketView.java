@@ -34,7 +34,7 @@ import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
 public class TicketView 
-extends AbstractItemView<Ticket> {
+extends AbstractEntityView<Ticket> {
 
 	/**
 	 * 
@@ -72,7 +72,10 @@ extends AbstractItemView<Ticket> {
 	}
 
 	private void initialize() {
-		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
+		
+		JPanel viewPanel = getViewPanel();
+		
+		GridBagLayout gridBagLayout = (GridBagLayout) viewPanel.getLayout();
 		gridBagLayout.columnWidths = new int[]{0, 200, 48, 0, 240};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
@@ -83,7 +86,7 @@ extends AbstractItemView<Ticket> {
 		gbc_idLabel.anchor = GridBagConstraints.EAST;
 		gbc_idLabel.gridx = 0;
 		gbc_idLabel.gridy = 0;
-		getViewPanel().add(idLabel, gbc_idLabel);
+		viewPanel.add(idLabel, gbc_idLabel);
 
 		idValueLabel = new JLabel("0");
 		GridBagConstraints gbc_idValueLabel = new GridBagConstraints();
@@ -91,14 +94,14 @@ extends AbstractItemView<Ticket> {
 		gbc_idValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_idValueLabel.gridx = 1;
 		gbc_idValueLabel.gridy = 0;
-		getViewPanel().add(idValueLabel, gbc_idValueLabel);
+		viewPanel.add(idValueLabel, gbc_idValueLabel);
 
 		JLabel messageListLabel = new JLabel("Messages:");
 		GridBagConstraints gbc_messageListLabel = new GridBagConstraints();
 		gbc_messageListLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_messageListLabel.gridx = 3;
 		gbc_messageListLabel.gridy = 0;
-		getViewPanel().add(messageListLabel, gbc_messageListLabel);
+		viewPanel.add(messageListLabel, gbc_messageListLabel);
 
 		JScrollPane messageListScrollPane = new JScrollPane();
 		messageListScrollPane.setPreferredSize(new Dimension(480, 360));
@@ -109,7 +112,7 @@ extends AbstractItemView<Ticket> {
 		gbc_messageListScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_messageListScrollPane.gridx = 4;
 		gbc_messageListScrollPane.gridy = 0;
-		getViewPanel().add(messageListScrollPane, gbc_messageListScrollPane);
+		viewPanel.add(messageListScrollPane, gbc_messageListScrollPane);
 
 		messageListPanel = new JPanel();
 		messageListPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -124,7 +127,7 @@ extends AbstractItemView<Ticket> {
 		gbc_creationDateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_creationDateLabel.gridx = 0;
 		gbc_creationDateLabel.gridy = 1;
-		getViewPanel().add(creationDateLabel, gbc_creationDateLabel);
+		viewPanel.add(creationDateLabel, gbc_creationDateLabel);
 
 		creationDateValueLabel = new JLabel("01/01/1970");
 		GridBagConstraints gbc_creationDateValueLabel = new GridBagConstraints();
@@ -132,7 +135,7 @@ extends AbstractItemView<Ticket> {
 		gbc_creationDateValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_creationDateValueLabel.gridx = 1;
 		gbc_creationDateValueLabel.gridy = 1;
-		getViewPanel().add(creationDateValueLabel, gbc_creationDateValueLabel);
+		viewPanel.add(creationDateValueLabel, gbc_creationDateValueLabel);
 
 		JLabel customerLabel = new JLabel("Customer:");
 		GridBagConstraints gbc_customerLabel = new GridBagConstraints();
@@ -140,7 +143,7 @@ extends AbstractItemView<Ticket> {
 		gbc_customerLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_customerLabel.gridx = 0;
 		gbc_customerLabel.gridy = 2;
-		getViewPanel().add(customerLabel, gbc_customerLabel);
+		viewPanel.add(customerLabel, gbc_customerLabel);
 		
 		customerSelectionPanel = new CustomerSelector();
 		GridBagConstraints gbc_customerSelectionPanel = new GridBagConstraints();
@@ -148,7 +151,7 @@ extends AbstractItemView<Ticket> {
 		gbc_customerSelectionPanel.fill = GridBagConstraints.BOTH;
 		gbc_customerSelectionPanel.gridx = 1;
 		gbc_customerSelectionPanel.gridy = 2;
-		getViewPanel().add(customerSelectionPanel, gbc_customerSelectionPanel);
+		viewPanel.add(customerSelectionPanel, gbc_customerSelectionPanel);
 
 		JLabel typeLabel = new JLabel("Type:");
 		GridBagConstraints gbc_typeLabel = new GridBagConstraints();
@@ -156,7 +159,7 @@ extends AbstractItemView<Ticket> {
 		gbc_typeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_typeLabel.gridx = 0;
 		gbc_typeLabel.gridy = 3;
-		getViewPanel().add(typeLabel, gbc_typeLabel);
+		viewPanel.add(typeLabel, gbc_typeLabel);
 
 		JLabel stateLabel = new JLabel("State:");
 		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
@@ -164,7 +167,7 @@ extends AbstractItemView<Ticket> {
 		gbc_stateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_stateLabel.gridx = 0;
 		gbc_stateLabel.gridy = 4;
-		getViewPanel().add(stateLabel, gbc_stateLabel);
+		viewPanel.add(stateLabel, gbc_stateLabel);
 
 		JLabel titleLabel = new JLabel("Title:");
 		GridBagConstraints gbc_titleLabel = new GridBagConstraints();
@@ -172,7 +175,7 @@ extends AbstractItemView<Ticket> {
 		gbc_titleLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_titleLabel.gridx = 0;
 		gbc_titleLabel.gridy = 5;
-		getViewPanel().add(titleLabel, gbc_titleLabel);
+		viewPanel.add(titleLabel, gbc_titleLabel);
 
 		titleTextField = new JTextField();
 		GridBagConstraints gbc_titleTextField = new GridBagConstraints();
@@ -180,7 +183,7 @@ extends AbstractItemView<Ticket> {
 		gbc_titleTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_titleTextField.gridx = 1;
 		gbc_titleTextField.gridy = 5;
-		getViewPanel().add(titleTextField, gbc_titleTextField);
+		viewPanel.add(titleTextField, gbc_titleTextField);
 		titleTextField.setColumns(10);
 
 		JLabel descriptionLabel = new JLabel("Description:");
@@ -189,7 +192,7 @@ extends AbstractItemView<Ticket> {
 		gbc_descriptionLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_descriptionLabel.gridx = 0;
 		gbc_descriptionLabel.gridy = 6;
-		getViewPanel().add(descriptionLabel, gbc_descriptionLabel);
+		viewPanel.add(descriptionLabel, gbc_descriptionLabel);
 
 		descriptionTextArea = new JTextArea();
 		descriptionTextArea.setWrapStyleWord(true);
@@ -199,17 +202,19 @@ extends AbstractItemView<Ticket> {
 		gbc_descriptionTextArea.fill = GridBagConstraints.BOTH;
 		gbc_descriptionTextArea.gridx = 1;
 		gbc_descriptionTextArea.gridy = 6;
-		getViewPanel().add(descriptionTextArea, gbc_descriptionTextArea);
+		viewPanel.add(descriptionTextArea, gbc_descriptionTextArea);
 	}
 
 	private void postInitialize() {
+		JPanel viewPanel = getViewPanel();
+		
 		typeComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
 		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_typeComboBox.gridx = 1;
 		gbc_typeComboBox.gridy = 3;
-		getViewPanel().add(typeComboBox, gbc_typeComboBox);
+		viewPanel.add(typeComboBox, gbc_typeComboBox);
 
 		stateComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
@@ -217,7 +222,7 @@ extends AbstractItemView<Ticket> {
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stateComboBox.gridx = 1;
 		gbc_stateComboBox.gridy = 4;
-		getViewPanel().add(stateComboBox, gbc_stateComboBox);
+		viewPanel.add(stateComboBox, gbc_stateComboBox);
 
 		messages = new ArrayList<TicketMessage>();
 		addPropertyChangeListener(MESSAGE_LIST_SIZE_PROPERTY, messageListSizeListener);

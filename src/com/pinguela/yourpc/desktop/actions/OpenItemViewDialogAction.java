@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.yourpc.desktop.components.ItemSelector;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.YPCView;
 
 public class OpenItemViewDialogAction<T>
@@ -20,22 +20,22 @@ extends OpenDialogAction<T> {
 	
 	private static Logger logger = LogManager.getLogger(OpenItemViewDialogAction.class);
 	
-	private Class<? extends ItemView<T>> target;
+	private Class<? extends EntityView<T>> target;
 	private ItemSelector<T> selector;
 	
-	public <V extends ItemView<T>, S extends ItemSelector<T>> OpenItemViewDialogAction(Class<V> target, S selector) {
+	public <V extends EntityView<T>, S extends ItemSelector<T>> OpenItemViewDialogAction(Class<V> target, S selector) {
 		super("View");
 		this.target = target;
 		this.selector = selector;
 	}
 	
-	protected ItemView<T> initializeView() throws Exception {
-		return (ItemView<T>) target.getDeclaredConstructor().newInstance();
+	protected EntityView<T> initializeView() throws Exception {
+		return (EntityView<T>) target.getDeclaredConstructor().newInstance();
 	}
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		ItemView<T> dialogView;
+		EntityView<T> dialogView;
 		
 		try {
 			dialogView = initializeView();

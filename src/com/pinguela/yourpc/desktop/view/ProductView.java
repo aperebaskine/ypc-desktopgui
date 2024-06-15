@@ -1,22 +1,27 @@
 package com.pinguela.yourpc.desktop.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeListener;
 import java.util.Collections;
+import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +30,7 @@ import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
+import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
@@ -33,6 +39,7 @@ import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
+import com.pinguela.yourpc.model.ImageEntry;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.ImageFileService;
@@ -40,7 +47,7 @@ import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 public class ProductView 
-extends AbstractImageGalleryItemView<Product> {
+extends AbstractEntityView<Product> {
 
 	/**
 	 * 
@@ -60,6 +67,10 @@ extends AbstractImageGalleryItemView<Product> {
 	private JFormattedTextField salePriceField;
 	private JTextArea descriptionTextArea;
 	private JTable attributeTable;
+	private ImageGalleryPanel imageGalleryPanel;
+	private PropertyChangeListener editableListener = (evt) -> {
+		imageGalleryPanel.setEditable(isEditable());
+	};
 
 	public ProductView() {
 		initialize();
@@ -67,10 +78,12 @@ extends AbstractImageGalleryItemView<Product> {
 	}
 
 	private void initialize() {
+		
+		JPanel viewPanel = getViewPanel();
 
-		getViewPanel().setPreferredSize(new Dimension(540, 0));
+		viewPanel.setPreferredSize(new Dimension(540, 0));
 
-		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
+		GridBagLayout gridBagLayout = (GridBagLayout) viewPanel.getLayout();
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0};
 		gridBagLayout.columnWidths = new int[]{80, 160, 20, 80, 160};
@@ -82,7 +95,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_idLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_idLabel.gridx = 0;
 		gbc_idLabel.gridy = 0;
-		getViewPanel().add(idLabel, gbc_idLabel);
+		viewPanel.add(idLabel, gbc_idLabel);
 
 		idValueLabel = new JLabel("");
 		GridBagConstraints gbc_idValueLabel = new GridBagConstraints();
@@ -90,7 +103,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_idValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_idValueLabel.gridx = 1;
 		gbc_idValueLabel.gridy = 0;
-		getViewPanel().add(idValueLabel, gbc_idValueLabel);
+		viewPanel.add(idValueLabel, gbc_idValueLabel);
 
 		JLabel nameLabel = new JLabel("Name:");
 		GridBagConstraints gbc_nameLabel = new GridBagConstraints();
@@ -98,7 +111,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_nameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_nameLabel.gridx = 0;
 		gbc_nameLabel.gridy = 1;
-		getViewPanel().add(nameLabel, gbc_nameLabel);
+		viewPanel.add(nameLabel, gbc_nameLabel);
 
 		nameTextField = new JTextField();
 		nameTextField.setEditable(false);
@@ -108,7 +121,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_nameTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nameTextField.gridx = 1;
 		gbc_nameTextField.gridy = 1;
-		getViewPanel().add(nameTextField, gbc_nameTextField);
+		viewPanel.add(nameTextField, gbc_nameTextField);
 		nameTextField.setColumns(10);
 
 		JLabel categoryLabel = new JLabel("Category:");
@@ -117,7 +130,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_categoryLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_categoryLabel.gridx = 0;
 		gbc_categoryLabel.gridy = 2;
-		getViewPanel().add(categoryLabel, gbc_categoryLabel);
+		viewPanel.add(categoryLabel, gbc_categoryLabel);
 
 		JLabel purchasePriceLabel = new JLabel("Purchase price:");
 		GridBagConstraints gbc_purchasePriceLabel = new GridBagConstraints();
@@ -125,7 +138,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_purchasePriceLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_purchasePriceLabel.gridx = 3;
 		gbc_purchasePriceLabel.gridy = 2;
-		getViewPanel().add(purchasePriceLabel, gbc_purchasePriceLabel);
+		viewPanel.add(purchasePriceLabel, gbc_purchasePriceLabel);
 
 		purchasePriceField = new JFormattedTextField();
 		purchasePriceField.setEditable(false);
@@ -134,7 +147,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_purchasePriceField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_purchasePriceField.gridx = 4;
 		gbc_purchasePriceField.gridy = 2;
-		getViewPanel().add(purchasePriceField, gbc_purchasePriceField);
+		viewPanel.add(purchasePriceField, gbc_purchasePriceField);
 		purchasePriceField.setColumns(10);
 
 		JLabel launchDateLabel = new JLabel("Launch date:");
@@ -143,7 +156,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_launchDateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_launchDateLabel.gridx = 0;
 		gbc_launchDateLabel.gridy = 3;
-		getViewPanel().add(launchDateLabel, gbc_launchDateLabel);
+		viewPanel.add(launchDateLabel, gbc_launchDateLabel);
 
 		JLabel salePriceLabel = new JLabel("Sale price:");
 		GridBagConstraints gbc_salePriceLabel = new GridBagConstraints();
@@ -151,7 +164,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_salePriceLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_salePriceLabel.gridx = 3;
 		gbc_salePriceLabel.gridy = 3;
-		getViewPanel().add(salePriceLabel, gbc_salePriceLabel);
+		viewPanel.add(salePriceLabel, gbc_salePriceLabel);
 
 		salePriceField = new JFormattedTextField();
 		salePriceField.setEditable(false);
@@ -160,7 +173,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_salePriceField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_salePriceField.gridx = 4;
 		gbc_salePriceField.gridy = 3;
-		getViewPanel().add(salePriceField, gbc_salePriceField);
+		viewPanel.add(salePriceField, gbc_salePriceField);
 		salePriceField.setColumns(10);
 
 		JLabel stockLabel = new JLabel("Stock:");
@@ -169,7 +182,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_stockLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_stockLabel.gridx = 0;
 		gbc_stockLabel.gridy = 4;
-		getViewPanel().add(stockLabel, gbc_stockLabel);
+		viewPanel.add(stockLabel, gbc_stockLabel);
 
 		stockTextField = new JFormattedTextField();
 		stockTextField.setEditable(false);
@@ -178,7 +191,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_stockTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stockTextField.gridx = 1;
 		gbc_stockTextField.gridy = 4;
-		getViewPanel().add(stockTextField, gbc_stockTextField);
+		viewPanel.add(stockTextField, gbc_stockTextField);
 		stockTextField.setColumns(10);
 
 		JLabel descriptionLabel = new JLabel("Description:");
@@ -187,7 +200,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_descriptionLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_descriptionLabel.gridx = 0;
 		gbc_descriptionLabel.gridy = 6;
-		getViewPanel().add(descriptionLabel, gbc_descriptionLabel);
+		viewPanel.add(descriptionLabel, gbc_descriptionLabel);
 
 		JScrollPane descriptionScrollPane = new JScrollPane();
 		GridBagConstraints gbc_descriptionScrollPane = new GridBagConstraints();
@@ -197,7 +210,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_descriptionScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_descriptionScrollPane.gridx = 1;
 		gbc_descriptionScrollPane.gridy = 6;
-		getViewPanel().add(descriptionScrollPane, gbc_descriptionScrollPane);
+		viewPanel.add(descriptionScrollPane, gbc_descriptionScrollPane);
 
 		descriptionTextArea = new JTextArea();
 		descriptionTextArea.setLineWrap(true);
@@ -211,7 +224,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_attributeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_attributeLabel.gridx = 0;
 		gbc_attributeLabel.gridy = 10;
-		getViewPanel().add(attributeLabel, gbc_attributeLabel);
+		viewPanel.add(attributeLabel, gbc_attributeLabel);
 
 		JScrollPane attributeScrollPane = new JScrollPane();
 		attributeScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -221,13 +234,20 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_attributeScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_attributeScrollPane.gridx = 1;
 		gbc_attributeScrollPane.gridy = 10;
-		getViewPanel().add(attributeScrollPane, gbc_attributeScrollPane);
+		viewPanel.add(attributeScrollPane, gbc_attributeScrollPane);
 		
 		attributeTable = new JTable();
 		attributeScrollPane.setViewportView(attributeTable);
 	}
 
 	private void postInitialize() {
+		
+		JPanel viewPanel = getViewPanel();
+		add(viewPanel, BorderLayout.WEST);
+		
+		imageGalleryPanel = new ImageGalleryPanel();
+		imageGalleryPanel.setBorder(new EmptyBorder(0, 16, 0, 0));
+		add(imageGalleryPanel, BorderLayout.CENTER);
 
 		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
@@ -235,7 +255,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_categoryComboBox.gridx = 1;
 		gbc_categoryComboBox.gridy = 2;
-		getViewPanel().add(categoryComboBox, gbc_categoryComboBox);
+		viewPanel.add(categoryComboBox, gbc_categoryComboBox);
 		categoryComboBox.setEnabled(false);
 
 		launchDateChooser = ComponentFactory.getDateChooser();
@@ -246,7 +266,7 @@ extends AbstractImageGalleryItemView<Product> {
 		gbc_launchDateChooser.fill = GridBagConstraints.BOTH;
 		gbc_launchDateChooser.gridx = 1;
 		gbc_launchDateChooser.gridy = 3;
-		getViewPanel().add(launchDateChooser, gbc_launchDateChooser);
+		viewPanel.add(launchDateChooser, gbc_launchDateChooser);
 		
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
 				AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
@@ -256,6 +276,8 @@ extends AbstractImageGalleryItemView<Product> {
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		imageFileService = new ImageFileServiceImpl();
+		
+		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
 	}
 
 	@Override
@@ -345,6 +367,22 @@ extends AbstractImageGalleryItemView<Product> {
 	public <T extends Action & ItemListener> void addAttributeAction(T action) {
 		categoryComboBox.addItemListener(action);
 		addAction(action, EDITOR_CARD);
+	}
+	
+	public void addImage(ImageEntry entry) {
+		imageGalleryPanel.addImage(entry);
+	}
+
+	public void addImages(List<ImageEntry> entries) {
+		imageGalleryPanel.addImages(entries);
+	}
+	
+	public void clearImages() {
+		imageGalleryPanel.clearImages();
+	}
+
+	public List<ImageEntry> getModifiedImages() {
+		return imageGalleryPanel.getImages();
 	}
 
 }

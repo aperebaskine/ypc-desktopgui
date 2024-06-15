@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.TicketSearchView;
 import com.pinguela.yourpc.desktop.view.TicketView;
 import com.pinguela.yourpc.model.Ticket;
@@ -37,17 +37,17 @@ extends OpenSearchResultDialogAction<Ticket> {
 		int column = table.getSelectedColumn();
 
 		dialogView = new TicketView();
-		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
+		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		t = (Ticket) table.getValueAt(row, column);
 		dialogView.setItem(t);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
-			dialogView.addAction(new EditItemAction<Ticket>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new EditItemAction<Ticket>(dialogView, EntityView.VIEW_CARD));
 		}
-		dialogView.addAction(new CancelEditAction<Ticket>(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveTicketAction(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new AddTicketMessageAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new CancelEditAction<Ticket>(dialogView), EntityView.EDITOR_CARD);
+		dialogView.addAction(new SaveTicketAction(dialogView), EntityView.EDITOR_CARD);
+		dialogView.addAction(new AddTicketMessageAction(dialogView), EntityView.EDITOR_CARD);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);

@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import com.pinguela.yourpc.desktop.components.CustomerAddressSelector;
 import com.pinguela.yourpc.desktop.view.AddressView;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Address;
 
 public class OpenCustomerAddressViewDialogAction
@@ -18,7 +18,7 @@ extends OpenItemViewDialogAction<Address> {
 	}
 	
 	@Override
-	protected ItemView<Address> initializeView() {
+	protected EntityView<Address> initializeView() {
 		return new AddressView(AddressView.CUSTOMER);
 	}
 

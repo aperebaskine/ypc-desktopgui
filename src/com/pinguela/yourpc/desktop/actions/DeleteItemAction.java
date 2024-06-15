@@ -14,7 +14,7 @@ import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 
 public abstract class DeleteItemAction<T> 
@@ -29,7 +29,7 @@ extends YPCAction {
 
 	private DeleteActionDelegate delegate;
 
-	public DeleteItemAction(ItemView<T> source) {
+	public DeleteItemAction(EntityView<T> source) {
 		super("Delete", Icons.DELETE_ICON);
 		delegate = new ItemViewDeleteActionDelegate(source);
 	}
@@ -75,9 +75,9 @@ extends YPCAction {
 
 	private class ItemViewDeleteActionDelegate extends DeleteActionDelegate {
 
-		private ItemView<T> view;
+		private EntityView<T> view;
 
-		private ItemViewDeleteActionDelegate(ItemView<T> view) {
+		private ItemViewDeleteActionDelegate(EntityView<T> view) {
 			this.view = view;
 		}
 

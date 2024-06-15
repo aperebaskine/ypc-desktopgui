@@ -3,6 +3,7 @@ package com.pinguela.yourpc.desktop.view;
 import java.awt.FlowLayout;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -12,7 +13,7 @@ import com.pinguela.yourpc.desktop.renderer.OrderLineTableCellRenderer;
 import com.pinguela.yourpc.model.OrderLine;
 
 public class OrderLineListView 
-extends AbstractItemView<List<OrderLine>> {
+extends AbstractEntityView<List<OrderLine>> {
 
 	/**
 	 * 
@@ -22,10 +23,13 @@ extends AbstractItemView<List<OrderLine>> {
 	private JTable orderLineTable;
 
 	public OrderLineListView() {
-		getViewPanel().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JPanel viewPanel = getViewPanel();
+		
+		viewPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JScrollPane orderLineTableScrollPane = new JScrollPane();
-		getViewPanel().add(orderLineTableScrollPane);
+		viewPanel.add(orderLineTableScrollPane);
 		
 		orderLineTable = new JTable();
 		orderLineTable.setDefaultRenderer(Object.class, new OrderLineTableCellRenderer());

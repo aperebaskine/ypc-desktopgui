@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -29,7 +30,7 @@ import com.pinguela.yourpc.service.impl.AddressServiceImpl;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
 public class CustomerOrderView 
-extends AbstractItemView<CustomerOrder> {
+extends AbstractEntityView<CustomerOrder> {
 
 	/**
 	 * 
@@ -74,7 +75,10 @@ extends AbstractItemView<CustomerOrder> {
 	}
 
 	private void initialize() {
-		GridBagLayout gridBagLayout = (GridBagLayout) getViewPanel().getLayout();
+		
+		JPanel viewPanel = getViewPanel();
+		
+		GridBagLayout gridBagLayout = (GridBagLayout) viewPanel.getLayout();
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 28, 0, 0};
 		gridBagLayout.columnWidths = new int[]{0, 200, 48, 0, 200};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
@@ -86,7 +90,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_idLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_idLabel.gridx = 0;
 		gbc_idLabel.gridy = 0;
-		getViewPanel().add(idLabel, gbc_idLabel);
+		viewPanel.add(idLabel, gbc_idLabel);
 
 		idValueLabel = new JLabel("0");
 		GridBagConstraints gbc_idValueLabel = new GridBagConstraints();
@@ -94,7 +98,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_idValueLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_idValueLabel.gridx = 1;
 		gbc_idValueLabel.gridy = 0;
-		getViewPanel().add(idValueLabel, gbc_idValueLabel);
+		viewPanel.add(idValueLabel, gbc_idValueLabel);
 
 		JLabel customerLabel = new JLabel("Customer:");
 		GridBagConstraints gbc_customerLabel = new GridBagConstraints();
@@ -102,7 +106,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_customerLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_customerLabel.gridx = 0;
 		gbc_customerLabel.gridy = 1;
-		getViewPanel().add(customerLabel, gbc_customerLabel);
+		viewPanel.add(customerLabel, gbc_customerLabel);
 
 		customerSelector = new CustomerSelector();
 		customerSelector.addPropertyChangeListener(CustomerSelector.ITEM_PROPERTY, customerSelectionListener);
@@ -111,7 +115,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 1;
-		getViewPanel().add(customerSelector, gbc_panel);
+		viewPanel.add(customerSelector, gbc_panel);
 		
 		JLabel stateLabel = new JLabel("State:");
 		GridBagConstraints gbc_stateLabel = new GridBagConstraints();
@@ -119,7 +123,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_stateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_stateLabel.gridx = 3;
 		gbc_stateLabel.gridy = 1;
-		getViewPanel().add(stateLabel, gbc_stateLabel);
+		viewPanel.add(stateLabel, gbc_stateLabel);
 		
 		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -127,7 +131,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 4;
 		gbc_comboBox.gridy = 1;
-		getViewPanel().add(stateComboBox, gbc_comboBox);
+		viewPanel.add(stateComboBox, gbc_comboBox);
 
 		JLabel billingAddressLabel = new JLabel("Billing address:");
 		GridBagConstraints gbc_billingAddressLabel = new GridBagConstraints();
@@ -135,7 +139,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_billingAddressLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_billingAddressLabel.gridx = 0;
 		gbc_billingAddressLabel.gridy = 2;
-		getViewPanel().add(billingAddressLabel, gbc_billingAddressLabel);
+		viewPanel.add(billingAddressLabel, gbc_billingAddressLabel);
 
 		billingAddressSelector = new CustomerAddressSelector(customerSelector);
 		billingAddressSelector.setEnabled(false);
@@ -145,7 +149,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_billingAddressActionPane.fill = GridBagConstraints.BOTH;
 		gbc_billingAddressActionPane.gridx = 1;
 		gbc_billingAddressActionPane.gridy = 2;
-		getViewPanel().add(billingAddressSelector, gbc_billingAddressActionPane);
+		viewPanel.add(billingAddressSelector, gbc_billingAddressActionPane);
 		
 		JLabel trackingNumberLabel = new JLabel("Tracking number:");
 		GridBagConstraints gbc_trackingNumberLabel = new GridBagConstraints();
@@ -153,7 +157,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_trackingNumberLabel.anchor = GridBagConstraints.EAST;
 		gbc_trackingNumberLabel.gridx = 3;
 		gbc_trackingNumberLabel.gridy = 2;
-		getViewPanel().add(trackingNumberLabel, gbc_trackingNumberLabel);
+		viewPanel.add(trackingNumberLabel, gbc_trackingNumberLabel);
 		
 		trackingNumberTextField = new JTextField();
 		GridBagConstraints gbc_trackingNumberTextField = new GridBagConstraints();
@@ -161,7 +165,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_trackingNumberTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_trackingNumberTextField.gridx = 4;
 		gbc_trackingNumberTextField.gridy = 2;
-		getViewPanel().add(trackingNumberTextField, gbc_trackingNumberTextField);
+		viewPanel.add(trackingNumberTextField, gbc_trackingNumberTextField);
 		trackingNumberTextField.setColumns(10);
 
 		JLabel shippingAddressLabel = new JLabel("Shipping address:");
@@ -170,7 +174,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_shippingAddressLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_shippingAddressLabel.gridx = 0;
 		gbc_shippingAddressLabel.gridy = 3;
-		getViewPanel().add(shippingAddressLabel, gbc_shippingAddressLabel);
+		viewPanel.add(shippingAddressLabel, gbc_shippingAddressLabel);
 
 		shippingAddressSelector = new CustomerAddressSelector(customerSelector);
 		shippingAddressSelector.setEnabled(false);
@@ -179,7 +183,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_shippingAddressActionPane.fill = GridBagConstraints.BOTH;
 		gbc_shippingAddressActionPane.gridx = 1;
 		gbc_shippingAddressActionPane.gridy = 3;
-		getViewPanel().add(shippingAddressSelector, gbc_shippingAddressActionPane);
+		viewPanel.add(shippingAddressSelector, gbc_shippingAddressActionPane);
 
 		JLabel orderLineListLabel = new JLabel("Products:");
 		GridBagConstraints gbc_orderLineListLabel = new GridBagConstraints();
@@ -187,7 +191,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_orderLineListLabel.anchor = GridBagConstraints.NORTHEAST;
 		gbc_orderLineListLabel.gridx = 0;
 		gbc_orderLineListLabel.gridy = 4;
-		getViewPanel().add(orderLineListLabel, gbc_orderLineListLabel);
+		viewPanel.add(orderLineListLabel, gbc_orderLineListLabel);
 
 		orderLineListView = new OrderLineListView();
 		orderLineListView.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -197,7 +201,7 @@ extends AbstractItemView<CustomerOrder> {
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
 		gbc_panel_2.gridx = 1;
 		gbc_panel_2.gridy = 4;
-		getViewPanel().add(orderLineListView, gbc_panel_2);
+		viewPanel.add(orderLineListView, gbc_panel_2);
 	}
 
 	@Override

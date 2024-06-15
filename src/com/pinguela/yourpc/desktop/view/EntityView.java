@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.view;
 
 import javax.swing.Action;
 
-public interface ItemView<T> {
+public interface EntityView<T> {
 	
 	String ITEM_PROPERTY = "item";
 	

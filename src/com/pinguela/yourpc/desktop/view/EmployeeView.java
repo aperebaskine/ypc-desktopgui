@@ -22,7 +22,7 @@ import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.model.DocumentType;
 import com.pinguela.yourpc.model.Employee;
 
-public class EmployeeView extends AbstractItemView<Employee> {
+public class EmployeeView extends AbstractEntityView<Employee> {
 
 	/**
 	 * 
@@ -55,13 +55,16 @@ public class EmployeeView extends AbstractItemView<Employee> {
 	}
 	
 	private void initialize() {
-		getViewPanel().setLayout(new BorderLayout(0, 0));
+		
+		JPanel viewPanel = getViewPanel();
+		
+		viewPanel.setLayout(new BorderLayout(0, 0));
 		
 		ImagePanel imagePanel = new ImagePanel(new Dimension(240, 360));
-		getViewPanel().add(imagePanel, BorderLayout.WEST);
+		viewPanel.add(imagePanel, BorderLayout.WEST);
 		
 		JPanel centerPanel = new JPanel();
-		getViewPanel().add(centerPanel, BorderLayout.CENTER);
+		centerPanel.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
 		
 		detailsPanel = new JPanel();
@@ -256,7 +259,7 @@ public class EmployeeView extends AbstractItemView<Employee> {
 		centerPanel.add(detailsLabel, BorderLayout.NORTH);
 		
 		JPanel eastPanel = new JPanel();
-		getViewPanel().add(eastPanel, BorderLayout.EAST);
+		centerPanel.add(eastPanel, BorderLayout.EAST);
 		eastPanel.setLayout(new BorderLayout(0, 0));
 		
 		addressView = new AddressView(AddressView.EMPLOYEE);

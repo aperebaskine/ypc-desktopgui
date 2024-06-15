@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import com.pinguela.DataException;
 import com.pinguela.ServiceException;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.ProductService;
@@ -21,7 +21,7 @@ public class DeleteProductAction extends DeleteItemAction<Product> {
 		productService = new ProductServiceImpl();
 	}
 
-	public DeleteProductAction(ItemView<Product> source) {
+	public DeleteProductAction(EntityView<Product> source) {
 		super(source);
 	}
 

@@ -3,7 +3,7 @@ package com.pinguela.yourpc.desktop.actions;
 import com.pinguela.DataException;
 import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.service.CustomerService;
@@ -22,7 +22,7 @@ public class DeleteCustomerAction extends DeleteItemAction<Customer> {
 		customerService = new CustomerServiceImpl();
 	}
 	
-	public DeleteCustomerAction(ItemView<Customer> source) {
+	public DeleteCustomerAction(EntityView<Customer> source) {
 		super(source);
 	}
 

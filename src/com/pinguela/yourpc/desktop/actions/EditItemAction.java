@@ -3,7 +3,7 @@ package com.pinguela.yourpc.desktop.actions;
 import java.awt.EventQueue;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 
 public class EditItemAction<T> 
 extends ItemAction<T> {
@@ -13,11 +13,11 @@ extends ItemAction<T> {
 	 */
 	private static final long serialVersionUID = -4448781359085553435L;
 
-	public EditItemAction(ItemView<T> view) {
-		this(view, ItemView.VIEW_CARD);
+	public EditItemAction(EntityView<T> view) {
+		this(view, EntityView.VIEW_CARD);
 	}
 
-	public EditItemAction(ItemView<T> view, String card) {
+	public EditItemAction(EntityView<T> view, String card) {
 		super(view, "Edit", Icons.EDIT_ICON);
 		EventQueue.invokeLater(() -> {
 			view.showCard(card);
@@ -26,7 +26,7 @@ extends ItemAction<T> {
 	
 	@Override
 	protected void doAction() {
-		getView().showCard(ItemView.EDITOR_CARD);	
+		getView().showCard(EntityView.EDITOR_CARD);	
 	}
 
 }

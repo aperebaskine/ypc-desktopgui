@@ -11,7 +11,7 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.EmployeeSearchView;
 import com.pinguela.yourpc.desktop.view.EmployeeView;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Employee;
 
 public class OpenEmployeeResultDialogAction 
@@ -36,16 +36,16 @@ extends OpenSearchResultDialogAction<Employee> {
 		int column = table.getSelectedColumn();
 
 		dialogView = new EmployeeView();
-		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
+		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		employee = (Employee) table.getValueAt(row, column);
 		dialogView.setItem(employee);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
-			dialogView.addAction(new EditItemAction<Employee>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new EditItemAction<Employee>(dialogView, EntityView.VIEW_CARD));
 		}
-		dialogView.addAction(new CancelEditAction<Employee>(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveEmployeeAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new CancelEditAction<Employee>(dialogView), EntityView.EDITOR_CARD);
+		dialogView.addAction(new SaveEmployeeAction(dialogView), EntityView.EDITOR_CARD);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);

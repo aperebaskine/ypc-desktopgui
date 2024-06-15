@@ -34,7 +34,7 @@ import com.pinguela.yourpc.service.CustomerOrderService;
 import com.pinguela.yourpc.service.impl.CustomerOrderServiceImpl;
 
 public class CustomerView 
-extends AbstractItemView<Customer> {
+extends AbstractEntityView<Customer> {
 
 	/**
 	 * 
@@ -70,10 +70,10 @@ extends AbstractItemView<Customer> {
 	}
 
 	private void initialize() {
-		getViewPanel().setLayout(new BorderLayout(0, 0));
+		centerPanel.setLayout(new BorderLayout(0, 0));
 
 		centerPanel = new JPanel();
-		getViewPanel().add(centerPanel, BorderLayout.CENTER);
+		centerPanel.add(centerPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_centerPanel = new GridBagLayout();
 		gbl_centerPanel.columnWidths = new int[]{0, 288, 24, 0, 0};
 		gbl_centerPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

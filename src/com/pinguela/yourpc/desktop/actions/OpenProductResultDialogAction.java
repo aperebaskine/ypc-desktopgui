@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.model.Product;
@@ -36,15 +36,15 @@ extends OpenSearchResultDialogAction<Product> {
 		int column = table.getSelectedColumn();
 
 		dialogView = new ProductView();
-		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
+		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {
 			dialogView.addAction(new DeleteProductAction(dialogView));
-			dialogView.addAction(new EditItemAction<Product>(dialogView, ItemView.VIEW_CARD));
+			dialogView.addAction(new EditItemAction<Product>(dialogView, EntityView.VIEW_CARD));
 		}
-		dialogView.addAction(new CancelEditAction<Product>(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveProductAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addAction(new CancelEditAction<Product>(dialogView), EntityView.EDITOR_CARD);
+		dialogView.addAction(new SaveProductAction(dialogView), EntityView.EDITOR_CARD);
 		dialogView.addAttributeAction(new AddAttributeAction(dialogView));
 
 		p = (Product) table.getValueAt(row, column);

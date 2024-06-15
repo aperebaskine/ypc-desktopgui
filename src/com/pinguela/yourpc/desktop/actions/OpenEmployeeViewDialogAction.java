@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.EmployeeView;
-import com.pinguela.yourpc.desktop.view.ItemView;
+import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Employee;
 
 public class OpenEmployeeViewDialogAction 
@@ -24,9 +24,9 @@ extends OpenDialogAction<Employee> {
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
 		dialogView = new EmployeeView();
-		dialogView.addPropertyChangeListener(ItemView.ITEM_PROPERTY, this);
-		dialogView.addAction(new CancelEditAction<Employee>(dialogView), ItemView.EDITOR_CARD);
-		dialogView.addAction(new SaveEmployeeAction(dialogView), ItemView.EDITOR_CARD);
+		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
+		dialogView.addAction(new CancelEditAction<Employee>(dialogView), EntityView.EDITOR_CARD);
+		dialogView.addAction(new SaveEmployeeAction(dialogView), EntityView.EDITOR_CARD);
 
 		YPCDialog dialog = new YPCDialog(null, dialogView);
 		dialog.setTitle("Employee editor");

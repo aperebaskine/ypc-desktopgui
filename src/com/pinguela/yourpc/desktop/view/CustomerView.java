@@ -321,7 +321,7 @@ extends AbstractEntityView<Customer> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		recentOrdersLabel.setVisible(true);
 		recentOrderScrollPane.setVisible(true);
 		addressesLabel.setVisible(true);

@@ -291,7 +291,7 @@ extends AbstractEntityView<Ticket> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		resetFields();
 		
 		Ticket ticket = getItem();

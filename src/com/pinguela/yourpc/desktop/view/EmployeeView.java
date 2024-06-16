@@ -347,7 +347,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		
 		idValueLabel.setText(getItem().getId() != null ? getItem().getId().toString() : "");
 	    firstNameTextField.setText(getItem().getFirstName());

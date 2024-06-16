@@ -246,7 +246,7 @@ extends AbstractEntityView<CustomerOrder> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		CustomerOrder order = getItem();
 
 		idValueLabel.setText(order.getId() != null ? order.getId().toString() : "");

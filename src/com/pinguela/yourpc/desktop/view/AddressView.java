@@ -360,7 +360,7 @@ extends AbstractEntityView<Address> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		Address address = getItem();
 		
 		streetNameTextField.setText(address.getStreetName());

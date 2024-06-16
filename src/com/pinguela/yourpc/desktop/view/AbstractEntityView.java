@@ -140,12 +140,12 @@ implements EntityView<T> {
 		if (getItem() == null) {
 			resetFields();
 		} else {
-			onItemSet();
+			loadItemData();
 		}
 	}
 	
 	protected abstract void setFieldsEditable(boolean isEditable);
 	
-	protected abstract void onItemSet();
+	protected abstract void loadItemData();
 
 }

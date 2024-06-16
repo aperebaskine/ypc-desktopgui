@@ -206,7 +206,7 @@ extends AbstractEntityView<RMA> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 
 		RMA rma = getItem();
 		

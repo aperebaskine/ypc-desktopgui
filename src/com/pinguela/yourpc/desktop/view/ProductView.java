@@ -337,7 +337,7 @@ extends AbstractEntityView<Product> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		idValueLabel.setText(getItem().getId().toString());
 		nameTextField.setText(getItem().getName());
 		categoryComboBox.setSelectedIndex(getItem().getCategoryId());

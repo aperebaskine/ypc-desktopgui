@@ -54,7 +54,7 @@ extends AbstractEntityView<List<OrderLine>> {
 	}
 
 	@Override
-	protected void onItemSet() {
+	protected void loadItemData() {
 		orderLineTable.setModel(new ActionPaneListTableModel<>(OrderLineTableConstants.COLUMN_NAMES, getItem()));
 	}
 

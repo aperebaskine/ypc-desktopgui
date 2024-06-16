@@ -77,7 +77,7 @@ public class ComponentFactory {
 
 		JFormattedTextField textField = new JFormattedTextField(formatter);
 		// TODO: Create working listener
-		//	textField.getDocument().addDocumentListener(new NullableFormattedTextFieldDocumentListener(textField));
+		// textField.getDocument().addDocumentListener(new NullableFormattedTextFieldDocumentListener(textField));
 
 		return textField;
 	}

@@ -74,7 +74,7 @@ extends InputPane<Attribute<T>> {
 	@SuppressWarnings("unchecked")
 	public static final <T> InputPane<T> getInstance(Attribute<T> attribute, boolean showUnassignedValues, boolean showActions) {
 
-		Class<?> targetClass = getClassByTypeParameter(attribute.getParameterizedTypeClass());
+		Class<?> targetClass = getClassByTypeParameter(attribute.getTypeParameterClass());
 		try {
 			return (InputPane<T>) targetClass
 					.getDeclaredConstructor(Attribute.class, boolean.class, boolean.class)

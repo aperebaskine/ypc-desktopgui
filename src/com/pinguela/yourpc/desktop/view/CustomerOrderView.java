@@ -55,7 +55,7 @@ extends AbstractEntityView<CustomerOrder> {
 		billingAddressSelector.setEnabled(customer != null);
 		shippingAddressSelector.setEnabled(customer != null);
 		
-		if (getItem() == null && customer != null) {
+		if (getCurrentEntity() == null && customer != null) {
 			for (Address address : customer.getAddresses()) {
 				if (address.isDefault()) {
 					shippingAddressSelector.setItem(address);
@@ -206,16 +206,16 @@ extends AbstractEntityView<CustomerOrder> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public CustomerOrder getNewItem() {
+	public CustomerOrder createNewEntityFromFields() {
 		CustomerOrder order = new CustomerOrder();
-		CustomerOrder updating = getItem();
+		CustomerOrder updating = getCurrentEntity();
 	
 		if (updating != null) {
 			order.setId(updating.getId());
 			order.setOrderDate(updating.getOrderDate());
 		}
 		
-		order.setOrderLines(orderLineListView.getItem());
+		order.setOrderLines(orderLineListView.getCurrentEntity());
 		order.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
 		order.setBillingAddressId(billingAddressSelector.getItem().getId());
 		order.setShippingAddressId(shippingAddressSelector.getItem().getId());
@@ -227,7 +227,7 @@ extends AbstractEntityView<CustomerOrder> {
 	@Override
 	public void resetFields() {
 
-		if (getItem() == null) {
+		if (getCurrentEntity() == null) {
 			customerSelector.setItem(null);
 			billingAddressSelector.setItem(null);
 			shippingAddressSelector.setItem(null);
@@ -247,7 +247,7 @@ extends AbstractEntityView<CustomerOrder> {
 
 	@Override
 	protected void loadItemData() {
-		CustomerOrder order = getItem();
+		CustomerOrder order = getCurrentEntity();
 
 		idValueLabel.setText(order.getId() != null ? order.getId().toString() : "");
 		orderLineListView.setItem(order.getOrderLines());

@@ -12,9 +12,9 @@ public interface EntityView<T> {
 	String VIEW_CARD = "actionCard";
 	String EDITOR_CARD = "editorCard";
 	
-	T getItem();
+	T getCurrentEntity();
 	
-	T getNewItem();
+	T createNewEntityFromFields();
 
 	void setItem(T item);
 	

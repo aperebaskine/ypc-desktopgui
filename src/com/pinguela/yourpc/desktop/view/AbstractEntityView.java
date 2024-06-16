@@ -85,7 +85,7 @@ implements EntityView<T> {
 	}
 
 	@Override
-	public T getItem() {
+	public T getCurrentEntity() {
 		return item;
 	}
 
@@ -137,7 +137,7 @@ implements EntityView<T> {
 	}
 	
 	public void toDefaultState() {
-		if (getItem() == null) {
+		if (getCurrentEntity() == null) {
 			resetFields();
 		} else {
 			loadItemData();

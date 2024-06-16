@@ -292,7 +292,7 @@ extends AbstractEntityView<Product> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Product getNewItem() {
+	public Product createNewEntityFromFields() {
 		Product product = new Product();
 
 		product.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));
@@ -311,16 +311,16 @@ extends AbstractEntityView<Product> {
 
 	@Override
 	public void resetFields() {
-		nameTextField.setText(getItem().getName());
-		categoryComboBox.setSelectedIndex(getItem().getCategoryId());
-		launchDateChooser.setDate(getItem().getLaunchDate());
-		stockTextField.setValue(getItem().getStock());
-		purchasePriceField.setValue(getItem().getPurchasePrice());
-		salePriceField.setValue(getItem().getSalePrice());
-		descriptionTextArea.setText(getItem().getDescription());
+		nameTextField.setText(getCurrentEntity().getName());
+		categoryComboBox.setSelectedIndex(getCurrentEntity().getCategoryId());
+		launchDateChooser.setDate(getCurrentEntity().getLaunchDate());
+		stockTextField.setValue(getCurrentEntity().getStock());
+		purchasePriceField.setValue(getCurrentEntity().getPurchasePrice());
+		salePriceField.setValue(getCurrentEntity().getSalePrice());
+		descriptionTextArea.setText(getCurrentEntity().getDescription());
 		
 		attributeTable.setModel(
-				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
+				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, getCurrentEntity().getAttributes()));
 		
 		findProductImages();
 	}
@@ -338,31 +338,31 @@ extends AbstractEntityView<Product> {
 
 	@Override
 	protected void loadItemData() {
-		idValueLabel.setText(getItem().getId().toString());
-		nameTextField.setText(getItem().getName());
-		categoryComboBox.setSelectedIndex(getItem().getCategoryId());
-		launchDateChooser.setDate(getItem().getLaunchDate());
-		stockTextField.setValue(getItem().getStock());
-		purchasePriceField.setValue(getItem().getPurchasePrice());
-		salePriceField.setValue(getItem().getSalePrice());
-		descriptionTextArea.setText(getItem().getDescription());
+		idValueLabel.setText(getCurrentEntity().getId().toString());
+		nameTextField.setText(getCurrentEntity().getName());
+		categoryComboBox.setSelectedIndex(getCurrentEntity().getCategoryId());
+		launchDateChooser.setDate(getCurrentEntity().getLaunchDate());
+		stockTextField.setValue(getCurrentEntity().getStock());
+		purchasePriceField.setValue(getCurrentEntity().getPurchasePrice());
+		salePriceField.setValue(getCurrentEntity().getSalePrice());
+		descriptionTextArea.setText(getCurrentEntity().getDescription());
 
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
-				AttributeTableConstants.COLUMN_NAMES, getItem().getAttributes()));
+				AttributeTableConstants.COLUMN_NAMES, getCurrentEntity().getAttributes()));
 		
 		findProductImages();
 	}
 	
 	private void findProductImages() {
 		clearImages();
-		Product p = getItem();
+		Product p = getCurrentEntity();
 		
 		if (p == null || p.getId() == null) {
 			return;
 		}
 		
 		try {
-			addImages(imageFileService.getFiles("product", getItem().getId()));
+			addImages(imageFileService.getFiles("product", getCurrentEntity().getId()));
 		} catch (ServiceException e) {
 			logger.error(e.getMessage(), e);
 			SwingUtils.showDatabaseAccessErrorDialog(this);

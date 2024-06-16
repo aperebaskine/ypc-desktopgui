@@ -41,10 +41,10 @@ extends ItemAction<T> {
 	@Override
 	protected void doAction() {
 		try {
-			if (getView().getItem() == null) {
-				doCreate(getView().getNewItem());
+			if (getView().getCurrentEntity() == null) {
+				doCreate(getView().createNewEntityFromFields());
 			} else {
-				doUpdate(getView().getNewItem());
+				doUpdate(getView().createNewEntityFromFields());
 			}
 			if (!getView().showCard(EntityView.VIEW_CARD)) {
 				for (Action action : getViewerActions()) {

@@ -270,8 +270,8 @@ extends AbstractEntityView<Customer> {
 	}
 	
 	@Override
-	public Customer getNewItem() {
-		Customer old = getItem();
+	public Customer createNewEntityFromFields() {
+		Customer old = getCurrentEntity();
 		Customer customer = new Customer();
 		
 		if (old != null) {
@@ -332,20 +332,20 @@ extends AbstractEntityView<Customer> {
 			dialog.pack();
 		}
 		
-		idValueLabel.setText(getItem().getId() != null ? getItem().getId().toString() : "");
-		firstNameTextField.setText(getItem().getFirstName());
-		lastName1TextField.setText(getItem().getLastName1());
-		lastName2TextField.setText(getItem().getLastName2());
-		documentTypeComboBox.setSelectedItem(DBConstants.DOCUMENT_TYPES.get(getItem().getDocumentTypeId()));
-		documentNumberTextField.setText(getItem().getDocumentNumber());
-		phoneNumberFormattedTextField.setText(getItem().getPhoneNumber());
-		emailTextField.setText(getItem().getEmail());
+		idValueLabel.setText(getCurrentEntity().getId() != null ? getCurrentEntity().getId().toString() : "");
+		firstNameTextField.setText(getCurrentEntity().getFirstName());
+		lastName1TextField.setText(getCurrentEntity().getLastName1());
+		lastName2TextField.setText(getCurrentEntity().getLastName2());
+		documentTypeComboBox.setSelectedItem(DBConstants.DOCUMENT_TYPES.get(getCurrentEntity().getDocumentTypeId()));
+		documentNumberTextField.setText(getCurrentEntity().getDocumentNumber());
+		phoneNumberFormattedTextField.setText(getCurrentEntity().getPhoneNumber());
+		emailTextField.setText(getCurrentEntity().getEmail());
 		
-		addressTable.setModel(new ActionPaneListTableModel<>(CustomerAddressTableConstants.COLUMN_NAMES, getItem().getAddresses()));
+		addressTable.setModel(new ActionPaneListTableModel<>(CustomerAddressTableConstants.COLUMN_NAMES, getCurrentEntity().getAddresses()));
 		
 		try {
 			recentOrderTable.setModel(new ActionPaneListTableModel<>(CustomerOrderTableConstants.COLUMN_NAMES,
-					customerOrderService.findByCustomer(getItem().getId())));
+					customerOrderService.findByCustomer(getCurrentEntity().getId())));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			SwingUtils.showDatabaseAccessErrorDialog(this);

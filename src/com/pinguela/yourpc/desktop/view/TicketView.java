@@ -230,9 +230,9 @@ extends AbstractEntityView<Ticket> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Ticket getNewItem() {
+	public Ticket createNewEntityFromFields() {
 		Ticket ticket = new Ticket();
-		Ticket updating = getItem();
+		Ticket updating = getCurrentEntity();
 		
 		if (updating != null) {
 			ticket.setId(updating.getId());
@@ -270,7 +270,7 @@ extends AbstractEntityView<Ticket> {
 	public void resetFields() {
 		idValueLabel.setText("");
 		creationDateValueLabel.setText("");
-		if (getItem() == null) {
+		if (getCurrentEntity() == null) {
 			customerSelectionPanel.setItem(null);
 		}
 		titleTextField.setText("");
@@ -294,7 +294,7 @@ extends AbstractEntityView<Ticket> {
 	protected void loadItemData() {
 		resetFields();
 		
-		Ticket ticket = getItem();
+		Ticket ticket = getCurrentEntity();
 		
 		idValueLabel.setText(ticket.getId() != null ? ticket.getId().toString() : "");
 		creationDateValueLabel.setText(ticket.getCreationDate() != null ? SwingUtils.formatDateTime(ticket.getCreationDate()): "");

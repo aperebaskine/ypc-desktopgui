@@ -286,7 +286,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
 	}
 
 	@Override
-	public Employee getNewItem() {
+	public Employee createNewEntityFromFields() {
         Employee employee = new Employee();
         
         employee.setFirstName(firstNameTextField.getText());
@@ -305,7 +305,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
         employee.setEmail(emailTextField.getText());
         employee.setIban(ibanTextField.getText());
         employee.setBic(bicTextField.getText());
-        employee.setAddress(addressView.getNewItem());
+        employee.setAddress(addressView.createNewEntityFromFields());
         
         return employee;
 	}
@@ -324,10 +324,10 @@ public class EmployeeView extends AbstractEntityView<Employee> {
         ibanTextField.setText("");
         bicTextField.setText("");
         
-        if (getItem() == null) {
+        if (getCurrentEntity() == null) {
         	addressView.resetFields();
         } else {
-        	addressView.setItem(getItem().getAddress());
+        	addressView.setItem(getCurrentEntity().getAddress());
         }
 	}
 
@@ -349,18 +349,18 @@ public class EmployeeView extends AbstractEntityView<Employee> {
 	@Override
 	protected void loadItemData() {
 		
-		idValueLabel.setText(getItem().getId() != null ? getItem().getId().toString() : "");
-	    firstNameTextField.setText(getItem().getFirstName());
-	    lastName1TextField.setText(getItem().getLastName1());
-	    lastName2TextField.setText(getItem().getLastName2());
-	    selectDocumentType(getItem().getDocumentTypeId());
-	    documentNumberTextField.setText(getItem().getDocumentNumber());
-	    usernameTextField.setText(getItem().getUsername());
-	    phoneNumberFormattedTextField.setText(getItem().getPhoneNumber());
-	    emailTextField.setText(getItem().getEmail());
-	    ibanTextField.setText(getItem().getIban());
-	    bicTextField.setText(getItem().getBic());
-	    addressView.setItem(getItem().getAddress());
+		idValueLabel.setText(getCurrentEntity().getId() != null ? getCurrentEntity().getId().toString() : "");
+	    firstNameTextField.setText(getCurrentEntity().getFirstName());
+	    lastName1TextField.setText(getCurrentEntity().getLastName1());
+	    lastName2TextField.setText(getCurrentEntity().getLastName2());
+	    selectDocumentType(getCurrentEntity().getDocumentTypeId());
+	    documentNumberTextField.setText(getCurrentEntity().getDocumentNumber());
+	    usernameTextField.setText(getCurrentEntity().getUsername());
+	    phoneNumberFormattedTextField.setText(getCurrentEntity().getPhoneNumber());
+	    emailTextField.setText(getCurrentEntity().getEmail());
+	    ibanTextField.setText(getCurrentEntity().getIban());
+	    bicTextField.setText(getCurrentEntity().getBic());
+	    addressView.setItem(getCurrentEntity().getAddress());
 	}
 	
 	private void selectDocumentType(String id) {

@@ -305,13 +305,13 @@ extends AbstractEntityView<Address> {
 	}
 
 	@Override
-	public Address getNewItem() {
+	public Address createNewEntityFromFields() {
 		Address address = new Address();
 
-		if (getItem() != null) {
-			address.setId(getItem().getId());
-			address.setCustomerId(getItem().getCustomerId());
-			address.setEmployeeId(getItem().getEmployeeId());
+		if (getCurrentEntity() != null) {
+			address.setId(getCurrentEntity().getId());
+			address.setCustomerId(getCurrentEntity().getCustomerId());
+			address.setEmployeeId(getCurrentEntity().getEmployeeId());
 		}
 
 		address.setStreetName(streetNameTextField.getText());
@@ -361,7 +361,7 @@ extends AbstractEntityView<Address> {
 
 	@Override
 	protected void loadItemData() {
-		Address address = getItem();
+		Address address = getCurrentEntity();
 		
 		streetNameTextField.setText(address.getStreetName());
 		if (address.getStreetNumber() == null) {

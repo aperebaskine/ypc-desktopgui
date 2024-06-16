@@ -38,7 +38,7 @@ extends AbstractEntityView<List<OrderLine>> {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<OrderLine> getNewItem() {
+	public List<OrderLine> createNewEntityFromFields() {
 		return ((ActionPaneListTableModel<OrderLine>) orderLineTable.getModel()).getData();
 	}
 
@@ -55,7 +55,7 @@ extends AbstractEntityView<List<OrderLine>> {
 
 	@Override
 	protected void loadItemData() {
-		orderLineTable.setModel(new ActionPaneListTableModel<>(OrderLineTableConstants.COLUMN_NAMES, getItem()));
+		orderLineTable.setModel(new ActionPaneListTableModel<>(OrderLineTableConstants.COLUMN_NAMES, getCurrentEntity()));
 	}
 
 }

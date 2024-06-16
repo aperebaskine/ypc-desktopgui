@@ -161,8 +161,8 @@ extends AbstractEntityView<RMA> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public RMA getNewItem() {
-		RMA old = getItem();
+	public RMA createNewEntityFromFields() {
+		RMA old = getCurrentEntity();
 		RMA rma = new RMA();
 		
 		if (old != null) {
@@ -182,7 +182,7 @@ extends AbstractEntityView<RMA> {
 
         rma.setState(((ItemState<RMA>) stateComboBox.getSelectedItem()).getId());
 
-        rma.setOrderLines(orderLineListView.getItem());
+        rma.setOrderLines(orderLineListView.getCurrentEntity());
 
         return rma;
 	}
@@ -190,7 +190,7 @@ extends AbstractEntityView<RMA> {
 	@Override
 	public void resetFields() {
 		idValueLabel.setText("");
-		if (getItem() == null) {
+		if (getCurrentEntity() == null) {
 			customerSelectionPanel.setItem(null);
 		}
 		trackingNumberTextField.setText("");
@@ -208,7 +208,7 @@ extends AbstractEntityView<RMA> {
 	@Override
 	protected void loadItemData() {
 
-		RMA rma = getItem();
+		RMA rma = getCurrentEntity();
 		
 		idValueLabel.setText(rma.getId() != null ? rma.getId().toString() : "");
 		try {

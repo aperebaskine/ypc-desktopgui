@@ -44,7 +44,7 @@ extends SaveItemAction<Product> {
 	
 	private void saveImages(Product item) throws YPCException {
 		imageFileService.update(ImageFileService.PRODUCT_TYPE,
-				getView().getItem().getId(), ((ProductView) getView()).getModifiedImages());
+				getView().getCurrentEntity().getId(), ((ProductView) getView()).getModifiedImages());
 	}
 	
 	@Override

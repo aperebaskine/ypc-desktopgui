@@ -96,7 +96,7 @@ extends YPCAction {
 		
 		@Override
 		protected T getItem() {
-			return view.getItem();
+			return view.getCurrentEntity();
 		}
 
 	}

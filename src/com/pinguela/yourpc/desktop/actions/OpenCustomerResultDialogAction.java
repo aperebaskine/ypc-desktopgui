@@ -39,7 +39,7 @@ extends OpenSearchResultDialogAction<Customer> {
 		dialogView = new CustomerView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		c = (Customer) table.getValueAt(row, column);
-		dialogView.setItem(c);
+		dialogView.setEntity(c);
 
 		boolean editOnOpen = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!editOnOpen) {

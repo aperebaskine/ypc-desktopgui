@@ -47,7 +47,7 @@ extends OpenSearchResultDialogAction<Product> {
 		dialogView.addAction(new SaveProductAction(dialogView), EntityView.EDITOR_CARD);
 
 		p = (Product) table.getValueAt(row, column);
-		dialogView.setItem(p);
+		dialogView.setEntity(p);
 
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
 		YPCDialog dialog = new YPCDialog(frame, dialogView);

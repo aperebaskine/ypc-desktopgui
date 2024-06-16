@@ -37,7 +37,7 @@ public class OpenCustomerOrderResultDialogAction extends OpenSearchResultDialogA
 		dialogView = new CustomerOrderView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		order = (CustomerOrder) table.getValueAt(row, column);
-		dialogView.setItem(order);
+		dialogView.setEntity(order);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {

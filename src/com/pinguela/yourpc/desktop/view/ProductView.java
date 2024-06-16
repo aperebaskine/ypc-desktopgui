@@ -292,7 +292,7 @@ extends AbstractEntityView<Product> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Product createNewEntityFromFields() {
+	public Product getEntityFromFields() {
 		Product product = new Product();
 
 		product.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));

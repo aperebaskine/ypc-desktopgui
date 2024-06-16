@@ -22,7 +22,7 @@ extends OpenDialogAction<Employee> {
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
 		EmployeeView view = new EmployeeView();
-		view.setItem(YPCWindow.getInstance().getAuthenticatedUser());
+		view.setEntity(YPCWindow.getInstance().getAuthenticatedUser());
 		YPCDialog dialog = new YPCDialog(null, view);
 		return dialog;
 	}

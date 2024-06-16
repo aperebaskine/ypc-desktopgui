@@ -39,7 +39,7 @@ extends OpenDialogAction<T> {
 		
 		try {
 			dialogView = initializeView();
-			dialogView.setItem(selector.getItem());
+			dialogView.setEntity(selector.getItem());
 		} catch (Exception e1) {
 			logger.error(e1.getMessage(), e1);
 			throw new IllegalStateException(e1.getMessage(), e1);

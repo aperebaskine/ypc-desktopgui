@@ -42,9 +42,9 @@ extends ItemAction<T> {
 	protected void doAction() {
 		try {
 			if (getView().getCurrentEntity() == null) {
-				doCreate(getView().createNewEntityFromFields());
+				doCreate(getView().getEntityFromFields());
 			} else {
-				doUpdate(getView().createNewEntityFromFields());
+				doUpdate(getView().getEntityFromFields());
 			}
 			if (!getView().showCard(EntityView.VIEW_CARD)) {
 				for (Action action : getViewerActions()) {

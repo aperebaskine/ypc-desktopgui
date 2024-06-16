@@ -206,7 +206,7 @@ extends AbstractEntityView<CustomerOrder> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public CustomerOrder createNewEntityFromFields() {
+	public CustomerOrder getEntityFromFields() {
 		CustomerOrder order = new CustomerOrder();
 		CustomerOrder updating = getCurrentEntity();
 	
@@ -250,7 +250,7 @@ extends AbstractEntityView<CustomerOrder> {
 		CustomerOrder order = getCurrentEntity();
 
 		idValueLabel.setText(order.getId() != null ? order.getId().toString() : "");
-		orderLineListView.setItem(order.getOrderLines());
+		orderLineListView.setEntity(order.getOrderLines());
 		stateComboBox.setSelectedItem(DBConstants.ORDER_STATES.get(order.getState()));
 		trackingNumberTextField.setText(order.getTrackingNumber());
 		

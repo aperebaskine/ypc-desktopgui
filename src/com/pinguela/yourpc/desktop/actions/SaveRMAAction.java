@@ -27,13 +27,13 @@ extends SaveItemAction<RMA> {
 	@Override
 	protected void doCreate(RMA item) throws YPCException {
 		rmaService.create(item);
-		getView().setItem(rmaService.findById(item.getId()));
+		getView().setEntity(rmaService.findById(item.getId()));
 	}
 	
 	@Override
 	protected void doUpdate(RMA item) throws YPCException {
 		rmaService.update(item);
-		getView().setItem(rmaService.findById(item.getId()));
+		getView().setEntity(rmaService.findById(item.getId()));
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ extends OpenSearchResultDialogAction<Employee> {
 		dialogView = new EmployeeView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		employee = (Employee) table.getValueAt(row, column);
-		dialogView.setItem(employee);
+		dialogView.setEntity(employee);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {

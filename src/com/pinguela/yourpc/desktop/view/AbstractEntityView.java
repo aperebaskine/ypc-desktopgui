@@ -90,7 +90,7 @@ implements EntityView<T> {
 	}
 
 	@Override
-	public void setItem(T item) {
+	public void setEntity(T item) {
 		T old = this.item;
 		this.item = item;
 		firePropertyChange(ITEM_PROPERTY, old, item);

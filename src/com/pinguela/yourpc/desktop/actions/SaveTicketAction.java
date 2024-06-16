@@ -27,13 +27,13 @@ extends SaveItemAction<Ticket> {
 	@Override
 	protected void doCreate(Ticket item) throws YPCException {
 		ticketService.create(item);
-		getView().setItem(ticketService.findById(item.getId()));
+		getView().setEntity(ticketService.findById(item.getId()));
 	}
 	
 	@Override
 	protected void doUpdate(Ticket item) throws YPCException {
 		ticketService.update(item);
-		getView().setItem(ticketService.findById(item.getId()));
+		getView().setEntity(ticketService.findById(item.getId()));
 	}
 	
 	@Override

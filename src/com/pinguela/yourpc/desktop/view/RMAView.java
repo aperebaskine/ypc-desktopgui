@@ -161,7 +161,7 @@ extends AbstractEntityView<RMA> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public RMA createNewEntityFromFields() {
+	public RMA getEntityFromFields() {
 		RMA old = getCurrentEntity();
 		RMA rma = new RMA();
 		
@@ -219,7 +219,7 @@ extends AbstractEntityView<RMA> {
 		}
 		trackingNumberTextField.setText(rma.getTrackingNumber());
 		stateComboBox.setSelectedItem(DBConstants.RMA_STATES.get(rma.getState()));
-		orderLineListView.setItem(rma.getOrderLines());
+		orderLineListView.setEntity(rma.getOrderLines());
 	}
 
 }

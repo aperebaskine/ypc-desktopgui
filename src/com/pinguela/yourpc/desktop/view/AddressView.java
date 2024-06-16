@@ -305,7 +305,7 @@ extends AbstractEntityView<Address> {
 	}
 
 	@Override
-	public Address createNewEntityFromFields() {
+	public Address getEntityFromFields() {
 		Address address = new Address();
 
 		if (getCurrentEntity() != null) {

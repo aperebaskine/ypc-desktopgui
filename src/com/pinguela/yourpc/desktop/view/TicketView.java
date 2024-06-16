@@ -230,7 +230,7 @@ extends AbstractEntityView<Ticket> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Ticket createNewEntityFromFields() {
+	public Ticket getEntityFromFields() {
 		Ticket ticket = new Ticket();
 		Ticket updating = getCurrentEntity();
 		

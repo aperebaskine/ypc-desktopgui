@@ -14,9 +14,9 @@ public interface EntityView<T> {
 	
 	T getCurrentEntity();
 	
-	T createNewEntityFromFields();
+	T getEntityFromFields();
 
-	void setItem(T item);
+	void setEntity(T entity);
 	
 	void addAction(Action action);
 

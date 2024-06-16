@@ -17,7 +17,7 @@ extends GetAttributeInputAction<ProductView> {
 
 	@Override
 	protected Short getCategoryId() {
-		return getView().createNewEntityFromFields().getCategoryId();
+		return getView().getEntityFromFields().getCategoryId();
 	}
 
 	@Override

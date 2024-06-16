@@ -26,13 +26,13 @@ public class SaveEmployeeAction extends SaveItemAction<Employee> {
 	@Override
 	protected void doCreate(Employee item) throws YPCException {
 		employeeService.register(item);
-		getView().setItem(employeeService.findById(item.getId()));
+		getView().setEntity(employeeService.findById(item.getId()));
 	}
 	
 	@Override
 	protected void doUpdate(Employee item) throws YPCException {
 		employeeService.update(item);
-		getView().setItem(employeeService.findById(item.getId()));
+		getView().setEntity(employeeService.findById(item.getId()));
 	}
 	
 	@Override

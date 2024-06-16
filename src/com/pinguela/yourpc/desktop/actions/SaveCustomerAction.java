@@ -27,13 +27,13 @@ extends SaveItemAction<Customer> {
 	@Override
 	protected void doCreate(Customer item) throws YPCException {
 		customerService.register(item);
-		getView().setItem(customerService.findById(item.getId()));
+		getView().setEntity(customerService.findById(item.getId()));
 	}
 	
 	@Override
 	protected void doUpdate(Customer item) throws YPCException {
 		customerService.update(item);
-		getView().setItem(customerService.findById(item.getId()));
+		getView().setEntity(customerService.findById(item.getId()));
 	}
 	
 	@Override

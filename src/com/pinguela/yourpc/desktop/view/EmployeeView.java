@@ -286,7 +286,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
 	}
 
 	@Override
-	public Employee createNewEntityFromFields() {
+	public Employee getEntityFromFields() {
         Employee employee = new Employee();
         
         employee.setFirstName(firstNameTextField.getText());
@@ -305,7 +305,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
         employee.setEmail(emailTextField.getText());
         employee.setIban(ibanTextField.getText());
         employee.setBic(bicTextField.getText());
-        employee.setAddress(addressView.createNewEntityFromFields());
+        employee.setAddress(addressView.getEntityFromFields());
         
         return employee;
 	}
@@ -327,7 +327,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
         if (getCurrentEntity() == null) {
         	addressView.resetFields();
         } else {
-        	addressView.setItem(getCurrentEntity().getAddress());
+        	addressView.setEntity(getCurrentEntity().getAddress());
         }
 	}
 
@@ -360,7 +360,7 @@ public class EmployeeView extends AbstractEntityView<Employee> {
 	    emailTextField.setText(getCurrentEntity().getEmail());
 	    ibanTextField.setText(getCurrentEntity().getIban());
 	    bicTextField.setText(getCurrentEntity().getBic());
-	    addressView.setItem(getCurrentEntity().getAddress());
+	    addressView.setEntity(getCurrentEntity().getAddress());
 	}
 	
 	private void selectDocumentType(String id) {

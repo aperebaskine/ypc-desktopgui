@@ -31,14 +31,14 @@ extends SaveItemAction<Product> {
 	@Override
 	protected void doCreate(Product item) throws YPCException {
 		productService.create(item);
-		getView().setItem(productService.findById(item.getId()));
+		getView().setEntity(productService.findById(item.getId()));
 		saveImages(item);
 	}
 	
 	@Override
 	protected void doUpdate(Product item) throws YPCException {
 		productService.update(item);
-		getView().setItem(productService.findById(item.getId()));
+		getView().setEntity(productService.findById(item.getId()));
 		saveImages(item);
 	}
 	

@@ -270,7 +270,7 @@ extends AbstractEntityView<Customer> {
 	}
 	
 	@Override
-	public Customer createNewEntityFromFields() {
+	public Customer getEntityFromFields() {
 		Customer old = getCurrentEntity();
 		Customer customer = new Customer();
 		

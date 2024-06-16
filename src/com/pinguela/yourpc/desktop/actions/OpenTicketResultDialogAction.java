@@ -39,7 +39,7 @@ extends OpenSearchResultDialogAction<Ticket> {
 		dialogView = new TicketView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		t = (Ticket) table.getValueAt(row, column);
-		dialogView.setItem(t);
+		dialogView.setEntity(t);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {

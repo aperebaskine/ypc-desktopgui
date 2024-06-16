@@ -38,7 +38,7 @@ extends OpenSearchResultDialogAction<RMA> {
 		dialogView = new RMAView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
 		rma = (RMA) table.getValueAt(row, column);
-		dialogView.setItem(rma);
+		dialogView.setEntity(rma);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
 		if (!isEditing) {

@@ -30,4 +30,6 @@ public interface Icons {
 	Icon PREVIOUS_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1700_back_next_back_next.png"));
 	Icon NEXT_ICON = new ImageIcon(Icons.class.getResource("/nuvola/16x16/1749_forward_forward.png"));
 
+	public ImageIcon CHART_ICON = new ImageIcon(Icons.class.getResource("/nuvola/32x32/1603_chrt_kchart_kchart_chrt.png"));
+
 }

@@ -74,7 +74,7 @@ extends InputPane<Attribute<T>> {
 	@SuppressWarnings("unchecked")
 	public static final <T> InputPane<T> getInstance(Attribute<T> attribute, boolean showUnassignedValues, boolean showActions) {
 
-		Class<?> targetClass = getClassByTypeParameter(attribute.getTypeParameterClass());
+		Class<?> targetClass = getSubclassMatchingTypeParameter(attribute.getTypeParameterClass());
 		try {
 			return (InputPane<T>) targetClass
 					.getDeclaredConstructor(Attribute.class, boolean.class, boolean.class)
@@ -87,7 +87,7 @@ extends InputPane<Attribute<T>> {
 		} 
 	}
 
-	private static final Class<?> getClassByTypeParameter(Class<?> typeParameter) {
+	private static final Class<?> getSubclassMatchingTypeParameter(Class<?> typeParameter) {
 
 		for (Class<?> subclass : INPUT_PANE_CLASSES) {
 			if (ReflectionUtils.isAssignableToTypeParameter(typeParameter, subclass)) {

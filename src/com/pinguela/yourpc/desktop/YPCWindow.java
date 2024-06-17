@@ -43,6 +43,7 @@ import com.pinguela.yourpc.desktop.actions.OpenEmployeeViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenRMASearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenStatisticsTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenTicketSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenTicketViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenUserPopupMenuAction;
@@ -70,6 +71,7 @@ public class YPCWindow {
 		permissionMap.put("customerOrder", Arrays.asList("EXC", "SUP", "OPS"));
 		permissionMap.put("ticket", Arrays.asList("EXC", "SUP"));
 		permissionMap.put("rma", Arrays.asList("EXC", "SUP"));
+		permissionMap.put("statistics", Arrays.asList("EXC", "FIN", "MKT", "OPS"));
 		PERMISSION_MAP = Collections.unmodifiableMap(permissionMap);
 	}
 
@@ -101,6 +103,8 @@ public class YPCWindow {
 	private JButton customerOrderTabButton;
 	private JButton ticketTabButton;
 	private JButton rmaTabButton;
+	private JMenu statisticsMenu;
+	private JButton statisticsTabButton;
 
 	static {
 		try {
@@ -198,6 +202,12 @@ public class YPCWindow {
 		
 		JMenuItem rmaSearchMenuItem = new JMenuItem("Search...");
 		rmaMenu.add(rmaSearchMenuItem);
+		
+		statisticsMenu = new JMenu("Statistics");
+		menuBar.add(statisticsMenu);
+		
+		JMenuItem statisticsMenuItem = new JMenuItem("Consult...");
+		statisticsMenu.add(statisticsMenuItem);
 
 		JPanel panel = new JPanel();
 		northPanel.add(panel, BorderLayout.SOUTH);
@@ -233,6 +243,9 @@ public class YPCWindow {
 		
 		rmaTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
 		toolBar.add(rmaTabButton);
+		
+		statisticsTabButton = new JButton(Icons.CHART_ICON);
+		toolBar.add(statisticsTabButton);
 
 		JToolBar userMenuToolBar = new JToolBar();
 		GridBagConstraints gbc_userMenuToolBar = new GridBagConstraints();
@@ -269,6 +282,7 @@ public class YPCWindow {
 		ActionListener customerOrderSearchActionListener = new OpenCustomerOrderSearchTabAction();
 		ActionListener ticketSearchActionListener = new OpenTicketSearchTabAction();
 		ActionListener rmaSearchActionListener = new OpenRMASearchTabAction();
+		ActionListener statisticsActionListener = new OpenStatisticsTabAction();
 
 		productTabButton.addActionListener(productSearchActionListener);
 		customerTabButton.addActionListener(customerSearchActionListener);
@@ -276,6 +290,7 @@ public class YPCWindow {
 		customerOrderTabButton.addActionListener(customerOrderSearchActionListener);
 		ticketTabButton.addActionListener(ticketSearchActionListener);
 		rmaTabButton.addActionListener(rmaSearchActionListener);
+		statisticsTabButton.addActionListener(statisticsActionListener);
 
 		productSearchMenuItem.addActionListener(productSearchActionListener);
 		customerSearchMenuItem.addActionListener(customerSearchActionListener);
@@ -283,6 +298,7 @@ public class YPCWindow {
 		orderSearchMenuItem.addActionListener(customerOrderSearchActionListener);
 		ticketSearchMenuItem.addActionListener(ticketSearchActionListener);
 		rmaSearchMenuItem.addActionListener(rmaSearchActionListener);
+		statisticsMenuItem.addActionListener(statisticsActionListener);
 	}
 
 	public Employee getAuthenticatedUser() {
@@ -323,9 +339,12 @@ public class YPCWindow {
 	                rmaMenu.setVisible(hasPermission);
 	                rmaTabButton.setVisible(hasPermission);
 	                break;
+	            case "statistics":
+	            	statisticsMenu.setVisible(hasPermission);
+	            	statisticsTabButton.setVisible(hasPermission);
+	            	break;
 	            default:
-	                // Handle unexpected entity case if necessary
-	                break;
+	                throw new IllegalArgumentException("Unrecognized role.");
 	        }
 	    }
 	}

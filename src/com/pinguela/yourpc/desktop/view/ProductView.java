@@ -40,6 +40,7 @@ import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.AttributeValueHandlingModes;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.ImageEntry;
 import com.pinguela.yourpc.model.Product;
@@ -273,9 +274,9 @@ extends AbstractEntityView<Product> {
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
 				AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable), 
-				new EditAttributeAction(attributeTable, AttributeService.RETURN_UNASSIGNED_VALUES));
+				new EditAttributeAction(attributeTable, AttributeValueHandlingModes.SET, AttributeService.RETURN_UNASSIGNED_VALUES));
 		
-		JButton addAttributeButton = new JButton(new AddAttributeAction(this));
+		JButton addAttributeButton = new JButton(new AddAttributeAction(this, AttributeValueHandlingModes.SET));
 		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
 		gbc_addAttributeButton.anchor = GridBagConstraints.EAST;
 		gbc_addAttributeButton.insets = new Insets(0, 0, 5, 5);

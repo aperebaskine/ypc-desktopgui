@@ -31,10 +31,6 @@ implements YPCComponent {
 	private ActionPane actionPane;
 	
 	public InputPane(String message) {
-		this(message, true);
-	}
-	
-	public InputPane(String message, boolean showActions) {
 
 		setBorder(new EmptyBorder(8, 8, 8, 8));
 		setLayout(new BorderLayout(0, 0));
@@ -56,12 +52,10 @@ implements YPCComponent {
 		contentPane = initializeContentPane();
 		add(contentPane, BorderLayout.CENTER);
 		
-		if (showActions) {
-			actionPane = new ActionPane();
-			add(actionPane, BorderLayout.SOUTH);
-			actionPane.addAction(new ExitWindowAction("Cancel", this));
-			actionPane.addAction(new ConfirmInputAction(this));
-		}
+		actionPane = new ActionPane();
+		add(actionPane, BorderLayout.SOUTH);
+		actionPane.addAction(new ExitWindowAction("Cancel", this));
+		actionPane.addAction(new ConfirmInputAction(this));
 	}
 	
 	protected abstract JPanel initializeContentPane();

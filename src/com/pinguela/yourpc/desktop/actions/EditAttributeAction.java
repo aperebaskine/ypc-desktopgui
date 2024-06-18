@@ -17,20 +17,27 @@ extends GetInputAction<Attribute<?>> {
 	private static final long serialVersionUID = 454485739077763180L;
 
 	private JTable table;
-	private boolean showUnassignedValues;
 	private Attribute<?> editingAttribute;
-
+	
+	private Integer handlingMode;
+	private boolean showUnassignedValues;
+	
+	
 	public EditAttributeAction(JTable table, boolean showUnassignedValues) {
+		this(table, null, showUnassignedValues);
+	}
+
+	public EditAttributeAction(JTable table, Integer handlingMode, boolean showUnassignedValues) {
 		super(Icons.EDIT_ICON);
 		this.table = table;
+		this.handlingMode = handlingMode;
 		this.showUnassignedValues = showUnassignedValues;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected InputPane<Attribute<?>> initializeInputPane() {
 		this.editingAttribute = (Attribute<?>) table.getCellEditor().getCellEditorValue();
-		return (InputPane<Attribute<?>>) AttributeValueInputPane.getInstance(editingAttribute, showUnassignedValues);
+		return new AttributeValueInputPane(editingAttribute, handlingMode, showUnassignedValues);
 	}
 
 	@Override

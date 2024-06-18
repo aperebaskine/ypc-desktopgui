@@ -6,14 +6,13 @@ import java.util.Collection;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.service.AttributeService;
 
-public class BooleanAttributeValueInputPane 
-extends AttributeValueInputPane<Boolean> {
+public class BooleanAttributeEditor 
+extends AttributeEditor<Boolean> {
 
 	/**
 	 * 
@@ -28,39 +27,35 @@ extends AttributeValueInputPane<Boolean> {
 	 * Unused constructor required for rendering within a WindowBuilder designer.
 	 */
 	@SuppressWarnings("unused")
-	private BooleanAttributeValueInputPane() {
-		this(Attribute.getInstance(Boolean.class), AttributeService.RETURN_UNASSIGNED_VALUES, true);
+	private BooleanAttributeEditor() {
+		this(Attribute.getInstance(Boolean.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public BooleanAttributeValueInputPane(Attribute<Boolean> attribute, boolean showUnassignedValues,
-			boolean showActions) {
-		super(attribute, true, showActions);
+	public BooleanAttributeEditor(Attribute<Boolean> attribute, Integer handlingMode, boolean showUnassignedValues) {
+		super(attribute, handlingMode, true);
+		initialize();
+		setInitialValues();
 	}
 
-	@Override
-	protected JPanel initializeContentPane() {
-
-		JPanel contentPane = new JPanel();
+	private void initialize() {
 
 		trueRadioButton = new JRadioButton("Yes");
-		contentPane.add(trueRadioButton);
+		add(trueRadioButton);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
-		contentPane.add(horizontalStrut);
+		add(horizontalStrut);
 
 		falseRadioButton = new JRadioButton("No");
-		contentPane.add(falseRadioButton);
+		add(falseRadioButton);
 
 		buttonGroup = new ButtonGroup();
 		buttonGroup.add(trueRadioButton);
 		buttonGroup.add(falseRadioButton);
-
-		return contentPane;
+		
 	}
-
-	@Override
-	protected void setInitialValues() {
-		Attribute<Boolean> attribute = getAttribute();
+	
+	private void setInitialValues() {
+		Attribute<Boolean> attribute = getEditingAttribute();
 		if (attribute.getValues().size() == 1 && Boolean.FALSE.equals(attribute.getValueAt(0))) {
 			falseRadioButton.setSelected(true);
 		} else {
@@ -69,7 +64,7 @@ extends AttributeValueInputPane<Boolean> {
 	}
 	
 	@Override
-	protected Collection<Boolean> getInputValues() {
+	protected Collection<Boolean> getEditorValues() {
 		return Arrays.asList(trueRadioButton.isSelected());
 	}
 

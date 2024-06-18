@@ -1,5 +1,6 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.ProductCriteria;
@@ -13,7 +14,7 @@ extends GetAttributeInputAction<ProductSearchView> {
 	private static final long serialVersionUID = 9059215477248422723L;
 	
 	public AddAttributeCriteriaAction(ProductSearchView view) {
-		super(view);
+		super("Add...", Icons.ADD_ICON, view);
 	}
 
 	@Override

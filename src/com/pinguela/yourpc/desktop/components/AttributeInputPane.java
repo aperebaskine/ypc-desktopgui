@@ -29,11 +29,14 @@ extends InputPane<Attribute<?>> {
 	
 	private JPanel contentPane;
 	private JComboBox<Attribute<?>> attributeComboBox;
-	private InputPane<Attribute<?>> valueInputPane;
+	private AttributeEditor<?> editorPane;
+	
+	private Integer forcedHandlingMode;
 	
 	private ItemListener selectionListener = (evt) -> {
-		if (valueInputPane != null) {
-			contentPane.remove(valueInputPane);
+		if (editorPane != null) {
+			contentPane.remove(editorPane);
+			editorPane = null;
 		}
 		Attribute<?> attribute = (Attribute<?>) evt.getItem();
 		if (attribute.getName() != null) {
@@ -42,10 +45,15 @@ extends InputPane<Attribute<?>> {
 		revalidate();
 		repaint();
 	};
-
+	
 	public AttributeInputPane(Map<String, Attribute<?>> attributes, boolean showUnassignedValues) {
+		this(attributes, null, showUnassignedValues);
+	}
+
+	public AttributeInputPane(Map<String, Attribute<?>> attributes, Integer forcedHandlingMode, boolean showUnassignedValues) {
 		super("Select attribute:");
 		this.showUnassignedValues = showUnassignedValues;
+		this.forcedHandlingMode = forcedHandlingMode;
 		
 		Attribute<?> emptyAttribute = new StringAttribute();
 		Attribute<?>[] attributeArray = new Attribute<?>[attributes.values().size()+1];
@@ -83,12 +91,12 @@ extends InputPane<Attribute<?>> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void initializeValueInputPane() {
-		valueInputPane = (InputPane<Attribute<?>>) AttributeValueInputPane.getInstance((Attribute<?>) attributeComboBox.getSelectedItem(), showUnassignedValues, false);
+	private <T> void initializeValueInputPane() {
+		editorPane = AttributeEditor.getInstance((Attribute<T>) attributeComboBox.getSelectedItem(), forcedHandlingMode, showUnassignedValues);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;
-		contentPane.add(valueInputPane, gbc_panel);
+		contentPane.add(editorPane, gbc_panel);
 		
 		JDialog dialog = (JDialog) SwingUtilities.getAncestorOfClass(JDialog.class, this);
 		
@@ -99,7 +107,14 @@ extends InputPane<Attribute<?>> {
 
 	@Override
 	public Attribute<?> getInput() {
-		return valueInputPane.getInput();
+		Attribute<?> attribute = ((Attribute<?>) attributeComboBox.getSelectedItem()).clone();
+		attribute.removeAllValues();
+		
+		for (Object value : editorPane.getEditorValues()) {
+			attribute.addValue(null, value);
+		}
+		
+		return attribute;
 	}
 
 }

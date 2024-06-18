@@ -7,13 +7,9 @@ import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.CustomerView;
 import com.pinguela.yourpc.model.Customer;
 
+@SuppressWarnings("serial")
 public class CustomerSelector 
 extends ItemSelector<Customer> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4428898194837703970L;
 
 	@Override
 	protected YPCAction initializeSelectAction() {

@@ -13,14 +13,10 @@ import javax.swing.border.EmptyBorder;
 
 import com.pinguela.yourpc.desktop.components.ActionPane;
 
+@SuppressWarnings("serial")
 public abstract class AbstractEntityView<T> 
 extends YPCView 
 implements EntityView<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 525919481888365709L;
 	
 	protected static final String CARD_PROPERTY = "card";
 	protected static final String IS_EDITABLE_PROPERTY = "isEditable";

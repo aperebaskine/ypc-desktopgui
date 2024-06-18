@@ -5,12 +5,9 @@ import java.awt.Component;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.CustomerSearchView;
 
-public class OpenCustomerSearchTabAction extends OpenTabAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2747965007695889177L;
+@SuppressWarnings("serial")
+public class OpenCustomerSearchTabAction
+extends OpenTabAction {
 
 	public OpenCustomerSearchTabAction() {
 		super("Customer search");

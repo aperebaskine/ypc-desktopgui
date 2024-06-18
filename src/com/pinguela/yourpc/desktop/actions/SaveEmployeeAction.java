@@ -9,12 +9,9 @@ import com.pinguela.yourpc.model.Employee;
 import com.pinguela.yourpc.service.EmployeeService;
 import com.pinguela.yourpc.service.impl.EmployeeServiceImpl;
 
-public class SaveEmployeeAction extends SaveItemAction<Employee> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4146700807343435074L;
+@SuppressWarnings("serial")
+public class SaveEmployeeAction
+extends SaveItemAction<Employee> {
 	
 	private EmployeeService employeeService;
 

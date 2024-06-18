@@ -7,13 +7,9 @@ import javax.swing.Icon;
 import com.pinguela.yourpc.desktop.components.InputPane;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 
+@SuppressWarnings("serial")
 public abstract class GetInputAction<T>
 extends OpenDialogAction<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2749782664159520864L;
 	
 	private InputPane<T> inputPane;
 

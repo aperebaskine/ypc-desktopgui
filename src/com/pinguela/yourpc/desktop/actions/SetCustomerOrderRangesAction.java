@@ -8,13 +8,9 @@ import com.pinguela.yourpc.desktop.view.CustomerOrderSearchView;
 import com.pinguela.yourpc.service.CustomerOrderService;
 import com.pinguela.yourpc.service.impl.CustomerOrderServiceImpl;
 
+@SuppressWarnings("serial")
 public class SetCustomerOrderRangesAction 
 extends YPCAction {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5318959493151401193L;
 	
 	private static Logger logger = LogManager.getLogger(SetCustomerOrderRangesAction.class);
 

@@ -7,13 +7,9 @@ import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.model.Product;
 
+@SuppressWarnings("serial")
 public class OpenProductViewDialogAction 
 extends OpenDialogAction<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8174388122343707197L;
 
 	public OpenProductViewDialogAction() {
 		super("Create...");

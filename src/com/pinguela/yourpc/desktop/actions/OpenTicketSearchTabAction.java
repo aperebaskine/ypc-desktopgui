@@ -7,12 +7,9 @@ import javax.swing.JTable;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.TicketSearchView;
 
-public class OpenTicketSearchTabAction extends OpenTabAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6244202534586759L;
+@SuppressWarnings("serial")
+public class OpenTicketSearchTabAction
+extends OpenTabAction {
 	
 	public OpenTicketSearchTabAction() {
 		super("Ticket search");

@@ -16,14 +16,10 @@ import com.pinguela.yourpc.model.AttributeValueHandlingModes;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
+@SuppressWarnings("serial")
 public abstract class AttributeEditor<T>
 extends JPanel
 implements AttributeValueHandlingModes {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9050555982076114344L;
 
 	private static Logger logger = LogManager.getLogger(AttributeEditor.class);
 

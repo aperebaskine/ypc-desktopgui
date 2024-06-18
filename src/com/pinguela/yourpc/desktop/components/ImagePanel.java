@@ -18,14 +18,10 @@ import javax.swing.border.EtchedBorder;
 
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 
+@SuppressWarnings("serial")
 public class ImagePanel
 extends JPanel 
 implements YPCComponent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6873380702577151479L;
 
 	private static final String IMAGE_PROPERTY = "image";
 

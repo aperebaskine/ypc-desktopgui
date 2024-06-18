@@ -19,15 +19,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+@SuppressWarnings("serial")
 public abstract class YPCAction
 extends AbstractAction 
 implements PropertyChangeListener, MouseListener, KeyListener, ItemListener, 
 ChangeListener, DocumentListener, TableModelListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4958301935418526039L;
 
 	public YPCAction() {
 		super();

@@ -15,12 +15,10 @@ import com.pinguela.yourpc.desktop.renderer.CustomerTableCellRenderer;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.CustomerCriteria;
 
-public class CustomerSearchView extends AbstractSearchView<Customer> {
+@SuppressWarnings("serial")
+public class CustomerSearchView
+extends AbstractSearchView<Customer> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6158379077559032488L;
 	private JTextField idTextField;
 	private JTextField firstNameTextField;
 	private JTextField lastNameTextField;

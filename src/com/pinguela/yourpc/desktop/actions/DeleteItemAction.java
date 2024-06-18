@@ -17,13 +17,9 @@ import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 
+@SuppressWarnings("serial")
 public abstract class DeleteItemAction<T> 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6391546410855771841L;
 	
 	private static Logger logger = LogManager.getLogger(DeleteItemAction.class);
 
@@ -42,7 +38,8 @@ extends YPCAction {
 	@Override
 	protected void doAction() {
 		int option = JOptionPane.showConfirmDialog(delegate.getSource(), 
-				String.format("Are you sure you want to delete %s?", getItemName(delegate.getItem())), "Confirm deletion", JOptionPane.OK_CANCEL_OPTION);
+				String.format("Are you sure you want to delete %s?", 
+						getItemName(delegate.getItem())), "Confirm deletion", JOptionPane.OK_CANCEL_OPTION);
 
 		if (option == JOptionPane.OK_OPTION) {
 			if (shouldDeleteFromDatabase()) {

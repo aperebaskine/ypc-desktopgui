@@ -49,13 +49,9 @@ import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 import com.pinguela.yourpc.util.CategoryUtils;
 
+@SuppressWarnings("serial")
 public class ProductView 
 extends AbstractEntityView<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3702324745329166746L;
 	
 	private static Logger logger = LogManager.getLogger(ProductView.class);
 	

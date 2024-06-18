@@ -18,12 +18,9 @@ import com.pinguela.yourpc.model.CustomerCriteria;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
-public class CustomerSearchAction extends SearchAction<Customer> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3604524081655701987L;
+@SuppressWarnings("serial")
+public class CustomerSearchAction
+extends SearchAction<Customer> {
 	
 	private static Logger logger = LogManager.getLogger(CustomerSearchAction.class);
 	

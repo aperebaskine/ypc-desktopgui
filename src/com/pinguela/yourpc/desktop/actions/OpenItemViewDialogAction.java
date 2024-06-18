@@ -10,13 +10,9 @@ import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.YPCView;
 
+@SuppressWarnings("serial")
 public class OpenItemViewDialogAction<T>
 extends OpenDialogAction<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6918342053262863916L;
 	
 	private static Logger logger = LogManager.getLogger(OpenItemViewDialogAction.class);
 	

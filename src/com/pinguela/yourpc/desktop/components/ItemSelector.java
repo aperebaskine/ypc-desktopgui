@@ -13,12 +13,8 @@ import javax.swing.JPanel;
 
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 
+@SuppressWarnings("serial")
 public abstract class ItemSelector<T> extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7257759867776204189L;
 	
 	public static final String ITEM_PROPERTY = "item";
 	private static final String SELECTOR_CARD = "selector";

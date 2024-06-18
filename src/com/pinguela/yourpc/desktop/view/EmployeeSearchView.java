@@ -19,12 +19,9 @@ import com.pinguela.yourpc.model.Department;
 import com.pinguela.yourpc.model.Employee;
 import com.pinguela.yourpc.model.EmployeeCriteria;
 
+@SuppressWarnings("serial")
 public class EmployeeSearchView extends AbstractSearchView<Employee> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6158379077559032488L;
 	private JTextField idTextField;
 	private JTextField firstNameTextField;
 	private JTextField lastNameTextField;

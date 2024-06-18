@@ -9,14 +9,10 @@ import com.pinguela.yourpc.desktop.constants.CustomerTableConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Customer;
 
+@SuppressWarnings("serial")
 public class CustomerTableCellRenderer 
 extends DefaultTableCellRenderer
 implements CustomerTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8966795309404312716L;
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,

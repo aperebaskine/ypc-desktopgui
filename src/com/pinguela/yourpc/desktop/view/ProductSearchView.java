@@ -44,13 +44,9 @@ import com.pinguela.yourpc.util.CategoryUtils;
 
 import slider.RangeSlider;
 
+@SuppressWarnings("serial")
 public class ProductSearchView 
 extends AbstractPaginatedSearchView<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7152408520216308616L;
 
 	private JFormattedTextField productIdField;
 	private JTextField productNameField;

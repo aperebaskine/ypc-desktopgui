@@ -6,13 +6,9 @@ import javax.swing.JTabbedPane;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 
+@SuppressWarnings("serial")
 public class CloseTabAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5598887511439804614L;
 	
 	private JTabbedPane container;
 	private Component tab;

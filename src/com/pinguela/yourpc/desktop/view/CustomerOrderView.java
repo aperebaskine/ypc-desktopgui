@@ -29,13 +29,9 @@ import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.AddressServiceImpl;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
+@SuppressWarnings("serial")
 public class CustomerOrderView 
 extends AbstractEntityView<CustomerOrder> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4439375266039375673L;
 
 	private static Logger logger = LogManager.getLogger(CustomerOrderView.class);
 

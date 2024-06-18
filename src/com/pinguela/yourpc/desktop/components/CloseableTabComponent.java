@@ -12,16 +12,9 @@ import javax.swing.JTabbedPane;
 import com.pinguela.yourpc.desktop.actions.CloseTabAction;
 import com.pinguela.yourpc.desktop.constants.Icons;
 
-/**
- * TODO: Handle index for tabs of the same type when they are not closed in order
- */
+@SuppressWarnings("serial")
 public class CloseableTabComponent 
 extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5077714825691752359L;
 	
 	private JTabbedPane container;
 	private JLabel titleLabel;

@@ -7,14 +7,10 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class ActionPane 
 extends JPanel 
 implements YPCComponent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2933114239456357639L;
 
 	public ActionPane() {
 		setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));

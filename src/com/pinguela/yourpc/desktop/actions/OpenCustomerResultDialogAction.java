@@ -14,13 +14,9 @@ import com.pinguela.yourpc.desktop.view.CustomerView;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Customer;
 
+@SuppressWarnings("serial")
 public class OpenCustomerResultDialogAction 
 extends OpenSearchResultDialogAction<Customer> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5139663434924027636L;
 	
 	private CustomerView dialogView;
 	

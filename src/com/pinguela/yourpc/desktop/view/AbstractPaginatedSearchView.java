@@ -18,13 +18,9 @@ import com.pinguela.yourpc.desktop.actions.PreviousPageAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 
+@SuppressWarnings("serial")
 public abstract class AbstractPaginatedSearchView<T> 
 extends AbstractSearchView<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 217909795728003216L;
 
 	protected static final String POS_PROPERTY = "pos";
 	protected static final String PAGE_SIZE_PROPERTY = "pageSize";

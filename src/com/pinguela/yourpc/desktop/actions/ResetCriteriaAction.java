@@ -7,13 +7,9 @@ import javax.swing.JComponent;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.SearchView;
 
+@SuppressWarnings("serial")
 public class ResetCriteriaAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 71428148390135239L;
 
 	private SearchView<?> view;
 	

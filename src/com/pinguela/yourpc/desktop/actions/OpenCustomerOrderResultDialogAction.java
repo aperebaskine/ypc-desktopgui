@@ -14,12 +14,9 @@ import com.pinguela.yourpc.desktop.view.CustomerOrderView;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.CustomerOrder;
 
-public class OpenCustomerOrderResultDialogAction extends OpenSearchResultDialogAction<CustomerOrder> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4798996272514762277L;
+@SuppressWarnings("serial")
+public class OpenCustomerOrderResultDialogAction
+extends OpenSearchResultDialogAction<CustomerOrder> {
 	
 	private CustomerOrderView dialogView;
 	private CustomerOrder order;

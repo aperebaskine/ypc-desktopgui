@@ -35,13 +35,9 @@ import com.pinguela.yourpc.service.impl.CityServiceImpl;
 import com.pinguela.yourpc.service.impl.CountryServiceImpl;
 import com.pinguela.yourpc.service.impl.ProvinceServiceImpl;
 
+@SuppressWarnings("serial")
 public class AddressView 
 extends AbstractEntityView<Address> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -9029757229669312561L;
 
 	private static Logger logger = LogManager.getLogger(AddressView.class);
 

@@ -3,13 +3,9 @@ package com.pinguela.yourpc.desktop.model;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class ActionPaneListTableModel<E> 
 extends AbstractActionPaneTableModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3623264977847339505L;
 	
 	private List<E> tableData;
 	

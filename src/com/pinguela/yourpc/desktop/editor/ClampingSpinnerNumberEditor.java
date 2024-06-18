@@ -7,14 +7,10 @@ import java.text.ParseException;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+@SuppressWarnings("serial")
 public class ClampingSpinnerNumberEditor 
 extends JSpinner.NumberEditor 
 implements YPCEditor {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7627031255129036951L;
 
 	private Comparable<Object> minValue = null;
 	private Comparable<Object> maxValue = null;

@@ -8,14 +8,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import com.pinguela.yourpc.desktop.constants.OrderLineTableConstants;
 import com.pinguela.yourpc.model.OrderLine;
 
+@SuppressWarnings("serial")
 public class OrderLineTableCellRenderer 
 extends DefaultTableCellRenderer
 implements OrderLineTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 201205743278727499L;
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,

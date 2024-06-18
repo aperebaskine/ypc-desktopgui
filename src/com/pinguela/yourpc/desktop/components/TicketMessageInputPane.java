@@ -10,12 +10,9 @@ import javax.swing.JTextArea;
 import com.pinguela.yourpc.desktop.YPCWindow;
 import com.pinguela.yourpc.model.TicketMessage;
 
+@SuppressWarnings("serial")
 public class TicketMessageInputPane 
 extends InputPane<TicketMessage> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6709352997342969463L;
 	
 	private JTextArea messageTextArea;
 	

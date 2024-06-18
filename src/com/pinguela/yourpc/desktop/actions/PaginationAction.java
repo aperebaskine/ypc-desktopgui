@@ -5,13 +5,9 @@ import java.beans.PropertyChangeEvent;
 
 import com.pinguela.yourpc.desktop.view.AbstractPaginatedSearchView;
 
+@SuppressWarnings("serial")
 public abstract class PaginationAction
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8134797614017960289L;
 	
 	private AbstractPaginatedSearchView<?> view;
 	

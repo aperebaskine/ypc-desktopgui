@@ -17,13 +17,9 @@ import com.pinguela.yourpc.desktop.renderer.AttributeListCellRenderer;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.StringAttribute;
 
+@SuppressWarnings("serial")
 public class AttributeInputPane 
 extends InputPane<Attribute<?>> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7573147727441938261L;
 	
 	private boolean showUnassignedValues;
 	

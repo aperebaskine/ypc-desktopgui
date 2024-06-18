@@ -8,13 +8,9 @@ import javax.swing.SwingUtilities;
 import com.pinguela.yourpc.desktop.components.InputPane;
 import com.pinguela.yourpc.desktop.constants.Icons;
 
+@SuppressWarnings("serial")
 public class ConfirmInputAction 
 extends YPCAction {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -554990450599129073L;
 	
 	private InputPane<?> inputPane;
 

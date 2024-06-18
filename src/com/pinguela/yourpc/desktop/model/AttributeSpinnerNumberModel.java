@@ -4,13 +4,9 @@ import javax.swing.SpinnerNumberModel;
 
 import com.pinguela.yourpc.model.Attribute;
 
+@SuppressWarnings("serial")
 public class AttributeSpinnerNumberModel<T extends Number & Comparable<T>> 
 extends SpinnerNumberModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1716878951061321396L;
 
 	private static final int PREVIOUS = -1;
 	private static final int NEXT = 1;

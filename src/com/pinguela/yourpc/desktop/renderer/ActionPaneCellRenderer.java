@@ -7,18 +7,11 @@ import javax.swing.table.TableCellRenderer;
 
 import com.pinguela.yourpc.desktop.components.ActionPaneTableCell;
 
+@SuppressWarnings("serial")
 public class ActionPaneCellRenderer
 extends ActionPaneTableCell
 implements TableCellRenderer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1449550974721130337L;
 	
-	/**
-	 * Constructs a button cell renderer with edit and remove buttons.
-	 */
 	public ActionPaneCellRenderer() {
 	}
 

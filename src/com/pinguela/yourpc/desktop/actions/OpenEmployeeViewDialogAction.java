@@ -7,13 +7,9 @@ import com.pinguela.yourpc.desktop.view.EmployeeView;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Employee;
 
+@SuppressWarnings("serial")
 public class OpenEmployeeViewDialogAction 
 extends OpenDialogAction<Employee> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8768640695470145782L;
 
 	private EmployeeView dialogView;
 

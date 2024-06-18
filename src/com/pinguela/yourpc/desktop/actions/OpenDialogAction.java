@@ -13,14 +13,10 @@ import javax.swing.JTable;
 
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 
+@SuppressWarnings("serial")
 public abstract class OpenDialogAction<T> 
 extends YPCAction 
 implements WindowListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3786210364953347617L;
 
 	public OpenDialogAction() {
 		this(null, null);

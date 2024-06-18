@@ -7,13 +7,9 @@ import com.pinguela.yourpc.desktop.view.CustomerView;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Customer;
 
+@SuppressWarnings("serial")
 public class OpenCustomerViewDialogAction 
 extends OpenDialogAction<Customer> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6305915703964331087L;
 	
 	private CustomerView dialogView;
 

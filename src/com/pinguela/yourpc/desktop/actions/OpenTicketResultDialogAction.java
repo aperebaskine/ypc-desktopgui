@@ -14,13 +14,9 @@ import com.pinguela.yourpc.desktop.view.TicketSearchView;
 import com.pinguela.yourpc.desktop.view.TicketView;
 import com.pinguela.yourpc.model.Ticket;
 
+@SuppressWarnings("serial")
 public class OpenTicketResultDialogAction 
 extends OpenSearchResultDialogAction<Ticket> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7730348390083143906L;
 	
 	private TicketView dialogView;
 	

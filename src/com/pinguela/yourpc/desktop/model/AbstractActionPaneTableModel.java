@@ -8,13 +8,9 @@ import com.pinguela.yourpc.desktop.components.ActionPane;
  * Generic table model for for displaying a table containing an action pane as the last column.
  * TODO: Decouple action pane from model and add it to column model
  */
+@SuppressWarnings("serial")
 public abstract class AbstractActionPaneTableModel
 extends AbstractTableModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3854126491323605521L;
 	
 	public static final String ACTION_PANE_COLUMN_NAME = "Actions";
 	

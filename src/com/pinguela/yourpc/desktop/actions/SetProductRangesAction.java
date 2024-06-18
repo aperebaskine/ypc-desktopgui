@@ -8,13 +8,9 @@ import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.service.ProductService;
 import com.pinguela.yourpc.service.impl.ProductServiceImpl;
 
+@SuppressWarnings("serial")
 public class SetProductRangesAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3510016415541527075L;
 
 	private static Logger logger = LogManager.getLogger(SetProductRangesAction.class);
 

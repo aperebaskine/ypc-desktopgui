@@ -9,13 +9,10 @@ import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
-public class DeleteCustomerAction extends DeleteItemAction<Customer> {
+@SuppressWarnings("serial")
+public class DeleteCustomerAction
+extends DeleteItemAction<Customer> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3079821263909725516L;
-	
 	private CustomerService customerService;
 	
 	{

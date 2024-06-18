@@ -18,13 +18,9 @@ import com.pinguela.yourpc.model.ProductStatisticsDTO;
 import com.pinguela.yourpc.service.ProductStatisticsService;
 import com.pinguela.yourpc.service.impl.ProductStatisticsServiceImpl;
 
+@SuppressWarnings("serial")
 public class RetrieveStatisticsAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6872540692086768697L;
 	
 	private static Logger logger = LogManager.getLogger(RetrieveStatisticsAction.class);
 	

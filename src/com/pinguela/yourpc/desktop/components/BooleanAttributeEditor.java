@@ -11,13 +11,9 @@ import javax.swing.JRadioButton;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.service.AttributeService;
 
+@SuppressWarnings("serial")
 public class BooleanAttributeEditor 
 extends AttributeEditor<Boolean> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1803990479858952340L;
 
 	private ButtonGroup buttonGroup;
 	private JRadioButton trueRadioButton;

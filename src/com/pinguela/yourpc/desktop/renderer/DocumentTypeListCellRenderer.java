@@ -7,12 +7,9 @@ import javax.swing.JList;
 
 import com.pinguela.yourpc.model.DocumentType;
 
-public class DocumentTypeListCellRenderer extends DefaultListCellRenderer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 500936365498297965L;
+@SuppressWarnings("serial")
+public class DocumentTypeListCellRenderer
+extends DefaultListCellRenderer {
 	
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,

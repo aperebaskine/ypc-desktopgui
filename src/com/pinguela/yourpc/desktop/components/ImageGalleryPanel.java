@@ -33,14 +33,10 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.ImageEntry;
 
+@SuppressWarnings("serial")
 public class ImageGalleryPanel 
 extends JPanel 
 implements YPCComponent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8552832685952898146L;
 
 	protected static final String SELECTION_INDEX_PROPERTY = "selectionIndex";
 	private Integer selectionIndex;
@@ -218,11 +214,6 @@ implements YPCComponent {
 	}
 
 	private class ThumbnailPanel extends JPanel {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -2195789467862228246L;
 
 		private JButton deleteButton;
 

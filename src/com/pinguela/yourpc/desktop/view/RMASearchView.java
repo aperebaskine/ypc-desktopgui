@@ -20,12 +20,9 @@ import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.model.RMACriteria;
 
-public class RMASearchView extends AbstractSearchView<RMA> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5162559348467135343L;
+@SuppressWarnings("serial")
+public class RMASearchView 
+extends AbstractSearchView<RMA> {
 
 	private JTextField idTextField;
 	private JTextField customerIdTextField;

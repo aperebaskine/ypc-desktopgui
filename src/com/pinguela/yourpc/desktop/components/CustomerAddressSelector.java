@@ -5,13 +5,9 @@ import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.model.AbstractPerson;
 import com.pinguela.yourpc.model.Address;
 
+@SuppressWarnings("serial")
 public class CustomerAddressSelector 
 extends ItemSelector<Address> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 933022524837154334L;
 	
 	private Integer ownerId;
 	

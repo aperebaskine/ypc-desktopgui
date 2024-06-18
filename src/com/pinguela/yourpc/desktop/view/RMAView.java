@@ -23,13 +23,9 @@ import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
+@SuppressWarnings("serial")
 public class RMAView 
 extends AbstractEntityView<RMA> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2240496953079459574L;
 	
 	private static Logger logger = LogManager.getLogger(RMAView.class);
 	

@@ -22,15 +22,10 @@ import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ActionPane;
 import com.pinguela.yourpc.model.Employee;
 
+@SuppressWarnings("serial")
 public class LoginView 
 extends YPCView {
 
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2945940401511672156L;
-	
 	private Employee authenticatedUser;
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;

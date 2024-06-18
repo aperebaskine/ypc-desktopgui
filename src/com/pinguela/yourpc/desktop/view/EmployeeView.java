@@ -22,12 +22,9 @@ import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.model.DocumentType;
 import com.pinguela.yourpc.model.Employee;
 
-public class EmployeeView extends AbstractEntityView<Employee> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5614891033513128985L;
+@SuppressWarnings("serial")
+public class EmployeeView
+extends AbstractEntityView<Employee> {
 	
 	private JTextField firstNameTextField;
 	private JTextField usernameTextField;

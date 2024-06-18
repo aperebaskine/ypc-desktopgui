@@ -12,14 +12,10 @@ import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketMessage;
 
+@SuppressWarnings("serial")
 public class TicketTableCellRenderer
 extends DefaultTableCellRenderer
 implements TicketTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -255873065982912525L;
 	
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

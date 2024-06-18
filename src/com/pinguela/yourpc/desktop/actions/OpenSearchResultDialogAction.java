@@ -4,16 +4,9 @@ import javax.swing.Icon;
 
 import com.pinguela.yourpc.desktop.view.SearchView;
 
-/**
- * TODO: Factorize subclasses
- * @param <T>
- */
-public abstract class OpenSearchResultDialogAction<T> extends OpenDialogAction<T> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2858488688561912610L;
+@SuppressWarnings("serial")
+public abstract class OpenSearchResultDialogAction<T>
+extends OpenDialogAction<T> {
 	
 	private SearchView<T> searchView;
 

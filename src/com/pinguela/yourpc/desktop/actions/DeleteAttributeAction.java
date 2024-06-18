@@ -6,13 +6,9 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.model.Attribute;
 
+@SuppressWarnings("serial")
 public class DeleteAttributeAction 
 extends YPCAction {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4005145724650194421L;
 	
 	private JTable table;
 

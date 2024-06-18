@@ -18,12 +18,9 @@ import com.pinguela.yourpc.model.RMACriteria;
 import com.pinguela.yourpc.service.RMAService;
 import com.pinguela.yourpc.service.impl.RMAServiceImpl;
 
-public class RMASearchAction extends SearchAction<RMA> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -9036772407709735842L;
+@SuppressWarnings("serial")
+public class RMASearchAction
+extends SearchAction<RMA> {
 	
 	private static Logger logger = LogManager.getLogger(RMASearchAction.class);
 	

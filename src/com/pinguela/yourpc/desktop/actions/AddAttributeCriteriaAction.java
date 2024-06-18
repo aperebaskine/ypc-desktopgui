@@ -5,13 +5,9 @@ import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.ProductCriteria;
 
+@SuppressWarnings("serial")
 public class AddAttributeCriteriaAction 
 extends GetAttributeInputAction<ProductSearchView> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9059215477248422723L;
 	
 	public AddAttributeCriteriaAction(ProductSearchView view) {
 		super("Add...", Icons.ADD_ICON, view);

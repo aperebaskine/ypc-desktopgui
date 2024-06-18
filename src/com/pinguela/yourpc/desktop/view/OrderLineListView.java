@@ -12,13 +12,9 @@ import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
 import com.pinguela.yourpc.desktop.renderer.OrderLineTableCellRenderer;
 import com.pinguela.yourpc.model.OrderLine;
 
+@SuppressWarnings("serial")
 public class OrderLineListView 
 extends AbstractEntityView<List<OrderLine>> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2943904871193327312L;
 
 	private JTable orderLineTable;
 

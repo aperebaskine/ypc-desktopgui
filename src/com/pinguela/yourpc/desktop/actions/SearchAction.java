@@ -11,13 +11,9 @@ import javax.swing.table.TableModel;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.SearchView;
 
+@SuppressWarnings("serial")
 public abstract class SearchAction<T>
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7178913665166802817L;
 
 	private static final String LABEL = "Search...";
 

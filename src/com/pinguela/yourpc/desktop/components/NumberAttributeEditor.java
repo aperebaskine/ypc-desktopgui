@@ -22,13 +22,9 @@ import com.pinguela.yourpc.desktop.util.AttributeUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.service.AttributeService;
 
+@SuppressWarnings("serial")
 public class NumberAttributeEditor<T extends Number & Comparable<T>>
 extends AttributeEditor<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5159156731571599552L;
 
 	private AttributeEditor<T> delegate;
 
@@ -72,11 +68,6 @@ extends AttributeEditor<T> {
 	}
 
 	private class NumberEditorRangeDelegate extends AttributeEditor<T> {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -3682790008492142621L;
 
 		private JPanel minValuePanel;
 		private JPanel maxValuePanel;
@@ -158,11 +149,6 @@ extends AttributeEditor<T> {
 	}
 
 	private class NumberEditorSetDelegate extends AttributeEditor<T> {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -4109892337706308381L;
 
 		private JScrollPane selectedValuesScrollPane;
 		private JList<T> selectedValuesList;

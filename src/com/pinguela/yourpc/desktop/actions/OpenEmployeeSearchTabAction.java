@@ -5,12 +5,9 @@ import java.awt.Component;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.EmployeeSearchView;
 
-public class OpenEmployeeSearchTabAction extends OpenTabAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6355572183571931124L;
+@SuppressWarnings("serial")
+public class OpenEmployeeSearchTabAction
+extends OpenTabAction {
 	
 	public OpenEmployeeSearchTabAction() {
 		super("Employee search");

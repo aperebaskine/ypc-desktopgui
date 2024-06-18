@@ -8,14 +8,10 @@ import com.toedter.calendar.IDateEditor;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
+@SuppressWarnings("serial")
 public class ExtendedDateChooser 
 extends JDateChooser 
 implements YPCComponent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8765323751783448557L;
 
 	public ExtendedDateChooser() {
 		super();

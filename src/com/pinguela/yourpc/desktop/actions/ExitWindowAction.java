@@ -7,13 +7,9 @@ import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 
+@SuppressWarnings("serial")
 public class ExitWindowAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5170390935857403076L;
 	
 	private Component component;
 	

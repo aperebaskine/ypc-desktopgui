@@ -4,13 +4,9 @@ import javax.swing.Icon;
 
 import com.pinguela.yourpc.desktop.view.EntityView;
 
+@SuppressWarnings("serial")
 public abstract class ItemAction<T>
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -9215531017595734232L;
 	
 	private EntityView<T> view;
 

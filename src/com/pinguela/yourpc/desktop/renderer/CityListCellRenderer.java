@@ -7,12 +7,8 @@ import javax.swing.JList;
 
 import com.pinguela.yourpc.model.City;
 
+@SuppressWarnings("serial")
 public class CityListCellRenderer extends DefaultListCellRenderer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 441831113454569187L;
 
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,

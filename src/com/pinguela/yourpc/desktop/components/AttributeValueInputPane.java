@@ -6,13 +6,9 @@ import javax.swing.JPanel;
 
 import com.pinguela.yourpc.model.Attribute;
 
+@SuppressWarnings("serial")
 public class AttributeValueInputPane 
 extends InputPane<Attribute<?>>{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5511895556394282873L;
 	
 	private JPanel contentPane;
 	private AttributeEditor<?> editor;

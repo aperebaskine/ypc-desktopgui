@@ -8,13 +8,9 @@ import javax.swing.JButton;
 import com.pinguela.yourpc.desktop.components.UserPopupMenu;
 import com.pinguela.yourpc.desktop.constants.Icons;
 
+@SuppressWarnings("serial")
 public class OpenUserPopupMenuAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3543006462085100144L;
 	
 	private UserPopupMenu menu;
 

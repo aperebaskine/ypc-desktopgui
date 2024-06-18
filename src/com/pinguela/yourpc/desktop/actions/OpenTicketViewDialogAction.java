@@ -7,13 +7,9 @@ import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.TicketView;
 import com.pinguela.yourpc.model.Ticket;
 
+@SuppressWarnings("serial")
 public class OpenTicketViewDialogAction 
 extends OpenDialogAction<Ticket> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7386088204113948230L;
 	
 	public OpenTicketViewDialogAction() {
 		super("Create...");

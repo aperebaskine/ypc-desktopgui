@@ -13,13 +13,9 @@ import com.pinguela.yourpc.model.Employee;
 import com.pinguela.yourpc.service.EmployeeService;
 import com.pinguela.yourpc.service.impl.EmployeeServiceImpl;
 
+@SuppressWarnings("serial")
 public class LoginAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3511018757808333070L;
 
 	private static final int MAX_ATTEMPTS = 3;
 

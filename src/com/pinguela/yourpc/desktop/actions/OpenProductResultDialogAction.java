@@ -14,13 +14,9 @@ import com.pinguela.yourpc.desktop.view.ProductSearchView;
 import com.pinguela.yourpc.desktop.view.ProductView;
 import com.pinguela.yourpc.model.Product;
 
+@SuppressWarnings("serial")
 public class OpenProductResultDialogAction 
 extends OpenSearchResultDialogAction<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6020214024891107072L;
 	
 	private ProductView dialogView;
 	private Product p;

@@ -9,13 +9,9 @@ import javax.swing.JButton;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
+@SuppressWarnings("serial")
 public class ActionPaneTableCell 
 extends ActionPane {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3749105802930406609L;
 	
 	public static final Border HIGHLIGHT_BORDER = UIManager.getBorder("Table.focusCellHighlightBorder");
 	public static final Border NO_HIGHLIGHT_BORDER = UIManager.getBorder("Table.cellNoFocusBorder");

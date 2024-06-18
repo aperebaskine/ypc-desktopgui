@@ -8,13 +8,9 @@ import javax.swing.JPopupMenu;
 import com.pinguela.yourpc.desktop.actions.LogoutAction;
 import com.pinguela.yourpc.desktop.actions.OpenUserProfileDialogAction;
 
+@SuppressWarnings("serial")
 public class UserPopupMenu 
 extends JPopupMenu {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3043465924262820466L;
 
 	public UserPopupMenu() {
 		super();

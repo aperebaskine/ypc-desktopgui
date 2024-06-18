@@ -7,13 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+@SuppressWarnings("serial")
 public class ActionPaneMapTableModel<K extends Comparable<K>, V> 
 extends AbstractActionPaneTableModel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7275885073742549959L;
 	
 	protected List<K> tableIndex;
 	protected Map<K, V> tableData;

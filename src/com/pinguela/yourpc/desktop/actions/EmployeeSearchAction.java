@@ -18,12 +18,9 @@ import com.pinguela.yourpc.model.EmployeeCriteria;
 import com.pinguela.yourpc.service.EmployeeService;
 import com.pinguela.yourpc.service.impl.EmployeeServiceImpl;
 
-public class EmployeeSearchAction extends SearchAction<Employee> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3604524081655701987L;
+@SuppressWarnings("serial")
+public class EmployeeSearchAction
+extends SearchAction<Employee> {
 	
 	private static Logger logger = LogManager.getLogger(EmployeeSearchAction.class);
 	

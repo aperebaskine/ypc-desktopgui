@@ -28,12 +28,9 @@ import com.pinguela.yourpc.model.ItemState;
 
 import slider.RangeSlider;
 
-public class CustomerOrderSearchView extends AbstractSearchView<CustomerOrder> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4514845996718947204L;
+@SuppressWarnings("serial")
+public class CustomerOrderSearchView
+extends AbstractSearchView<CustomerOrder> {
 	
 	private JTextField idTextField;
 	private JTextField customerIdTextField;

@@ -20,14 +20,10 @@ import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
+@SuppressWarnings("serial")
 public abstract class GetAttributeInputAction<T extends YPCView>
 extends GetInputAction<Attribute<?>> 
 implements AttributeValueHandlingModes {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3228435100642492498L;
 
 	private static Logger logger = LogManager.getLogger(GetAttributeInputAction.class);
 

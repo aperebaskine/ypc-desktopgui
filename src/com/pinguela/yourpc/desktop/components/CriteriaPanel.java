@@ -4,12 +4,8 @@ import javax.swing.JPanel;
 
 import com.pinguela.yourpc.model.Criteria;
 
+@SuppressWarnings("serial")
 public abstract class CriteriaPanel<PK, T> extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3013094086018080361L;
 	
 	public abstract Criteria<PK, T> getCriteria();
 	

@@ -6,13 +6,9 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.TicketView;
 import com.pinguela.yourpc.model.TicketMessage;
 
+@SuppressWarnings("serial")
 public class AddTicketMessageAction 
 extends GetInputAction<TicketMessage> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2755067841542589767L;
 	
 	private TicketView view;
 	

@@ -20,13 +20,9 @@ import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.AttributeValue;
 import com.pinguela.yourpc.service.AttributeService;
 
+@SuppressWarnings("serial")
 public class StringAttributeEditor 
 extends AttributeEditor<String> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3479487153780500916L;
 	
 	private JScrollPane selectedValuesScrollPane;
 	private JList<String> selectedValuesList;

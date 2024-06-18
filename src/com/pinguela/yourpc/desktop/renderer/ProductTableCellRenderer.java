@@ -10,14 +10,10 @@ import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.util.CategoryUtils;
 
+@SuppressWarnings("serial")
 public class ProductTableCellRenderer 
 extends DefaultTableCellRenderer 
 implements ProductTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4317028850422353727L;
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,

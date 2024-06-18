@@ -12,14 +12,10 @@ import javax.swing.border.EmptyBorder;
 import com.pinguela.yourpc.desktop.actions.ConfirmInputAction;
 import com.pinguela.yourpc.desktop.actions.ExitWindowAction;
 
+@SuppressWarnings("serial")
 public abstract class InputPane<T> 
 extends JPanel 
 implements YPCComponent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8995455659391296114L;
 	
 	public static final int CONFIRM = 0;
 	public static final int CANCEL = 1;

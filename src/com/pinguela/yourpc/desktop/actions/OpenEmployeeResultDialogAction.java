@@ -14,13 +14,9 @@ import com.pinguela.yourpc.desktop.view.EmployeeView;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Employee;
 
+@SuppressWarnings("serial")
 public class OpenEmployeeResultDialogAction 
 extends OpenSearchResultDialogAction<Employee> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3610533513809502632L;
 	
 	private EmployeeView dialogView;
 	private Employee employee;

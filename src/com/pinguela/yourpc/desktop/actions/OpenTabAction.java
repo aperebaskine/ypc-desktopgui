@@ -4,12 +4,9 @@ import java.awt.Component;
 
 import com.pinguela.yourpc.desktop.YPCWindow;
 
-public abstract class OpenTabAction extends YPCAction {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1477001024461349414L;
+@SuppressWarnings("serial")
+public abstract class OpenTabAction
+extends YPCAction {
 	
 	private String title;
 	

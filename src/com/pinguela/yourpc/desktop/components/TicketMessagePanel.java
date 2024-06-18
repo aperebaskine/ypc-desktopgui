@@ -11,13 +11,9 @@ import javax.swing.border.EmptyBorder;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.TicketMessage;
 
+@SuppressWarnings("serial")
 public class TicketMessagePanel 
 extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4564950873234265064L;
 	
 	public TicketMessagePanel(TicketMessage message) {
 		setBorder(new EmptyBorder(4, 4, 4, 4));

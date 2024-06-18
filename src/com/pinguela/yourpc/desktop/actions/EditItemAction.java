@@ -5,13 +5,9 @@ import java.awt.EventQueue;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.EntityView;
 
+@SuppressWarnings("serial")
 public class EditItemAction<T> 
 extends ItemAction<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4448781359085553435L;
 
 	public EditItemAction(EntityView<T> view) {
 		this(view, EntityView.VIEW_CARD);

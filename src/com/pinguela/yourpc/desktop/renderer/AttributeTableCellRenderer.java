@@ -9,14 +9,10 @@ import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.util.AttributeUtils;
 import com.pinguela.yourpc.model.Attribute;
 
+@SuppressWarnings("serial")
 public class AttributeTableCellRenderer 
 extends DefaultTableCellRenderer 
 implements AttributeTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3701485012074252858L;
 	
 	public AttributeTableCellRenderer() {
 	}

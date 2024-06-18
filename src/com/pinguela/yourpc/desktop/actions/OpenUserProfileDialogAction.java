@@ -7,13 +7,9 @@ import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.EmployeeView;
 import com.pinguela.yourpc.model.Employee;
 
+@SuppressWarnings("serial")
 public class OpenUserProfileDialogAction 
 extends OpenDialogAction<Employee> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1584273910933127322L;
 
 	public OpenUserProfileDialogAction() {
 		super("Profile");

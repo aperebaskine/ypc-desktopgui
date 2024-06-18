@@ -12,13 +12,9 @@ import org.apache.logging.log4j.Logger;
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.view.EntityView;
 
+@SuppressWarnings("serial")
 public abstract class SaveItemAction<T> 
 extends ItemAction<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1974717185749303944L;
 
 	private static Logger logger = LogManager.getLogger(SaveItemAction.class);
 

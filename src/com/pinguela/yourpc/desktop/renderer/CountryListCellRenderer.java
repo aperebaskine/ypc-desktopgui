@@ -7,12 +7,9 @@ import javax.swing.JList;
 
 import com.pinguela.yourpc.model.Country;
 
-public class CountryListCellRenderer extends DefaultListCellRenderer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3846410123017029178L;
+@SuppressWarnings("serial")
+public class CountryListCellRenderer
+extends DefaultListCellRenderer {
 
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,

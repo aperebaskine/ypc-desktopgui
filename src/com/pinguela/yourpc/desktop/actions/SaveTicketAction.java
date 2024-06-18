@@ -9,13 +9,9 @@ import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.service.TicketService;
 import com.pinguela.yourpc.service.impl.TicketServiceImpl;
 
+@SuppressWarnings("serial")
 public class SaveTicketAction 
 extends SaveItemAction<Ticket> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7296590252331794074L;
 
 	private TicketService ticketService;
 

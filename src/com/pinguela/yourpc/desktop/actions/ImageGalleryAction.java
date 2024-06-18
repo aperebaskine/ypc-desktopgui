@@ -4,13 +4,9 @@ import javax.swing.Icon;
 
 import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 
+@SuppressWarnings("serial")
 public abstract class ImageGalleryAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4370196977728212564L;
 
 	private ImageGalleryPanel panel;
 

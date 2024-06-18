@@ -14,13 +14,9 @@ import com.pinguela.yourpc.desktop.view.RMASearchView;
 import com.pinguela.yourpc.desktop.view.RMAView;
 import com.pinguela.yourpc.model.RMA;
 
+@SuppressWarnings("serial")
 public class OpenRMAResultDialogAction 
 extends OpenSearchResultDialogAction<RMA> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2430812179643361360L;
 	
 	private RMAView dialogView;
 	private RMA rma;

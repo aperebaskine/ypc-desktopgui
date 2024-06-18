@@ -10,12 +10,10 @@ import com.pinguela.yourpc.desktop.constants.RMATableConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.RMA;
 
-public class RMATableCellRenderer extends DefaultTableCellRenderer implements RMATableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 643724790053982549L;
+@SuppressWarnings("serial")
+public class RMATableCellRenderer
+extends DefaultTableCellRenderer
+implements RMATableConstants {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

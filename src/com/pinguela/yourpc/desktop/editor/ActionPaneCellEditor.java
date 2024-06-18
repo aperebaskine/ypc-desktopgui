@@ -16,14 +16,10 @@ import javax.swing.table.TableCellEditor;
 
 import com.pinguela.yourpc.desktop.components.ActionPaneTableCell;
 
+@SuppressWarnings("serial")
 public class ActionPaneCellEditor 
 extends AbstractCellEditor 
 implements TableCellEditor, YPCEditor {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3736064589923724726L;
 
 	private ActionPaneTableCell cell;
 	private Object value;

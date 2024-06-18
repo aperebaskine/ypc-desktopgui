@@ -8,13 +8,9 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.model.Attribute;
 
+@SuppressWarnings("serial")
 public class EditAttributeAction 
 extends GetInputAction<Attribute<?>> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 454485739077763180L;
 
 	private JTable table;
 	private Attribute<?> editingAttribute;

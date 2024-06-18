@@ -33,13 +33,9 @@ import com.pinguela.yourpc.model.TicketMessage;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
+@SuppressWarnings("serial")
 public class TicketView 
 extends AbstractEntityView<Ticket> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5136525003881354059L;
 	
 	private static Logger logger = LogManager.getLogger(TicketView.class);
 	

@@ -7,13 +7,9 @@ import javax.swing.JList;
 
 import com.pinguela.yourpc.model.ItemState;
 
+@SuppressWarnings("serial")
 public class ItemStateListCellRenderer 
 extends DefaultListCellRenderer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -496226041329808777L;
 
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,

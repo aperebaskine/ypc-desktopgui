@@ -5,13 +5,9 @@ import com.pinguela.yourpc.desktop.view.AddressView;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.model.Address;
 
+@SuppressWarnings("serial")
 public class OpenCustomerAddressViewDialogAction
 extends OpenItemViewDialogAction<Address> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8375494613046015981L;
 
 	public OpenCustomerAddressViewDialogAction(CustomerAddressSelector selector) {
 		super(AddressView.class, selector);

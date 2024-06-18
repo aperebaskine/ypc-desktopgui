@@ -16,12 +16,9 @@ import com.pinguela.yourpc.model.TicketCriteria;
 import com.pinguela.yourpc.service.TicketService;
 import com.pinguela.yourpc.service.impl.TicketServiceImpl;
 
-public class TicketSearchAction extends SearchAction<Ticket> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3638461893818380168L;
+@SuppressWarnings("serial")
+public class TicketSearchAction
+extends SearchAction<Ticket> {
 	
 	private static Logger logger = LogManager.getLogger(TicketSearchAction.class);
 	

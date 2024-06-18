@@ -7,13 +7,9 @@ import javax.swing.JList;
 
 import com.pinguela.yourpc.model.Department;
 
+@SuppressWarnings("serial")
 public class DepartmentListCellRenderer 
 extends DefaultListCellRenderer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7798562949587865760L;
 	
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,

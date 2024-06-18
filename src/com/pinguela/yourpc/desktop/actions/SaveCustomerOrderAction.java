@@ -9,13 +9,9 @@ import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.service.CustomerOrderService;
 import com.pinguela.yourpc.service.impl.CustomerOrderServiceImpl;
 
+@SuppressWarnings("serial")
 public class SaveCustomerOrderAction 
 extends SaveItemAction<CustomerOrder> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4360296673674907154L;
 	
 	private CustomerOrderService customerOrderService;
 

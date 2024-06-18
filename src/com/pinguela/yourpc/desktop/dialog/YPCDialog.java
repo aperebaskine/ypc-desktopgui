@@ -8,10 +8,9 @@ import javax.swing.JPanel;
 
 import com.pinguela.yourpc.desktop.view.YPCView;
 
+@SuppressWarnings("serial")
 public class YPCDialog
 extends JDialog {
-
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Create the dialog.

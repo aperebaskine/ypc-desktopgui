@@ -17,13 +17,9 @@ import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.model.ImageEntry;
 
+@SuppressWarnings("serial")
 public class ChooseImageFileAction 
 extends ImageGalleryAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1582903302123613515L;
 	
 	private static Logger logger = LogManager.getLogger(ChooseImageFileAction.class);
 	

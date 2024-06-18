@@ -9,12 +9,8 @@ import javax.swing.JPanel;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.LoginView;
 
+@SuppressWarnings("serial")
 public class LoginDialog extends YPCDialog {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3889635820810281777L;
 	
 	public LoginDialog() {
 		this(null, new LoginView());

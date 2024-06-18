@@ -3,12 +3,9 @@ package com.pinguela.yourpc.desktop.actions;
 import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 import com.pinguela.yourpc.desktop.constants.Icons;
 
-public class NextImageAction extends ImageGalleryAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1386405205236629283L;
+@SuppressWarnings("serial")
+public class NextImageAction
+extends ImageGalleryAction {
 	
 	public NextImageAction(ImageGalleryPanel panel) {
 		super(Icons.NEXT_ICON, panel);

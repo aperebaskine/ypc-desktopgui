@@ -8,12 +8,9 @@ import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.service.ProductService;
 import com.pinguela.yourpc.service.impl.ProductServiceImpl;
 
-public class DeleteProductAction extends DeleteItemAction<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9082398589000416327L;
+@SuppressWarnings("serial")
+public class DeleteProductAction
+extends DeleteItemAction<Product> {
 
 	private ProductService productService;
 

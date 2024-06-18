@@ -16,12 +16,9 @@ import com.pinguela.yourpc.model.Results;
 import com.pinguela.yourpc.service.ProductService;
 import com.pinguela.yourpc.service.impl.ProductServiceImpl;
 
-public class ProductSearchAction extends SearchAction<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6271816817279591618L;
+@SuppressWarnings("serial")
+public class ProductSearchAction
+extends SearchAction<Product> {
 
 	private static Logger logger = LogManager.getLogger(ProductSearchAction.class);
 

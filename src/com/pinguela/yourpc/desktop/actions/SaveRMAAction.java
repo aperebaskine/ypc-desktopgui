@@ -9,13 +9,9 @@ import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.service.RMAService;
 import com.pinguela.yourpc.service.impl.RMAServiceImpl;
 
+@SuppressWarnings("serial")
 public class SaveRMAAction 
 extends SaveItemAction<RMA> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6332982618373375495L;
 	
 	private RMAService rmaService = new RMAServiceImpl();
 

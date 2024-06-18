@@ -21,12 +21,9 @@ import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketCriteria;
 
-public class TicketSearchView extends AbstractPaginatedSearchView<Ticket> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -9148052309922946555L;
+@SuppressWarnings("serial")
+public class TicketSearchView
+extends AbstractPaginatedSearchView<Ticket> {
 
 	private JTextField idTextField;
 	private JTextField customerIdTextField;

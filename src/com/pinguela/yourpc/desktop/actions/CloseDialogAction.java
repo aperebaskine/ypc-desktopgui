@@ -7,13 +7,9 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
+@SuppressWarnings("serial")
 public class CloseDialogAction 
 extends YPCAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5297845976928629589L;
 	
 	private Component dialogComponent;
 	

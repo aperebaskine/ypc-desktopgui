@@ -9,14 +9,10 @@ import com.pinguela.yourpc.desktop.constants.EmployeeTableConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Employee;
 
+@SuppressWarnings("serial")
 public class EmployeeTableCellRenderer 
 extends DefaultTableCellRenderer
 implements EmployeeTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2935566157851244188L;
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,

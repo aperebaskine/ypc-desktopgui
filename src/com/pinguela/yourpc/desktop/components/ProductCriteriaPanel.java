@@ -40,12 +40,9 @@ import com.pinguela.yourpc.util.CategoryUtils;
 
 import slider.RangeSlider;
 
-public class ProductCriteriaPanel extends CriteriaPanel<Long, Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -421803802091788772L;
+@SuppressWarnings("serial")
+public class ProductCriteriaPanel
+extends CriteriaPanel<Long, Product> {
 
 	private JFormattedTextField productIdField;
 	private JTextField productNameField;

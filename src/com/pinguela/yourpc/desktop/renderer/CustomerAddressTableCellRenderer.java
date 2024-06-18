@@ -13,14 +13,10 @@ import com.pinguela.yourpc.desktop.constants.CustomerAddressTableConstants;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Address;
 
+@SuppressWarnings("serial")
 public class CustomerAddressTableCellRenderer 
 extends DefaultTableCellRenderer 
 implements CustomerAddressTableConstants {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8433379604113474071L;
 	
 	public static final Border HIGHLIGHT_BORDER = UIManager.getBorder("Table.focusCellHighlightBorder");
 	public static final Border NO_HIGHLIGHT_BORDER = UIManager.getBorder("Table.cellNoFocusBorder");

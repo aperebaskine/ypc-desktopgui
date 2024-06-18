@@ -22,14 +22,10 @@ import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.components.ActionPane;
 
+@SuppressWarnings("serial")
 public abstract class AbstractSearchView<T> 
 extends YPCView
 implements SearchView<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1881185669697759460L;
 
 	private JPanel searchCriteriaPanel;
 	private ActionPane actionPane;

@@ -18,14 +18,9 @@ import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.toedter.calendar.JDateChooser;
 
-public class StatisticsView extends YPCView {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 235760785135773930L;
-
-
+@SuppressWarnings("serial")
+public class StatisticsView
+extends YPCView {
 
 	private JPanel criteriaPanel;
 	private JPanel chartPanel;

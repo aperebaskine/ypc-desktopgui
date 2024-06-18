@@ -7,16 +7,11 @@ import javax.swing.JList;
 
 import com.pinguela.yourpc.model.Category;
 
+@SuppressWarnings("serial")
 public class CategoryListCellRenderer
 extends DefaultListCellRenderer {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6617147380548790845L;
-
 	public CategoryListCellRenderer() {
-		super();
 	}
 
 	@Override

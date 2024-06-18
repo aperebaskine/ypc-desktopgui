@@ -11,13 +11,9 @@ import com.pinguela.yourpc.service.ProductService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 import com.pinguela.yourpc.service.impl.ProductServiceImpl;
 
+@SuppressWarnings("serial")
 public class SaveProductAction 
 extends SaveItemAction<Product> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7296590252331794074L;
 
 	private ProductService productService;
 	private ImageFileService imageFileService;

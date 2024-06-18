@@ -4,12 +4,9 @@ import java.awt.Component;
 
 import com.pinguela.yourpc.desktop.view.StatisticsView;
 
-public class OpenStatisticsTabAction extends OpenTabAction {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5348369215394982879L;
+@SuppressWarnings("serial")
+public class OpenStatisticsTabAction
+extends OpenTabAction {
 
 	public OpenStatisticsTabAction() {
 		super("Statistics");

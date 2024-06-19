@@ -19,9 +19,6 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.text.NumberFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.util.ReflectionUtils;
 
@@ -37,8 +34,6 @@ public class ComponentFactory {
 		}
 	};
 	
-	private static Logger logger = LogManager.getLogger(ComponentFactory.class);
-
 	/**
 	 * Create a combo box containing the elements contained within the collection, with a blank instance of the object 
 	 * as the first value. Instantiate a &lt;TargetClassName&gt;ListCellRenderer from the renderer 
@@ -52,10 +47,10 @@ public class ComponentFactory {
 	@SuppressWarnings("unchecked") 
 	public static <T> JComboBox<T> createComboBox(Collection<T> content, Class<?> targetClass, Object... targetClassInitArgs) {
 		JComboBox<T> comboBox = new JComboBox<T>();
-		T[] comboBoxValues = (T[]) new Object[content.size()+1];
+		T[] items = (T[]) new Object[content.size()+1];
 
 		try {
-			comboBoxValues[0] = (T) getNullObjectOrInstance(targetClass, targetClassInitArgs); // Add blank object as the first value
+			items[0] = (T) ReflectionUtils.createNullObjectOrDefaultInstance(targetClass, targetClassInitArgs); // Add blank object as the first value
 			Constructor<?> rendererConstructor = ReflectionUtils.getConstructor(
 					Class.forName(String.format("%s.%sListCellRenderer", RENDERER_PACKAGE, targetClass.getSimpleName())));
 			comboBox.setRenderer((ListCellRenderer<T>) rendererConstructor.newInstance());
@@ -64,52 +59,15 @@ public class ComponentFactory {
 		}
 
 		Iterator<T> iterator = content.iterator();
-		for (int i = 1; i < comboBoxValues.length; i++) {
-			comboBoxValues[i] = iterator.next();
+		for (int i = 1; i < items.length; i++) {
+			items[i] = iterator.next();
 		}
 
-		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<T>(comboBoxValues);
+		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<T>(items);
 		comboBox.setModel(model);	
 		return comboBox;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private static <T> T getNullObject(Class<?> targetClass, Object... initArgs) {
-		String packageName = targetClass.getPackage().getName();
-		String className = targetClass.getSimpleName();
-		
-		String fullyQualifiedNullSubclassName = 
-				String.format("%s.Null%s", packageName, className);
-		
-		T instance = null;
-		
-		try {
-			instance = (T) Class.forName(fullyQualifiedNullSubclassName)
-					.getDeclaredConstructor(ReflectionUtils.loadClassesFromObjects(initArgs))
-					.newInstance(initArgs);
-		} catch (Exception e) {
-			// No action required
-		}
-		
-		return instance;
-	}
-	
-	private static <T> T getNullObjectOrInstance(Class<T> targetClass, Object... initArgs) {
-		T object = getNullObject(targetClass, initArgs);
-		
-		if (object == null) {
-			try {
-				object = (T) targetClass.getDeclaredConstructor(ReflectionUtils.loadClassesFromObjects(initArgs)).newInstance(initArgs);
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-				throw new IllegalStateException(
-						String.format("Cannot create instance from class %s and arguments %s.", targetClass.getName(), initArgs));
-			} 
-		}
-		
-		return object;
-	}
-
 	public static JFormattedTextField createNullableNumberTextField(Class<? extends Number> target) {
 
 		NumberFormatter formatter = new NumberFormatter(new DecimalFormat());

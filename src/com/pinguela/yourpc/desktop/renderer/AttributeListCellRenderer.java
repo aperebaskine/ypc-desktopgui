@@ -18,7 +18,7 @@ extends DefaultListCellRenderer {
 		Attribute<?> attribute = (Attribute<?>) value;
 		String valueString;
 		
-		if (attribute.getName() == null) {
+		if (attribute.getName() == null || attribute.getName().isEmpty()) {
 			valueString = "Select an attribute...";
 		} else {
 			valueString = attribute.getName();

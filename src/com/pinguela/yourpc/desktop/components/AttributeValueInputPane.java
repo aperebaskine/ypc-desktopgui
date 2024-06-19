@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.components;
 
 import java.awt.BorderLayout;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -8,14 +9,14 @@ import com.pinguela.yourpc.model.Attribute;
 
 @SuppressWarnings("serial")
 public class AttributeValueInputPane 
-extends InputPane<Attribute<?>>{
+extends InputPane<Attribute<?>> {
 	
 	private JPanel contentPane;
 	private AttributeEditor<?> editor;
 	
 	private Attribute<?> attribute;
 	
-	public AttributeValueInputPane(Attribute<?> attribute) {
+	protected AttributeValueInputPane(Attribute<?> attribute) {
 		this(attribute, null, true);
 	}
 	
@@ -37,7 +38,7 @@ extends InputPane<Attribute<?>>{
 	}
 	
 	private void initializeEditor(Attribute<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
-		editor = AttributeEditor.getInstance(attribute, handlingMode, showUnassignedValues);
+		editor = (AttributeEditor<?>) AttributeEditor.getInstance(attribute, handlingMode, showUnassignedValues);
 		contentPane.add(editor, BorderLayout.CENTER);
 	}
 
@@ -46,8 +47,10 @@ extends InputPane<Attribute<?>>{
 		Attribute<?> attribute = this.attribute.clone();
 		attribute.removeAllValues();
 		
-		for (Object value : editor.getEditorValues()) {
-			attribute.addValue(null, value);
+		Iterator<?> iterator = editor.getEditorValues().iterator();
+		
+		while (iterator.hasNext()) {
+			attribute.addValue(null, iterator.next());
 		}
 		return attribute;
 	}

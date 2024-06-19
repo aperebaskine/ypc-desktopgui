@@ -73,6 +73,8 @@ extends AbstractPaginatedSearchView<Product> {
 	}
 
 	private void initialize() {
+		
+		setPreferredSize(new Dimension(960, 720));
 
 		GridBagLayout gbl_searchCriteriaPanel = new GridBagLayout();
 		gbl_searchCriteriaPanel.columnWidths = new int[]{0, 0, 100, 0, 100, 40, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0};

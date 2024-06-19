@@ -170,7 +170,7 @@ extends AbstractEntityView<RMA> {
             rma.setId(Long.parseLong(idValueLabel.getText()));
         }
 
-        rma.setCustomerId(customerSelectionPanel.getCustomerId());
+        rma.setCustomerId(customerSelectionPanel.getEntity().getId());
 
         if (!trackingNumberTextField.getText().isEmpty()) {
         	rma.setTrackingNumber(trackingNumberTextField.getText());
@@ -187,7 +187,7 @@ extends AbstractEntityView<RMA> {
 	public void resetFields() {
 		idValueLabel.setText("");
 		if (getCurrentEntity() == null) {
-			customerSelectionPanel.setItem(null);
+			customerSelectionPanel.setEntity(null);
 		}
 		trackingNumberTextField.setText("");
 		stateComboBox.setSelectedIndex(0);
@@ -208,7 +208,7 @@ extends AbstractEntityView<RMA> {
 		
 		idValueLabel.setText(rma.getId() != null ? rma.getId().toString() : "");
 		try {
-			customerSelectionPanel.setItem(customerService.findById(rma.getCustomerId()));
+			customerSelectionPanel.setEntity(customerService.findById(rma.getCustomerId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			SwingUtils.showDatabaseAccessErrorDialog(this);

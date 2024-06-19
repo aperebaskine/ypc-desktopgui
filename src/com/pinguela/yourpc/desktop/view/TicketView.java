@@ -241,7 +241,7 @@ extends AbstractEntityView<Ticket> {
 			ticket.setId(Long.parseLong(idValueLabel.getText()));
 		}
 		
-		ticket.setCustomerId(customerSelectionPanel.getCustomerId());
+		ticket.setCustomerId(customerSelectionPanel.getEntity().getId());
 
 		ticket.setTitle(titleTextField.getText());
 
@@ -267,7 +267,7 @@ extends AbstractEntityView<Ticket> {
 		idValueLabel.setText("");
 		creationDateValueLabel.setText("");
 		if (getCurrentEntity() == null) {
-			customerSelectionPanel.setItem(null);
+			customerSelectionPanel.setEntity(null);
 		}
 		titleTextField.setText("");
 		descriptionTextArea.setText("");
@@ -295,7 +295,7 @@ extends AbstractEntityView<Ticket> {
 		idValueLabel.setText(ticket.getId() != null ? ticket.getId().toString() : "");
 		creationDateValueLabel.setText(ticket.getCreationDate() != null ? SwingUtils.formatDateTime(ticket.getCreationDate()): "");
 		try {
-			customerSelectionPanel.setItem(customerService.findById(ticket.getCustomerId()));
+			customerSelectionPanel.setEntity(customerService.findById(ticket.getCustomerId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			SwingUtils.showDatabaseAccessErrorDialog(this);

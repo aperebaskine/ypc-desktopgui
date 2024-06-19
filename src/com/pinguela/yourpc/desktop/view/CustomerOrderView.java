@@ -54,10 +54,10 @@ extends AbstractEntityView<CustomerOrder> {
 		if (getCurrentEntity() == null && customer != null) {
 			for (Address address : customer.getAddresses()) {
 				if (address.isDefault()) {
-					shippingAddressSelector.setItem(address);
+					shippingAddressSelector.setEntity(address);
 				}
 				if (address.isBilling()) {
-					billingAddressSelector.setItem(address);
+					billingAddressSelector.setEntity(address);
 				}
 			}
 		}
@@ -105,7 +105,7 @@ extends AbstractEntityView<CustomerOrder> {
 		viewPanel.add(customerLabel, gbc_customerLabel);
 
 		customerSelector = new CustomerSelector();
-		customerSelector.addPropertyChangeListener(CustomerSelector.ITEM_PROPERTY, customerSelectionListener);
+		customerSelector.addPropertyChangeListener(CustomerSelector.ENTITY_PROPERTY, customerSelectionListener);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -213,8 +213,8 @@ extends AbstractEntityView<CustomerOrder> {
 		
 		order.setOrderLines(orderLineListView.getCurrentEntity());
 		order.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
-		order.setBillingAddressId(billingAddressSelector.getItem().getId());
-		order.setShippingAddressId(shippingAddressSelector.getItem().getId());
+		order.setBillingAddressId(billingAddressSelector.getEntity().getId());
+		order.setShippingAddressId(shippingAddressSelector.getEntity().getId());
 		order.setTrackingNumber(trackingNumberTextField.getText());
 		
 		return order;
@@ -224,9 +224,9 @@ extends AbstractEntityView<CustomerOrder> {
 	public void resetFields() {
 
 		if (getCurrentEntity() == null) {
-			customerSelector.setItem(null);
-			billingAddressSelector.setItem(null);
-			shippingAddressSelector.setItem(null);
+			customerSelector.setEntity(null);
+			billingAddressSelector.setEntity(null);
+			shippingAddressSelector.setEntity(null);
 		}
 		idValueLabel.setText("");	
 		orderLineListView.resetFields();
@@ -251,9 +251,9 @@ extends AbstractEntityView<CustomerOrder> {
 		trackingNumberTextField.setText(order.getTrackingNumber());
 		
 		try {
-			customerSelector.setItem(customerService.findById(order.getCustomerId()));
-			billingAddressSelector.setItem(addressService.findById(order.getBillingAddressId()));
-			shippingAddressSelector.setItem(addressService.findById(order.getShippingAddressId()));
+			customerSelector.setEntity(customerService.findById(order.getCustomerId()));
+			billingAddressSelector.setEntity(addressService.findById(order.getBillingAddressId()));
+			shippingAddressSelector.setEntity(addressService.findById(order.getShippingAddressId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			SwingUtils.showDatabaseAccessErrorDialog(this);

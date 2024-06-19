@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.util.Calendar;
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,6 +13,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
 import com.pinguela.yourpc.desktop.actions.RetrieveStatisticsAction;
+import com.pinguela.yourpc.desktop.components.ProductSelector;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.toedter.calendar.JDateChooser;
@@ -25,7 +25,7 @@ extends YPCView {
 	private JPanel criteriaPanel;
 	private JPanel chartPanel;
 
-	private JFormattedTextField productIdField;
+	private ProductSelector productSelector;
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
 	private JButton searchButton;
@@ -52,7 +52,7 @@ extends YPCView {
 		gbc_dateFromLabel.gridy = 0;
 		criteriaPanel.add(dateFromLabel, gbc_dateFromLabel);
 
-		JLabel productIdLabel = new JLabel("Product ID:");
+		JLabel productIdLabel = new JLabel("Product:");
 		GridBagConstraints gbc_productIdLabel = new GridBagConstraints();
 		gbc_productIdLabel.anchor = GridBagConstraints.EAST;
 		gbc_productIdLabel.insets = new Insets(0, 0, 5, 5);
@@ -60,13 +60,13 @@ extends YPCView {
 		gbc_productIdLabel.gridy = 0;
 		criteriaPanel.add(productIdLabel, gbc_productIdLabel);
 
-		productIdField = new JFormattedTextField();
+		productSelector = new ProductSelector();
 		GridBagConstraints gbc_formattedTextField = new GridBagConstraints();
 		gbc_formattedTextField.insets = new Insets(0, 0, 5, 0);
 		gbc_formattedTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_formattedTextField.gridx = 4;
 		gbc_formattedTextField.gridy = 0;
-		criteriaPanel.add(productIdField, gbc_formattedTextField);
+		criteriaPanel.add(productSelector, gbc_formattedTextField);
 
 		JLabel dateToLabel = new JLabel("To:");
 		GridBagConstraints gbc_dateToLabel = new GridBagConstraints();
@@ -109,7 +109,7 @@ extends YPCView {
 	public ProductCriteria getCriteria() {
 		ProductCriteria criteria = new ProductCriteria();
 
-		criteria.setId(Long.valueOf(productIdField.getText()));
+		criteria.setId(Long.valueOf(productSelector.getEntity().getId()));
 		criteria.setLaunchDateMin(startDateChooser.getDate());
 		criteria.setLaunchDateMax(endDateChooser.getDate());
 

@@ -20,7 +20,7 @@ extends EntitySelector<Address> {
 	}
 	
 	public CustomerAddressSelector(EntitySelector<? extends AbstractPerson> ownerSelector) {
-		ownerSelector.addPropertyChangeListener(ITEM_PROPERTY, (evt) -> {
+		ownerSelector.addPropertyChangeListener(ENTITY_PROPERTY, (evt) -> {
 			AbstractPerson customer = (AbstractPerson) evt.getNewValue();
 			
 			if (customer != null) {
@@ -36,12 +36,6 @@ extends EntitySelector<Address> {
 	public void setCustomerId(Integer customerId) {
 		this.ownerId = customerId;
 	}
-	
-	@Override
-	protected YPCAction initializeSelectAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	protected YPCAction initializeViewAction() {
@@ -49,8 +43,8 @@ extends EntitySelector<Address> {
 	}
 
 	@Override
-	protected String formatItemLabel() {
-		return getItem().getId().toString();
+	protected String getLabelText() {
+		return getEntity().getId().toString();
 	}
 
 }

@@ -11,15 +11,15 @@ import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.YPCView;
 
 @SuppressWarnings("serial")
-public class OpenItemViewDialogAction<T>
+public class OpenEntityViewDialogAction<T>
 extends OpenDialogAction<T> {
 	
-	private static Logger logger = LogManager.getLogger(OpenItemViewDialogAction.class);
+	private static Logger logger = LogManager.getLogger(OpenEntityViewDialogAction.class);
 	
 	private Class<? extends EntityView<T>> target;
 	private EntitySelector<T> selector;
 	
-	public <V extends EntityView<T>, S extends EntitySelector<T>> OpenItemViewDialogAction(Class<V> target, S selector) {
+	public <V extends EntityView<T>, S extends EntitySelector<T>> OpenEntityViewDialogAction(Class<V> target, S selector) {
 		super("View");
 		this.target = target;
 		this.selector = selector;
@@ -35,7 +35,7 @@ extends OpenDialogAction<T> {
 		
 		try {
 			dialogView = initializeView();
-			dialogView.setEntity(selector.getItem());
+			dialogView.setEntity(selector.getEntity());
 		} catch (Exception e1) {
 			logger.error(e1.getMessage(), e1);
 			throw new IllegalStateException(e1.getMessage(), e1);

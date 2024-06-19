@@ -7,7 +7,7 @@ import com.pinguela.yourpc.model.Address;
 
 @SuppressWarnings("serial")
 public class OpenCustomerAddressViewDialogAction
-extends OpenItemViewDialogAction<Address> {
+extends OpenEntityViewDialogAction<Address> {
 
 	public OpenCustomerAddressViewDialogAction(CustomerAddressSelector selector) {
 		super(AddressView.class, selector);

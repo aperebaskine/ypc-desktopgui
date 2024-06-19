@@ -1,35 +1,36 @@
 package com.pinguela.yourpc.desktop.components;
 
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.pinguela.yourpc.desktop.actions.SelectEntityAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 
 @SuppressWarnings("serial")
 public abstract class EntitySelector<T> 
 extends JPanel {
 	
-	public static final String ITEM_PROPERTY = "item";
+	public static final String ENTITY_PROPERTY = "entity";
 	private static final String SELECTOR_CARD = "selector";
 	private static final String VIEWER_CARD = "viewer";
 	
 	private T item;
 	private JLabel itemLabel;
-	private List<Component> disableableComponents;
+	private List<Action> disableableActions;
 	
 	private final PropertyChangeListener itemListener = (evt) -> {
 		if (evt.getNewValue() == null) {
 			((CardLayout) getLayout()).show(this, SELECTOR_CARD);
 		} else {
-			itemLabel.setText(formatItemLabel());
+			itemLabel.setText(getLabelText());
 			((CardLayout) getLayout()).show(this, VIEWER_CARD);
 		}
 	};
@@ -41,16 +42,18 @@ extends JPanel {
 	private void initialize() {
 		setLayout(new CardLayout(0, 0));
 		
-		disableableComponents = new ArrayList<Component>();
+		disableableActions = new ArrayList<Action>();
 		
 		JPanel selectorCard = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) selectorCard.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(selectorCard, SELECTOR_CARD);
 		
-		JButton selectButton = new JButton(initializeSelectAction());
+		Action selectAction = initializeSelectAction();
+		
+		JButton selectButton = new JButton(selectAction);
 		selectorCard.add(selectButton);
-		disableableComponents.add(selectButton);
+		disableableActions.add(selectAction);
 		
 		JPanel viewerCard = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) viewerCard.getLayout();
@@ -60,33 +63,39 @@ extends JPanel {
 		itemLabel = new JLabel("");
 		viewerCard.add(itemLabel);
 		
-		JButton viewButton = new JButton(initializeViewAction());
-		viewerCard.add(viewButton);
-		disableableComponents.add(viewButton);
+		Action viewAction = initializeViewAction();
 		
-		addPropertyChangeListener(ITEM_PROPERTY, itemListener);
+		JButton viewButton = new JButton(viewAction);
+		viewerCard.add(viewButton);
+		
+		JButton replaceButton = new JButton(selectAction);
+		viewerCard.add(replaceButton);
+		
+		addPropertyChangeListener(ENTITY_PROPERTY, itemListener);
 	}
 	
-	public T getItem() {
+	public T getEntity() {
 		return item;
 	}
 	
-	public void setItem(T item) {
+	public void setEntity(T item) {
 		T old = this.item;
 		this.item = item;
-		firePropertyChange(ITEM_PROPERTY, old, item);
+		firePropertyChange(ENTITY_PROPERTY, old, item);
 	}
 	
 	public void setEnabled(boolean isEnabled) {
-		for (Component component : disableableComponents) {
-			component.setEnabled(isEnabled);
+		for (Action action : disableableActions) {
+			action.setEnabled(isEnabled);
 		}
 	}
 	
-	protected abstract YPCAction initializeSelectAction();
+	protected final YPCAction initializeSelectAction() {
+		return new SelectEntityAction<T>(this);
+	}
 	
 	protected abstract YPCAction initializeViewAction();
 	
-	protected abstract String formatItemLabel();
+	protected abstract String getLabelText();
 
 }

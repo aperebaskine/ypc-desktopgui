@@ -104,7 +104,7 @@ implements AttributeValueHandlingModes {
 	private static final Class<?> getClassByTypeParameter(Class<?> typeParameter) {
 
 		for (Class<?> subclass : EDITOR_CLASSES) {
-			if (ReflectionUtils.isAssignableToTypeParameter(typeParameter, subclass)) {
+			if (ReflectionUtils.isTypeParameterAssignable(typeParameter, subclass)) {
 				return subclass;
 			}	
 		}

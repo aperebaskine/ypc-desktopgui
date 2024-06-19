@@ -12,9 +12,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ReflectionUtils {
-	
+
 	private static Logger logger = LogManager.getLogger(ReflectionUtils.class);
-	
+
 	private static Collection<String> appendPackageName(String packageName, Collection<String> simpleClassNames) {
 		Collection<String> fullyQualifiedNames = new LinkedHashSet<String>();
 
@@ -26,7 +26,7 @@ public class ReflectionUtils {
 
 	public static Collection<Class<?>> loadClassesFromPackage(String packageName, Collection<String> simpleClassNames)
 			throws ClassNotFoundException {
-		
+
 		Collection<String> fullyQualifiedNames = appendPackageName(packageName, simpleClassNames);
 		Collection<Class<?>> classes = new LinkedHashSet<Class<?>>();
 
@@ -36,16 +36,16 @@ public class ReflectionUtils {
 
 		return classes;
 	}
-	
+
 	public static Class<?>[] loadObjectClasses(Object[] objects) {
-		
+
 		Class<?>[] classes = new Class<?>[objects.length];
 		for (int i = 0; i < classes.length; i++) {
 			classes[i] = objects[i].getClass();
 		}
 		return classes;
 	}
-	
+
 	public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... initArgs) {
 		Constructor<T> constructor;
 		try {
@@ -76,19 +76,17 @@ public class ReflectionUtils {
 	public static Class<?> getClass(Type type) {
 		Class<?> clazz = null;
 		try {
-			clazz = Class.forName(getRawTypeClassName(type));
+			clazz = Class.forName(getRawTypeName(type));
 		} catch (ClassNotFoundException e) {
 			// This exception should never be thrown as the Type object already represents a class
 		}
 		return clazz;
 	}
 
-	public static String getRawTypeClassName(Type type) {
-		if (type instanceof ParameterizedType) {
-			return ((ParameterizedType) type).getRawType().getTypeName();
-		} else {
-			return type.getTypeName();
-		}
+	public static String getRawTypeName(Type type) {
+		return type instanceof ParameterizedType ?
+				((ParameterizedType) type).getRawType().getTypeName() :
+					type.getTypeName();
 	}
 
 	public static Type[] getTypeParameterBounds(Class<?> clazz) {
@@ -114,17 +112,17 @@ public class ReflectionUtils {
 		return typeVariables[0].getBounds();
 	}
 
-	public static boolean isAssignableToTypeParameter(Class<?> candidateTypeParameter, Class<?> targetClass) {
+	public static boolean isTypeParameterAssignable(Class<?> candidateTypeParameter, Class<?> targetClass) {
 
 		Type[] typeParameters = getTypeParameterBounds(targetClass);
-		
+
 		if (typeParameters.length < 1) {
 			return false;
 		}
-		
+
 		try {
 			for (Type typeParameter : typeParameters) {
-				if (!Class.forName(getRawTypeClassName(typeParameter)).isAssignableFrom(candidateTypeParameter)) {
+				if (!Class.forName(getRawTypeName(typeParameter)).isAssignableFrom(candidateTypeParameter)) {
 					return false;
 				}
 			}
@@ -132,7 +130,7 @@ public class ReflectionUtils {
 			throw new IllegalArgumentException(
 					String.format("Invalid class parameters passed: %s, %s", candidateTypeParameter, targetClass));
 		}
-		
+
 		return true;
 	}
 
@@ -140,12 +138,12 @@ public class ReflectionUtils {
 	public static <T> T createNullObjectInstanceIfExists(Class<?> targetClass, Object... initArgs) {
 		String packageName = targetClass.getPackage().getName();
 		String className = targetClass.getSimpleName();
-		
+
 		String fullyQualifiedNullSubclassName = 
 				String.format("%s.Null%s", packageName, className);
-		
+
 		T nullObjectInstance = null;
-		
+
 		try {
 			nullObjectInstance = (T) Class.forName(fullyQualifiedNullSubclassName)
 					.getDeclaredConstructor(loadObjectClasses(initArgs))
@@ -153,13 +151,13 @@ public class ReflectionUtils {
 		} catch (Exception e) {
 			// No action required
 		}
-		
+
 		return nullObjectInstance;
 	}
 
 	public static <T> T createNullObjectOrDefaultInstance(Class<T> targetClass, Object... initArgs) {
 		T object = createNullObjectInstanceIfExists(targetClass, initArgs);
-		
+
 		if (object == null) {
 			try {
 				object = (T) targetClass.getDeclaredConstructor(loadObjectClasses(initArgs)).newInstance(initArgs);
@@ -170,7 +168,7 @@ public class ReflectionUtils {
 						targetClass.getName(), Arrays.asList(initArgs)));
 			} 
 		}
-		
+
 		return object;
 	}
 

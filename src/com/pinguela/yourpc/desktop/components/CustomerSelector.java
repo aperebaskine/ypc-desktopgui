@@ -9,7 +9,7 @@ import com.pinguela.yourpc.model.Customer;
 
 @SuppressWarnings("serial")
 public class CustomerSelector 
-extends ItemSelector<Customer> {
+extends EntitySelector<Customer> {
 
 	@Override
 	protected YPCAction initializeSelectAction() {

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.pinguela.yourpc.desktop.components.ItemSelector;
+import com.pinguela.yourpc.desktop.components.EntitySelector;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.YPCView;
@@ -17,9 +17,9 @@ extends OpenDialogAction<T> {
 	private static Logger logger = LogManager.getLogger(OpenItemViewDialogAction.class);
 	
 	private Class<? extends EntityView<T>> target;
-	private ItemSelector<T> selector;
+	private EntitySelector<T> selector;
 	
-	public <V extends EntityView<T>, S extends ItemSelector<T>> OpenItemViewDialogAction(Class<V> target, S selector) {
+	public <V extends EntityView<T>, S extends EntitySelector<T>> OpenItemViewDialogAction(Class<V> target, S selector) {
 		super("View");
 		this.target = target;
 		this.selector = selector;

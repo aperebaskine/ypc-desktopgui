@@ -7,7 +7,7 @@ import com.pinguela.yourpc.model.Address;
 
 @SuppressWarnings("serial")
 public class CustomerAddressSelector 
-extends ItemSelector<Address> {
+extends EntitySelector<Address> {
 	
 	private Integer ownerId;
 	
@@ -19,7 +19,7 @@ extends ItemSelector<Address> {
 		this.ownerId = person.getId();
 	}
 	
-	public CustomerAddressSelector(ItemSelector<? extends AbstractPerson> ownerSelector) {
+	public CustomerAddressSelector(EntitySelector<? extends AbstractPerson> ownerSelector) {
 		ownerSelector.addPropertyChangeListener(ITEM_PROPERTY, (evt) -> {
 			AbstractPerson customer = (AbstractPerson) evt.getNewValue();
 			

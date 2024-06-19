@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 
 @SuppressWarnings("serial")
-public abstract class ItemSelector<T> extends JPanel {
+public abstract class EntitySelector<T> 
+extends JPanel {
 	
 	public static final String ITEM_PROPERTY = "item";
 	private static final String SELECTOR_CARD = "selector";
@@ -33,7 +34,7 @@ public abstract class ItemSelector<T> extends JPanel {
 		}
 	};
 	
-	public ItemSelector() {
+	public EntitySelector() {
 		initialize();
 	}
 	

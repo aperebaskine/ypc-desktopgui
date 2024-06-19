@@ -23,20 +23,20 @@ import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
-public class NumberAttributeEditor<T extends Number & Comparable<T>>
-extends AttributeEditor<T> {
+public class NumberAttributeEditorPane<T extends Number & Comparable<T>>
+extends AttributeEditorPane<T> {
 
-	private AttributeEditor<T> delegate;
+	private AttributeEditorPane<T> delegate;
 
 	/**
 	 * Unused constructor required for rendering within a WindowBuilder designer.
 	 */
 	@SuppressWarnings({"unused", "unchecked"})
-	private NumberAttributeEditor() {
+	private NumberAttributeEditorPane() {
 		this((Attribute<T>) Attribute.getInstance(Long.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public NumberAttributeEditor(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public NumberAttributeEditorPane(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(attribute, handlingMode, showUnassignedValues);
 		initialize(handlingMode, showUnassignedValues);
 	}
@@ -67,7 +67,7 @@ extends AttributeEditor<T> {
 		return delegate.getEditorValues();
 	}
 
-	private class NumberEditorRangeDelegate extends AttributeEditor<T> {
+	private class NumberEditorRangeDelegate extends AttributeEditorPane<T> {
 
 		private JPanel minValuePanel;
 		private JPanel maxValuePanel;
@@ -139,16 +139,14 @@ extends AttributeEditor<T> {
 
 			T min = (T) minValueSpinner.getValue();
 			T max = (T) maxValueSpinner.getValue();
-
-			if (min.equals(max)) {
-				return Arrays.asList(min);
-			} else {
-				return Arrays.asList(min, max);
-			}
+			
+			return min.equals(max) ?
+					Arrays.asList(min) :
+						Arrays.asList(min, max);
 		}		
 	}
 
-	private class NumberEditorSetDelegate extends AttributeEditor<T> {
+	private class NumberEditorSetDelegate extends AttributeEditorPane<T> {
 
 		private JScrollPane selectedValuesScrollPane;
 		private JList<T> selectedValuesList;

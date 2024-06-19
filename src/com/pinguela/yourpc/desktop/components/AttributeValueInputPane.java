@@ -12,7 +12,7 @@ public class AttributeValueInputPane
 extends InputPane<Attribute<?>> {
 	
 	private JPanel contentPane;
-	private AttributeEditor<?> editor;
+	private AttributeEditorPane<?> editor;
 	
 	private Attribute<?> attribute;
 	
@@ -38,7 +38,7 @@ extends InputPane<Attribute<?>> {
 	}
 	
 	private void initializeEditor(Attribute<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
-		editor = (AttributeEditor<?>) AttributeEditor.getInstance(attribute, handlingMode, showUnassignedValues);
+		editor = (AttributeEditorPane<?>) AttributeEditorPane.getInstance(attribute, handlingMode, showUnassignedValues);
 		contentPane.add(editor, BorderLayout.CENTER);
 	}
 

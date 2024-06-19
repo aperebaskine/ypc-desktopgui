@@ -21,8 +21,8 @@ import com.pinguela.yourpc.model.AttributeValue;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
-public class StringAttributeEditor 
-extends AttributeEditor<String> {
+public class StringAttributeEditorPane 
+extends AttributeEditorPane<String> {
 	
 	private JScrollPane selectedValuesScrollPane;
 	private JList<String> selectedValuesList;
@@ -34,11 +34,11 @@ extends AttributeEditor<String> {
 	 * Unused constructor required for rendering within a WindowBuilder designer.
 	 */
 	@SuppressWarnings("unused")
-	private StringAttributeEditor() {
+	private StringAttributeEditorPane() {
 		this(Attribute.getInstance(String.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public StringAttributeEditor(Attribute<String> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public StringAttributeEditorPane(Attribute<String> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(attribute, handlingMode, showUnassignedValues);
 		initialize();
 		setInitialValues();

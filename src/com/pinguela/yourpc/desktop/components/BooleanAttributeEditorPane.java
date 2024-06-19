@@ -12,8 +12,8 @@ import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
-public class BooleanAttributeEditor 
-extends AttributeEditor<Boolean> {
+public class BooleanAttributeEditorPane 
+extends AttributeEditorPane<Boolean> {
 
 	private ButtonGroup buttonGroup;
 	private JRadioButton trueRadioButton;
@@ -23,11 +23,11 @@ extends AttributeEditor<Boolean> {
 	 * Unused constructor required for rendering within a WindowBuilder designer.
 	 */
 	@SuppressWarnings("unused")
-	private BooleanAttributeEditor() {
+	private BooleanAttributeEditorPane() {
 		this(Attribute.getInstance(Boolean.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public BooleanAttributeEditor(Attribute<Boolean> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public BooleanAttributeEditorPane(Attribute<Boolean> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(attribute, handlingMode, true);
 		initialize();
 		setInitialValues();

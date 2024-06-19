@@ -22,7 +22,7 @@ extends InputPane<Attribute<?>> {
 	
 	private JPanel contentPane;
 	private JComboBox<Attribute<?>> attributeComboBox;
-	private AttributeEditor<?> editorPane;
+	private AttributeEditorPane<?> editorPane;
 	
 	private Integer forcedHandlingMode;
 	
@@ -77,7 +77,7 @@ extends InputPane<Attribute<?>> {
 	
 	@SuppressWarnings("unchecked")
 	private <T> void initializeValueInputPane() {
-		editorPane = AttributeEditor.getInstance((Attribute<T>) attributeComboBox.getSelectedItem(), forcedHandlingMode, showUnassignedValues);
+		editorPane = AttributeEditorPane.getInstance((Attribute<T>) attributeComboBox.getSelectedItem(), forcedHandlingMode, showUnassignedValues);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;

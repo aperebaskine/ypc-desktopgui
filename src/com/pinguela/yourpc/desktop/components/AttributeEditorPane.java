@@ -17,17 +17,17 @@ import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
 @SuppressWarnings("serial")
-public abstract class AttributeEditor<T>
+public abstract class AttributeEditorPane<T>
 extends JPanel
 implements AttributeValueHandlingModes {
 
-	private static Logger logger = LogManager.getLogger(AttributeEditor.class);
+	private static Logger logger = LogManager.getLogger(AttributeEditorPane.class);
 
 	private static final String EDITOR_CLASSES_PNAME = "ui.attribute.editor.classes";
 	private static final Collection<Class<?>> EDITOR_CLASSES;
 
 	static {
-		String packageName = AttributeEditor.class.getPackage().getName();
+		String packageName = AttributeEditorPane.class.getPackage().getName();
 		try {
 			EDITOR_CLASSES = ReflectionUtils.loadClassesFromPackage(packageName, Arrays.asList(getSubclassNames()));
 		} catch (Throwable t) {
@@ -52,11 +52,11 @@ implements AttributeValueHandlingModes {
 	 * Unused constructor, required for panel rendering within a WindowBuilder designer.
 	 */
 	@SuppressWarnings({"unused", "unchecked"})
-	private AttributeEditor() {
+	private AttributeEditorPane() {
 		this(Attribute.getInstance((Class<T>) String.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	protected AttributeEditor(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	protected AttributeEditorPane(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		this.attributeService = new AttributeServiceImpl();
 		this.editingAttribute = attribute;
 
@@ -77,22 +77,22 @@ implements AttributeValueHandlingModes {
 		return showUnassignedValues;
 	}
 
-	public static final <T> AttributeEditor<T> getInstance(Attribute<T> attribute) {
+	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute) {
 		return getInstance(attribute, null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public static final <T> AttributeEditor<T> getInstance(Attribute<T> attribute, boolean showUnassignedValues) {
+	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute, boolean showUnassignedValues) {
 		return getInstance(attribute, null, showUnassignedValues);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static final <T> AttributeEditor<T> getInstance(Attribute<T> attribute, Integer forcedHandlingMode, boolean showUnassignedValues) {
+	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
 
 		Class<?> targetClass = getClassByTypeParameter(attribute.getTypeParameterClass());
 		try {
-			return (AttributeEditor<T>) targetClass
+			return (AttributeEditorPane<T>) targetClass
 					.getDeclaredConstructor(Attribute.class, Integer.class, boolean.class)
-					.newInstance(attribute, forcedHandlingMode, showUnassignedValues);
+					.newInstance(attribute, handlingMode, showUnassignedValues);
 		} catch (Exception e) {
 			String message = String.format("Exception thrown while instantiating %s. Message: %s",
 					targetClass.getName(), e.getMessage());

@@ -46,11 +46,11 @@ public class ReflectionUtils {
 		return classes;
 	}
 
-	public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... initArgs) {
+	public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... constructorParameters) {
 		Constructor<T> constructor;
 		try {
 			constructor = clazz
-					.getDeclaredConstructor((Class<?>[]) ReflectionUtils.loadObjectClasses(initArgs));
+					.getDeclaredConstructor((Class<?>[]) ReflectionUtils.loadObjectClasses(constructorParameters));
 		} catch (NoSuchMethodException e) {
 			throw new IllegalStateException("Arguments provided for the constructor are invalid.");
 		}
@@ -135,7 +135,7 @@ public class ReflectionUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T createNullObjectInstanceIfExists(Class<?> targetClass, Object... initArgs) {
+	public static <T> T createNullObjectInstanceIfExists(Class<?> targetClass, Object... constructorParameters) {
 		String packageName = targetClass.getPackage().getName();
 		String className = targetClass.getSimpleName();
 
@@ -146,8 +146,8 @@ public class ReflectionUtils {
 
 		try {
 			nullObjectInstance = (T) Class.forName(fullyQualifiedNullSubclassName)
-					.getDeclaredConstructor(loadObjectClasses(initArgs))
-					.newInstance(initArgs);
+					.getDeclaredConstructor(loadObjectClasses(constructorParameters))
+					.newInstance(constructorParameters);
 		} catch (Exception e) {
 			// No action required
 		}
@@ -155,17 +155,19 @@ public class ReflectionUtils {
 		return nullObjectInstance;
 	}
 
-	public static <T> T createNullObjectOrDefaultInstance(Class<T> targetClass, Object... initArgs) {
-		T object = createNullObjectInstanceIfExists(targetClass, initArgs);
+	public static <T> T createNullObjectOrDefaultInstance(Class<T> targetClass, Object... constructorParameters) {
+		T object = createNullObjectInstanceIfExists(targetClass, constructorParameters);
 
 		if (object == null) {
 			try {
-				object = (T) targetClass.getDeclaredConstructor(loadObjectClasses(initArgs)).newInstance(initArgs);
+				object = (T) targetClass
+						.getDeclaredConstructor(loadObjectClasses(constructorParameters))
+						.newInstance(constructorParameters);
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
 				throw new IllegalStateException(String.format(
 						"Cannot create instance from class %s and arguments %s.",
-						targetClass.getName(), Arrays.asList(initArgs)));
+						targetClass.getName(), Arrays.asList(constructorParameters)));
 			} 
 		}
 

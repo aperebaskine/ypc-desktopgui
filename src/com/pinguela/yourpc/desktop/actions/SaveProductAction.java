@@ -34,8 +34,8 @@ extends SaveItemAction<Product> {
 	@Override
 	protected void doUpdate(Product item) throws YPCException {
 		productService.update(item);
-		getView().setEntity(productService.findById(item.getId()));
 		saveImages(item);
+		getView().setEntity(productService.findById(item.getId()));
 	}
 	
 	private void saveImages(Product item) throws YPCException {

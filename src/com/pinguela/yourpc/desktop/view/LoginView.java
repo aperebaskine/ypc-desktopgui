@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.pinguela.yourpc.desktop.YPCWindow;
-import com.pinguela.yourpc.desktop.actions.ExitWindowAction;
+import com.pinguela.yourpc.desktop.actions.CancelLoginAction;
 import com.pinguela.yourpc.desktop.actions.LoginAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ActionPane;
@@ -99,7 +99,7 @@ extends YPCView {
 		ActionPane actionPane = new ActionPane();
 		add(actionPane);
 		
-		YPCAction exitAction = new ExitWindowAction(this);
+		YPCAction exitAction = new CancelLoginAction(this);
 		actionPane.addAction(exitAction, false);
 		actionPane.addAction(new LoginAction(this), true);
 	}

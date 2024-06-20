@@ -25,7 +25,7 @@ extends OpenDialogAction<Employee> {
 
 	@Override
 	protected boolean shouldSetRelativeLocation() {
-		return false;
+		return true;
 	}
 
 	@Override

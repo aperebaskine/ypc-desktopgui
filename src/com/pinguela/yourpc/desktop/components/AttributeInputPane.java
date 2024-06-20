@@ -4,6 +4,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemListener;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -24,7 +27,7 @@ extends InputPane<Attribute<?>> {
 	private JComboBox<Attribute<?>> attributeComboBox;
 	private AttributeEditorPane<?> editorPane;
 	
-	private Integer forcedHandlingMode;
+	private Integer handlingMode;
 	
 	private ItemListener selectionListener = (evt) -> {
 		if (editorPane != null) {
@@ -43,10 +46,10 @@ extends InputPane<Attribute<?>> {
 		this(attributes, null, showUnassignedValues);
 	}
 
-	public AttributeInputPane(Map<String, Attribute<?>> attributes, Integer forcedHandlingMode, boolean showUnassignedValues) {
+	public AttributeInputPane(Map<String, Attribute<?>> attributes, Integer handlingMode, boolean showUnassignedValues) {
 		super("Select attribute:");
 		this.showUnassignedValues = showUnassignedValues;
-		this.forcedHandlingMode = forcedHandlingMode;
+		this.handlingMode = handlingMode;
 		
 		postInitialize(attributes);
 	}
@@ -77,7 +80,7 @@ extends InputPane<Attribute<?>> {
 	
 	@SuppressWarnings("unchecked")
 	private <T> void initializeValueInputPane() {
-		editorPane = AttributeEditorPane.getInstance((Attribute<T>) attributeComboBox.getSelectedItem(), forcedHandlingMode, showUnassignedValues);
+		editorPane = AttributeEditorPane.getInstance((Attribute<T>) attributeComboBox.getSelectedItem(), handlingMode, showUnassignedValues);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;
@@ -92,14 +95,16 @@ extends InputPane<Attribute<?>> {
 
 	@Override
 	public Attribute<?> getInput() {
-		Attribute<?> attribute = ((Attribute<?>) attributeComboBox.getSelectedItem()).clone();
-		attribute.removeAllValues();
 		
-		for (Object value : editorPane.getEditorValues()) {
-			attribute.addValue(null, value);
+		Attribute<?> attribute = (Attribute<?>) attributeComboBox.getSelectedItem();
+		Collection<?> editorPaneValues = editorPane.getEditorValues();
+		
+		Iterator<?> iterator = editorPaneValues.iterator();
+		Object[] array = (Object[]) Array.newInstance(attribute.getTypeParameterClass(), editorPaneValues.size());
+		for (int i = 0; i < array.length; i++) {
+			array[i] = iterator.next();
 		}
-		
-		return attribute;
+		return Attribute.getInstance(attribute.getName(), array);
 	}
 
 }

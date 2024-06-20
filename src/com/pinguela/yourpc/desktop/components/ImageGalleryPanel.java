@@ -47,6 +47,7 @@ implements YPCComponent {
 	private ThumbnailMouseListener imageMouseListener;
 
 	private List<ImageEntry> imageEntries;
+	private List<ThumbnailPanel> panels;
 
 	private ImagePanel imagePanel;
 	private JPanel galleryPanel;
@@ -119,9 +120,17 @@ implements YPCComponent {
 		galleryPanel.addContainerListener(new ContainerListener() {
 
 			@Override
-			@SuppressWarnings("unlikely-arg-type")
 			public void componentRemoved(ContainerEvent e) {
-				int index = imageEntries.indexOf(e.getChild());
+
+				if (galleryPanel.getComponentCount() == 0) {
+					imagePanel.removeImage();
+				}
+
+				int index = panels.indexOf(e.getChild());
+
+				panels.remove(index);
+				imageEntries.remove(index);
+
 				if (index == selectionIndex) {
 					setSelectionIndex(index-1 < 0 ? index : index-1); 
 				}
@@ -141,6 +150,7 @@ implements YPCComponent {
 
 		imageMouseListener = new ThumbnailMouseListener();
 		imageEntries = new ArrayList<ImageEntry>();
+		panels = new ArrayList<ThumbnailPanel>();
 
 		addPropertyChangeListener(SELECTION_INDEX_PROPERTY, (evt) -> {
 			displaySelection((Integer) evt.getNewValue());
@@ -156,7 +166,10 @@ implements YPCComponent {
 
 		EventQueue.invokeLater(() -> {
 			imageEntries.add(imageEntry);
-			galleryPanel.add(new ThumbnailPanel(imageEntry));
+
+			ThumbnailPanel panel = new ThumbnailPanel(imageEntry);
+			panels.add(panel);
+			galleryPanel.add(panel);
 
 			galleryPanel.revalidate();
 			galleryPanel.repaint();
@@ -170,37 +183,29 @@ implements YPCComponent {
 	}
 
 	public void removeImageAt(int index) {
-		imageEntries.remove(index);
 		galleryPanel.remove(index);
-	}
-	
-	public void removeImage(Component image) {
-		
 	}
 
 	public void clearImages() {
-		imageEntries.removeAll(imageEntries);
 		galleryPanel.removeAll();
 	}
 
 	public Integer getSelectionIndex() {
 		return selectionIndex;
 	}
-	
+
 	public int indexOf(ThumbnailPanel thumbnail) {
 		return galleryPanel.getComponentZOrder(thumbnail);
 	}
 
-	public boolean setSelectionIndex(Integer index) {
+	public void setSelectionIndex(Integer index) {
 
 		if (index < 0 || index >= imageEntries.size()) {
-			return false;
+			return;
 		}
 
-		Integer oldIndex = selectionIndex;
 		selectionIndex = index;
-		firePropertyChange(SELECTION_INDEX_PROPERTY, oldIndex, index);
-		return true;
+		firePropertyChange(SELECTION_INDEX_PROPERTY, null, index);
 	}
 
 	private void displaySelection(int index) {

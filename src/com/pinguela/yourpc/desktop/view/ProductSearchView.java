@@ -5,8 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -18,15 +19,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import com.pinguela.yourpc.desktop.actions.AddAttributeCriteriaAction;
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
 import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
 import com.pinguela.yourpc.desktop.actions.SearchAction;
 import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
-import com.pinguela.yourpc.desktop.actions.SetProductRangesAction;
-import com.pinguela.yourpc.desktop.actions.YPCAction;
+import com.pinguela.yourpc.desktop.actions.SetProductCriteriaForCategoryAction;
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
@@ -47,6 +46,8 @@ import slider.RangeSlider;
 @SuppressWarnings("serial")
 public class ProductSearchView 
 extends AbstractPaginatedSearchView<Product> {
+	
+	private static final String ATTRIBUTE_CRITERIA_PROPERTY = "attributeCriteria";
 
 	private JFormattedTextField productIdField;
 	private JTextField productNameField;
@@ -60,7 +61,21 @@ extends AbstractPaginatedSearchView<Product> {
 	private JLabel maxPriceLabel;
 	private JTable attributeTable;
 	private JScrollPane attributePane;
-	private JButton addAttributeButton;
+	
+	private Map<String, Attribute<?>> categoryAttributes;
+	
+	@SuppressWarnings("unchecked")
+	private final PropertyChangeListener attributeCriteriaListener = (evt) -> {
+		ActionPaneMapTableModel<String, Attribute<?>> model = 
+				(ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel();
+		
+		model.clear();
+		
+		if (evt.getNewValue() != null) {
+			model.setData((Map<String, Attribute<?>>) evt.getNewValue());
+		} 
+	};
+
 
 	public ProductSearchView() {
 		this(new SearchActionBuilder<>(ProductSearchAction.class));
@@ -117,14 +132,6 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productNameField.gridy = 1;
 		getCriteriaPanel().add(productNameField, gbc_productNameField);
 		productNameField.setColumns(10);
-		
-		addAttributeButton = new JButton();
-		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
-		gbc_addAttributeButton.anchor = GridBagConstraints.EAST;
-		gbc_addAttributeButton.insets = new Insets(0, 0, 5, 5);
-		gbc_addAttributeButton.gridx = 6;
-		gbc_addAttributeButton.gridy = 1;
-		getCriteriaPanel().add(addAttributeButton, gbc_addAttributeButton);
 
 		JLabel categoryLabel = new JLabel("Category:");
 		GridBagConstraints gbc_categoryLabel = new GridBagConstraints();
@@ -319,15 +326,12 @@ extends AbstractPaginatedSearchView<Product> {
 		stockMaxField.addPropertyChangeListener("value", action);
 		attributeTable.getModel().addTableModelListener(action);
 
-		categoryComboBox.addActionListener(new SetProductRangesAction(this));
+		categoryComboBox.addActionListener(new SetProductCriteriaForCategoryAction(this));
 		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
 		
-		YPCAction addAttributeCriteriaAction = new AddAttributeCriteriaAction(this);
-		addAttributeButton.setAction(addAttributeCriteriaAction);
-		categoryComboBox.addItemListener(addAttributeCriteriaAction);
+		addPropertyChangeListener(ATTRIBUTE_CRITERIA_PROPERTY, attributeCriteriaListener);
 	}
 
-	@SuppressWarnings("unchecked")
 	public ProductCriteria getCriteria() {
 		ProductCriteria criteria = new ProductCriteria();
 
@@ -368,8 +372,15 @@ extends AbstractPaginatedSearchView<Product> {
 		criteria.setStockMin((Integer) stockMinField.getValue());
 		criteria.setStockMax((Integer) stockMaxField.getValue());
 		
-		criteria.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
-
+		if (categoryAttributes != null) {
+			for (int i = 0; i < attributeTable.getRowCount(); i++) {
+				Attribute<?> attribute = (Attribute<?>) attributeTable.getValueAt(i, 0);
+				if (!categoryAttributes.get(attribute.getName()).equals(attribute)) {
+					criteria.getAttributes().put(attribute.getName(), attribute);
+				}
+			}
+		}
+		
 		return criteria;
 	}
 
@@ -417,8 +428,8 @@ extends AbstractPaginatedSearchView<Product> {
 		if (!categoryComboBox.equals(source)) {
 			categoryComboBox.setSelectedItem(categoryComboBox.getItemAt(0));
 		}
-
-		((ActionPaneMapTableModel<?, ?>) attributeTable.getModel()).clear();
+		
+		setCategoryAttributes(null);
 	}
 
 	@Override
@@ -432,9 +443,11 @@ extends AbstractPaginatedSearchView<Product> {
 		priceRangeSlider.setEnabled(isEnabled);
 	}
 
-	@SuppressWarnings("unchecked")
-	public void addAttribute(Attribute<?> attribute) {
-		((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).addRow(attribute.getName(), attribute);
+	public void setCategoryAttributes(Map<String, Attribute<?>> attributeCriteria) {
+		
+		Map<String, Attribute<?>> old = this.categoryAttributes;
+		this.categoryAttributes = attributeCriteria;
+		firePropertyChange(ATTRIBUTE_CRITERIA_PROPERTY, old, attributeCriteria);
 	}
 
 }

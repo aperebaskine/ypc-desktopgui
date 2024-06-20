@@ -1,6 +1,7 @@
 package com.pinguela.yourpc.desktop.components;
 
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -29,7 +30,9 @@ implements YPCComponent {
 
 	private BufferedImage image;
 	private final PropertyChangeListener imagePropertyListener = (evt) -> {
-		updateDisplay();
+		EventQueue.invokeLater(() -> {
+			updateDisplay();
+		});
 	};
 
 	public ImagePanel(Dimension size) {
@@ -52,6 +55,7 @@ implements YPCComponent {
 	}
 
 	private boolean shouldResizeImage() {
+		
 		JLabel label = (JLabel) getComponent(0);
 
 		if (NO_IMAGE_LABEL.equals(label)) {

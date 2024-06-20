@@ -8,6 +8,10 @@ import com.pinguela.yourpc.model.Product;
 @SuppressWarnings("serial")
 public class ProductSelector 
 extends EntitySelector<Product> {
+	
+	public ProductSelector() {
+		super(true);
+	}
 
 	@Override
 	protected YPCAction initializeViewAction() {

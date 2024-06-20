@@ -66,10 +66,10 @@ extends AbstractEntityView<Customer> {
 	}
 
 	private void initialize() {
-		centerPanel.setLayout(new BorderLayout(0, 0));
 
 		centerPanel = new JPanel();
-		centerPanel.add(centerPanel, BorderLayout.CENTER);
+		centerPanel.setLayout(new BorderLayout(0, 0));
+		add(centerPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_centerPanel = new GridBagLayout();
 		gbl_centerPanel.columnWidths = new int[]{0, 288, 24, 0, 0};
 		gbl_centerPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

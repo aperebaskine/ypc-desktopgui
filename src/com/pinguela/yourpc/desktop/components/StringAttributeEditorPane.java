@@ -56,7 +56,7 @@ extends AttributeEditorPane<String> {
 		valueSelectionPanel = new JPanel();
 		add(valueSelectionPanel, BorderLayout.NORTH);
 		
-		valueComboBox = ComponentFactory.createComboBox(getEditingAttribute().getValues(), AttributeValue.class);
+		valueComboBox = ComponentFactory.createComboBox(getSavedAttribute().getValues(), AttributeValue.class);
 		valueSelectionPanel.add(valueComboBox);
 		
 		JButton addValueButton = new JButton("Add", Icons.ADD_ICON);

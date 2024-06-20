@@ -1,12 +1,12 @@
 package com.pinguela.yourpc.desktop.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -16,15 +16,24 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.components.ImagePanel;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.model.DocumentType;
 import com.pinguela.yourpc.model.Employee;
+import com.pinguela.yourpc.model.ImageEntry;
+import com.pinguela.yourpc.service.ImageFileService;
+import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
 
 @SuppressWarnings("serial")
 public class EmployeeView
 extends AbstractEntityView<Employee> {
+	
+	private static Logger logger = LogManager.getLogger(EmployeeView.class);
 	
 	private JTextField firstNameTextField;
 	private JTextField usernameTextField;
@@ -41,12 +50,15 @@ extends AbstractEntityView<Employee> {
 	private JPanel detailsPanel;
 	private AddressView addressView;
 	
+	private ImagePanel imagePanel;
+	private ImageFileService imageFileService;
+	
 	private final PropertyChangeListener editableListener = (evt) -> {
 		addressView.setEditable(isEditable());
 	};
 	
 	public EmployeeView() {
-		setPreferredSize(new Dimension(900, 360));
+		setPreferredSize(new Dimension(960, 360));
 		initialize();
 		postInitialize();
 	}
@@ -57,7 +69,8 @@ extends AbstractEntityView<Employee> {
 		
 		viewPanel.setLayout(new BorderLayout(0, 0));
 		
-		ImagePanel imagePanel = new ImagePanel(new Dimension(240, 360));
+		imagePanel = new ImagePanel(new Dimension(240, 360));
+		imagePanel.setPreferredSize(new Dimension(300, 360));
 		viewPanel.add(imagePanel, BorderLayout.WEST);
 		
 		JPanel centerPanel = new JPanel();
@@ -250,11 +263,6 @@ extends AbstractEntityView<Employee> {
 		detailsPanel.add(bicTextField, gbc_bicTextField);
 		bicTextField.setColumns(10);
 		
-		JLabel detailsLabel = new JLabel("Details:");
-		detailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		detailsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		centerPanel.add(detailsLabel, BorderLayout.NORTH);
-		
 		JPanel eastPanel = new JPanel();
 		centerPanel.add(eastPanel, BorderLayout.EAST);
 		eastPanel.setLayout(new BorderLayout(0, 0));
@@ -278,6 +286,8 @@ extends AbstractEntityView<Employee> {
 		gbc_documentTypeComboBox.gridx = 1;
 		gbc_documentTypeComboBox.gridy = 6;
 		detailsPanel.add(documentTypeComboBox, gbc_documentTypeComboBox);
+		
+		imageFileService = new ImageFileServiceImpl();
 		
 		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
 	}
@@ -358,6 +368,15 @@ extends AbstractEntityView<Employee> {
 	    ibanTextField.setText(getCurrentEntity().getIban());
 	    bicTextField.setText(getCurrentEntity().getBic());
 	    addressView.setEntity(getCurrentEntity().getAddress());
+	    
+	    try {
+	    	List<ImageEntry> employeeImages = imageFileService.getFiles("employee", getCurrentEntity().getId());
+			if (employeeImages.size() > 0) {
+				imagePanel.setImage(employeeImages.get(0).getImage());
+			}
+		} catch (ServiceException e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 	
 	private void selectDocumentType(String id) {

@@ -1,12 +1,17 @@
 package com.pinguela.yourpc.desktop.util;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -172,6 +177,19 @@ public class ReflectionUtils {
 		}
 
 		return object;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<?> targetClass, Object... constructorParameters) {
+		T[] items = (T[]) Array.newInstance(targetClass, content.size()+1);
+		items[0] = (T) createNullObjectOrDefaultInstance(targetClass, constructorParameters); // Add blank object as the first value
+	
+		Iterator<T> iterator = content.iterator();
+		for (int i = 1; i < items.length; i++) {
+			items[i] = iterator.next();
+		}
+	
+		return new DefaultComboBoxModel<T>(items);
 	}
 
 }

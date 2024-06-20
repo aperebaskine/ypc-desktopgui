@@ -23,7 +23,7 @@ implements AttributeValueHandlingModes {
 
 	private static Logger logger = LogManager.getLogger(AttributeEditorPane.class);
 
-	private static final String EDITOR_CLASSES_PNAME = "ui.attribute.editor.classes";
+	private static final String EDITOR_PANES_PNAME = "ui.attribute.editor.panes";
 	private static final Collection<Class<?>> EDITOR_CLASSES;
 
 	static {
@@ -38,7 +38,7 @@ implements AttributeValueHandlingModes {
 	}
 
 	private static String[] getSubclassNames() {
-		return ConfigManager.getValue(EDITOR_CLASSES_PNAME).split(ConfigManager.DELIMITER);
+		return ConfigManager.getValue(EDITOR_PANES_PNAME).split(ConfigManager.DELIMITER);
 	}
 
 	private AttributeService attributeService;
@@ -86,22 +86,23 @@ implements AttributeValueHandlingModes {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute, 
+			Integer handlingMode, boolean showUnassignedValues) {
 
-		Class<?> targetClass = getClassByTypeParameter(attribute.getTypeParameterClass());
+		Class<?> instanceClass = getClassMatchingTypeParameter(attribute.getTypeParameterClass());
 		try {
-			return (AttributeEditorPane<T>) targetClass
+			return (AttributeEditorPane<T>) instanceClass
 					.getDeclaredConstructor(Attribute.class, Integer.class, boolean.class)
 					.newInstance(attribute, handlingMode, showUnassignedValues);
 		} catch (Exception e) {
 			String message = String.format("Exception thrown while instantiating %s. Message: %s",
-					targetClass.getName(), e.getMessage());
+					instanceClass.getName(), e.getMessage());
 			logger.error(message, e);
 			throw new IllegalStateException(message, e);
 		} 
 	}
 
-	private static final Class<?> getClassByTypeParameter(Class<?> typeParameter) {
+	private static final Class<?> getClassMatchingTypeParameter(Class<?> typeParameter) {
 
 		for (Class<?> subclass : EDITOR_CLASSES) {
 			if (ReflectionUtils.isTypeParameterAssignable(typeParameter, subclass)) {

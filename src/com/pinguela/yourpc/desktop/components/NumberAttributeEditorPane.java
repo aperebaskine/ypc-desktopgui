@@ -42,6 +42,7 @@ extends AttributeEditorPane<T> {
 	}
 
 	private void initialize(Integer handlingMode, boolean showUnassignedValues) {
+		
 		setLayout(new BorderLayout(0, 0));
 
 		Attribute<T> attribute = getEditingAttribute();

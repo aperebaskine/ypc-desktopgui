@@ -25,6 +25,7 @@ extends JPanel {
 	private T item;
 	private JLabel itemLabel;
 	private List<Action> disableableActions;
+	private boolean isModifiableAfterSelection;
 	
 	private final PropertyChangeListener itemListener = (evt) -> {
 		if (evt.getNewValue() == null) {
@@ -32,10 +33,16 @@ extends JPanel {
 		} else {
 			itemLabel.setText(getLabelText());
 			((CardLayout) getLayout()).show(this, VIEWER_CARD);
+			setEnabled(isModifiableAfterSelection);
 		}
 	};
 	
 	public EntitySelector() {
+		this(false);
+	}
+	
+	public EntitySelector(boolean isModifiableAfterSelection) {
+		this.isModifiableAfterSelection = isModifiableAfterSelection;
 		initialize();
 	}
 	
@@ -86,7 +93,7 @@ extends JPanel {
 	
 	public void setEnabled(boolean isEnabled) {
 		for (Action action : disableableActions) {
-			action.setEnabled(isEnabled);
+			action.setEnabled(isModifiableAfterSelection && isEnabled);
 		}
 	}
 	

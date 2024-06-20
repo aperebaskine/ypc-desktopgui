@@ -18,12 +18,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import com.pinguela.yourpc.desktop.actions.AddAttributeCriteriaAction;
+import com.pinguela.yourpc.desktop.actions.GetAttributeCriteriaAction;
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
 import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
 import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
-import com.pinguela.yourpc.desktop.actions.SetProductRangesAction;
+import com.pinguela.yourpc.desktop.actions.SetProductCriteriaForCategoryAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
@@ -297,10 +297,10 @@ extends CriteriaPanel<Long, Product> {
 		stockMaxField.addPropertyChangeListener("value", action);
 		attributeTable.getModel().addTableModelListener(action);
 
-		categoryComboBox.addActionListener(new SetProductRangesAction(null));
+		categoryComboBox.addActionListener(new SetProductCriteriaForCategoryAction(null));
 		categoryComboBox.addActionListener(new ResetCriteriaAction(null));
 		
-		YPCAction addAttributeCriteriaAction = new AddAttributeCriteriaAction(null);
+		YPCAction addAttributeCriteriaAction = new GetAttributeCriteriaAction(null);
 		
 		categoryComboBox.addItemListener(addAttributeCriteriaAction);
 		JButton btnNewButton = new JButton(addAttributeCriteriaAction);

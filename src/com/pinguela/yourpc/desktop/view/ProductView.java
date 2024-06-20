@@ -23,6 +23,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.TableColumn;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,8 +72,42 @@ extends AbstractEntityView<Product> {
 	private JTextArea descriptionTextArea;
 	private JTable attributeTable;
 	private ImageGalleryPanel imageGalleryPanel;
+	
+	private JButton addAttributeButton;
+	private TableColumn actionColumn;
+	
+	private TableColumnModelListener columnListener = new TableColumnModelListener() {
+		
+		@Override
+		public void columnSelectionChanged(ListSelectionEvent e) {}
+		
+		@Override
+		public void columnRemoved(TableColumnModelEvent e) {}
+		
+		@Override
+		public void columnMoved(TableColumnModelEvent e) {}
+		
+		@Override
+		public void columnMarginChanged(ChangeEvent e) {}
+		
+		@Override
+		public void columnAdded(TableColumnModelEvent e) {
+			if (attributeTable.getColumnCount() > AttributeTableConstants.ACTION_PANE_COLUMN_INDEX) {
+				actionColumn = attributeTable.getColumnModel().getColumn(AttributeTableConstants.ACTION_PANE_COLUMN_INDEX);
+				if (!isEditable()) {
+					attributeTable.removeColumn(actionColumn);
+				}
+			}
+		}
+	};
 	private PropertyChangeListener editableListener = (evt) -> {
 		imageGalleryPanel.setEditable(isEditable());
+
+		if (isEditable() && attributeTable.getColumnCount() < 3) {
+			attributeTable.getColumnModel().addColumn(actionColumn);
+		} else if (attributeTable.getColumnCount() > 2) {
+			attributeTable.getColumnModel().removeColumn(actionColumn);
+		}
 	};
 
 	public ProductView() {
@@ -256,6 +295,10 @@ extends AbstractEntityView<Product> {
 		gbc_categoryComboBox.gridy = 2;
 		viewPanel.add(categoryComboBox, gbc_categoryComboBox);
 		categoryComboBox.setEnabled(false);
+		
+		categoryComboBox.addItemListener((evt) -> {
+			addAttributeButton.setEnabled(isEditable() && categoryComboBox.getSelectedIndex() > 0);
+		});
 
 		launchDateChooser = ComponentFactory.getDateChooser();
 		launchDateChooser.setEditable(false);
@@ -267,12 +310,13 @@ extends AbstractEntityView<Product> {
 		gbc_launchDateChooser.gridy = 3;
 		viewPanel.add(launchDateChooser, gbc_launchDateChooser);
 		
+		attributeTable.getColumnModel().addColumnModelListener(columnListener);
 		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
 				AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable), 
 				new EditAttributeAction(attributeTable, AttributeValueHandlingModes.SET, AttributeService.RETURN_UNASSIGNED_VALUES));
 		
-		JButton addAttributeButton = new JButton(new AddAttributeAction(this, AttributeValueHandlingModes.SET));
+		addAttributeButton = new JButton(new AddAttributeAction(this, AttributeValueHandlingModes.SET));
 		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
 		gbc_addAttributeButton.anchor = GridBagConstraints.EAST;
 		gbc_addAttributeButton.insets = new Insets(0, 0, 5, 5);
@@ -331,6 +375,7 @@ extends AbstractEntityView<Product> {
 		purchasePriceField.setEditable(isEditable);
 		salePriceField.setEditable(isEditable);
 		descriptionTextArea.setEditable(isEditable);
+		addAttributeButton.setEnabled(isEditable && categoryComboBox.getSelectedIndex() > 0);
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -35,12 +34,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.pinguela.yourpc.desktop.actions.OpenAttributeStatisticsTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerOrderSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenEmployeeSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenEmployeeViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductSearchTabAction;
+import com.pinguela.yourpc.desktop.actions.OpenProductTimelineTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenProductViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.OpenRMASearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenStatisticsTabAction;
@@ -206,8 +207,14 @@ public class YPCWindow {
 		statisticsMenu = new JMenu("Statistics");
 		menuBar.add(statisticsMenu);
 		
-		JMenuItem statisticsMenuItem = new JMenuItem("Consult...");
+		JMenuItem statisticsMenuItem = new JMenuItem("Statistics");
 		statisticsMenu.add(statisticsMenuItem);
+		
+		JMenuItem productStatisticsMenuItem = new JMenuItem("Product statistics");
+		statisticsMenu.add(productStatisticsMenuItem);
+		
+		JMenuItem attributeStatisticsMenuItem = new JMenuItem("Attribute statistics");
+		statisticsMenu.add(attributeStatisticsMenuItem);
 
 		JPanel panel = new JPanel();
 		northPanel.add(panel, BorderLayout.SOUTH);
@@ -238,10 +245,10 @@ public class YPCWindow {
 		customerOrderTabButton = new JButton(Icons.DOCUMENT_ICON);
 		toolBar.add(customerOrderTabButton);
 		
-		ticketTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1798_mail_to_post_to_post_mail.png")));
+		ticketTabButton = new JButton(Icons.TICKET_ICON);
 		toolBar.add(ticketTabButton);
 		
-		rmaTabButton = new JButton(new ImageIcon(YPCWindow.class.getResource("/nuvola/32x32/1761_screwdriver_screwdriver_tool_tool.png")));
+		rmaTabButton = new JButton(Icons.RMA_ICON);
 		toolBar.add(rmaTabButton);
 		
 		statisticsTabButton = new JButton(Icons.CHART_ICON);
@@ -299,6 +306,8 @@ public class YPCWindow {
 		ticketSearchMenuItem.addActionListener(ticketSearchActionListener);
 		rmaSearchMenuItem.addActionListener(rmaSearchActionListener);
 		statisticsMenuItem.addActionListener(statisticsActionListener);
+		productStatisticsMenuItem.addActionListener(new OpenProductTimelineTabAction());
+		attributeStatisticsMenuItem.addActionListener(new OpenAttributeStatisticsTabAction());
 	}
 
 	public Employee getAuthenticatedUser() {

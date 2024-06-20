@@ -8,9 +8,9 @@ import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Iterator;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
@@ -33,7 +33,7 @@ public class ComponentFactory {
 			((Component) evt.getSource()).setForeground(TEXT_FIELD_FOREGROUND);
 		}
 	};
-	
+
 	/**
 	 * Create a combo box containing the elements contained within the collection, with a blank instance of the object 
 	 * as the first value. Instantiate a &lt;TargetClassName&gt;ListCellRenderer from the renderer 
@@ -41,29 +41,25 @@ public class ComponentFactory {
 	 * @param <T> Target type parameter for the combo box and list cell renderer
 	 * @param content Collection containing the elements to be added to the combo box model
 	 * @param targetClass Class of the elements to be added to the combo box model
-	 * @param targetClassInitArgs Constructor arguments required to create an instance of the target class
+	 * @param constructorParameters Constructor arguments required to create an instance of the target class
 	 * @return The resulting combo box instance
 	 */
 	@SuppressWarnings("unchecked") 
-	public static <T> JComboBox<T> createComboBox(Collection<T> content, Class<?> targetClass, Object... targetClassInitArgs) {
+	public static <T> JComboBox<T> createComboBox(Collection<T> content, Class<?> targetClass, Object... constructorParameters) {
 		JComboBox<T> comboBox = new JComboBox<T>();
-		T[] items = (T[]) new Object[content.size()+1];
 
 		try {
-			items[0] = (T) ReflectionUtils.createNullObjectOrDefaultInstance(targetClass, targetClassInitArgs); // Add blank object as the first value
-			Constructor<?> rendererConstructor = ReflectionUtils.getConstructor(
-					Class.forName(String.format("%s.%sListCellRenderer", RENDERER_PACKAGE, targetClass.getSimpleName())));
+			Constructor<?> rendererConstructor = Object.class.equals(targetClass)?
+					DefaultListCellRenderer.class.getConstructor() :
+						ReflectionUtils.getConstructor(Class.forName(
+								String.format("%s.%sListCellRenderer", RENDERER_PACKAGE, targetClass.getSimpleName())));
+
 			comboBox.setRenderer((ListCellRenderer<T>) rendererConstructor.newInstance());
 		} catch (Exception e) {
 			throw new IllegalStateException(String.format("Exception thrown while creating instance: %s", e.getMessage()), e);
 		}
 
-		Iterator<T> iterator = content.iterator();
-		for (int i = 1; i < items.length; i++) {
-			items[i] = iterator.next();
-		}
-
-		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<T>(items);
+		ComboBoxModel<T> model = ReflectionUtils.createComboBoxModel(content, targetClass, constructorParameters);
 		comboBox.setModel(model);	
 		return comboBox;
 	}

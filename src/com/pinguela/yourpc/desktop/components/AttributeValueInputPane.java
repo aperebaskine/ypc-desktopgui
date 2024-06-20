@@ -1,6 +1,8 @@
 package com.pinguela.yourpc.desktop.components;
 
 import java.awt.BorderLayout;
+import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -12,7 +14,7 @@ public class AttributeValueInputPane
 extends InputPane<Attribute<?>> {
 	
 	private JPanel contentPane;
-	private AttributeEditorPane<?> editor;
+	private AttributeEditorPane<?> editorPane;
 	
 	private Attribute<?> attribute;
 	
@@ -38,21 +40,21 @@ extends InputPane<Attribute<?>> {
 	}
 	
 	private void initializeEditor(Attribute<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
-		editor = (AttributeEditorPane<?>) AttributeEditorPane.getInstance(attribute, handlingMode, showUnassignedValues);
-		contentPane.add(editor, BorderLayout.CENTER);
+		editorPane = (AttributeEditorPane<?>) AttributeEditorPane.getInstance(attribute, handlingMode, showUnassignedValues);
+		contentPane.add(editorPane, BorderLayout.CENTER);
 	}
 
 	@Override
 	public Attribute<?> getInput() {
-		Attribute<?> attribute = this.attribute.clone();
-		attribute.removeAllValues();
 		
-		Iterator<?> iterator = editor.getEditorValues().iterator();
+		Collection<?> editorPaneValues = editorPane.getEditorValues();
 		
-		while (iterator.hasNext()) {
-			attribute.addValue(null, iterator.next());
+		Iterator<?> iterator = editorPaneValues.iterator();
+		Object[] array = (Object[]) Array.newInstance(attribute.getTypeParameterClass(), editorPaneValues.size());
+		for (int i = 0; i < array.length; i++) {
+			array[i] = iterator.next();
 		}
-		return attribute;
+		return Attribute.getInstance(attribute.getName(), array);
 	}
 
 }

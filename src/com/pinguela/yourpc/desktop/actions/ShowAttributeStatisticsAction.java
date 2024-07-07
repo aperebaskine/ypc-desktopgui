@@ -12,7 +12,7 @@ import org.jfree.data.general.PieDataset;
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.AttributeStatisticsView;
-import com.pinguela.yourpc.model.AttributeStatisticsDTO;
+import com.pinguela.yourpc.model.AttributeStatistics;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.pinguela.yourpc.service.ProductStatisticsService;
 import com.pinguela.yourpc.service.impl.ProductStatisticsServiceImpl;
@@ -36,7 +36,7 @@ extends YPCAction {
 	@Override
 	protected void doAction() {
 		ProductCriteria criteria = view.getCriteria();
-		List<AttributeStatisticsDTO<?>> results = null;
+		List<AttributeStatistics<?>> results = null;
 		
 		try {
 			results = statisticsService.findByAttribute(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(),
@@ -54,15 +54,15 @@ extends YPCAction {
 	}
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	protected static PieDataset toDataset(List<AttributeStatisticsDTO<?>> results) {
+	protected static PieDataset toDataset(List<AttributeStatistics<?>> results) {
 		DefaultPieDataset dataset = new DefaultPieDataset<>();
 		
 		for (int i = 0; i < results.size(); i++) {
-			AttributeStatisticsDTO result = results.get(i);
+			AttributeStatistics result = results.get(i);
 			dataset.insertValue(i, (Comparable) result.getValue(), result.getQuantity());
 		}
 		
-		for (AttributeStatisticsDTO result : results) {
+		for (AttributeStatistics result : results) {
 			dataset.setValue((Comparable) result.getValue(), result.getQuantity());
 		}
 		

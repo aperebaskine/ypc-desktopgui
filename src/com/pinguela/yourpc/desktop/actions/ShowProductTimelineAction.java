@@ -19,7 +19,7 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.desktop.view.ProductTimelineView;
 import com.pinguela.yourpc.model.ProductCriteria;
-import com.pinguela.yourpc.model.ProductStatisticsDTO;
+import com.pinguela.yourpc.model.ProductStatistics;
 import com.pinguela.yourpc.service.ProductStatisticsService;
 import com.pinguela.yourpc.service.impl.ProductStatisticsServiceImpl;
 
@@ -44,7 +44,7 @@ extends YPCAction {
 		ProductCriteria criteria = view.getCriteria();
 		
 		try {
-			List<ProductStatisticsDTO> results = service.findByProduct(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(), criteria.getId());
+			List<ProductStatistics> results = service.findByProduct(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(), criteria.getId());
 			
 			// TODO: Use XYDataset
 			CategoryDataset[] datasets = createDatasets(results);
@@ -72,14 +72,14 @@ extends YPCAction {
 		} 
 	}
 	
-	private CategoryDataset[] createDatasets(List<ProductStatisticsDTO> results) {
+	private CategoryDataset[] createDatasets(List<ProductStatistics> results) {
 		DefaultCategoryDataset quantityDataset = new DefaultCategoryDataset();
 		DefaultCategoryDataset priceDataset = new DefaultCategoryDataset();
 		
-		for (ProductStatisticsDTO dto : results) {
-			quantityDataset.addValue(dto.getQuantitySold(), "Quantity", dto.getStatisticsDate());
+		for (ProductStatistics dto : results) {
+			quantityDataset.addValue(dto.getQuantitySold(), "Quantity", dto.getDate());
 			
-			priceDataset.addValue(dto.getAvgSalePrice(), "Price", dto.getStatisticsDate());
+			priceDataset.addValue(dto.getAvgSalePrice(), "Price", dto.getDate());
 		}
 		
 		return new CategoryDataset[] {quantityDataset, priceDataset};

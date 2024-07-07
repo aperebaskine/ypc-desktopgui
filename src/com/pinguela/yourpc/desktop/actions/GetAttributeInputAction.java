@@ -54,17 +54,19 @@ implements AttributeValueHandlingModes {
 	protected InputPane<Attribute<?>> initializeInputPane() {
 		Map<String, Attribute<?>> attributes = new TreeMap<String, Attribute<?>>();
 		try {
-			attributes.putAll(attributeService.findByCategory(getCategoryId(), AttributeService.NO_UNASSIGNED_VALUES));
+			attributes.putAll(attributeService.findByCategory(getCategoryId(), shouldReturnUnassignedValues()));
 		} catch (YPCException e) {
 			logger.error(String.format("An error occured while fetching attributes: %s", e.getMessage()), e);
 			JOptionPane.showMessageDialog(view, "An error occured. Contact system administrador", "Error", JOptionPane.ERROR_MESSAGE);
 		} 
-		return new AttributeInputPane(attributes, forcedHandlingMode, AttributeService.NO_UNASSIGNED_VALUES);
+		return new AttributeInputPane(attributes, forcedHandlingMode, shouldReturnUnassignedValues());
 	}
 	
 	public T getView() {
 		return view;
 	}
+	
+	protected abstract boolean shouldReturnUnassignedValues();
 	
 	protected abstract Short getCategoryId();
 

@@ -15,7 +15,7 @@ import com.pinguela.yourpc.desktop.view.SearchView;
 import com.pinguela.yourpc.desktop.view.StatisticsSearchView;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.model.ProductCriteria;
-import com.pinguela.yourpc.model.ProductStatisticsDTO;
+import com.pinguela.yourpc.model.ProductStatistics;
 import com.pinguela.yourpc.service.ProductStatisticsService;
 import com.pinguela.yourpc.service.impl.ProductStatisticsServiceImpl;
 
@@ -46,7 +46,7 @@ extends SearchAction<Product> {
 	@Override
 	protected TableModel fetchData() {
 		ProductCriteria criteria = (ProductCriteria) getView().getCriteria();
-		List<ProductStatisticsDTO> results = null;
+		List<ProductStatistics> results = null;
 		
 		try {
 			results = ((StatisticsSearchView) getView()).getMode() == 0
@@ -62,7 +62,7 @@ extends SearchAction<Product> {
 		return new DefaultTableModel(toArray(results), COLUMN_NAMES);
 	}
 	
-	protected Object[][] toArray(List<ProductStatisticsDTO> results) {
+	protected Object[][] toArray(List<ProductStatistics> results) {
 		
 		if (results == null) {
 			throw new IllegalArgumentException("Results parameter cannot be null.");
@@ -72,8 +72,8 @@ extends SearchAction<Product> {
 		
 		for (int i = 0; i < array.length; i++) {
 			int j = 0;
-			array[i][j++] = results.get(i).getId();
-			array[i][j++] = results.get(i).getName();
+			array[i][j++] = results.get(i).getProductId();
+			array[i][j++] = results.get(i).getProductName();
 			array[i][j++] = results.get(i).getQuantitySold();
 			array[i][j++] = results.get(i).getQuantityReturned();
 			array[i][j++] = results.get(i).getPctReturned();

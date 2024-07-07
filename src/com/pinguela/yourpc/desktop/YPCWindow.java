@@ -33,7 +33,6 @@ import javax.swing.UIManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.pinguela.yourpc.desktop.actions.OpenAttributeStatisticsTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerOrderSearchTabAction;
 import com.pinguela.yourpc.desktop.actions.OpenCustomerSearchTabAction;
@@ -56,6 +55,8 @@ import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Employee;
 
 public class YPCWindow {
+
+	private static final String DARK_LAF_CLASS_NAME = "com.formdev.flatlaf.FlatDarkLaf";
 
 	public static final String AUTHENTICATED_USER_PROPERTY = "authenticatedUser";
 
@@ -401,7 +402,7 @@ public class YPCWindow {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				UIManager.setLookAndFeel(new FlatDarkLaf());
+				UIManager.setLookAndFeel(DARK_LAF_CLASS_NAME);
 				YPCWindow.getInstance();
 			} catch (Exception e) {
 				logger.fatal(e.getMessage(), e);

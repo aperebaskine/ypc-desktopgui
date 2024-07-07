@@ -31,6 +31,11 @@
     </plugins>
   </build>
   <dependencies>
+	<dependency>
+		<groupId>YourPC-Middleware</groupId>
+		<artifactId>YourPC-Middleware</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
 	<!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
 	<dependency>
 	    <groupId>com.formdev</groupId>
@@ -55,12 +60,6 @@
 	    <groupId>org.swinglabs.swingx</groupId>
 	    <artifactId>swingx-all</artifactId>
 	    <version>1.6.5-1</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>YourPC-Middleware</groupId>
-		<artifactId>YourPC-Middleware</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
   </dependencies>
 </project>

@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.ProductTableConstants;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.Product;
 import com.pinguela.yourpc.util.CategoryUtils;
 
@@ -33,7 +33,7 @@ implements ProductTableConstants {
 			columnValue = CategoryUtils.CATEGORIES.get(p.getCategoryId()).getName();
 			break;
 		case LAUNCH_DATE_COLUMN_INDEX:
-			columnValue = SwingUtils.formatDate(p.getLaunchDate());
+			columnValue = FormattingUtils.formatDate(p.getLaunchDate());
 			break;
 		case STOCK_COLUMN_INDEX:
 			columnValue = p.getStock();

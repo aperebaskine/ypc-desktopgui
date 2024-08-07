@@ -13,7 +13,7 @@ import com.pinguela.DataException;
 import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.view.EntityView;
 import com.pinguela.yourpc.desktop.view.SearchView;
 
@@ -47,7 +47,7 @@ extends YPCAction {
 					deleteFromDatabase(delegate.getItem());
 				} catch (Exception e) {
 					logger.error(e.getMessage(), e);
-					SwingUtils.showDatabaseAccessErrorDialog(delegate.getSource());
+					DialogUtils.showDatabaseAccessErrorDialog(delegate.getSource());
 				}
 			}
 			delegate.onConfirm();

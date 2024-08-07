@@ -10,7 +10,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 import com.pinguela.YPCException;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.view.AttributeStatisticsView;
 import com.pinguela.yourpc.model.AttributeStatistics;
 import com.pinguela.yourpc.model.ProductCriteria;
@@ -43,7 +43,7 @@ extends YPCAction {
 					criteria.getCategoryId(), criteria.getAttributes().keySet().iterator().next());
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(view);
+			DialogUtils.showDatabaseAccessErrorDialog(view);
 		}
 		
 		PieDataset<?> dataset = toDataset(results);

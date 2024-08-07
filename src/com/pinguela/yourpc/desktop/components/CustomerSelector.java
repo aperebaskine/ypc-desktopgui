@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.components;
 
 import com.pinguela.yourpc.desktop.actions.OpenEntityViewDialogAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.desktop.view.CustomerView;
 import com.pinguela.yourpc.model.Customer;
 
@@ -18,6 +18,6 @@ extends EntitySelector<Customer> {
 	@Override
 	protected String getLabelText() {
 		Customer c = getEntity();
-		return String.format("%s - %s", c.getId(), SwingUtils.formatFullName(c));
+		return String.format("%s - %s", c.getId(), FormattingUtils.formatFullName(c));
 	}
 }

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.TicketMessage;
 
 @SuppressWarnings("serial")
@@ -47,7 +47,7 @@ extends JPanel {
 			sender.append(" (YourPC Customer Support)");
 		}
 		
-		return String.format("%s - %s", sender, SwingUtils.formatDateTime(message.getTimestamp()));
+		return String.format("%s - %s", sender, FormattingUtils.formatDateTime(message.getTimestamp()));
 	}
 
 }

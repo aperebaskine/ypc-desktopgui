@@ -19,7 +19,7 @@ import com.pinguela.yourpc.desktop.components.ActionPaneTableCell;
 @SuppressWarnings("serial")
 public class ActionPaneCellEditor 
 extends AbstractCellEditor 
-implements TableCellEditor, YPCEditor {
+implements TableCellEditor {
 
 	private ActionPaneTableCell cell;
 	private Object value;

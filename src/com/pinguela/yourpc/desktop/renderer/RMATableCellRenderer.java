@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.constants.RMATableConstants;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.RMA;
 
 @SuppressWarnings("serial")
@@ -32,7 +32,7 @@ implements RMATableConstants {
 			columnValue = DBConstants.RMA_STATES.get(rma.getState()).getName();
 			break;
 		case CREATION_DATE_COLUMN_INDEX:
-			columnValue = SwingUtils.formatDate(rma.getCreationDate());
+			columnValue = FormattingUtils.formatDate(rma.getCreationDate());
 			break;
 		case TRACKING_NUMBER_COLUMN_INDEX:
 			columnValue = rma.getTrackingNumber();

@@ -9,8 +9,7 @@ import javax.swing.SpinnerNumberModel;
 
 @SuppressWarnings("serial")
 public class ClampingSpinnerNumberEditor 
-extends JSpinner.NumberEditor 
-implements YPCEditor {
+extends JSpinner.NumberEditor {
 
 	private Comparable<Object> minValue = null;
 	private Comparable<Object> maxValue = null;

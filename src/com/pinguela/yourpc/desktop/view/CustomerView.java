@@ -26,7 +26,7 @@ import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
 import com.pinguela.yourpc.desktop.renderer.CustomerAddressTableCellRenderer;
 import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.DocumentType;
@@ -344,7 +344,7 @@ extends AbstractEntityView<Customer> {
 					customerOrderService.findByCustomer(getCurrentEntity().getId())));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		}
 	}
 

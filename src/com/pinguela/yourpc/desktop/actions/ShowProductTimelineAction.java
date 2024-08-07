@@ -16,7 +16,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.view.ProductTimelineView;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.pinguela.yourpc.model.ProductStatistics;
@@ -68,7 +68,7 @@ extends YPCAction {
 			view.showChart(chart);
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(view);
+			DialogUtils.showDatabaseAccessErrorDialog(view);
 		} 
 	}
 	

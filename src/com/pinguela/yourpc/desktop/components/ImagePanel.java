@@ -51,7 +51,7 @@ implements YPCComponent {
 	}
 
 	private BufferedImage resize(BufferedImage input) {
-		return SwingUtils.resize(image, this);
+		return SwingUtils.resizeImage(image, this);
 	}
 
 	private boolean shouldResizeImage() {

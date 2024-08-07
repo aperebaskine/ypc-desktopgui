@@ -51,6 +51,7 @@ import com.pinguela.yourpc.desktop.components.CloseableTabComponent;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.LoginDialog;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Employee;
 
@@ -374,7 +375,7 @@ public class YPCWindow {
 	private void onSuccessfulAuthentication() {
 		initializeFrame();
 		setPermissions();
-		userMenuButton.setText(authenticatedUser.getFullName());
+		userMenuButton.setText(FormattingUtils.formatFullName(authenticatedUser));
 		SwingUtils.centerOnScreen(frame);
 		frame.setVisible(true);
 		logger.info(String.format("Logged in as user %s.", authenticatedUser.getUsername()));

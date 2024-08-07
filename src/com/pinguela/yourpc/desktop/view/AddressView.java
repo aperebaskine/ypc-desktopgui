@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.model.AbstractTerritory;
 import com.pinguela.yourpc.model.Address;
 import com.pinguela.yourpc.model.City;
@@ -87,7 +87,7 @@ extends AbstractEntityView<Address> {
 			provinceComboBox.setEnabled(isEditable());
 		} catch (YPCException e1) {
 			logger.error(e1.getMessage(), e1);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		}
 	};
 
@@ -108,7 +108,7 @@ extends AbstractEntityView<Address> {
 			cityComboBox.setEnabled(isEditable());
 		} catch (YPCException e1) {
 			logger.error(e1.getMessage(), e1);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		}
 	};
 

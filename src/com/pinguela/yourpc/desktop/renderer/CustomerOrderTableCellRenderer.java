@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.CustomerOrderTableConstants;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.CustomerOrder;
 
 @SuppressWarnings("serial")
@@ -32,7 +32,7 @@ implements CustomerOrderTableConstants {
                 columnValue = order.getCustomerId();
                 break;
             case DATE_COLUMN_INDEX:
-                columnValue = SwingUtils.formatDateTime(order.getOrderDate());
+                columnValue = FormattingUtils.formatDateTime(order.getOrderDate());
                 break;
             case AMOUNT_COLUMN_INDEX:
                 columnValue = order.getTotalPrice();

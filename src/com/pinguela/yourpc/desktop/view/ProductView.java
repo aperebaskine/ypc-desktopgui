@@ -42,7 +42,7 @@ import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.AttributeValueHandlingModes;
@@ -407,7 +407,7 @@ extends AbstractEntityView<Product> {
 			addImages(imageFileService.getFiles("product", getCurrentEntity().getId()));
 		} catch (ServiceException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		}
 	}
 	

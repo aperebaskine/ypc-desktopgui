@@ -10,7 +10,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.CustomerAddressTableConstants;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.Address;
 
 @SuppressWarnings("serial")
@@ -40,7 +40,7 @@ implements CustomerAddressTableConstants {
 			columnValue = a.getId();
 			break;
 		case CREATION_DATE_COLUMN_INDEX:
-			columnValue = SwingUtils.formatDateTime(a.getCreationDate());
+			columnValue = FormattingUtils.formatDateTime(a.getCreationDate());
 			break;
 		case IS_DEFAULT_COLUMN_INDEX:
 			checkBox.setSelected(a.isDefault());

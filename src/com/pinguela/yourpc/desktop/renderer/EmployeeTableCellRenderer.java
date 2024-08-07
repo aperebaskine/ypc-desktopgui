@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.EmployeeTableConstants;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.Employee;
 
 @SuppressWarnings("serial")
@@ -31,7 +31,7 @@ implements EmployeeTableConstants {
 			columnValue = employee.getFirstName();
 			break;
 		case LAST_NAMES_COLUMN_INDEX:
-			columnValue = SwingUtils.formatLastNames(employee);
+			columnValue = FormattingUtils.formatLastNames(employee);
 			break;
 		case DOCUMENT_NUMBER_COLUMN_INDEX:
 			columnValue = employee.getDocumentNumber();

@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.view.SearchView;
 import com.pinguela.yourpc.desktop.view.StatisticsSearchView;
 import com.pinguela.yourpc.model.Product;
@@ -56,7 +56,7 @@ extends SearchAction<Product> {
 							criteria.getCategoryId());
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog((Component) getView());
+			DialogUtils.showDatabaseAccessErrorDialog((Component) getView());
 		}
 		
 		return new DefaultTableModel(toArray(results), COLUMN_NAMES);

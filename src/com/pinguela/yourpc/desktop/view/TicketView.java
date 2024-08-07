@@ -25,7 +25,8 @@ import com.pinguela.yourpc.desktop.components.CustomerSelector;
 import com.pinguela.yourpc.desktop.components.TicketMessagePanel;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
@@ -293,12 +294,12 @@ extends AbstractEntityView<Ticket> {
 		Ticket ticket = getCurrentEntity();
 		
 		idValueLabel.setText(ticket.getId() != null ? ticket.getId().toString() : "");
-		creationDateValueLabel.setText(ticket.getCreationDate() != null ? SwingUtils.formatDateTime(ticket.getCreationDate()): "");
+		creationDateValueLabel.setText(ticket.getCreationDate() != null ? FormattingUtils.formatDateTime(ticket.getCreationDate()): "");
 		try {
 			customerSelectionPanel.setEntity(customerService.findById(ticket.getCustomerId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		} 
 		titleTextField.setText(ticket.getTitle());
 		descriptionTextArea.setText(ticket.getDescription());

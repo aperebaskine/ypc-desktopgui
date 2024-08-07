@@ -17,7 +17,7 @@ import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.components.CustomerSelector;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.service.CustomerService;
@@ -211,7 +211,7 @@ extends AbstractEntityView<RMA> {
 			customerSelectionPanel.setEntity(customerService.findById(rma.getCustomerId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		}
 		trackingNumberTextField.setText(rma.getTrackingNumber());
 		stateComboBox.setSelectedItem(DBConstants.RMA_STATES.get(rma.getState()));

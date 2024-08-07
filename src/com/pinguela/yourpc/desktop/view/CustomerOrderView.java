@@ -19,7 +19,7 @@ import com.pinguela.yourpc.desktop.components.CustomerAddressSelector;
 import com.pinguela.yourpc.desktop.components.CustomerSelector;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.model.Address;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.CustomerOrder;
@@ -256,7 +256,7 @@ extends AbstractEntityView<CustomerOrder> {
 			shippingAddressSelector.setEntity(addressService.findById(order.getShippingAddressId()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			SwingUtils.showDatabaseAccessErrorDialog(this);
+			DialogUtils.showDatabaseAccessErrorDialog(this);
 		} 
 	}
 

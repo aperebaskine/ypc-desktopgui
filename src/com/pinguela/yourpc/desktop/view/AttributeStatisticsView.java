@@ -20,8 +20,8 @@ import org.jfree.chart.JFreeChart;
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.actions.ShowAttributeStatisticsAction;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
+import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.ReflectionUtils;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.ProductCriteria;
@@ -63,7 +63,7 @@ extends YPCView {
 						Attribute.class));
 			} catch (YPCException e) {
 				logger.error(e.getMessage(), e);
-				SwingUtils.showDatabaseAccessErrorDialog(this);
+				DialogUtils.showDatabaseAccessErrorDialog(this);
 			} 
 			attributeComboBox.setEnabled(true);
 		}

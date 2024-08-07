@@ -224,7 +224,7 @@ implements YPCComponent {
 
 		private ThumbnailPanel(ImageEntry imageEntry) {
 
-			BufferedImage resizedImage = SwingUtils.resize(imageEntry.getImage(), galleryPanel);
+			BufferedImage resizedImage = SwingUtils.resizeImage(imageEntry.getImage(), galleryPanel);
 
 			if (resizedImage == null) {
 				throw new IllegalStateException("Cannot retrieve image.");

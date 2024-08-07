@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.constants.TicketTableConstants;
-import com.pinguela.yourpc.desktop.util.SwingUtils;
+import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketMessage;
 
@@ -37,11 +37,11 @@ implements TicketTableConstants {
                 columnValue = ticket.getCustomerId();
                 break;
             case CREATION_DATE_COLUMN_INDEX:
-                columnValue = SwingUtils.formatDateTime(ticket.getCreationDate());
+                columnValue = FormattingUtils.formatDateTime(ticket.getCreationDate());
                 break;
             case LAST_UPDATE_DATE_COLUMN_INDEX:
             	List<TicketMessage> messages = ticket.getMessageList();
-                columnValue = SwingUtils.formatDateTime(messages.get(messages.size()-1).getTimestamp());
+                columnValue = FormattingUtils.formatDateTime(messages.get(messages.size()-1).getTimestamp());
                 break;
         }
         

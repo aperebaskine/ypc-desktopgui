@@ -78,7 +78,7 @@ public class SwingUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<?> targetClass) {
+	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<? super T> targetClass) {
 		T[] items = (T[]) Array.newInstance(targetClass, content.size()+1);
 		items[0] = (T) NullObject.getInstance(targetClass); // Add blank object as the first value
 	

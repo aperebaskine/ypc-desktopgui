@@ -5,7 +5,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -13,12 +12,9 @@ import java.util.LinkedHashSet;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.pinguela.yourpc.model.NullObject;
 
 public class ReflectionUtils {
-
-	private static Logger logger = LogManager.getLogger(ReflectionUtils.class);
 
 	private static Collection<String> appendPackageName(String packageName, Collection<String> simpleClassNames) {
 		Collection<String> fullyQualifiedNames = new LinkedHashSet<String>();
@@ -140,49 +136,9 @@ public class ReflectionUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T createNullObjectInstanceIfExists(Class<?> targetClass, Object... constructorParameters) {
-		String packageName = targetClass.getPackage().getName();
-		String className = targetClass.getSimpleName();
-
-		String fullyQualifiedNullSubclassName = 
-				String.format("%s.Null%s", packageName, className);
-
-		T nullObjectInstance = null;
-
-		try {
-			nullObjectInstance = (T) Class.forName(fullyQualifiedNullSubclassName)
-					.getDeclaredConstructor(loadObjectClasses(constructorParameters))
-					.newInstance(constructorParameters);
-		} catch (Exception e) {
-			// No action required
-		}
-
-		return nullObjectInstance;
-	}
-
-	public static <T> T createNullObjectOrDefaultInstance(Class<T> targetClass, Object... constructorParameters) {
-		T object = createNullObjectInstanceIfExists(targetClass, constructorParameters);
-
-		if (object == null) {
-			try {
-				object = (T) targetClass
-						.getDeclaredConstructor(loadObjectClasses(constructorParameters))
-						.newInstance(constructorParameters);
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-				throw new IllegalStateException(String.format(
-						"Cannot create instance from class %s and arguments %s.",
-						targetClass.getName(), Arrays.asList(constructorParameters)));
-			} 
-		}
-
-		return object;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<?> targetClass, Object... constructorParameters) {
+	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<?> targetClass) {
 		T[] items = (T[]) Array.newInstance(targetClass, content.size()+1);
-		items[0] = (T) createNullObjectOrDefaultInstance(targetClass, constructorParameters); // Add blank object as the first value
+		items[0] = (T) NullObject.getInstance(targetClass); // Add blank object as the first value
 	
 		Iterator<T> iterator = content.iterator();
 		for (int i = 1; i < items.length; i++) {

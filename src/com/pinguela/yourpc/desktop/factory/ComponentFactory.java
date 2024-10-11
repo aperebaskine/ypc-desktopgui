@@ -45,7 +45,7 @@ public class ComponentFactory {
 	 * @return The resulting combo box instance
 	 */
 	@SuppressWarnings("unchecked") 
-	public static <T> JComboBox<T> createComboBox(Collection<T> content, Class<?> targetClass, Object... constructorParameters) {
+	public static <T> JComboBox<T> createComboBox(Collection<T> content, Class<?> targetClass) {
 		JComboBox<T> comboBox = new JComboBox<T>();
 
 		try {
@@ -59,7 +59,7 @@ public class ComponentFactory {
 			throw new IllegalStateException(String.format("Exception thrown while creating instance: %s", e.getMessage()), e);
 		}
 
-		ComboBoxModel<T> model = ReflectionUtils.createComboBoxModel(content, targetClass, constructorParameters);
+		ComboBoxModel<T> model = ReflectionUtils.createComboBoxModel(content, targetClass);
 		comboBox.setModel(model);	
 		return comboBox;
 	}

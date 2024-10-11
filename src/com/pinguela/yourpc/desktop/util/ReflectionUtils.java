@@ -1,18 +1,11 @@
 package com.pinguela.yourpc.desktop.util;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-
-import com.pinguela.yourpc.model.NullObject;
 
 public class ReflectionUtils {
 
@@ -133,19 +126,6 @@ public class ReflectionUtils {
 		}
 
 		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<?> targetClass) {
-		T[] items = (T[]) Array.newInstance(targetClass, content.size()+1);
-		items[0] = (T) NullObject.getInstance(targetClass); // Add blank object as the first value
-	
-		Iterator<T> iterator = content.iterator();
-		for (int i = 1; i < items.length; i++) {
-			items[i] = iterator.next();
-		}
-	
-		return new DefaultComboBoxModel<T>(items);
 	}
 
 }

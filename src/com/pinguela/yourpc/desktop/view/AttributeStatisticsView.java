@@ -21,7 +21,7 @@ import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.actions.ShowAttributeStatisticsAction;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
-import com.pinguela.yourpc.desktop.util.ReflectionUtils;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.ProductCriteria;
@@ -58,7 +58,7 @@ extends YPCView {
 		} else {
 			Short categoryId = ((Category) categoryComboBox.getSelectedItem()).getId();
 			try {
-				attributeComboBox.setModel(ReflectionUtils.createComboBoxModel(
+				attributeComboBox.setModel(SwingUtils.createComboBoxModel(
 						attributeService.findByCategory(categoryId, AttributeService.NO_UNASSIGNED_VALUES).values(),
 						Attribute.class));
 			} catch (YPCException e) {

@@ -7,8 +7,15 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Iterator;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
+
+import com.pinguela.yourpc.model.NullObject;
 
 public class SwingUtils {
 
@@ -68,6 +75,19 @@ public class SwingUtils {
 		int y = (screenSize.height - window.getHeight()) /2;
 
 		window.setBounds(x, y, window.getWidth(), window.getHeight());
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<?> targetClass) {
+		T[] items = (T[]) Array.newInstance(targetClass, content.size()+1);
+		items[0] = (T) NullObject.getInstance(targetClass); // Add blank object as the first value
+	
+		Iterator<T> iterator = content.iterator();
+		for (int i = 1; i < items.length; i++) {
+			items[i] = iterator.next();
+		}
+	
+		return new DefaultComboBoxModel<T>(items);
 	}
 
 }

@@ -21,6 +21,7 @@ import javax.swing.text.NumberFormatter;
 
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.util.ReflectionUtils;
+import com.pinguela.yourpc.desktop.util.SwingUtils;
 
 public class ComponentFactory {
 
@@ -59,7 +60,7 @@ public class ComponentFactory {
 			throw new IllegalStateException(String.format("Exception thrown while creating instance: %s", e.getMessage()), e);
 		}
 
-		ComboBoxModel<T> model = ReflectionUtils.createComboBoxModel(content, targetClass);
+		ComboBoxModel<T> model = SwingUtils.createComboBoxModel(content, targetClass);
 		comboBox.setModel(model);	
 		return comboBox;
 	}

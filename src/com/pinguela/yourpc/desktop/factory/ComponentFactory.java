@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -18,6 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.text.NumberFormatter;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.util.ReflectionUtils;
@@ -35,6 +37,8 @@ public class ComponentFactory {
 		}
 	};
 
+	private static Logger logger = LogManager.getLogger(ComponentFactory.class);
+
 	/**
 	 * Create a combo box containing the elements contained within the collection, with a blank instance of the object 
 	 * as the first value. Instantiate a &lt;TargetClassName&gt;ListCellRenderer from the renderer 
@@ -48,23 +52,24 @@ public class ComponentFactory {
 	@SuppressWarnings("unchecked") 
 	public static <T> JComboBox<T> createComboBox(Collection<T> content, Class<? super T> targetClass) {
 		JComboBox<T> comboBox = new JComboBox<T>();
+		ListCellRenderer<? super T> renderer = null;
 
 		try {
-			Constructor<?> rendererConstructor = Object.class.equals(targetClass)?
-					DefaultListCellRenderer.class.getConstructor() :
-						ReflectionUtils.getConstructor(Class.forName(
-								String.format("%s.%sListCellRenderer", RENDERER_PACKAGE, targetClass.getSimpleName())));
-
-			comboBox.setRenderer((ListCellRenderer<T>) rendererConstructor.newInstance());
+			renderer = (ListCellRenderer<T>) ReflectionUtils.getConstructor(Class.forName(
+							String.format("%s.%sListCellRenderer", RENDERER_PACKAGE, targetClass.getSimpleName())))
+					.newInstance();
 		} catch (Exception e) {
-			throw new IllegalStateException(String.format("Exception thrown while creating instance: %s", e.getMessage()), e);
+			logger.warn("No renderer found for class {}, using default renderer instead.", targetClass.getName());
+			renderer = new DefaultListCellRenderer();
 		}
 
 		ComboBoxModel<T> model = SwingUtils.createComboBoxModel(content, targetClass);
+		
 		comboBox.setModel(model);	
+		comboBox.setRenderer(renderer);
 		return comboBox;
 	}
-	
+
 	public static JFormattedTextField createNullableNumberTextField(Class<? extends Number> target) {
 
 		NumberFormatter formatter = new NumberFormatter(new DecimalFormat());

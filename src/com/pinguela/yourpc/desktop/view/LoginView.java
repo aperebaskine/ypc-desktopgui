@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,6 +26,8 @@ import com.pinguela.yourpc.model.Employee;
 @SuppressWarnings("serial")
 public class LoginView 
 extends YPCView {
+	
+	private static ResourceBundle rb = ResourceBundle.getBundle("messages", YPCWindow.getInstance().getUserLocale());
 
 	private Employee authenticatedUser;
 	private JTextField usernameTextField;

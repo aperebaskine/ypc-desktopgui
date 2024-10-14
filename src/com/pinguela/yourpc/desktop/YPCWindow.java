@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -82,6 +83,7 @@ public class YPCWindow {
 	private static YPCWindow instance = null; 
 
 	private Employee authenticatedUser;
+	private Locale userLocale = Locale.getDefault();
 	private final PropertyChangeListener authenticationListener = (evt) -> {
 		authenticatedUser = (Employee) evt.getNewValue();
 		((Window) SwingUtilities.getWindowAncestor((Component) evt.getSource())).dispose();
@@ -314,6 +316,14 @@ public class YPCWindow {
 
 	public Employee getAuthenticatedUser() {
 		return authenticatedUser;
+	}
+
+	public Locale getUserLocale() {
+		return userLocale;
+	}
+
+	public void setUserLocale(Locale userLocale) {
+		this.userLocale = userLocale;
 	}
 
 	public void setPermissions() {

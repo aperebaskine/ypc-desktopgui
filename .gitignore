@@ -3,3 +3,6 @@
 /resources/product/
 /logs/
 /target/
+.classpath
+.project
+.settings/

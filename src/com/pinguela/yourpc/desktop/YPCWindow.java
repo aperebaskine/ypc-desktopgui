@@ -80,7 +80,7 @@ public class YPCWindow {
 	}
 
 	// Singleton
-	private static YPCWindow instance = null; 
+	private static YPCWindow instance = new YPCWindow(); 
 
 	private Employee authenticatedUser;
 	private Locale userLocale = Locale.getDefault();
@@ -124,9 +124,6 @@ public class YPCWindow {
 	 * @return the instance
 	 */
 	public static YPCWindow getInstance() {
-		if (instance == null) {
-			instance = new YPCWindow();					
-		}
 		return instance;
 	}
 

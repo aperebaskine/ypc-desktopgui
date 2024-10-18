@@ -42,6 +42,7 @@ import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 import slider.RangeSlider;
+import com.pinguela.yourpc.desktop.util.I18n;
 
 @SuppressWarnings("serial")
 public class ProductSearchView 
@@ -98,7 +99,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbl_searchCriteriaPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		getCriteriaPanel().setLayout(gbl_searchCriteriaPanel);
 
-		JLabel productIdLabel = new JLabel("Product ID:");
+		JLabel productIdLabel = new JLabel(I18n.getString("ProductSearchView.productIdLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_productIdLabel = new GridBagConstraints();
 		gbc_productIdLabel.anchor = GridBagConstraints.EAST;
 		gbc_productIdLabel.insets = new Insets(0, 0, 5, 5);
@@ -106,7 +107,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_productIdLabel.gridy = 0;
 		getCriteriaPanel().add(productIdLabel, gbc_productIdLabel);
 
-		JLabel attributeLabel = new JLabel("Attributes:");
+		JLabel attributeLabel = new JLabel(I18n.getString("ProductSearchView.attributeLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_attributeLabel = new GridBagConstraints();
 		gbc_attributeLabel.anchor = GridBagConstraints.EAST;
 		gbc_attributeLabel.insets = new Insets(0, 0, 5, 5);
@@ -114,7 +115,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_attributeLabel.gridy = 0;
 		getCriteriaPanel().add(attributeLabel, gbc_attributeLabel);
 
-		JLabel productNameLabel = new JLabel("Product name:");
+		JLabel productNameLabel = new JLabel(I18n.getString("ProductSearchView.productNameLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_productNameLabel = new GridBagConstraints();
 		gbc_productNameLabel.anchor = GridBagConstraints.EAST;
 		gbc_productNameLabel.insets = new Insets(0, 0, 5, 5);
@@ -133,7 +134,7 @@ extends AbstractPaginatedSearchView<Product> {
 		getCriteriaPanel().add(productNameField, gbc_productNameField);
 		productNameField.setColumns(10);
 
-		JLabel categoryLabel = new JLabel("Category:");
+		JLabel categoryLabel = new JLabel(I18n.getString("ProductSearchView.categoryLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_categoryLabel = new GridBagConstraints();
 		gbc_categoryLabel.anchor = GridBagConstraints.EAST;
 		gbc_categoryLabel.insets = new Insets(0, 0, 5, 5);
@@ -141,7 +142,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_categoryLabel.gridy = 2;
 		getCriteriaPanel().add(categoryLabel, gbc_categoryLabel);
 
-		JLabel launchDateLabel = new JLabel("Launch date:");
+		JLabel launchDateLabel = new JLabel(I18n.getString("ProductSearchView.launchDateLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_launchDateLabel = new GridBagConstraints();
 		gbc_launchDateLabel.anchor = GridBagConstraints.EAST;
 		gbc_launchDateLabel.insets = new Insets(0, 0, 5, 5);
@@ -149,7 +150,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_launchDateLabel.gridy = 3;
 		getCriteriaPanel().add(launchDateLabel, gbc_launchDateLabel);
 
-		JLabel launchDateFromLabel = new JLabel("from");
+		JLabel launchDateFromLabel = new JLabel(I18n.getString("ProductSearchView.launchDateFromLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_launchDateFromLabel = new GridBagConstraints();
 		gbc_launchDateFromLabel.anchor = GridBagConstraints.EAST;
 		gbc_launchDateFromLabel.insets = new Insets(0, 0, 5, 5);
@@ -169,7 +170,7 @@ extends AbstractPaginatedSearchView<Product> {
 		minLaunchDateChooser = ComponentFactory.getDateChooser();
 		launchDateFromPanel.add(minLaunchDateChooser);
 
-		JLabel launchDateToLabel = new JLabel("to");
+		JLabel launchDateToLabel = new JLabel(I18n.getString("ProductSearchView.launchDateToLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_launchDateToLabel = new GridBagConstraints();
 		gbc_launchDateToLabel.anchor = GridBagConstraints.EAST;
 		gbc_launchDateToLabel.insets = new Insets(0, 0, 5, 5);
@@ -189,7 +190,7 @@ extends AbstractPaginatedSearchView<Product> {
 		maxLaunchDateChooser = ComponentFactory.getDateChooser();
 		launchDateToPanel.add(maxLaunchDateChooser);
 
-		JLabel priceLabel = new JLabel("Price:");
+		JLabel priceLabel = new JLabel(I18n.getString("ProductSearchView.priceLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_priceLabel = new GridBagConstraints();
 		gbc_priceLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_priceLabel.anchor = GridBagConstraints.EAST;
@@ -223,7 +224,7 @@ extends AbstractPaginatedSearchView<Product> {
 		maxPriceLabel.setPreferredSize(new Dimension(28, 14));
 		priceRangeSliderPanel.add(maxPriceLabel);
 
-		JLabel stockLabel = new JLabel("Stock:");
+		JLabel stockLabel = new JLabel(I18n.getString("ProductSearchView.stockLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_stockLabel = new GridBagConstraints();
 		gbc_stockLabel.anchor = GridBagConstraints.EAST;
 		gbc_stockLabel.insets = new Insets(0, 0, 0, 5);
@@ -231,7 +232,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockLabel.gridy = 5;
 		getCriteriaPanel().add(stockLabel, gbc_stockLabel);
 
-		JLabel stockFromLabel = new JLabel("from");
+		JLabel stockFromLabel = new JLabel(I18n.getString("ProductSearchView.stockFromLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_stockFromLabel = new GridBagConstraints();
 		gbc_stockFromLabel.anchor = GridBagConstraints.EAST;
 		gbc_stockFromLabel.insets = new Insets(0, 0, 0, 5);
@@ -248,7 +249,7 @@ extends AbstractPaginatedSearchView<Product> {
 		gbc_stockFromField.gridy = 5;
 		getCriteriaPanel().add(stockMinField, gbc_stockFromField);
 
-		JLabel stockToLabel = new JLabel("to");
+		JLabel stockToLabel = new JLabel(I18n.getString("ProductSearchView.stockToLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_stockToLabel = new GridBagConstraints();
 		gbc_stockToLabel.anchor = GridBagConstraints.EAST;
 		gbc_stockToLabel.insets = new Insets(0, 0, 0, 5);

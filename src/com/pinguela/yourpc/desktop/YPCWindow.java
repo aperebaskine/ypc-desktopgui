@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -53,6 +56,7 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.LoginDialog;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.util.FormattingUtils;
+import com.pinguela.yourpc.desktop.util.I18n;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
 import com.pinguela.yourpc.model.Employee;
 
@@ -63,10 +67,10 @@ public class YPCWindow {
 	public static final String AUTHENTICATED_USER_PROPERTY = "authenticatedUser";
 
 	private static Logger logger = LogManager.getLogger();
-	
+
 	// TODO: Rewrite implementation
 	private static final Map<String, List<String>> PERMISSION_MAP;
-	
+
 	static {
 		Map<String, List<String>> permissionMap = new HashMap<String, List<String>>();
 		permissionMap.put("product", Arrays.asList("EXC", "FIN", "MKT", "OPS", "SAL", "SUP"));
@@ -80,10 +84,10 @@ public class YPCWindow {
 	}
 
 	// Singleton
-	private static YPCWindow instance = new YPCWindow(); 
+	private static YPCWindow instance; 
 
 	private Employee authenticatedUser;
-	private Locale userLocale = Locale.getDefault();
+
 	private final PropertyChangeListener authenticationListener = (evt) -> {
 		authenticatedUser = (Employee) evt.getNewValue();
 		((Window) SwingUtilities.getWindowAncestor((Component) evt.getSource())).dispose();
@@ -124,6 +128,9 @@ public class YPCWindow {
 	 * @return the instance
 	 */
 	public static YPCWindow getInstance() {
+		if (instance == null) {
+			instance = new YPCWindow();
+		}
 		return instance;
 	}
 
@@ -159,70 +166,70 @@ public class YPCWindow {
 
 		productMenu = new JMenu("Products");
 		menuBar.add(productMenu);
-		
+
 		JMenuItem createProductMenuItem = new JMenuItem(new OpenProductViewDialogAction());
 		productMenu.add(createProductMenuItem);
 
 		JMenuItem productSearchMenuItem = new JMenuItem("Search...");
 		productMenu.add(productSearchMenuItem);
-		
+
 		customerMenu = new JMenu("Customers");
 		menuBar.add(customerMenu);
-		
+
 		JMenuItem createCustomerMenuItem = new JMenuItem(new OpenCustomerViewDialogAction());
 		customerMenu.add(createCustomerMenuItem);
-		
+
 		JMenuItem customerSearchMenuItem = new JMenuItem("Search...");
 		customerMenu.add(customerSearchMenuItem);
-		
+
 		employeeMenu = new JMenu("Employees");
 		menuBar.add(employeeMenu);
-		
+
 		JMenuItem createEmployeeMenuItem = new JMenuItem(new OpenEmployeeViewDialogAction());
 		employeeMenu.add(createEmployeeMenuItem);
-		
+
 		JMenuItem employeeSearchMenuItem = new JMenuItem("Search...");
 		employeeMenu.add(employeeSearchMenuItem);
-		
+
 		customerOrderMenu = new JMenu("Orders");
 		menuBar.add(customerOrderMenu);
-		
+
 		JMenuItem orderSearchMenuItem = new JMenuItem("Search...");
 		customerOrderMenu.add(orderSearchMenuItem);
-		
+
 		ticketMenu = new JMenu("Tickets");
 		menuBar.add(ticketMenu);
-		
+
 		JMenuItem createTicketMenuItem = new JMenuItem(new OpenTicketViewDialogAction());
 		ticketMenu.add(createTicketMenuItem);
-		
+
 		JMenuItem ticketSearchMenuItem = new JMenuItem("Search...");
 		ticketMenu.add(ticketSearchMenuItem);
-		
+
 		rmaMenu = new JMenu("RMAs");
 		menuBar.add(rmaMenu);
-		
+
 		JMenuItem rmaSearchMenuItem = new JMenuItem("Search...");
 		rmaMenu.add(rmaSearchMenuItem);
-		
+
 		statisticsMenu = new JMenu("Statistics");
 		menuBar.add(statisticsMenu);
-		
+
 		JMenuItem statisticsMenuItem = new JMenuItem("Statistics");
 		statisticsMenu.add(statisticsMenuItem);
-		
+
 		JMenuItem productStatisticsMenuItem = new JMenuItem("Product statistics");
 		statisticsMenu.add(productStatisticsMenuItem);
-		
+
 		JMenuItem attributeStatisticsMenuItem = new JMenuItem("Attribute statistics");
 		statisticsMenu.add(attributeStatisticsMenuItem);
 
 		JPanel panel = new JPanel();
 		northPanel.add(panel, BorderLayout.SOUTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0};
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
@@ -236,28 +243,46 @@ public class YPCWindow {
 
 		productTabButton = new JButton(Icons.PRODUCT_ICON);
 		toolBar.add(productTabButton);
-		
+
 		customerTabButton = new JButton(Icons.USER_ICON);
 		toolBar.add(customerTabButton);
-		
+
 		employeeTabButton = new JButton(Icons.USER_ICON);
 		toolBar.add(employeeTabButton);
-		
+
 		customerOrderTabButton = new JButton(Icons.DOCUMENT_ICON);
 		toolBar.add(customerOrderTabButton);
-		
+
 		ticketTabButton = new JButton(Icons.TICKET_ICON);
 		toolBar.add(ticketTabButton);
-		
+
 		rmaTabButton = new JButton(Icons.RMA_ICON);
 		toolBar.add(rmaTabButton);
-		
+
 		statisticsTabButton = new JButton(Icons.CHART_ICON);
 		toolBar.add(statisticsTabButton);
 
+		JToolBar toolBar_1 = new JToolBar();
+		GridBagConstraints gbc_toolBar_1 = new GridBagConstraints();
+		gbc_toolBar_1.insets = new Insets(0, 0, 0, 5);
+		gbc_toolBar_1.gridx = 1;
+		gbc_toolBar_1.gridy = 0;
+		panel.add(toolBar_1, gbc_toolBar_1);
+
+		JComboBox<String> comboBox = new JComboBox<>(new String[]{"en_US", "es_ES"});
+		comboBox.setSelectedItem(Locale.getDefault().getLanguage() +"_" +Locale.getDefault().getCountry());
+		toolBar_1.add(comboBox);
+		comboBox.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				I18n.switchLocale((String) e.getItem());
+			}
+		});		
+
 		JToolBar userMenuToolBar = new JToolBar();
 		GridBagConstraints gbc_userMenuToolBar = new GridBagConstraints();
-		gbc_userMenuToolBar.gridx = 1;
+		gbc_userMenuToolBar.gridx = 2;
 		gbc_userMenuToolBar.gridy = 0;
 		panel.add(userMenuToolBar, gbc_userMenuToolBar);
 
@@ -283,7 +308,7 @@ public class YPCWindow {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		mainPanel.add(tabbedPane, BorderLayout.CENTER);
-		
+
 		ActionListener productSearchActionListener = new OpenProductSearchTabAction();
 		ActionListener customerSearchActionListener = new OpenCustomerSearchTabAction();
 		ActionListener employeeSearchActionListener = new OpenEmployeeSearchTabAction();
@@ -315,56 +340,48 @@ public class YPCWindow {
 		return authenticatedUser;
 	}
 
-	public Locale getUserLocale() {
-		return userLocale;
-	}
-
-	public void setUserLocale(Locale userLocale) {
-		this.userLocale = userLocale;
-	}
-
 	public void setPermissions() {
 		String department = authenticatedUser.getDepartmentHistory().get(0).getDepartmentId();
 
-	    for (Map.Entry<String, List<String>> entry : PERMISSION_MAP.entrySet()) {
-	        String entity = entry.getKey();
-	        List<String> allowedDepartments = entry.getValue();
+		for (Map.Entry<String, List<String>> entry : PERMISSION_MAP.entrySet()) {
+			String entity = entry.getKey();
+			List<String> allowedDepartments = entry.getValue();
 
-	        boolean hasPermission = allowedDepartments.contains(department);
+			boolean hasPermission = allowedDepartments.contains(department);
 
-	        switch (entity) {
-	            case "product":
-	                productMenu.setVisible(hasPermission);
-	                productTabButton.setVisible(hasPermission);
-	                break;
-	            case "customer":
-	                customerMenu.setVisible(hasPermission);
-	                customerTabButton.setVisible(hasPermission);
-	                break;
-	            case "employee":
-	                employeeMenu.setVisible(hasPermission);
-	                employeeTabButton.setVisible(hasPermission);
-	                break;
-	            case "customerOrder":
-	                customerOrderMenu.setVisible(hasPermission);
-	                customerOrderTabButton.setVisible(hasPermission);
-	                break;
-	            case "ticket":
-	                ticketMenu.setVisible(hasPermission);
-	                ticketTabButton.setVisible(hasPermission);
-	                break;
-	            case "rma":
-	                rmaMenu.setVisible(hasPermission);
-	                rmaTabButton.setVisible(hasPermission);
-	                break;
-	            case "statistics":
-	            	statisticsMenu.setVisible(hasPermission);
-	            	statisticsTabButton.setVisible(hasPermission);
-	            	break;
-	            default:
-	                throw new IllegalArgumentException("Unrecognized role.");
-	        }
-	    }
+			switch (entity) {
+			case "product":
+				productMenu.setVisible(hasPermission);
+				productTabButton.setVisible(hasPermission);
+				break;
+			case "customer":
+				customerMenu.setVisible(hasPermission);
+				customerTabButton.setVisible(hasPermission);
+				break;
+			case "employee":
+				employeeMenu.setVisible(hasPermission);
+				employeeTabButton.setVisible(hasPermission);
+				break;
+			case "customerOrder":
+				customerOrderMenu.setVisible(hasPermission);
+				customerOrderTabButton.setVisible(hasPermission);
+				break;
+			case "ticket":
+				ticketMenu.setVisible(hasPermission);
+				ticketTabButton.setVisible(hasPermission);
+				break;
+			case "rma":
+				rmaMenu.setVisible(hasPermission);
+				rmaTabButton.setVisible(hasPermission);
+				break;
+			case "statistics":
+				statisticsMenu.setVisible(hasPermission);
+				statisticsTabButton.setVisible(hasPermission);
+				break;
+			default:
+				throw new IllegalArgumentException("Unrecognized role.");
+			}
+		}
 	}
 
 	public void addCloseableTab(final String title, final Component panel) {

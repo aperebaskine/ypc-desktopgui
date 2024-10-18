@@ -21,14 +21,12 @@ import com.pinguela.yourpc.desktop.actions.LoginAction;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ActionPane;
 import com.pinguela.yourpc.model.Employee;
-import java.util.ResourceBundle;
+import com.pinguela.yourpc.desktop.util.I18n;
 
 @SuppressWarnings("serial")
 public class LoginView 
 extends YPCView {
-	
-	private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("i18n.Messages"); //$NON-NLS-1$
-
+		
 	private Employee authenticatedUser;
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;
@@ -61,7 +59,7 @@ extends YPCView {
 		gbc_verticalStrut.gridy = 0;
 		inputPanel.add(verticalStrut, gbc_verticalStrut);
 
-		JLabel usernameLabel = new JLabel("Username:");
+		JLabel usernameLabel = new JLabel(I18n.getString("LoginView.usernameLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
 		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_usernameLabel.gridx = 1;
@@ -77,7 +75,7 @@ extends YPCView {
 		inputPanel.add(usernameTextField, gbc_usernameTextField);
 		usernameTextField.setColumns(10);
 
-		JLabel passwordLabel = new JLabel("Password:");
+		JLabel passwordLabel = new JLabel(I18n.getString("LoginView.passwordLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
 		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordLabel.gridx = 1;

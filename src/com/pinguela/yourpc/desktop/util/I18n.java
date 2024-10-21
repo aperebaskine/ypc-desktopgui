@@ -22,7 +22,7 @@ public final class I18n {
 			ResourceBundle bundle = Beans.isDesignTime() ? loadBundle() : RESOURCE_BUNDLE;
 			return bundle.getString(key);
 		} catch (MissingResourceException e) {
-			return "!" + key + "!";
+			return String.format("!%s!", key);
 		}
 	}
 	
@@ -43,6 +43,7 @@ public final class I18n {
 		}
 		Locale.setDefault(locale);
 		RESOURCE_BUNDLE = loadBundle();
+		
 		return true;
 	}
 	

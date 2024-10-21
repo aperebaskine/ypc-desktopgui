@@ -59,7 +59,7 @@ extends YPCView {
 		gbc_verticalStrut.gridy = 0;
 		inputPanel.add(verticalStrut, gbc_verticalStrut);
 
-		JLabel usernameLabel = new JLabel(I18n.getString("LoginView.usernameLabel.text")); //$NON-NLS-1$
+		JLabel usernameLabel = new JLabel(I18n.getString("usernameLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
 		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_usernameLabel.gridx = 1;
@@ -75,7 +75,7 @@ extends YPCView {
 		inputPanel.add(usernameTextField, gbc_usernameTextField);
 		usernameTextField.setColumns(10);
 
-		JLabel passwordLabel = new JLabel(I18n.getString("LoginView.passwordLabel.text")); //$NON-NLS-1$
+		JLabel passwordLabel = new JLabel(I18n.getString("passwordLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
 		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordLabel.gridx = 1;

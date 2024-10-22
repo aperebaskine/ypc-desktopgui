@@ -16,9 +16,9 @@ import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.RMATableCellRenderer;
-import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.model.RMACriteria;
+import com.pinguela.yourpc.model.RMAState;
 
 @SuppressWarnings("serial")
 public class RMASearchView 
@@ -29,7 +29,7 @@ extends AbstractSearchView<RMA> {
 	private JTextField customerEmailTextField;
 	private ExtendedDateChooser dateFromChooser;
 	private ExtendedDateChooser dateToChooser;
-	private JComboBox<ItemState<RMA>> stateComboBox;
+	private JComboBox<RMAState> stateComboBox;
 	private JTextField ticketIdTextField;
 	private JTextField orderIdTextField;
 
@@ -183,7 +183,7 @@ extends AbstractSearchView<RMA> {
 		gbc_stateLabel.gridx = 3;
 		gbc_stateLabel.gridy = 2;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
-		stateComboBox = ComponentFactory.createComboBox(DBConstants.RMA_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.RMA_STATES.values(), RMAState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -198,7 +198,6 @@ extends AbstractSearchView<RMA> {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public RMACriteria getCriteria() {
 		RMACriteria criteria = new RMACriteria();
 
@@ -230,7 +229,7 @@ extends AbstractSearchView<RMA> {
 			criteria.setOrderId(Long.valueOf(orderIdTextField.getText()));
 		}
 
-		criteria.setState(((ItemState<RMA>) stateComboBox.getSelectedItem()).getId());
+		criteria.setState(((RMAState) stateComboBox.getSelectedItem()).getId());
 
 		return criteria;
 	}

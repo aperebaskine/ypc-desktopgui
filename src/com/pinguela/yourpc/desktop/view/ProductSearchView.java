@@ -32,6 +32,7 @@ import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
 import com.pinguela.yourpc.desktop.renderer.ProductTableCellRenderer;
+import com.pinguela.yourpc.desktop.util.I18n;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.Category;
@@ -42,7 +43,6 @@ import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 import slider.RangeSlider;
-import com.pinguela.yourpc.desktop.util.I18n;
 
 @SuppressWarnings("serial")
 public class ProductSearchView 

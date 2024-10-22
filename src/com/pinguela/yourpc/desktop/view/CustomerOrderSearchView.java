@@ -24,7 +24,7 @@ import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
 import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.model.CustomerOrderCriteria;
 import com.pinguela.yourpc.model.CustomerOrderRanges;
-import com.pinguela.yourpc.model.ItemState;
+import com.pinguela.yourpc.model.OrderState;
 
 import slider.RangeSlider;
 
@@ -38,7 +38,7 @@ extends AbstractSearchView<CustomerOrder> {
 	private ExtendedDateChooser dateFromChooser;
 	private ExtendedDateChooser dateToChooser;
 	private RangeSlider amountRangeSlider;
-	private JComboBox<ItemState<CustomerOrder>> stateComboBox;
+	private JComboBox<OrderState> stateComboBox;
 	private JLabel minAmountLabel;
 	private JLabel maxAmountLabel;
 
@@ -140,7 +140,7 @@ extends AbstractSearchView<CustomerOrder> {
 		gbc_stateLabel.gridy = 1;
 		getCriteriaPanel().add(stateLabel, gbc_stateLabel);
 		
-		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), OrderState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -216,7 +216,6 @@ extends AbstractSearchView<CustomerOrder> {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public CustomerOrderCriteria getCriteria() {
 		CustomerOrderCriteria criteria = new CustomerOrderCriteria();
 
@@ -240,7 +239,7 @@ extends AbstractSearchView<CustomerOrder> {
 			criteria.setMaxDate(dateToChooser.getDate());
 		}
 
-		criteria.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
+		criteria.setState(((OrderState) stateComboBox.getSelectedItem()).getId());
 
 		criteria.setMinAmount(Double.valueOf(amountRangeSlider.getValue()));
 		criteria.setMaxAmount(Double.valueOf(amountRangeSlider.getUpperValue()));

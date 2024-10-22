@@ -16,10 +16,10 @@ import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.renderer.TicketTableCellRenderer;
-import com.pinguela.yourpc.model.ItemState;
-import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketCriteria;
+import com.pinguela.yourpc.model.TicketState;
+import com.pinguela.yourpc.model.TicketType;
 
 @SuppressWarnings("serial")
 public class TicketSearchView
@@ -30,8 +30,8 @@ extends AbstractPaginatedSearchView<Ticket> {
 	private JTextField customerEmailTextField;
 	private ExtendedDateChooser dateFromChooser;
 	private ExtendedDateChooser dateToChooser;
-	private JComboBox<ItemType<Ticket>> typeComboBox;
-	private JComboBox<ItemState<Ticket>> stateComboBox;
+	private JComboBox<TicketType> typeComboBox;
+	private JComboBox<TicketState> stateComboBox;
 
 	public TicketSearchView() {
 		this(new SearchActionBuilder<>(TicketSearchAction.class));
@@ -159,7 +159,7 @@ extends AbstractPaginatedSearchView<Ticket> {
 
 	private void postInitialize() {
 
-		typeComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
+		typeComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_TYPES.values(), TicketType.class);
 		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -167,7 +167,7 @@ extends AbstractPaginatedSearchView<Ticket> {
 		gbc_typeComboBox.gridy = 0;
 		getCriteriaPanel().add(typeComboBox, gbc_typeComboBox);
 
-		stateComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_STATES.values(), TicketState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -179,7 +179,6 @@ extends AbstractPaginatedSearchView<Ticket> {
 		table.setDefaultRenderer(Object.class, new TicketTableCellRenderer());
 	}
 
-	@SuppressWarnings("unchecked")
 	public TicketCriteria getCriteria() {
 		TicketCriteria criteria = new TicketCriteria();
 
@@ -203,8 +202,8 @@ extends AbstractPaginatedSearchView<Ticket> {
 			criteria.setMaxDate(dateToChooser.getDate());
 		}
 
-		criteria.setType(((ItemType<Ticket>) typeComboBox.getSelectedItem()).getId());
-		criteria.setState(((ItemState<Ticket>) stateComboBox.getSelectedItem()).getId());
+		criteria.setType(((TicketType) typeComboBox.getSelectedItem()).getId());
+		criteria.setState(((TicketState) stateComboBox.getSelectedItem()).getId());
 
 		return criteria;
 	}

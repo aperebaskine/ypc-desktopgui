@@ -20,7 +20,7 @@ extends GetAttributeInputAction<ProductView> {
 
 	@Override
 	protected Short getCategoryId() {
-		return getView().getEntityFromFields().getCategoryId();
+		return getView().getDTOFromFields().getCategoryId();
 	}
 
 	@Override

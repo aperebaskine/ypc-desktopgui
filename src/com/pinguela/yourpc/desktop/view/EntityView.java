@@ -14,7 +14,7 @@ public interface EntityView<T> {
 	
 	T getCurrentEntity();
 	
-	T getEntityFromFields();
+	T getDTOFromFields();
 
 	void setEntity(T entity);
 	

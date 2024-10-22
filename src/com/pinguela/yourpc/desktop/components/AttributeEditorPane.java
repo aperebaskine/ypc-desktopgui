@@ -12,14 +12,12 @@ import com.pinguela.YPCException;
 import com.pinguela.yourpc.config.ConfigManager;
 import com.pinguela.yourpc.desktop.util.ReflectionUtils;
 import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
 @SuppressWarnings("serial")
 public abstract class AttributeEditorPane<T>
-extends JPanel
-implements AttributeValueHandlingModes {
+extends JPanel {
 
 	private static Logger logger = LogManager.getLogger(AttributeEditorPane.class);
 

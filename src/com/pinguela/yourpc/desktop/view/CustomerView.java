@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.DocumentType;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.CustomerAddressTableConstants;
@@ -29,7 +30,7 @@ import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Customer;
-import com.pinguela.yourpc.model.DocumentType;
+import com.pinguela.yourpc.model.IDType;
 import com.pinguela.yourpc.service.CustomerOrderService;
 import com.pinguela.yourpc.service.impl.CustomerOrderServiceImpl;
 
@@ -44,7 +45,7 @@ extends AbstractEntityView<Customer> {
 	private JTextField firstNameTextField;
 	private JTextField lastName1TextField;
 	private JTextField lastName2TextField;
-	private JComboBox<DocumentType> documentTypeComboBox;
+	private JComboBox<IDType> documentTypeComboBox;
 	private JTextField documentNumberTextField;
 	private JFormattedTextField phoneNumberFormattedTextField;
 	private JLabel idValueLabel;
@@ -212,7 +213,7 @@ extends AbstractEntityView<Customer> {
 	}
 
 	private void postInitialize() {
-		documentTypeComboBox = ComponentFactory.createComboBox(DBConstants.DOCUMENT_TYPES.values(), DocumentType.class);
+		documentTypeComboBox = ComponentFactory.createComboBox(DBConstants.DOCUMENT_TYPES.values(), IDType.class);
 		GridBagConstraints gbc_documentTypeComboBox = new GridBagConstraints();
 		gbc_documentTypeComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_documentTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -266,7 +267,7 @@ extends AbstractEntityView<Customer> {
 	}
 	
 	@Override
-	public Customer getEntityFromFields() {
+	public Customer getDTOFromFields() {
 		Customer old = getCurrentEntity();
 		Customer customer = new Customer();
 		

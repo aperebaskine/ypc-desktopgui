@@ -15,15 +15,13 @@ import com.pinguela.yourpc.desktop.components.AttributeInputPane;
 import com.pinguela.yourpc.desktop.components.InputPane;
 import com.pinguela.yourpc.desktop.view.YPCView;
 import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
 @SuppressWarnings("serial")
 public abstract class GetAttributeInputAction<T extends YPCView>
-extends GetInputAction<Attribute<?>> 
-implements AttributeValueHandlingModes {
+extends GetInputAction<Attribute<?>> {
 
 	private static Logger logger = LogManager.getLogger(GetAttributeInputAction.class);
 

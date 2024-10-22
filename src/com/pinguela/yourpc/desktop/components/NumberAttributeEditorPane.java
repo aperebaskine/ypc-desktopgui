@@ -1,5 +1,8 @@
 package com.pinguela.yourpc.desktop.components;
 
+import static com.pinguela.yourpc.model.constants.AttributeValueHandlingModes.RANGE;
+import static com.pinguela.yourpc.model.constants.AttributeValueHandlingModes.SET;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.Arrays;

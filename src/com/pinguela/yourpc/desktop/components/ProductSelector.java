@@ -15,7 +15,7 @@ extends EntitySelector<Product> {
 
 	@Override
 	protected YPCAction initializeViewAction() {
-		return new OpenEntityViewDialogAction<>(ProductView.class, this);
+		return new OpenEntityViewDialogAction<ProductView>(ProductView.class, this);
 	}
 
 	@Override

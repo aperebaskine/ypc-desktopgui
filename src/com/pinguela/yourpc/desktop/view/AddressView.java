@@ -301,7 +301,7 @@ extends AbstractEntityView<Address> {
 	}
 
 	@Override
-	public Address getEntityFromFields() {
+	public Address getDTOFromFields() {
 		Address address = new Address();
 
 		if (getCurrentEntity() != null) {
@@ -384,7 +384,7 @@ extends AbstractEntityView<Address> {
 		}
 	}
 	
-	private static <PK> void selectItemById(JComboBox<? extends AbstractTerritory<PK>> comboBox, PK id) {
+	private static <PK extends Comparable<PK>> void selectItemById(JComboBox<? extends AbstractTerritory<PK>> comboBox, PK id) {
 		
 		if (id == null) {
 			comboBox.setSelectedIndex(0);

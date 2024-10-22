@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.pinguela.yourpc.model.ItemState;
+import com.pinguela.yourpc.model.EntityState;
 
 @SuppressWarnings("serial")
 public class ItemStateListCellRenderer 
@@ -15,7 +15,7 @@ extends DefaultListCellRenderer {
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
 		
-		ItemState<?> itemState = (ItemState<?>) value;
+		EntityState<?> itemState = (EntityState<?>) value;
 		String valueString;
 		
 		if (itemState.getId() == null) {

@@ -18,8 +18,8 @@ import com.pinguela.yourpc.desktop.components.CustomerSelector;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
-import com.pinguela.yourpc.model.ItemState;
 import com.pinguela.yourpc.model.RMA;
+import com.pinguela.yourpc.model.RMAState;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
@@ -34,7 +34,7 @@ extends AbstractEntityView<RMA> {
 	private JLabel idValueLabel;
 	private CustomerSelector customerSelectionPanel;
 	private JTextField trackingNumberTextField;
-	private JComboBox<ItemState<RMA>> stateComboBox;
+	private JComboBox<RMAState> stateComboBox;
 	private OrderLineListView orderLineListView;
 
 	public RMAView() {
@@ -146,7 +146,7 @@ extends AbstractEntityView<RMA> {
 
 	private void postInitialize() {
 
-		stateComboBox = ComponentFactory.createComboBox(DBConstants.RMA_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.RMA_STATES.values(), RMAState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -157,7 +157,7 @@ extends AbstractEntityView<RMA> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public RMA getEntityFromFields() {
+	public RMA getDTOFromFields() {
 		RMA old = getCurrentEntity();
 		RMA rma = new RMA();
 		
@@ -176,7 +176,7 @@ extends AbstractEntityView<RMA> {
         	rma.setTrackingNumber(trackingNumberTextField.getText());
         }
 
-        rma.setState(((ItemState<RMA>) stateComboBox.getSelectedItem()).getId());
+        rma.setState(((RMAState) stateComboBox.getSelectedItem()).getId());
 
         rma.setOrderLines(orderLineListView.getCurrentEntity());
 

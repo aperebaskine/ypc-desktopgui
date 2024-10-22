@@ -38,9 +38,9 @@ extends ItemAction<T> {
 	protected void doAction() {
 		try {
 			if (getView().getCurrentEntity() == null) {
-				doCreate(getView().getEntityFromFields());
+				doCreate(getView().getDTOFromFields());
 			} else {
-				doUpdate(getView().getEntityFromFields());
+				doUpdate(getView().getDTOFromFields());
 			}
 			if (!getView().showCard(EntityView.VIEW_CARD)) {
 				for (Action action : getViewerActions()) {

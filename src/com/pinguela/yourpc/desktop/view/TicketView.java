@@ -27,10 +27,10 @@ import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.FormattingUtils;
-import com.pinguela.yourpc.model.ItemState;
-import com.pinguela.yourpc.model.ItemType;
 import com.pinguela.yourpc.model.Ticket;
 import com.pinguela.yourpc.model.TicketMessage;
+import com.pinguela.yourpc.model.TicketState;
+import com.pinguela.yourpc.model.TicketType;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
 
@@ -48,8 +48,8 @@ extends AbstractEntityView<Ticket> {
 	private JLabel creationDateValueLabel;
 	private CustomerSelector customerSelectionPanel;
 	private JTextField titleTextField;
-	private JComboBox<ItemType<Ticket>> typeComboBox;
-	private JComboBox<ItemState<Ticket>> stateComboBox;
+	private JComboBox<TicketType> typeComboBox;
+	private JComboBox<TicketState> stateComboBox;
 	private JTextArea descriptionTextArea;
 	private JPanel messageListPanel;
 	private List<TicketMessage> messages;
@@ -205,7 +205,7 @@ extends AbstractEntityView<Ticket> {
 	private void postInitialize() {
 		JPanel viewPanel = getViewPanel();
 		
-		typeComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_TYPES.values(), ItemType.class);
+		typeComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_TYPES.values(), TicketType.class);
 		GridBagConstraints gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -213,7 +213,7 @@ extends AbstractEntityView<Ticket> {
 		gbc_typeComboBox.gridy = 3;
 		viewPanel.add(typeComboBox, gbc_typeComboBox);
 
-		stateComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.TICKET_STATES.values(), TicketState.class);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -227,7 +227,7 @@ extends AbstractEntityView<Ticket> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Ticket getEntityFromFields() {
+	public Ticket getDTOFromFields() {
 		Ticket ticket = new Ticket();
 		Ticket updating = getCurrentEntity();
 		
@@ -251,11 +251,11 @@ extends AbstractEntityView<Ticket> {
 		}
 
 		if (typeComboBox.getSelectedItem() != null) {
-			ticket.setType(((ItemType<Ticket>) typeComboBox.getSelectedItem()).getId());
+			ticket.setType(((TicketType) typeComboBox.getSelectedItem()).getId());
 		}
 
 		if (stateComboBox.getSelectedItem() != null) {
-			ticket.setState(((ItemState<Ticket>) stateComboBox.getSelectedItem()).getId());
+			ticket.setState(((TicketState) stateComboBox.getSelectedItem()).getId());
 		}
 
 		ticket.getMessageList().addAll(messages);

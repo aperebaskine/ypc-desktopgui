@@ -1,5 +1,8 @@
 package com.pinguela.yourpc.desktop.util;
 
+import static com.pinguela.yourpc.model.constants.AttributeValueHandlingModes.RANGE;
+import static com.pinguela.yourpc.model.constants.AttributeValueHandlingModes.SET;
+
 import java.awt.Dimension;
 import java.util.List;
 
@@ -10,10 +13,8 @@ import com.pinguela.yourpc.desktop.editor.ClampingSpinnerNumberEditor;
 import com.pinguela.yourpc.desktop.model.AttributeSpinnerNumberModel;
 import com.pinguela.yourpc.model.Attribute;
 import com.pinguela.yourpc.model.AttributeValue;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
 
-public class AttributeUtils
-implements AttributeValueHandlingModes {
+public class AttributeUtils {
 	
 	public static <T> String formatValueList(Attribute<T> attribute) {
 		return formatValueList(attribute.getValues(), attribute.getValueHandlingMode());

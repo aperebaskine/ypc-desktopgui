@@ -23,7 +23,7 @@ import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.model.Address;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.CustomerOrder;
-import com.pinguela.yourpc.model.ItemState;
+import com.pinguela.yourpc.model.OrderState;
 import com.pinguela.yourpc.service.AddressService;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.AddressServiceImpl;
@@ -39,7 +39,7 @@ extends AbstractEntityView<CustomerOrder> {
 	private AddressService addressService;
 
 	private JLabel idValueLabel;
-	private JComboBox<ItemState<CustomerOrder>> stateComboBox;
+	private JComboBox<OrderState> stateComboBox;
 	private OrderLineListView orderLineListView;
 	private CustomerSelector customerSelector;
 	private CustomerAddressSelector billingAddressSelector;
@@ -121,7 +121,7 @@ extends AbstractEntityView<CustomerOrder> {
 		gbc_stateLabel.gridy = 1;
 		viewPanel.add(stateLabel, gbc_stateLabel);
 		
-		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), ItemState.class);
+		stateComboBox = ComponentFactory.createComboBox(DBConstants.ORDER_STATES.values(), OrderState.class);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -202,7 +202,7 @@ extends AbstractEntityView<CustomerOrder> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public CustomerOrder getEntityFromFields() {
+	public CustomerOrder getDTOFromFields() {
 		CustomerOrder order = new CustomerOrder();
 		CustomerOrder updating = getCurrentEntity();
 	
@@ -212,7 +212,7 @@ extends AbstractEntityView<CustomerOrder> {
 		}
 		
 		order.setOrderLines(orderLineListView.getCurrentEntity());
-		order.setState(((ItemState<CustomerOrder>) stateComboBox.getSelectedItem()).getId());
+		order.setState(((OrderState) stateComboBox.getSelectedItem()).getId());
 		order.setBillingAddressId(billingAddressSelector.getEntity().getId());
 		order.setShippingAddressId(shippingAddressSelector.getEntity().getId());
 		order.setTrackingNumber(trackingNumberTextField.getText());

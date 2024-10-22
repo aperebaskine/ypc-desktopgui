@@ -45,10 +45,10 @@ import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
 import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.ImageEntry;
-import com.pinguela.yourpc.model.Product;
+import com.pinguela.yourpc.model.ProductDTO;
+import com.pinguela.yourpc.model.constants.AttributeValueHandlingModes;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
@@ -56,7 +56,7 @@ import com.pinguela.yourpc.util.CategoryUtils;
 
 @SuppressWarnings("serial")
 public class ProductView 
-extends AbstractEntityView<Product> {
+extends AbstractEntityView<ProductDTO> {
 	
 	private static Logger logger = LogManager.getLogger(ProductView.class);
 	
@@ -333,21 +333,21 @@ extends AbstractEntityView<Product> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Product getEntityFromFields() {
-		Product product = new Product();
+	public ProductDTO getDTOFromFields() {
+		ProductDTO dto = new ProductDTO();
 
-		product.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));
-		product.setName(nameTextField.getText());
-		product.setCategoryId(((Category) categoryComboBox.getSelectedItem()).getId());
-		product.setLaunchDate(launchDateChooser.getDate());
-		product.setStock(Integer.valueOf(stockTextField.getText()));
-		product.setPurchasePrice(Double.valueOf(purchasePriceField.getText()));
-		product.setSalePrice(Double.valueOf(salePriceField.getText()));
-		product.setDescription(descriptionTextArea.getText());
+		dto.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));
+		dto.setName(nameTextField.getText());
+		dto.setCategoryId(((Category) categoryComboBox.getSelectedItem()).getId());
+		dto.setLaunchDate(launchDateChooser.getDate());
+		dto.setStock(Integer.valueOf(stockTextField.getText()));
+		dto.setPurchasePrice(Double.valueOf(purchasePriceField.getText()));
+		dto.setSalePrice(Double.valueOf(salePriceField.getText()));
+		dto.setDescription(descriptionTextArea.getText());
 		
-		product.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
+		dto.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
 
-		return product;
+		return dto;
 	}
 
 	@Override
@@ -397,9 +397,9 @@ extends AbstractEntityView<Product> {
 	
 	private void findProductImages() {
 		clearImages();
-		Product p = getCurrentEntity();
+		ProductDTO dto = getCurrentEntity();
 		
-		if (p == null || p.getId() == null) {
+		if (dto == null || dto.getId() == null) {
 			return;
 		}
 		

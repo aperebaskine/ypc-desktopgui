@@ -6,13 +6,12 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.model.Department;
-import com.pinguela.yourpc.model.DocumentType;
-import com.pinguela.yourpc.model.ItemState;
-import com.pinguela.yourpc.model.ItemType;
-import com.pinguela.yourpc.model.RMA;
-import com.pinguela.yourpc.model.Ticket;
+import com.pinguela.yourpc.model.IDType;
+import com.pinguela.yourpc.model.OrderState;
+import com.pinguela.yourpc.model.RMAState;
+import com.pinguela.yourpc.model.TicketState;
+import com.pinguela.yourpc.model.TicketType;
 import com.pinguela.yourpc.service.DepartmentService;
 import com.pinguela.yourpc.service.DocumentTypeService;
 import com.pinguela.yourpc.service.OrderStateService;
@@ -31,20 +30,20 @@ public class DBConstants {
 	private static Logger logger = LogManager.getLogger(DBConstants.class);
 
     // Define the final constants for the maps
-    public static final Map<String, ItemState<Ticket>> TICKET_STATES;
-    public static final Map<String, ItemType<Ticket>> TICKET_TYPES;
-    public static final Map<String, ItemState<RMA>> RMA_STATES;
-    public static final Map<String, ItemState<CustomerOrder>> ORDER_STATES;
+    public static final Map<String, TicketState> TICKET_STATES;
+    public static final Map<String, TicketType> TICKET_TYPES;
+    public static final Map<String, RMAState> RMA_STATES;
+    public static final Map<String, OrderState> ORDER_STATES;
     public static final Map<String, Department> DEPARTMENTS;
-    public static final Map<String, DocumentType> DOCUMENT_TYPES;
+    public static final Map<String, IDType> DOCUMENT_TYPES;
 
     static {
-        Map<String, ItemState<Ticket>> ticketStates = null;
-        Map<String, ItemType<Ticket>> ticketTypes = null;
-        Map<String, ItemState<RMA>> rmaStates = null;
-        Map<String, ItemState<CustomerOrder>> orderStates = null;
+        Map<String, TicketState> ticketStates = null;
+        Map<String, TicketType> ticketTypes = null;
+        Map<String, RMAState> rmaStates = null;
+        Map<String, OrderState> orderStates = null;
         Map<String, Department> departments = null;
-        Map<String, DocumentType> documentTypes = null;
+        Map<String, IDType> documentTypes = null;
 
         try {
             TicketStateService ticketStateService = new TicketStateServiceImpl();

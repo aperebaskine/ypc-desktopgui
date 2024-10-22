@@ -34,7 +34,7 @@ extends AbstractEntityView<List<OrderLine>> {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<OrderLine> getEntityFromFields() {
+	public List<OrderLine> getDTOFromFields() {
 		return ((ActionPaneListTableModel<OrderLine>) orderLineTable.getModel()).getData();
 	}
 

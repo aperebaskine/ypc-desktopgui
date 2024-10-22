@@ -23,8 +23,8 @@ import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.components.ImagePanel;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.model.DocumentType;
 import com.pinguela.yourpc.model.Employee;
+import com.pinguela.yourpc.model.IDType;
 import com.pinguela.yourpc.model.ImageEntry;
 import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
@@ -39,7 +39,7 @@ extends AbstractEntityView<Employee> {
 	private JTextField usernameTextField;
 	private JTextField lastName1TextField;
 	private JTextField lastName2TextField;
-	private JComboBox<DocumentType> documentTypeComboBox;
+	private JComboBox<IDType> documentTypeComboBox;
 	private JTextField documentNumberTextField;
 	private JFormattedTextField phoneNumberFormattedTextField;
 	private JLabel idValueLabel;
@@ -279,7 +279,7 @@ extends AbstractEntityView<Employee> {
 	}
 	
 	private void postInitialize() {
-		documentTypeComboBox = ComponentFactory.createComboBox(DBConstants.DOCUMENT_TYPES.values(), DocumentType.class);
+		documentTypeComboBox = ComponentFactory.createComboBox(DBConstants.DOCUMENT_TYPES.values(), IDType.class);
 		GridBagConstraints gbc_documentTypeComboBox = new GridBagConstraints();
 		gbc_documentTypeComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_documentTypeComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -293,7 +293,7 @@ extends AbstractEntityView<Employee> {
 	}
 
 	@Override
-	public Employee getEntityFromFields() {
+	public Employee getDTOFromFields() {
         Employee employee = new Employee();
         
         employee.setFirstName(firstNameTextField.getText());
@@ -305,14 +305,14 @@ extends AbstractEntityView<Employee> {
 			employee.setLastName2(lastName2TextField.getText());
 		}
 		
-        employee.setDocumentTypeId(((DocumentType) documentTypeComboBox.getSelectedItem()).getId());
+        employee.setDocumentTypeId(((IDType) documentTypeComboBox.getSelectedItem()).getId());
         employee.setDocumentNumber(documentNumberTextField.getText());
         employee.setUsername(usernameTextField.getText());
         employee.setPhoneNumber(phoneNumberFormattedTextField.getText());
         employee.setEmail(emailTextField.getText());
         employee.setIban(ibanTextField.getText());
         employee.setBic(bicTextField.getText());
-        employee.setAddress(addressView.getEntityFromFields());
+        employee.setAddress(addressView.getDTOFromFields());
         
         return employee;
 	}
@@ -386,7 +386,7 @@ extends AbstractEntityView<Employee> {
 		}
 		
 		for (int i = 0; i < documentTypeComboBox.getItemCount(); i++) {
-			DocumentType documentType = documentTypeComboBox.getItemAt(i);
+			IDType documentType = documentTypeComboBox.getItemAt(i);
 			if (id.equals(documentType.getId())) {
 				documentTypeComboBox.setSelectedItem(documentType);
 				return;

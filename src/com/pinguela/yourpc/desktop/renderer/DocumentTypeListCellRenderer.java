@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.pinguela.yourpc.model.DocumentType;
+import com.pinguela.yourpc.model.IDType;
 
 @SuppressWarnings("serial")
 public class DocumentTypeListCellRenderer
@@ -15,7 +15,7 @@ extends DefaultListCellRenderer {
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
 		
-		DocumentType documentType = (DocumentType) value;
+		IDType documentType = (IDType) value;
 		String valueString;
 		
 		if (documentType.getId() == null) {

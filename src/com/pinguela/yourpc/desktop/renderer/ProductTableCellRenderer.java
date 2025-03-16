@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.ProductTableConstants;
 import com.pinguela.yourpc.desktop.util.FormattingUtils;
-import com.pinguela.yourpc.model.Product;
+import com.pinguela.yourpc.model.dto.LocalizedProductDTO;
 import com.pinguela.yourpc.util.CategoryUtils;
 
 @SuppressWarnings("serial")
@@ -19,7 +19,7 @@ implements ProductTableConstants {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 			boolean hasFocus, int row, int column) {
 
-		Product p = (Product) value;
+		LocalizedProductDTO p = (LocalizedProductDTO) value;
 		Object columnValue = null;
 		
 		switch (column) {

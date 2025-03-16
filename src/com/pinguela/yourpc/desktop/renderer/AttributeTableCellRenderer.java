@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.util.AttributeUtils;
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
 public class AttributeTableCellRenderer 
@@ -21,7 +21,7 @@ implements AttributeTableConstants {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		Attribute<?> attribute = (Attribute<?>) value;
+		AttributeDTO<?> attribute = (AttributeDTO<?>) value;
 		Object columnValue = null;
 
 		switch (column) {

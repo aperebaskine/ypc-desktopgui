@@ -1,5 +1,8 @@
 package com.pinguela.yourpc.desktop.util;
 
+import static com.pinguela.yourpc.model.constants.AttributeValueHandlingModes.RANGE;
+import static com.pinguela.yourpc.model.constants.AttributeValueHandlingModes.SET;
+
 import java.awt.Dimension;
 import java.util.List;
 
@@ -8,18 +11,16 @@ import javax.swing.SpinnerNumberModel;
 
 import com.pinguela.yourpc.desktop.editor.ClampingSpinnerNumberEditor;
 import com.pinguela.yourpc.desktop.model.AttributeSpinnerNumberModel;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValue;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
+import com.pinguela.yourpc.model.dto.AttributeValueDTO;
 
-public class AttributeUtils
-implements AttributeValueHandlingModes {
+public class AttributeUtils {
 	
-	public static <T> String formatValueList(Attribute<T> attribute) {
+	public static <T> String formatValueList(AttributeDTO<T> attribute) {
 		return formatValueList(attribute.getValues(), attribute.getValueHandlingMode());
 	}
 	
-	public static <T> String formatValueList(List<AttributeValue<T>> values, int valueHandlingMode) {
+	public static <T> String formatValueList(List<AttributeValueDTO<T>> values, int valueHandlingMode) {
 
 		String formattedValues = null;
 		if (values.size() == 0) {
@@ -33,7 +34,7 @@ implements AttributeValueHandlingModes {
 				break;
 			case SET:
 				StringBuilder builder = new StringBuilder();
-				for (AttributeValue<T> value : values) {
+				for (AttributeValueDTO<T> value : values) {
 					builder.append(value.getValue()).append(", ");
 				}
 				formattedValues = builder.delete(builder.length()-2, builder.length()).toString();
@@ -43,7 +44,7 @@ implements AttributeValueHandlingModes {
 		return formattedValues;
 	}
 
-	public static <T extends Number & Comparable<T>> JSpinner getAttributeNumberSpinner(Attribute<T> attribute, int initialValueIndex) {
+	public static <T extends Number & Comparable<T>> JSpinner getAttributeNumberSpinner(AttributeDTO<T> attribute, int initialValueIndex) {
 	
 		SpinnerNumberModel model = new AttributeSpinnerNumberModel<T>(attribute, initialValueIndex);
 		JSpinner spinner = new JSpinner(model);

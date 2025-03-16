@@ -1,10 +1,10 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
@@ -27,13 +27,11 @@ extends OpenSearchResultDialogAction<Employee> {
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		JTable table = getSearchView().getTable();
-		int row = table.getSelectedRow();
-		int column = table.getSelectedColumn();
+		Object[][] tableSelection = getSearchView().getTableSelection();
 
 		dialogView = new EmployeeView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
-		employee = (Employee) table.getValueAt(row, column);
+		employee = (Employee) tableSelection[0][0];
 		dialogView.setEntity(employee);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
@@ -43,7 +41,7 @@ extends OpenSearchResultDialogAction<Employee> {
 		dialogView.addAction(new CancelEditAction<Employee>(dialogView), EntityView.EDITOR_CARD);
 		dialogView.addAction(new SaveEmployeeAction(dialogView), EntityView.EDITOR_CARD);
 
-		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
+		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) getSearchView());
 		YPCDialog dialog = new YPCDialog(frame, dialogView);
 		dialog.setTitle("Employee editor");
 		return dialog;

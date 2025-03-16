@@ -21,10 +21,11 @@ import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.actions.ShowAttributeStatisticsAction;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
 import com.pinguela.yourpc.desktop.util.SwingUtils;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.ProductCriteria;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
+import com.pinguela.yourpc.model.dto.CategoryDTO;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 import com.pinguela.yourpc.util.CategoryUtils;
@@ -42,9 +43,9 @@ extends YPCView {
 
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
-	private JComboBox<Attribute<?>> attributeComboBox;
+	private JComboBox<AttributeDTO<?>> attributeComboBox;
 	private JLabel categoryLabel;
-	private JComboBox<Category> categoryComboBox;
+	private JComboBox<CategoryDTO> categoryComboBox;
 
 	private JButton searchButton;
 	private JLabel attributeLabel;
@@ -56,11 +57,11 @@ extends YPCView {
 			attributeComboBox.setSelectedIndex(0);
 			attributeComboBox.setEnabled(false);
 		} else {
-			Short categoryId = ((Category) categoryComboBox.getSelectedItem()).getId();
+			Short categoryId = ((CategoryDTO) categoryComboBox.getSelectedItem()).getId();
 			try {
 				attributeComboBox.setModel(SwingUtils.createComboBoxModel(
-						attributeService.findByCategory(categoryId, AttributeService.NO_UNASSIGNED_VALUES).values(),
-						Attribute.class));
+						attributeService.findByCategory(categoryId, LocaleUtils.getLocale(), AttributeService.NO_UNASSIGNED_VALUES).values(),
+						AttributeDTO.class));
 			} catch (YPCException e) {
 				logger.error(e.getMessage(), e);
 				DialogUtils.showDatabaseAccessErrorDialog(this);
@@ -128,7 +129,7 @@ extends YPCView {
 		gbc_categoryLabel.gridy = 0;
 		criteriaPanel.add(categoryLabel, gbc_categoryLabel);
 
-		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
+		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), CategoryDTO.class);
 		categoryComboBox.setPreferredSize(new Dimension(240, 22));
 		categoryComboBox.addItemListener(categoryListener);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
@@ -146,7 +147,7 @@ extends YPCView {
 		gbc_attributeLabel.gridy = 1;
 		criteriaPanel.add(attributeLabel, gbc_attributeLabel);
 
-		attributeComboBox = ComponentFactory.createComboBox(Arrays.asList(new Attribute[0]), Attribute.class);
+		attributeComboBox = ComponentFactory.createComboBox(Arrays.asList(new AttributeDTO[0]), AttributeDTO.class);
 		attributeComboBox.setEnabled(false);
 		attributeComboBox.setPreferredSize(new Dimension(240, 22));
 		GridBagConstraints gbc_attributeComboBox = new GridBagConstraints();
@@ -171,12 +172,12 @@ extends YPCView {
 	public ProductCriteria getCriteria() {
 		ProductCriteria criteria = new ProductCriteria();
 
-		criteria.setCategoryId(((Category) categoryComboBox.getSelectedItem()).getId());
+		criteria.setCategoryId(((CategoryDTO) categoryComboBox.getSelectedItem()).getId());
 		criteria.setLaunchDateMin(startDateChooser.getDate());
 		criteria.setLaunchDateMax(endDateChooser.getDate());
 
-		Attribute<?> attribute = (Attribute<?>) attributeComboBox.getSelectedItem();
-		criteria.getAttributes().put(attribute.getName(), attribute);
+		AttributeDTO<?> attribute = (AttributeDTO<?>) attributeComboBox.getSelectedItem();
+		criteria.getAttributes().add(attribute);
 
 		return criteria;
 

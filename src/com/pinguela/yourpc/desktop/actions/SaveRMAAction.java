@@ -4,6 +4,7 @@ import javax.swing.Action;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
 import com.pinguela.yourpc.desktop.view.RMAView;
 import com.pinguela.yourpc.model.RMA;
 import com.pinguela.yourpc.service.RMAService;
@@ -23,13 +24,13 @@ extends SaveItemAction<RMA> {
 	@Override
 	protected void doCreate(RMA item) throws YPCException {
 		rmaService.create(item);
-		getView().setEntity(rmaService.findById(item.getId()));
+		getView().setEntity(rmaService.findById(item.getId(), LocaleUtils.getLocale()));
 	}
 	
 	@Override
 	protected void doUpdate(RMA item) throws YPCException {
 		rmaService.update(item);
-		getView().setEntity(rmaService.findById(item.getId()));
+		getView().setEntity(rmaService.findById(item.getId(), LocaleUtils.getLocale()));
 	}
 	
 	@Override

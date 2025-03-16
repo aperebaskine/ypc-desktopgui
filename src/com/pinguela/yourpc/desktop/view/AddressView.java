@@ -384,7 +384,7 @@ extends AbstractEntityView<Address> {
 		}
 	}
 	
-	private static <PK> void selectItemById(JComboBox<? extends AbstractTerritory<PK>> comboBox, PK id) {
+	private static <PK extends Comparable<PK>> void selectItemById(JComboBox<? extends AbstractTerritory<PK>> comboBox, PK id) {
 		
 		if (id == null) {
 			comboBox.setSelectedIndex(0);

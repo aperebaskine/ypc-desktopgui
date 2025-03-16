@@ -4,7 +4,7 @@ import com.pinguela.DataException;
 import com.pinguela.ServiceException;
 import com.pinguela.yourpc.desktop.util.FormattingUtils;
 import com.pinguela.yourpc.desktop.view.EntityView;
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.service.CustomerService;
 import com.pinguela.yourpc.service.impl.CustomerServiceImpl;
@@ -23,7 +23,7 @@ extends DeleteItemAction<Customer> {
 		super(source);
 	}
 
-	public DeleteCustomerAction(SearchView<Customer> source) {
+	public DeleteCustomerAction(AbstractSearchView<Customer> source) {
 		super(source);
 	}
 	

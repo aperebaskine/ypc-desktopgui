@@ -2,11 +2,11 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.lang.reflect.Modifier;
 
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 
 public class SearchActionBuilder<T, A extends SearchAction<T>> {
 
-	private SearchView<T> view;
+	private AbstractSearchView<T> view;
 	private Class<A> targetClass;
 	
 	private A instance;
@@ -19,7 +19,7 @@ public class SearchActionBuilder<T, A extends SearchAction<T>> {
 		this.targetClass = targetClass;
 	}
 	
-	public SearchActionBuilder<T, A> setView(SearchView<T> view) {
+	public SearchActionBuilder<T, A> setView(AbstractSearchView<T> view) {
 		this.view = view;
 		return this;
 	}
@@ -32,7 +32,7 @@ public class SearchActionBuilder<T, A extends SearchAction<T>> {
 			throw new IllegalStateException("Required parameter 'view' is missing.");
 		}
 		try {
-			instance = targetClass.getDeclaredConstructor(SearchView.class).newInstance(view);
+			instance = targetClass.getDeclaredConstructor(AbstractSearchView.class).newInstance(view);
 			return instance;
 		} catch (Exception e) {
 			throw new IllegalStateException(String.format(

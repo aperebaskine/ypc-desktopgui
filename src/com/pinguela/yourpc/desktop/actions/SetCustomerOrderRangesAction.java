@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
-import com.pinguela.yourpc.desktop.view.CustomerOrderSearchView;
+import com.pinguela.yourpc.desktop.components.CustomerOrderCriteriaPanel;
 import com.pinguela.yourpc.service.CustomerOrderService;
 import com.pinguela.yourpc.service.impl.CustomerOrderServiceImpl;
 
@@ -15,18 +15,18 @@ extends YPCAction {
 	private static Logger logger = LogManager.getLogger(SetCustomerOrderRangesAction.class);
 
 	private CustomerOrderService productService;
-	private CustomerOrderSearchView view;
+	private CustomerOrderCriteriaPanel panel;
 
-	public SetCustomerOrderRangesAction(CustomerOrderSearchView view) {
+	public SetCustomerOrderRangesAction(CustomerOrderCriteriaPanel panel) {
 		this.productService = new CustomerOrderServiceImpl();
-		this.view = view;
+		this.panel = panel;
 		doAction();
 	}
 
 	@Override
 	protected void doAction() {
 		try {
-			view.setRanges(productService.getRanges(view.getCriteria()));
+			panel.setRanges(productService.getRanges(panel.getCriteria()));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 		}

@@ -38,12 +38,16 @@ extends YPCAction {
 		ProductCriteria criteria = view.getCriteria();
 		List<AttributeStatistics<?>> results = null;
 		
-		try {
-			results = statisticsService.findByAttribute(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(),
-					criteria.getCategoryId(), criteria.getAttributes().keySet().iterator().next());
-		} catch (YPCException e) {
-			logger.error(e.getMessage(), e);
-			DialogUtils.showDatabaseAccessErrorDialog(view);
+//		try {
+//			results = statisticsService.findByAttribute(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(),
+//					criteria.getCategoryId(), criteria.getAttributes().iterator().next());
+//		} catch (YPCException e) {
+//			logger.error(e.getMessage(), e);
+//			DialogUtils.showDatabaseAccessErrorDialog(view);
+//		}
+		
+		if (results == null) {
+			return;
 		}
 		
 		PieDataset<?> dataset = toDataset(results);

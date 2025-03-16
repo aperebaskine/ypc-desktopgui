@@ -15,16 +15,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
 public class AttributeInputPane 
-extends InputPane<Attribute<?>> {
+extends InputPane<AttributeDTO<?>> {
 	
 	private boolean showUnassignedValues;
 	
 	private JPanel contentPane;
-	private JComboBox<Attribute<?>> attributeComboBox;
+	private JComboBox<AttributeDTO<?>> attributeComboBox;
 	private AttributeEditorPane<?> editorPane;
 	
 	private Integer handlingMode;
@@ -34,19 +34,19 @@ extends InputPane<Attribute<?>> {
 			contentPane.remove(editorPane);
 			editorPane = null;
 		}
-		Attribute<?> attribute = (Attribute<?>) evt.getItem();
-		if (attribute.getName() != null) {
+		AttributeDTO<?> attribute = (AttributeDTO<?>) evt.getItem();
+		if (attribute.getName() != null && attributeComboBox.getSelectedIndex() > 0) {
 			initializeValueInputPane();
 		}
 		revalidate();
 		repaint();
 	};
 	
-	public AttributeInputPane(Map<String, Attribute<?>> attributes, boolean showUnassignedValues) {
+	public AttributeInputPane(Map<String, AttributeDTO<?>> attributes, boolean showUnassignedValues) {
 		this(attributes, null, showUnassignedValues);
 	}
 
-	public AttributeInputPane(Map<String, Attribute<?>> attributes, Integer handlingMode, boolean showUnassignedValues) {
+	public AttributeInputPane(Map<String, AttributeDTO<?>> attributes, Integer handlingMode, boolean showUnassignedValues) {
 		super("Select attribute:");
 		this.showUnassignedValues = showUnassignedValues;
 		this.handlingMode = handlingMode;
@@ -68,8 +68,8 @@ extends InputPane<Attribute<?>> {
 		return contentPane;
 	}
 	
-	private void postInitialize(Map<String, Attribute<?>> attributes) {
-		attributeComboBox = ComponentFactory.createComboBox(attributes.values(), Attribute.class);
+	private void postInitialize(Map<String, AttributeDTO<?>> attributes) {
+		attributeComboBox = ComponentFactory.createComboBox(attributes.values(), AttributeDTO.class);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.gridx = 0;
@@ -80,7 +80,7 @@ extends InputPane<Attribute<?>> {
 	
 	@SuppressWarnings("unchecked")
 	private <T> void initializeValueInputPane() {
-		editorPane = AttributeEditorPane.getInstance((Attribute<T>) attributeComboBox.getSelectedItem(), handlingMode, showUnassignedValues);
+		editorPane = AttributeEditorPane.getInstance((AttributeDTO<T>) attributeComboBox.getSelectedItem(), handlingMode, showUnassignedValues);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;
@@ -94,9 +94,9 @@ extends InputPane<Attribute<?>> {
 	}
 
 	@Override
-	public Attribute<?> getInput() {
+	public AttributeDTO<?> getInput() {
 		
-		Attribute<?> attribute = (Attribute<?>) attributeComboBox.getSelectedItem();
+		AttributeDTO<?> attribute = (AttributeDTO<?>) attributeComboBox.getSelectedItem();
 		Collection<?> editorPaneValues = editorPane.getEditorValues();
 		
 		Iterator<?> iterator = editorPaneValues.iterator();
@@ -104,7 +104,7 @@ extends InputPane<Attribute<?>> {
 		for (int i = 0; i < array.length; i++) {
 			array[i] = iterator.next();
 		}
-		return Attribute.getInstance(attribute.getName(), array);
+		return AttributeDTO.getInstance(attribute.getId(), attribute.getName(), array);
 	}
 
 }

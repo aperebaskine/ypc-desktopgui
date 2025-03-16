@@ -4,8 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
+import com.pinguela.yourpc.desktop.components.ProductCriteriaPanel;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
-import com.pinguela.yourpc.desktop.view.ProductSearchView;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
+import com.pinguela.yourpc.model.Criteria;
+import com.pinguela.yourpc.model.ProductCriteria;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
@@ -15,26 +18,26 @@ extends YPCAction {
 	
 	private static Logger logger = LogManager.getLogger(GetAttributeCriteriaAction.class);
 	
-	private ProductSearchView view;
+	private ProductCriteriaPanel panel;
 	private AttributeService attributeService;
 
-	public GetAttributeCriteriaAction(ProductSearchView view) {
-		this.view = view;
+	public GetAttributeCriteriaAction(ProductCriteriaPanel panel) {
+		this.panel = panel;
 		this.attributeService = new AttributeServiceImpl();
 	}
 	@Override
 	protected void doAction() {
-		Short categoryId = view.getCriteria().getCategoryId();
+		Short categoryId = ((ProductCriteria) (Criteria) panel.getCriteria()).getCategoryId();
 		
 		if (categoryId == null) {
 			return;
 		}
 		
 		try {
-			view.setCategoryAttributes(attributeService.findByCategory(categoryId, AttributeService.NO_UNASSIGNED_VALUES));
+			panel.setCategoryAttributes(attributeService.findByCategory(categoryId, LocaleUtils.getLocale(), AttributeService.NO_UNASSIGNED_VALUES));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
-			DialogUtils.showDatabaseAccessErrorDialog(view);
+			DialogUtils.showDatabaseAccessErrorDialog(panel);
 		} 
 	}
 

@@ -10,9 +10,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.CustomerOrderTableConstants;
-import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
+import com.pinguela.yourpc.desktop.model.ListTableModel;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 import com.pinguela.yourpc.desktop.view.CustomerOrderSearchView;
-import com.pinguela.yourpc.desktop.view.SearchView;
 import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.model.CustomerOrderCriteria;
 import com.pinguela.yourpc.service.CustomerOrderService;
@@ -26,7 +27,7 @@ extends SearchAction<CustomerOrder> {
 
 	private CustomerOrderService customerOrderService;
 
-	public CustomerOrderSearchAction(SearchView<CustomerOrder> view) {
+	public CustomerOrderSearchAction(AbstractSearchView<CustomerOrder> view) {
 		super(view);
 		customerOrderService = new CustomerOrderServiceImpl();
 	}
@@ -35,20 +36,20 @@ extends SearchAction<CustomerOrder> {
 	protected TableModel fetchData() {
 
 		CustomerOrderSearchView view = (CustomerOrderSearchView) getView();
-		CustomerOrderCriteria criteria = view.getCriteria();
+		CustomerOrderCriteria criteria = (CustomerOrderCriteria) view.getCriteria();
 		List<CustomerOrder> results = null;
 
 		try {
 			if (criteria.getId() != null) {
-				results = Arrays.asList(customerOrderService.findById(criteria.getId()));
+				results = Arrays.asList(customerOrderService.findById(criteria.getId(), LocaleUtils.getLocale()));
 			} else {
-				results = customerOrderService.findBy(criteria);
+				results = customerOrderService.findBy(criteria, LocaleUtils.getLocale());
 			}
 		} catch (YPCException ypce) {
 			logger.error(ypce.getMessage(), ypce);
 		}
 
-		return new ActionPaneListTableModel<CustomerOrder>(CustomerOrderTableConstants.COLUMN_NAMES, results);
+		return new ListTableModel<CustomerOrder>(CustomerOrderTableConstants.COLUMN_NAMES, results);
 	}
 
 }

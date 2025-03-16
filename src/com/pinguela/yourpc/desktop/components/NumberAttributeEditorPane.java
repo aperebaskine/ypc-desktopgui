@@ -19,7 +19,8 @@ import javax.swing.SwingConstants;
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.util.AttributeUtils;
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.constants.AttributeValueHandlingModes;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
@@ -33,10 +34,10 @@ extends AttributeEditorPane<T> {
 	 */
 	@SuppressWarnings({"unused", "unchecked"})
 	private NumberAttributeEditorPane() {
-		this((Attribute<T>) Attribute.getInstance(Long.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
+		this((AttributeDTO<T>) AttributeDTO.getInstance(Long.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public NumberAttributeEditorPane(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public NumberAttributeEditorPane(AttributeDTO<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(attribute, handlingMode, showUnassignedValues);
 		initialize(handlingMode, showUnassignedValues);
 	}
@@ -45,17 +46,17 @@ extends AttributeEditorPane<T> {
 		
 		setLayout(new BorderLayout(0, 0));
 
-		Attribute<T> attribute = getEditingAttribute();
+		AttributeDTO<T> attribute = getEditingAttribute();
 
 		if (handlingMode == null) {
 			handlingMode = attribute.getValueHandlingMode();
 		}
 
 		switch (handlingMode) {
-		case RANGE:
+		case AttributeValueHandlingModes.RANGE:
 			delegate = new NumberEditorRangeDelegate(attribute, showUnassignedValues);
 			break;
-		case SET:
+		case AttributeValueHandlingModes.SET:
 			delegate = new NumberEditorSetDelegate(attribute, showUnassignedValues);
 			break;
 		}
@@ -75,7 +76,7 @@ extends AttributeEditorPane<T> {
 		private JSpinner minValueSpinner;
 		private JSpinner maxValueSpinner;
 
-		protected NumberEditorRangeDelegate(Attribute<T> attribute, boolean showUnassignedValues) {
+		protected NumberEditorRangeDelegate(AttributeDTO<T> attribute, boolean showUnassignedValues) {
 			super(attribute, null, showUnassignedValues);
 			initialize();
 			setInitialValues();
@@ -109,7 +110,7 @@ extends AttributeEditorPane<T> {
 		@SuppressWarnings("unchecked")
 		protected void setInitialValues() {
 
-			Attribute<T> attribute = getSavedAttribute();
+			AttributeDTO<T> attribute = getSavedAttribute();
 
 			if (attribute.getValues().size() < 1) {
 				return;
@@ -155,7 +156,7 @@ extends AttributeEditorPane<T> {
 
 		private JPanel valueSelectionPanel;
 
-		protected NumberEditorSetDelegate(Attribute<T> attribute, boolean showUnassignedValues) {
+		protected NumberEditorSetDelegate(AttributeDTO<T> attribute, boolean showUnassignedValues) {
 			super(attribute, null, showUnassignedValues);
 			initialize();
 		}

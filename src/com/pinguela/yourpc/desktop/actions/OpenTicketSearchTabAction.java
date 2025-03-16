@@ -2,9 +2,6 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
 
-import javax.swing.JTable;
-
-import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.TicketSearchView;
 
 @SuppressWarnings("serial")
@@ -18,13 +15,7 @@ extends OpenTabAction {
 	@Override
 	protected Component initializeTab() {
 		TicketSearchView view = new TicketSearchView();
-
-		YPCAction editTicketDialogAction = new OpenTicketResultDialogAction(view);
-		
-		JTable table = view.getTable();
-		TableUtils.initializeActionPanes(table, editTicketDialogAction);
-		table.addMouseListener(editTicketDialogAction);
-		
+		view.setTableActions(true, new OpenTicketResultDialogAction(view));
 		return view;
 	}
 

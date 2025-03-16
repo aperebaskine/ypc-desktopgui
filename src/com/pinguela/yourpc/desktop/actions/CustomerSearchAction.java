@@ -10,9 +10,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.CustomerTableConstants;
-import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
+import com.pinguela.yourpc.desktop.model.ListTableModel;
 import com.pinguela.yourpc.desktop.view.CustomerSearchView;
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.CustomerCriteria;
 import com.pinguela.yourpc.service.CustomerService;
@@ -26,7 +26,7 @@ extends SearchAction<Customer> {
 	
 	private CustomerService customerService;
 
-	public CustomerSearchAction(SearchView<Customer> view) {
+	public CustomerSearchAction(AbstractSearchView<Customer> view) {
 		super(view);
 		this.customerService = new CustomerServiceImpl();
 	}
@@ -35,7 +35,7 @@ extends SearchAction<Customer> {
 	protected TableModel fetchData() {
 		
 		CustomerSearchView view = (CustomerSearchView) getView();
-		CustomerCriteria criteria = view.getCriteria();
+		CustomerCriteria criteria = (CustomerCriteria) view.getCriteria();
 		List<Customer> results = null;
 
 		try {
@@ -48,7 +48,7 @@ extends SearchAction<Customer> {
 			logger.error(ypce.getMessage(), ypce);
 		}
 
-		return new ActionPaneListTableModel<Customer>(CustomerTableConstants.COLUMN_NAMES, results);
+		return new ListTableModel<Customer>(CustomerTableConstants.COLUMN_NAMES, results);
 	}
 
 }

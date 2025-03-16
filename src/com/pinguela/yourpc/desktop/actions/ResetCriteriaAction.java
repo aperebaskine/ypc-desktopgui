@@ -4,18 +4,18 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JComponent;
 
+import com.pinguela.yourpc.desktop.components.CriteriaPanel;
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.view.SearchView;
 
 @SuppressWarnings("serial")
 public class ResetCriteriaAction 
 extends YPCAction {
 
-	private SearchView<?> view;
+	private CriteriaPanel<?> panel;
 	
-	public ResetCriteriaAction(SearchView<?> view) {
+	public ResetCriteriaAction(CriteriaPanel<?> panel) {
 		super("Reset", Icons.UNDO_ICON);
-		this.view = view;
+		this.panel = panel;
 	}
 
 	@Override
@@ -27,8 +27,7 @@ extends YPCAction {
 	protected void doAction() {}
 	
 	protected void doAction(ActionEvent e) {
-		view.resetCriteriaFields((JComponent) e.getSource());
-		view.doSearch();
+		panel.resetFields((JComponent) e.getSource());
 	}
 
 }

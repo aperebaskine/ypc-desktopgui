@@ -18,7 +18,7 @@ extends DefaultListCellRenderer {
 		Province province = (Province) value;
 		String valueString;
 		
-		if (province.getId() == null) {
+		if (province == null) {
 			valueString = "Select a province...";
 		} else {
 			valueString = province.getName();

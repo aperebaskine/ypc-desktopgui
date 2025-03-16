@@ -18,7 +18,7 @@ extends DefaultListCellRenderer {
 		Department d = (Department) value;
 		String valueString = null;
 
-		if (d.getId() == null) {
+		if (d == null) {
 			valueString = "Select a department...";
 		} else {
 			valueString = d.getName();

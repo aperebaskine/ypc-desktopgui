@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class ActionPaneListTableModel<E> 
-extends AbstractActionPaneTableModel {
+public class ListTableModel<E> 
+extends YPCTableModel {
 	
 	private List<E> tableData;
 	
-	public ActionPaneListTableModel(String[] columnNames) {
+	public ListTableModel(String[] columnNames) {
 		this(columnNames, new ArrayList<E>());
 	}
 	
-	public ActionPaneListTableModel(String[] columnNames, List<E> tableData) {
+	public ListTableModel(String[] columnNames, List<E> tableData) {
 		super(columnNames);
 		this.tableData = new ArrayList<E>(tableData);
 	}

@@ -10,16 +10,15 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.config.ConfigManager;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
 import com.pinguela.yourpc.desktop.util.ReflectionUtils;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
 @SuppressWarnings("serial")
 public abstract class AttributeEditorPane<T>
-extends JPanel
-implements AttributeValueHandlingModes {
+extends JPanel {
 
 	private static Logger logger = LogManager.getLogger(AttributeEditorPane.class);
 
@@ -38,13 +37,13 @@ implements AttributeValueHandlingModes {
 	}
 
 	private static String[] getSubclassNames() {
-		return ConfigManager.getValue(EDITOR_PANES_PNAME).split(ConfigManager.DELIMITER);
+		return ConfigManager.getParameter(EDITOR_PANES_PNAME).split(ConfigManager.DELIMITER);
 	}
 
 	private AttributeService attributeService;
 
-	private Attribute<T> editingAttribute;
-	private Attribute<T> savedAttribute;
+	private AttributeDTO<T> editingAttribute;
+	private AttributeDTO<T> savedAttribute;
 
 	private boolean showUnassignedValues;
 
@@ -53,10 +52,10 @@ implements AttributeValueHandlingModes {
 	 */
 	@SuppressWarnings({"unused", "unchecked"})
 	private AttributeEditorPane() {
-		this(Attribute.getInstance((Class<T>) String.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
+		this(AttributeDTO.getInstance((Class<T>) String.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	protected AttributeEditorPane(Attribute<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	protected AttributeEditorPane(AttributeDTO<T> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		this.attributeService = new AttributeServiceImpl();
 		this.editingAttribute = attribute;
 
@@ -65,11 +64,11 @@ implements AttributeValueHandlingModes {
 		this.savedAttribute = findSavedValues();
 	}
 
-	public Attribute<T> getEditingAttribute() {
+	public AttributeDTO<T> getEditingAttribute() {
 		return editingAttribute;
 	}
 
-	public Attribute<T> getSavedAttribute() {
+	public AttributeDTO<T> getSavedAttribute() {
 		return savedAttribute;
 	}
 
@@ -77,22 +76,22 @@ implements AttributeValueHandlingModes {
 		return showUnassignedValues;
 	}
 
-	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute) {
+	public static final <T> AttributeEditorPane<T> getInstance(AttributeDTO<T> attribute) {
 		return getInstance(attribute, null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute, boolean showUnassignedValues) {
+	public static final <T> AttributeEditorPane<T> getInstance(AttributeDTO<T> attribute, boolean showUnassignedValues) {
 		return getInstance(attribute, null, showUnassignedValues);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static final <T> AttributeEditorPane<T> getInstance(Attribute<T> attribute, 
+	public static final <T> AttributeEditorPane<T> getInstance(AttributeDTO<T> attribute, 
 			Integer handlingMode, boolean showUnassignedValues) {
 
 		Class<?> instanceClass = getClassMatchingTypeParameter(attribute.getTypeParameterClass());
 		try {
 			return (AttributeEditorPane<T>) instanceClass
-					.getDeclaredConstructor(Attribute.class, Integer.class, boolean.class)
+					.getDeclaredConstructor(AttributeDTO.class, Integer.class, boolean.class)
 					.newInstance(attribute, handlingMode, showUnassignedValues);
 		} catch (Exception e) {
 			String message = String.format("Exception thrown while instantiating %s. Message: %s",
@@ -114,9 +113,9 @@ implements AttributeValueHandlingModes {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Attribute<T> findSavedValues() {
+	private AttributeDTO<T> findSavedValues() {
 		try {
-			return (Attribute<T>) attributeService.findByName(editingAttribute.getName(), shouldShowUnassignedValues());
+			return (AttributeDTO<T>) attributeService.findByName(editingAttribute.getName(), LocaleUtils.getLocale(), shouldShowUnassignedValues(), null);
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			throw new IllegalStateException(e);

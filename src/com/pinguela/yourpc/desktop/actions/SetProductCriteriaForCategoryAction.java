@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
-import com.pinguela.yourpc.desktop.view.ProductSearchView;
+import com.pinguela.yourpc.desktop.components.ProductCriteriaPanel;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
+import com.pinguela.yourpc.model.Criteria;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.ProductService;
@@ -20,12 +22,12 @@ extends YPCAction {
 	private ProductService productService;
 	private AttributeService attributeService;
 
-	private ProductSearchView view;
+	private ProductCriteriaPanel panel;
 
-	public SetProductCriteriaForCategoryAction(ProductSearchView view) {
+	public SetProductCriteriaForCategoryAction(ProductCriteriaPanel panel) {
 		this.productService = new ProductServiceImpl();
 		this.attributeService = new AttributeServiceImpl();
-		this.view = view;
+		this.panel = panel;
 		doAction();
 	}
 
@@ -33,9 +35,10 @@ extends YPCAction {
 	protected void doAction() {
 		try {
 			
-			ProductCriteria criteria = view.getCriteria();
-			view.setRanges(productService.getRanges(criteria));
-			view.setCategoryAttributes(attributeService.findByCategory(criteria.getCategoryId(), AttributeService.NO_UNASSIGNED_VALUES));
+			ProductCriteria criteria = // Quick and dirty hack that should work for now
+					(ProductCriteria) (Criteria) panel.getCriteria(); 
+			panel.setRanges(productService.getRanges(criteria, LocaleUtils.getLocale()));
+			panel.setCategoryAttributes(attributeService.findByCategory(criteria.getCategoryId(), LocaleUtils.getLocale(), AttributeService.NO_UNASSIGNED_VALUES));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 		}

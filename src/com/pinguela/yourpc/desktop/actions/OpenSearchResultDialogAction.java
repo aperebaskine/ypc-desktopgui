@@ -2,32 +2,32 @@ package com.pinguela.yourpc.desktop.actions;
 
 import javax.swing.Icon;
 
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 
 @SuppressWarnings("serial")
 public abstract class OpenSearchResultDialogAction<T>
 extends OpenDialogAction<T> {
 	
-	private SearchView<T> searchView;
+	private AbstractSearchView<T> searchView;
 
-	public OpenSearchResultDialogAction(SearchView<T> view) {
+	public OpenSearchResultDialogAction(AbstractSearchView<T> view) {
 		this(view, null, null);
 	}
 
-	public OpenSearchResultDialogAction(SearchView<T> view, Icon icon) {
+	public OpenSearchResultDialogAction(AbstractSearchView<T> view, Icon icon) {
 		this(view, null, icon);
 	}
 
-	public OpenSearchResultDialogAction(SearchView<T> view, String name, Icon icon) {
+	public OpenSearchResultDialogAction(AbstractSearchView<T> view, String name, Icon icon) {
 		super(name, icon);
 		this.searchView = view;
 	}
 
-	public OpenSearchResultDialogAction(SearchView<T> view, String name) {
+	public OpenSearchResultDialogAction(AbstractSearchView<T> view, String name) {
 		this(view, name, null);
 	}
 	
-	public SearchView<T> getSearchView() {
+	public AbstractSearchView<T> getSearchView() {
 		return searchView;
 	}
 

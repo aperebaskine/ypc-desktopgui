@@ -8,17 +8,17 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @SuppressWarnings("serial")
-public class ActionPaneMapTableModel<K extends Comparable<K>, V> 
-extends AbstractActionPaneTableModel {
+public class MapTableModel<K extends Comparable<K>, V> 
+extends YPCTableModel {
 	
 	protected List<K> tableIndex;
 	protected Map<K, V> tableData;
 	
-	public ActionPaneMapTableModel(String[] columnNames) {
+	public MapTableModel(String[] columnNames) {
 		this(columnNames, new HashMap<K, V>());
 	}
 	
-	public ActionPaneMapTableModel(String[] columnNames, Map<K, V> map) {
+	public MapTableModel(String[] columnNames, Map<K, V> map) {
 		super(columnNames);
 		this.tableIndex = new ArrayList<K>(map.keySet());
 		this.tableData = new TreeMap<K, V>(map);

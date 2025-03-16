@@ -11,20 +11,18 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
-import com.pinguela.yourpc.desktop.view.SearchView;
-import com.pinguela.yourpc.desktop.view.StatisticsSearchView;
-import com.pinguela.yourpc.model.Product;
-import com.pinguela.yourpc.model.ProductCriteria;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 import com.pinguela.yourpc.model.ProductStatistics;
+import com.pinguela.yourpc.model.ProductStatisticsCriteria;
 import com.pinguela.yourpc.service.ProductStatisticsService;
 import com.pinguela.yourpc.service.impl.ProductStatisticsServiceImpl;
 
 
 @SuppressWarnings("serial")
-public class StatisticsSearchAction 
-extends SearchAction<Product> {
+public class ProductStatisticsSearchAction 
+extends SearchAction<ProductStatistics> {
 	
-	private static Logger logger = LogManager.getLogger(StatisticsSearchAction.class);
+	private static Logger logger = LogManager.getLogger(ProductStatisticsSearchAction.class);
 	
 	private static final String[] COLUMN_NAMES = {
 		"ID",
@@ -38,25 +36,25 @@ extends SearchAction<Product> {
 	
 	private ProductStatisticsService statisticsService;
 	
-	public StatisticsSearchAction(SearchView<Product> view) {
+	public ProductStatisticsSearchAction(AbstractSearchView<ProductStatistics> view) {
 		super(view);
 		statisticsService = new ProductStatisticsServiceImpl();
 	}
 
 	@Override
 	protected TableModel fetchData() {
-		ProductCriteria criteria = (ProductCriteria) getView().getCriteria();
+		ProductStatisticsCriteria criteria = (ProductStatisticsCriteria) getView().getCriteria();
 		List<ProductStatistics> results = null;
 		
-		try {
-			results = ((StatisticsSearchView) getView()).getMode() == 0
-					? statisticsService.findMostSold(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(),
-							criteria.getCategoryId())
-					: statisticsService.findMostReturned(criteria.getLaunchDateMin(), criteria.getLaunchDateMax(),
-							criteria.getCategoryId());
-		} catch (YPCException e) {
-			logger.error(e.getMessage(), e);
-			DialogUtils.showDatabaseAccessErrorDialog((Component) getView());
+//		try {
+//			results = statisticsService.getSalesStatistics(criteria);
+//		} catch (YPCException e) {
+//			logger.error(e.getMessage(), e);
+//			DialogUtils.showDatabaseAccessErrorDialog((Component) getView());
+//		}
+		
+		if (results == null) {
+			return null;
 		}
 		
 		return new DefaultTableModel(toArray(results), COLUMN_NAMES);

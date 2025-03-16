@@ -4,6 +4,7 @@ import javax.swing.Action;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.Icons;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
 import com.pinguela.yourpc.desktop.view.CustomerOrderView;
 import com.pinguela.yourpc.model.CustomerOrder;
 import com.pinguela.yourpc.service.CustomerOrderService;
@@ -23,13 +24,13 @@ extends SaveItemAction<CustomerOrder> {
 	@Override
 	protected void doCreate(CustomerOrder item) throws YPCException {
 		customerOrderService.create(item);
-		getView().setEntity(customerOrderService.findById(item.getId()));
+		getView().setEntity(customerOrderService.findById(item.getId(), LocaleUtils.getLocale()));
 	}
 	
 	@Override
 	protected void doUpdate(CustomerOrder item) throws YPCException {
 		customerOrderService.update(item);
-		getView().setEntity(customerOrderService.findById(item.getId()));
+		getView().setEntity(customerOrderService.findById(item.getId(), LocaleUtils.getLocale()));
 	}
 	
 	@Override

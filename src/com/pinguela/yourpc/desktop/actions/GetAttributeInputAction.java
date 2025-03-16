@@ -13,17 +13,16 @@ import org.apache.logging.log4j.Logger;
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.components.AttributeInputPane;
 import com.pinguela.yourpc.desktop.components.InputPane;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
 import com.pinguela.yourpc.desktop.view.YPCView;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
-import com.pinguela.yourpc.model.Category;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
+import com.pinguela.yourpc.model.dto.CategoryDTO;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.impl.AttributeServiceImpl;
 
 @SuppressWarnings("serial")
 public abstract class GetAttributeInputAction<T extends YPCView>
-extends GetInputAction<Attribute<?>> 
-implements AttributeValueHandlingModes {
+extends GetInputAction<AttributeDTO<?>> {
 
 	private static Logger logger = LogManager.getLogger(GetAttributeInputAction.class);
 
@@ -46,15 +45,15 @@ implements AttributeValueHandlingModes {
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		Category c = (Category) e.getItem();
+		CategoryDTO c = (CategoryDTO) e.getItem();
 		setEnabled(c.getId() != null);
 	}
 
 	@Override
-	protected InputPane<Attribute<?>> initializeInputPane() {
-		Map<String, Attribute<?>> attributes = new TreeMap<String, Attribute<?>>();
+	protected InputPane<AttributeDTO<?>> initializeInputPane() {
+		Map<String, AttributeDTO<?>> attributes = new TreeMap<String, AttributeDTO<?>>();
 		try {
-			attributes.putAll(attributeService.findByCategory(getCategoryId(), shouldReturnUnassignedValues()));
+			attributes.putAll(attributeService.findByCategory(getCategoryId(), LocaleUtils.getLocale(), shouldReturnUnassignedValues()));
 		} catch (YPCException e) {
 			logger.error(String.format("An error occured while fetching attributes: %s", e.getMessage()), e);
 			JOptionPane.showMessageDialog(view, "An error occured. Contact system administrador", "Error", JOptionPane.ERROR_MESSAGE);

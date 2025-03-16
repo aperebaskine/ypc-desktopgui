@@ -23,10 +23,11 @@ import com.pinguela.yourpc.desktop.constants.CustomerAddressTableConstants;
 import com.pinguela.yourpc.desktop.constants.CustomerOrderTableConstants;
 import com.pinguela.yourpc.desktop.constants.DBConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
+import com.pinguela.yourpc.desktop.model.ListTableModel;
 import com.pinguela.yourpc.desktop.renderer.CustomerAddressTableCellRenderer;
 import com.pinguela.yourpc.desktop.renderer.CustomerOrderTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
+import com.pinguela.yourpc.desktop.util.LocaleUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Customer;
 import com.pinguela.yourpc.model.DocumentType;
@@ -337,11 +338,11 @@ extends AbstractEntityView<Customer> {
 		phoneNumberFormattedTextField.setText(getCurrentEntity().getPhoneNumber());
 		emailTextField.setText(getCurrentEntity().getEmail());
 		
-		addressTable.setModel(new ActionPaneListTableModel<>(CustomerAddressTableConstants.COLUMN_NAMES, getCurrentEntity().getAddresses()));
+		addressTable.setModel(new ListTableModel<>(CustomerAddressTableConstants.COLUMN_NAMES, getCurrentEntity().getAddresses()));
 		
 		try {
-			recentOrderTable.setModel(new ActionPaneListTableModel<>(CustomerOrderTableConstants.COLUMN_NAMES,
-					customerOrderService.findByCustomer(getCurrentEntity().getId())));
+			recentOrderTable.setModel(new ListTableModel<>(CustomerOrderTableConstants.COLUMN_NAMES,
+					customerOrderService.findByCustomer(getCurrentEntity().getId(), LocaleUtils.getLocale())));
 		} catch (YPCException e) {
 			logger.error(e.getMessage(), e);
 			DialogUtils.showDatabaseAccessErrorDialog(this);

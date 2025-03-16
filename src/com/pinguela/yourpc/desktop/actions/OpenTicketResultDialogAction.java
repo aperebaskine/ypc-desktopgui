@@ -1,10 +1,10 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
@@ -28,13 +28,11 @@ extends OpenSearchResultDialogAction<Ticket> {
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		JTable table = getSearchView().getTable();
-		int row = table.getSelectedRow();
-		int column = table.getSelectedColumn();
-
+		Object[][] tableSelection = getSearchView().getTableSelection();
+				
 		dialogView = new TicketView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
-		t = (Ticket) table.getValueAt(row, column);
+		t = (Ticket) tableSelection[0][0];
 		dialogView.setEntity(t);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
@@ -45,7 +43,7 @@ extends OpenSearchResultDialogAction<Ticket> {
 		dialogView.addAction(new SaveTicketAction(dialogView), EntityView.EDITOR_CARD);
 		dialogView.addAction(new AddTicketMessageAction(dialogView), EntityView.EDITOR_CARD);
 
-		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
+		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) getSearchView());
 		YPCDialog dialog = new YPCDialog(frame, dialogView);
 		dialog.setTitle("Ticket editor");
 		return dialog;

@@ -7,26 +7,26 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
 public class AttributeValueInputPane 
-extends InputPane<Attribute<?>> {
+extends InputPane<AttributeDTO<?>> {
 	
 	private JPanel contentPane;
 	private AttributeEditorPane<?> editorPane;
 	
-	private Attribute<?> attribute;
+	private AttributeDTO<?> attribute;
 	
-	protected AttributeValueInputPane(Attribute<?> attribute) {
+	protected AttributeValueInputPane(AttributeDTO<?> attribute) {
 		this(attribute, null, true);
 	}
 	
-	public AttributeValueInputPane(Attribute<?> attribute, boolean showUnassignedValues) {
+	public AttributeValueInputPane(AttributeDTO<?> attribute, boolean showUnassignedValues) {
 		this(attribute, null, showUnassignedValues);
 	}
 	
-	public AttributeValueInputPane(Attribute<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public AttributeValueInputPane(AttributeDTO<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(String.format("Select values for %s:", attribute.getName()));
 		this.attribute = attribute;
 		initializeEditor(attribute, handlingMode, showUnassignedValues);
@@ -39,13 +39,13 @@ extends InputPane<Attribute<?>> {
 		return contentPane;
 	}
 	
-	private void initializeEditor(Attribute<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	private void initializeEditor(AttributeDTO<?> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		editorPane = (AttributeEditorPane<?>) AttributeEditorPane.getInstance(attribute, handlingMode, showUnassignedValues);
 		contentPane.add(editorPane, BorderLayout.CENTER);
 	}
 
 	@Override
-	public Attribute<?> getInput() {
+	public AttributeDTO<?> getInput() {
 		
 		Collection<?> editorPaneValues = editorPane.getEditorValues();
 		
@@ -54,7 +54,7 @@ extends InputPane<Attribute<?>> {
 		for (int i = 0; i < array.length; i++) {
 			array[i] = iterator.next();
 		}
-		return Attribute.getInstance(attribute.getName(), array);
+		return AttributeDTO.getInstance(attribute.getId(), attribute.getName(), array);
 	}
 
 }

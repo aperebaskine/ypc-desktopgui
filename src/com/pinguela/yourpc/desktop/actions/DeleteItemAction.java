@@ -15,7 +15,7 @@ import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.dialog.YPCDialog;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.view.EntityView;
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 
 @SuppressWarnings("serial")
 public abstract class DeleteItemAction<T> 
@@ -30,7 +30,7 @@ extends YPCAction {
 		delegate = new ItemViewDeleteActionDelegate(source);
 	}
 
-	public DeleteItemAction(SearchView<T> source) {
+	public DeleteItemAction(AbstractSearchView<T> source) {
 		super("Delete", Icons.DELETE_ICON);
 		delegate = new SearchViewDeleteActionDelegate(source);
 	}
@@ -100,9 +100,9 @@ extends YPCAction {
 
 	private class SearchViewDeleteActionDelegate extends DeleteActionDelegate {
 
-		private SearchView<T> view;
+		private AbstractSearchView<T> view;
 
-		private SearchViewDeleteActionDelegate(SearchView<T> view) {
+		private SearchViewDeleteActionDelegate(AbstractSearchView<T> view) {
 			this.view = view;
 		}
 
@@ -119,7 +119,7 @@ extends YPCAction {
 		@Override
 		@SuppressWarnings("unchecked")
 		protected T getItem() {
-			return (T) view.getTable().getCellEditor().getCellEditorValue();
+			return (T) view.getTableCellEditorValue();
 		}
 
 	}

@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.pinguela.yourpc.desktop.constants.OrderLineTableConstants;
-import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
+import com.pinguela.yourpc.desktop.model.ListTableModel;
 import com.pinguela.yourpc.desktop.renderer.OrderLineTableCellRenderer;
 import com.pinguela.yourpc.model.OrderLine;
 
@@ -35,12 +35,12 @@ extends AbstractEntityView<List<OrderLine>> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<OrderLine> getEntityFromFields() {
-		return ((ActionPaneListTableModel<OrderLine>) orderLineTable.getModel()).getData();
+		return ((ListTableModel<OrderLine>) orderLineTable.getModel()).getData();
 	}
 
 	@Override
 	public void resetFields() {
-		orderLineTable.setModel(new ActionPaneListTableModel<OrderLine>(OrderLineTableConstants.COLUMN_NAMES));
+		orderLineTable.setModel(new ListTableModel<OrderLine>(OrderLineTableConstants.COLUMN_NAMES));
 	}
 
 	@Override
@@ -51,7 +51,7 @@ extends AbstractEntityView<List<OrderLine>> {
 
 	@Override
 	protected void loadItemData() {
-		orderLineTable.setModel(new ActionPaneListTableModel<>(OrderLineTableConstants.COLUMN_NAMES, getCurrentEntity()));
+		orderLineTable.setModel(new ListTableModel<>(OrderLineTableConstants.COLUMN_NAMES, getCurrentEntity()));
 	}
 
 }

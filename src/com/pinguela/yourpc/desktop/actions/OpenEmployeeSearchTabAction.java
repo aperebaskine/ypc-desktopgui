@@ -2,7 +2,6 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
 
-import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.EmployeeSearchView;
 
 @SuppressWarnings("serial")
@@ -17,8 +16,7 @@ extends OpenTabAction {
 	protected Component initializeTab() {
 		EmployeeSearchView view = new EmployeeSearchView();
 		YPCAction editEmployeeDialogAction = new OpenEmployeeResultDialogAction(view);
-		TableUtils.initializeActionPanes(view.getTable(), editEmployeeDialogAction);
-		view.getTable().addMouseListener(editEmployeeDialogAction);
+		view.setTableActions(true, editEmployeeDialogAction);
 		return view;
 	}
 

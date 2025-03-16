@@ -99,7 +99,7 @@ extends AbstractSearchView<T> {
 		PaginationAction firstPageAction = new FirstPageAction(this);
 		addPropertyChangeListener(CRITERIA_PROPERTY, firstPageAction);
 		
-		addSearchAction(firstPageAction);
+		addSearchActionListener(firstPageAction);
 		firstPageButton.addActionListener(firstPageAction);
 		previousPageButton.addActionListener(new PreviousPageAction(this));
 		nextPageButton.addActionListener(new NextPageAction(this));

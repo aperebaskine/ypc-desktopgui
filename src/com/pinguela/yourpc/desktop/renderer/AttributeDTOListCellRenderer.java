@@ -5,23 +5,23 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.pinguela.yourpc.model.AttributeValue;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
-public class AttributeValueListCellRenderer 
+public class AttributeDTOListCellRenderer 
 extends DefaultListCellRenderer {
 	
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
-
-		AttributeValue<?> attributeValue = (AttributeValue<?>) value;
+		
+		AttributeDTO<?> attribute = (AttributeDTO<?>) value;
 		String valueString;
 		
-		if (attributeValue.getValue() == null) {
-			valueString = "Select a value...";
+		if (attribute == null) {
+			valueString = "Select an attribute...";
 		} else {
-			valueString = (String) attributeValue.getValue();
+			valueString = attribute.getName();
 		}
 		
 		return super.getListCellRendererComponent(list, valueString, index, isSelected, cellHasFocus);

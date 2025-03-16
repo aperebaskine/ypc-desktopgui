@@ -1,10 +1,10 @@
 package com.pinguela.yourpc.desktop.actions;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
@@ -27,13 +27,11 @@ extends OpenSearchResultDialogAction<RMA> {
 
 	@Override
 	protected YPCDialog createDialog(ActionEvent e) {
-		JTable table = getSearchView().getTable();
-		int row = table.getSelectedRow();
-		int column = table.getSelectedColumn();
-
+		Object[][] tableSelection = getSearchView().getTableSelection();
+		
 		dialogView = new RMAView();
 		dialogView.addPropertyChangeListener(EntityView.ITEM_PROPERTY, this);
-		rma = (RMA) table.getValueAt(row, column);
+		rma = (RMA) tableSelection[0][0];
 		dialogView.setEntity(rma);
 
 		boolean isEditing = ActionCommands.TABLE_BUTTON.equals(e.getActionCommand());
@@ -43,7 +41,7 @@ extends OpenSearchResultDialogAction<RMA> {
 		dialogView.addAction(new CancelEditAction<RMA>(dialogView), EntityView.EDITOR_CARD);
 		dialogView.addAction(new SaveRMAAction(dialogView), EntityView.EDITOR_CARD);
 
-		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(table);
+		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) getSearchView());
 		YPCDialog dialog = new YPCDialog(frame, dialogView);
 		dialog.setTitle("RMA editor");
 		return dialog;

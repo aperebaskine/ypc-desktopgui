@@ -18,7 +18,7 @@ extends DefaultListCellRenderer {
 		ItemType<?> itemState = (ItemType<?>) value;
 		String valueString;
 		
-		if (itemState.getId() == null) {
+		if (itemState == null) {
 			valueString = "Select a type...";
 		} else {
 			valueString = itemState.getName();

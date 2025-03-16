@@ -16,8 +16,8 @@ import javax.swing.SwingConstants;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValue;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
+import com.pinguela.yourpc.model.dto.AttributeValueDTO;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
@@ -26,7 +26,7 @@ extends AttributeEditorPane<String> {
 	
 	private JScrollPane selectedValuesScrollPane;
 	private JList<String> selectedValuesList;
-	private JComboBox<AttributeValue<String>> valueComboBox;
+	private JComboBox<AttributeValueDTO<String>> valueComboBox;
 
 	private JPanel valueSelectionPanel;
 
@@ -35,10 +35,10 @@ extends AttributeEditorPane<String> {
 	 */
 	@SuppressWarnings("unused")
 	private StringAttributeEditorPane() {
-		this(Attribute.getInstance(String.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
+		this(AttributeDTO.getInstance(String.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public StringAttributeEditorPane(Attribute<String> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public StringAttributeEditorPane(AttributeDTO<String> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(attribute, handlingMode, showUnassignedValues);
 		initialize();
 		setInitialValues();
@@ -56,13 +56,13 @@ extends AttributeEditorPane<String> {
 		valueSelectionPanel = new JPanel();
 		add(valueSelectionPanel, BorderLayout.NORTH);
 		
-		valueComboBox = ComponentFactory.createComboBox(getSavedAttribute().getValues(), AttributeValue.class);
+		valueComboBox = ComponentFactory.createComboBox(getSavedAttribute().getValues(), AttributeValueDTO.class);
 		valueSelectionPanel.add(valueComboBox);
 		
 		JButton addValueButton = new JButton("Add", Icons.ADD_ICON);
 		addValueButton.addActionListener((evt) -> {
 			((DefaultListModel<String>) selectedValuesList.getModel())
-			.addElement(((AttributeValue<String>) valueComboBox.getSelectedItem()).getValue());
+			.addElement(((AttributeValueDTO<String>) valueComboBox.getSelectedItem()).getValue());
 		});
 		valueSelectionPanel.add(addValueButton);
 	}

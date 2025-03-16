@@ -2,9 +2,6 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
 
-import javax.swing.JTable;
-
-import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.RMASearchView;
 
 @SuppressWarnings("serial")
@@ -20,9 +17,7 @@ extends OpenTabAction {
 		RMASearchView view = new RMASearchView();
 		YPCAction openEditDialogAction = new OpenRMAResultDialogAction(view);
 		
-		JTable table = view.getTable();
-		TableUtils.initializeActionPanes(table, openEditDialogAction);
-		table.addMouseListener(openEditDialogAction);
+		view.setTableActions(true, openEditDialogAction);
 		
 		return view;
 	}

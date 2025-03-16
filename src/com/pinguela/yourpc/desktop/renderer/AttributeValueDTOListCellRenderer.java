@@ -5,27 +5,25 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.pinguela.yourpc.model.Category;
+import com.pinguela.yourpc.model.dto.AttributeValueDTO;
 
 @SuppressWarnings("serial")
-public class CategoryListCellRenderer
+public class AttributeValueDTOListCellRenderer 
 extends DefaultListCellRenderer {
-
-	public CategoryListCellRenderer() {
-	}
-
+	
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
-		
-		Category c = (Category) value;
-		String valueString = null;
 
-		if (c.getId() == null) {
-			valueString = "Select a category...";
+		AttributeValueDTO<?> attributeValue = (AttributeValueDTO<?>) value;
+		String valueString;
+		
+		if (attributeValue == null) {
+			valueString = "Select a value...";
 		} else {
-			valueString = String.format("%d - %s", c.getId(), c.getName());
-		}	
+			valueString = (String) attributeValue.getValue();
+		}
+		
 		return super.getListCellRendererComponent(list, valueString, index, isSelected, cellHasFocus);
 	}
 

@@ -3,8 +3,8 @@ package com.pinguela.yourpc.desktop.actions;
 import javax.swing.JTable;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.desktop.model.MapTableModel;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
 public class DeleteAttributeAction 
@@ -20,8 +20,8 @@ extends YPCAction {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void doAction() {
-		Attribute<?> attribute = (Attribute<?>) table.getCellEditor().getCellEditorValue();
-		((ActionPaneMapTableModel<String, Attribute<?>>) table.getModel()).removeRow(attribute.getName());
+		AttributeDTO<?> attribute = (AttributeDTO<?>) table.getCellEditor().getCellEditorValue();
+		((MapTableModel<String, AttributeDTO<?>>) table.getModel()).removeRow(attribute.getName());
 	}
 
 }

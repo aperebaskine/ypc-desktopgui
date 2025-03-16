@@ -5,6 +5,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.Action;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import com.pinguela.yourpc.desktop.actions.ActionCommands;
 import com.pinguela.yourpc.desktop.components.ActionPane;
@@ -21,6 +23,14 @@ implements TableConstants {
 		ActionPaneCellEditor editor = (ActionPaneCellEditor) table.getDefaultEditor(ActionPane.class);
 		editor.setBackground(table.getSelectionBackground());
 	};
+	
+	public static void addTableAction(JTable table, Action action, boolean asMouseListener) {
+		
+		
+		TableCellRenderer renderer = table.getDefaultRenderer(ActionPane.class);
+		TableCellEditor editor = table.getDefaultEditor(ActionPane.class);
+		
+	}
 	
 	public static void initializeActionPanes(JTable table, Action... actions) {
 		

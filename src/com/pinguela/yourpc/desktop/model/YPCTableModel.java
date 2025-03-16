@@ -9,14 +9,14 @@ import com.pinguela.yourpc.desktop.components.ActionPane;
  * TODO: Decouple action pane from model and add it to column model
  */
 @SuppressWarnings("serial")
-public abstract class AbstractActionPaneTableModel
+public abstract class YPCTableModel
 extends AbstractTableModel {
 	
 	public static final String ACTION_PANE_COLUMN_NAME = "Actions";
 	
 	private final String[] columnNames;
 	
-	public AbstractActionPaneTableModel(String[] columnNames) {
+	public YPCTableModel(String[] columnNames) {
 		this.columnNames = columnNames;
 	}
 

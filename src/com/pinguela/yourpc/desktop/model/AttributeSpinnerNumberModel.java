@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.model;
 
 import javax.swing.SpinnerNumberModel;
 
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
 public class AttributeSpinnerNumberModel<T extends Number & Comparable<T>> 
@@ -14,13 +14,13 @@ extends SpinnerNumberModel {
 	// Methods using step size are overridden
 	private static final int STEP_SIZE = 1;
 
-	private Attribute<T> attribute;
+	private AttributeDTO<T> attribute;
 	private int currentIndex;
 	private int maxIndex;
 
 	private boolean isCustomValueSet = false;
 
-	public AttributeSpinnerNumberModel(Attribute<T> attribute, int initialValueIndex) {
+	public AttributeSpinnerNumberModel(AttributeDTO<T> attribute, int initialValueIndex) {
 		super(attribute.getValueAt(initialValueIndex),
 				attribute.getValueAt(0), 
 				attribute.getValueAt(attribute.getValues().size()-1),

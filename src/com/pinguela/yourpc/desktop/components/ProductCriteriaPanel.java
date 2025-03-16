@@ -5,8 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -18,23 +19,19 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import com.pinguela.yourpc.desktop.actions.GetAttributeCriteriaAction;
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
-import com.pinguela.yourpc.desktop.actions.ProductSearchAction;
-import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
-import com.pinguela.yourpc.desktop.actions.SetProductCriteriaForCategoryAction;
-import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
+import com.pinguela.yourpc.desktop.model.MapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.TableUtils;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.Category;
-import com.pinguela.yourpc.model.Product;
+import com.pinguela.yourpc.model.Criteria;
 import com.pinguela.yourpc.model.ProductCriteria;
 import com.pinguela.yourpc.model.ProductRanges;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
+import com.pinguela.yourpc.model.dto.CategoryDTO;
+import com.pinguela.yourpc.model.dto.LocalizedProductDTO;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.util.CategoryUtils;
 
@@ -42,11 +39,11 @@ import slider.RangeSlider;
 
 @SuppressWarnings("serial")
 public class ProductCriteriaPanel
-extends CriteriaPanel<Long, Product> {
+extends EntityCriteriaPanel<Long, LocalizedProductDTO> {
 
-	private JFormattedTextField productIdField;
+	private static final String ATTRIBUTE_CRITERIA_PROPERTY = "attributeCriteria";
 	private JTextField productNameField;
-	private JComboBox<Category> categoryComboBox;
+	private JComboBox<CategoryDTO> categoryComboBox;
 	private ExtendedDateChooser minLaunchDateChooser;
 	private ExtendedDateChooser maxLaunchDateChooser;
 	private RangeSlider priceRangeSlider;
@@ -56,31 +53,37 @@ extends CriteriaPanel<Long, Product> {
 	private JLabel maxPriceLabel;
 	private JTable attributeTable;
 	private JScrollPane attributePane;
-
-	public ProductCriteriaPanel(ProductSearchAction action) {
+	
+	private Map<String, AttributeDTO<?>> categoryAttributes;
+	
+	@SuppressWarnings("unchecked")
+	private final PropertyChangeListener attributeCriteriaListener = (evt) -> {
+		MapTableModel<String, AttributeDTO<?>> model = 
+				(MapTableModel<String, AttributeDTO<?>>) attributeTable.getModel();
+		
+		model.clear();
+		
+		if (evt.getNewValue() != null) {
+			model.setData((Map<String, AttributeDTO<?>>) evt.getNewValue());
+		} 
+	};
+	
+	public ProductCriteriaPanel() {
 		initialize();
-		postInitialize(action);
+		postInitialize();
 	}
 
 	private void initialize() {
 
-		GridBagLayout gbl_searchCriteriaPanel = new GridBagLayout();
+		GridBagLayout gbl_searchCriteriaPanel = (GridBagLayout) getLayout();
 		gbl_searchCriteriaPanel.columnWidths = new int[]{0, 0, 100, 0, 100, 40, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0};
 		gbl_searchCriteriaPanel.rowHeights = new int[]{0, 0, 0, 26, 0, 0};
 		gbl_searchCriteriaPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_searchCriteriaPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		setLayout(gbl_searchCriteriaPanel);
-
-		JLabel productIdLabel = new JLabel("Product ID:");
-		GridBagConstraints gbc_productIdLabel = new GridBagConstraints();
-		gbc_productIdLabel.anchor = GridBagConstraints.EAST;
-		gbc_productIdLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_productIdLabel.gridx = 0;
-		gbc_productIdLabel.gridy = 0;
-		add(productIdLabel, gbc_productIdLabel);
 
 		JLabel attributeLabel = new JLabel("Attributes:");
 		GridBagConstraints gbc_attributeLabel = new GridBagConstraints();
+		gbc_attributeLabel.anchor = GridBagConstraints.EAST;
 		gbc_attributeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_attributeLabel.gridx = 6;
 		gbc_attributeLabel.gridy = 0;
@@ -251,27 +254,17 @@ extends CriteriaPanel<Long, Product> {
 
 		attributeTable = new JTable();
 		attributePane.setViewportView(attributeTable);
-
 	}
 
-	private void postInitialize(ProductSearchAction action) {
-		productIdField = ComponentFactory.createNullableNumberTextField(Long.class);
-		GridBagConstraints gbc_productIdField = new GridBagConstraints();
-		gbc_productIdField.gridwidth = 4;
-		gbc_productIdField.insets = new Insets(0, 0, 5, 5);
-		gbc_productIdField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_productIdField.gridx = 1;
-		gbc_productIdField.gridy = 0;
-		add(productIdField, gbc_productIdField);
-		productIdField.setColumns(10);
+	private void postInitialize() {
 
-		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES));
+		attributeTable.setModel(new MapTableModel<String, AttributeDTO<?>>(AttributeTableConstants.COLUMN_NAMES));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable),
 				new EditAttributeAction(attributeTable, AttributeService.NO_UNASSIGNED_VALUES));
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
+		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), CategoryDTO.class);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 		gbc_categoryComboBox.gridwidth = 4;
 		gbc_categoryComboBox.anchor = GridBagConstraints.SOUTH;
@@ -288,39 +281,21 @@ extends CriteriaPanel<Long, Product> {
 
 		// TODO: Add listener for ID field
 
-		productNameField.getDocument().addDocumentListener(action);
-		categoryComboBox.addItemListener(action);
-		minLaunchDateChooser.getDateEditor().addPropertyChangeListener("date", action);
-		minLaunchDateChooser.getDateEditor().addPropertyChangeListener("date", action);
-		priceRangeSlider.addChangeListener(action);
-		stockMinField.addPropertyChangeListener("value", action);
-		stockMaxField.addPropertyChangeListener("value", action);
-		attributeTable.getModel().addTableModelListener(action);
-
-		categoryComboBox.addActionListener(new SetProductCriteriaForCategoryAction(null));
-		categoryComboBox.addActionListener(new ResetCriteriaAction(null));
+//		categoryComboBox.addActionListener(new SetProductCriteriaForCategoryAction(this));
+//		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
 		
-		YPCAction addAttributeCriteriaAction = new GetAttributeCriteriaAction(null);
-		
-		categoryComboBox.addItemListener(addAttributeCriteriaAction);
-		JButton btnNewButton = new JButton(addAttributeCriteriaAction);
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 6;
-		gbc_btnNewButton.gridy = 1;
-		add(btnNewButton, gbc_btnNewButton);	
-		
+		addPropertyChangeListener(ATTRIBUTE_CRITERIA_PROPERTY, attributeCriteriaListener);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ProductCriteria getCriteria() {
-		ProductCriteria criteria = new ProductCriteria();
+	@Override
+	protected int getIdFieldGridWidth() {
+		return 4;
+	}
 
-		if (productIdField.getText().isEmpty()) {
-			criteria.setId(null);
-		} else {
-			criteria.setId((Long) productIdField.getValue());
-		}
+	public Criteria<Long, LocalizedProductDTO> getCriteria() {
+		ProductCriteria criteria = new ProductCriteria();
+		
+		criteria.setId(getId());
 
 		if (productNameField.getText().isEmpty()) {
 			criteria.setName(null);
@@ -328,7 +303,7 @@ extends CriteriaPanel<Long, Product> {
 			criteria.setName(productNameField.getText());
 		}
 
-		Category c = (Category) categoryComboBox.getSelectedItem();
+		CategoryDTO c = (CategoryDTO) categoryComboBox.getSelectedItem();
 		if (c == null) {
 			criteria.setCategoryId(null);
 		} else {
@@ -353,9 +328,17 @@ extends CriteriaPanel<Long, Product> {
 		criteria.setStockMin((Integer) stockMinField.getValue());
 		criteria.setStockMax((Integer) stockMaxField.getValue());
 		
-		criteria.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
-
-		return criteria;
+		if (categoryAttributes != null) {
+			for (int i = 0; i < attributeTable.getRowCount(); i++) {
+				AttributeDTO<?> attribute = (AttributeDTO<?>) attributeTable.getValueAt(i, 0);
+				if (!categoryAttributes.get(attribute.getName()).equals(attribute)) {
+					criteria.getAttributes().add(attribute);
+				}
+			}
+		}
+		
+		// Quick and dirty hack fix that should work for now
+		return (Criteria) criteria;
 	}
 
 	public void setRanges(ProductRanges ranges) {
@@ -370,18 +353,8 @@ extends CriteriaPanel<Long, Product> {
 	}
 
 	@Override
-	public void setFieldsEnabled(boolean isEnabled) {
-		productNameField.setEnabled(isEnabled);
-		categoryComboBox.setEnabled(isEnabled);
-		minLaunchDateChooser.setEnabled(isEnabled);
-		maxLaunchDateChooser.setEnabled(isEnabled);
-		stockMinField.setEnabled(isEnabled);
-		stockMaxField.setEnabled(isEnabled);
-		priceRangeSlider.setEnabled(isEnabled);
-	}
-
-	@Override
 	public void resetFields(Object source) {
+
 		if (!productNameField.equals(source)) {
 			productNameField.setText(null);
 		}
@@ -412,7 +385,25 @@ extends CriteriaPanel<Long, Product> {
 		if (!categoryComboBox.equals(source)) {
 			categoryComboBox.setSelectedItem(categoryComboBox.getItemAt(0));
 		}
+		
+		setCategoryAttributes(null);
+	}
 
-		((ActionPaneMapTableModel<?, ?>) attributeTable.getModel()).clear();
+	@Override
+	public void setFieldsEnabled(boolean isEnabled) {
+		productNameField.setEnabled(isEnabled);
+		categoryComboBox.setEnabled(isEnabled);
+		minLaunchDateChooser.setEnabled(isEnabled);
+		maxLaunchDateChooser.setEnabled(isEnabled);
+		stockMinField.setEnabled(isEnabled);
+		stockMaxField.setEnabled(isEnabled);
+		priceRangeSlider.setEnabled(isEnabled);
+	}
+
+	public void setCategoryAttributes(Map<String, AttributeDTO<?>> attributeCriteria) {
+		
+		Map<String, AttributeDTO<?>> old = this.categoryAttributes;
+		this.categoryAttributes = attributeCriteria;
+		firePropertyChange(ATTRIBUTE_CRITERIA_PROPERTY, old, attributeCriteria);
 	}
 }

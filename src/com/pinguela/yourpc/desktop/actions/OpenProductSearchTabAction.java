@@ -2,7 +2,6 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
 
-import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.desktop.view.ProductSearchView;
 
 @SuppressWarnings("serial")
@@ -17,8 +16,7 @@ extends OpenTabAction {
 	protected Component initializeTab() {
 		ProductSearchView view = new ProductSearchView();
 		YPCAction editProductDialogAction = new OpenProductResultDialogAction(view);
-		TableUtils.initializeActionPanes(view.getTable(), new DeleteProductAction(view), editProductDialogAction);
-		view.getTable().addMouseListener(editProductDialogAction);
+		view.setTableActions(true, editProductDialogAction, new DeleteProductAction(view));
 		return view;
 	}
 	

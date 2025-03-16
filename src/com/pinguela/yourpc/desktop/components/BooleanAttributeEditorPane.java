@@ -8,7 +8,7 @@ import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
@@ -24,10 +24,10 @@ extends AttributeEditorPane<Boolean> {
 	 */
 	@SuppressWarnings("unused")
 	private BooleanAttributeEditorPane() {
-		this(Attribute.getInstance(Boolean.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
+		this(AttributeDTO.getInstance(Boolean.class), null, AttributeService.RETURN_UNASSIGNED_VALUES);
 	}
 
-	public BooleanAttributeEditorPane(Attribute<Boolean> attribute, Integer handlingMode, boolean showUnassignedValues) {
+	public BooleanAttributeEditorPane(AttributeDTO<Boolean> attribute, Integer handlingMode, boolean showUnassignedValues) {
 		super(attribute, handlingMode, true);
 		initialize();
 		setInitialValues();
@@ -51,7 +51,7 @@ extends AttributeEditorPane<Boolean> {
 	}
 	
 	private void setInitialValues() {
-		Attribute<Boolean> attribute = getEditingAttribute();
+		AttributeDTO<Boolean> attribute = getEditingAttribute();
 		if (attribute.getValues().size() == 1 && Boolean.FALSE.equals(attribute.getValueAt(0))) {
 			falseRadioButton.setSelected(true);
 		} else {

@@ -10,9 +10,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.pinguela.YPCException;
 import com.pinguela.yourpc.desktop.constants.EmployeeTableConstants;
-import com.pinguela.yourpc.desktop.model.ActionPaneListTableModel;
+import com.pinguela.yourpc.desktop.model.ListTableModel;
 import com.pinguela.yourpc.desktop.view.EmployeeSearchView;
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 import com.pinguela.yourpc.model.Employee;
 import com.pinguela.yourpc.model.EmployeeCriteria;
 import com.pinguela.yourpc.service.EmployeeService;
@@ -26,7 +26,7 @@ extends SearchAction<Employee> {
 	
 	private EmployeeService employeeService;
 
-	public EmployeeSearchAction(SearchView<Employee> view) {
+	public EmployeeSearchAction(AbstractSearchView<Employee> view) {
 		super(view);
 		this.employeeService = new EmployeeServiceImpl();
 	}
@@ -35,7 +35,7 @@ extends SearchAction<Employee> {
 	protected TableModel fetchData() {
 		
 		EmployeeSearchView view = (EmployeeSearchView) getView();
-		EmployeeCriteria criteria = view.getCriteria();
+		EmployeeCriteria criteria = (EmployeeCriteria) view.getCriteria();
 		List<Employee> results = null;
 
 		try {
@@ -48,7 +48,7 @@ extends SearchAction<Employee> {
 			logger.error(ypce.getMessage(), ypce);
 		}
 
-		return new ActionPaneListTableModel<Employee>(EmployeeTableConstants.COLUMN_NAMES, results);
+		return new ListTableModel<Employee>(EmployeeTableConstants.COLUMN_NAMES, results);
 	}
 
 }

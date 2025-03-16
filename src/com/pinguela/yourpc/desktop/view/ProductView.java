@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.Action;
@@ -40,15 +41,15 @@ import com.pinguela.yourpc.desktop.components.ExtendedDateChooser;
 import com.pinguela.yourpc.desktop.components.ImageGalleryPanel;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
-import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
+import com.pinguela.yourpc.desktop.model.MapTableModel;
 import com.pinguela.yourpc.desktop.renderer.AttributeTableCellRenderer;
 import com.pinguela.yourpc.desktop.util.DialogUtils;
 import com.pinguela.yourpc.desktop.util.TableUtils;
-import com.pinguela.yourpc.model.Attribute;
-import com.pinguela.yourpc.model.AttributeValueHandlingModes;
-import com.pinguela.yourpc.model.Category;
 import com.pinguela.yourpc.model.ImageEntry;
-import com.pinguela.yourpc.model.Product;
+import com.pinguela.yourpc.model.constants.AttributeValueHandlingModes;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
+import com.pinguela.yourpc.model.dto.CategoryDTO;
+import com.pinguela.yourpc.model.dto.LocalizedProductDTO;
 import com.pinguela.yourpc.service.AttributeService;
 import com.pinguela.yourpc.service.ImageFileService;
 import com.pinguela.yourpc.service.impl.ImageFileServiceImpl;
@@ -56,15 +57,15 @@ import com.pinguela.yourpc.util.CategoryUtils;
 
 @SuppressWarnings("serial")
 public class ProductView 
-extends AbstractEntityView<Product> {
-	
+extends AbstractEntityView<LocalizedProductDTO> {
+
 	private static Logger logger = LogManager.getLogger(ProductView.class);
-	
+
 	private ImageFileService imageFileService;
 
 	private JLabel idValueLabel;
 	private JTextField nameTextField;
-	private JComboBox<Category> categoryComboBox;
+	private JComboBox<CategoryDTO> categoryComboBox;
 	private ExtendedDateChooser launchDateChooser;
 	private JFormattedTextField stockTextField;
 	private JFormattedTextField purchasePriceField;
@@ -72,24 +73,24 @@ extends AbstractEntityView<Product> {
 	private JTextArea descriptionTextArea;
 	private JTable attributeTable;
 	private ImageGalleryPanel imageGalleryPanel;
-	
+
 	private JButton addAttributeButton;
 	private TableColumn actionColumn;
-	
+
 	private TableColumnModelListener columnListener = new TableColumnModelListener() {
-		
+
 		@Override
 		public void columnSelectionChanged(ListSelectionEvent e) {}
-		
+
 		@Override
 		public void columnRemoved(TableColumnModelEvent e) {}
-		
+
 		@Override
 		public void columnMoved(TableColumnModelEvent e) {}
-		
+
 		@Override
 		public void columnMarginChanged(ChangeEvent e) {}
-		
+
 		@Override
 		public void columnAdded(TableColumnModelEvent e) {
 			if (attributeTable.getColumnCount() > AttributeTableConstants.ACTION_PANE_COLUMN_INDEX) {
@@ -116,7 +117,7 @@ extends AbstractEntityView<Product> {
 	}
 
 	private void initialize() {
-		
+
 		JPanel viewPanel = getViewPanel();
 
 		viewPanel.setPreferredSize(new Dimension(540, 0));
@@ -273,21 +274,21 @@ extends AbstractEntityView<Product> {
 		gbc_attributeScrollPane.gridx = 1;
 		gbc_attributeScrollPane.gridy = 10;
 		viewPanel.add(attributeScrollPane, gbc_attributeScrollPane);
-		
+
 		attributeTable = new JTable();
 		attributeScrollPane.setViewportView(attributeTable);
 	}
 
 	private void postInitialize() {
-		
+
 		JPanel viewPanel = getViewPanel();
 		add(viewPanel, BorderLayout.WEST);
-		
+
 		imageGalleryPanel = new ImageGalleryPanel();
 		imageGalleryPanel.setBorder(new EmptyBorder(0, 16, 0, 0));
 		add(imageGalleryPanel, BorderLayout.CENTER);
 
-		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), Category.class);
+		categoryComboBox = ComponentFactory.createComboBox(CategoryUtils.CATEGORIES.values(), CategoryDTO.class);
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 		gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -295,7 +296,7 @@ extends AbstractEntityView<Product> {
 		gbc_categoryComboBox.gridy = 2;
 		viewPanel.add(categoryComboBox, gbc_categoryComboBox);
 		categoryComboBox.setEnabled(false);
-		
+
 		categoryComboBox.addItemListener((evt) -> {
 			addAttributeButton.setEnabled(isEditable() && categoryComboBox.getSelectedIndex() > 0);
 		});
@@ -309,13 +310,13 @@ extends AbstractEntityView<Product> {
 		gbc_launchDateChooser.gridx = 1;
 		gbc_launchDateChooser.gridy = 3;
 		viewPanel.add(launchDateChooser, gbc_launchDateChooser);
-		
+
 		attributeTable.getColumnModel().addColumnModelListener(columnListener);
-		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
+		attributeTable.setModel(new MapTableModel<String, AttributeDTO<?>>(
 				AttributeTableConstants.COLUMN_NAMES, Collections.emptyMap()));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable), 
 				new EditAttributeAction(attributeTable, AttributeValueHandlingModes.SET, AttributeService.RETURN_UNASSIGNED_VALUES));
-		
+
 		addAttributeButton = new JButton(new AddAttributeAction(this, AttributeValueHandlingModes.SET));
 		GridBagConstraints gbc_addAttributeButton = new GridBagConstraints();
 		gbc_addAttributeButton.anchor = GridBagConstraints.EAST;
@@ -325,46 +326,61 @@ extends AbstractEntityView<Product> {
 		getViewPanel().add(addAttributeButton, gbc_addAttributeButton);
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		imageFileService = new ImageFileServiceImpl();
-		
+
 		addPropertyChangeListener(IS_EDITABLE_PROPERTY, editableListener);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Product getEntityFromFields() {
-		Product product = new Product();
+	public LocalizedProductDTO getEntityFromFields() {
+		LocalizedProductDTO product = new LocalizedProductDTO();
 
 		product.setId(idValueLabel.getText().length() == 0 ? null : Long.valueOf(idValueLabel.getText()));
 		product.setName(nameTextField.getText());
-		product.setCategoryId(((Category) categoryComboBox.getSelectedItem()).getId());
+		product.setCategoryId(((CategoryDTO) categoryComboBox.getSelectedItem()).getId());
 		product.setLaunchDate(launchDateChooser.getDate());
 		product.setStock(Integer.valueOf(stockTextField.getText()));
 		product.setPurchasePrice(Double.valueOf(purchasePriceField.getText()));
 		product.setSalePrice(Double.valueOf(salePriceField.getText()));
 		product.setDescription(descriptionTextArea.getText());
-		
-		product.setAttributes(((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).getData());
+
+		product.setAttributes(((MapTableModel<String, AttributeDTO<?>>) attributeTable.getModel()).getData());
 
 		return product;
 	}
 
 	@Override
 	public void resetFields() {
-		nameTextField.setText(getCurrentEntity().getName());
-		categoryComboBox.setSelectedIndex(getCurrentEntity().getCategoryId());
-		launchDateChooser.setDate(getCurrentEntity().getLaunchDate());
-		stockTextField.setValue(getCurrentEntity().getStock());
-		purchasePriceField.setValue(getCurrentEntity().getPurchasePrice());
-		salePriceField.setValue(getCurrentEntity().getSalePrice());
-		descriptionTextArea.setText(getCurrentEntity().getDescription());
-		
-		attributeTable.setModel(
-				new ActionPaneMapTableModel<String, Attribute<?>>(AttributeTableConstants.COLUMN_NAMES, getCurrentEntity().getAttributes()));
-		
-		findProductImages();
+	    LocalizedProductDTO entity = getCurrentEntity();
+	    if (entity == null) {
+	        // Handle the case where there's no current entity (e.g., clear fields)
+	        nameTextField.setText("");
+	        categoryComboBox.setSelectedIndex(-1);
+	        launchDateChooser.setDate(null);
+	        stockTextField.setValue(null);
+	        purchasePriceField.setValue(null);
+	        salePriceField.setValue(null);
+	        descriptionTextArea.setText("");
+	        attributeTable.setModel(new MapTableModel<>(AttributeTableConstants.COLUMN_NAMES, new HashMap<>()));
+	        return;
+	    }
+
+	    nameTextField.setText(entity.getName());
+	    categoryComboBox.setSelectedIndex(entity.getCategoryId());
+	    launchDateChooser.setDate(entity.getLaunchDate());
+	    stockTextField.setValue(entity.getStock());
+	    purchasePriceField.setValue(entity.getPurchasePrice());
+	    salePriceField.setValue(entity.getSalePrice());
+	    descriptionTextArea.setText(entity.getDescription());
+
+	    attributeTable.setModel(
+	        new MapTableModel<>(AttributeTableConstants.COLUMN_NAMES, entity.getAttributes()));
+
+	    findProductImages();
 	}
+
 
 	@Override
 	protected void setFieldsEditable(boolean isEditable) {
@@ -389,20 +405,20 @@ extends AbstractEntityView<Product> {
 		salePriceField.setValue(getCurrentEntity().getSalePrice());
 		descriptionTextArea.setText(getCurrentEntity().getDescription());
 
-		attributeTable.setModel(new ActionPaneMapTableModel<String, Attribute<?>>(
+		attributeTable.setModel(new MapTableModel<String, AttributeDTO<?>>(
 				AttributeTableConstants.COLUMN_NAMES, getCurrentEntity().getAttributes()));
-		
+
 		findProductImages();
 	}
-	
+
 	private void findProductImages() {
 		clearImages();
-		Product p = getCurrentEntity();
-		
+		LocalizedProductDTO p = getCurrentEntity();
+
 		if (p == null || p.getId() == null) {
 			return;
 		}
-		
+
 		try {
 			addImages(imageFileService.getFiles("product", getCurrentEntity().getId()));
 		} catch (ServiceException e) {
@@ -410,17 +426,17 @@ extends AbstractEntityView<Product> {
 			DialogUtils.showDatabaseAccessErrorDialog(this);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public void addAttribute(Attribute<?> attribute) {
-		((ActionPaneMapTableModel<String, Attribute<?>>) attributeTable.getModel()).addRow(attribute.getName(), attribute);
+	public void addAttribute(AttributeDTO<?> attribute) {
+		((MapTableModel<String, AttributeDTO<?>>) attributeTable.getModel()).addRow(attribute.getName(), attribute);
 	}
-	
+
 	public <T extends Action & ItemListener> void addAttributeAction(T action) {
 		categoryComboBox.addItemListener(action);
 		addAction(action, EDITOR_CARD);
 	}
-	
+
 	public void addImage(ImageEntry entry) {
 		imageGalleryPanel.addImage(entry);
 	}
@@ -428,7 +444,7 @@ extends AbstractEntityView<Product> {
 	public void addImages(List<ImageEntry> entries) {
 		imageGalleryPanel.addImages(entries);
 	}
-	
+
 	public void clearImages() {
 		imageGalleryPanel.clearImages();
 	}

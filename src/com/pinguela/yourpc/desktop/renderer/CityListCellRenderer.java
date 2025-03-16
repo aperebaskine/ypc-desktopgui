@@ -17,7 +17,7 @@ public class CityListCellRenderer extends DefaultListCellRenderer {
 		City city = (City) value;
 		String valueString;
 		
-		if (city.getId() == null) {
+		if (city == null) {
 			valueString = "Select a city...";
 		} else {
 			valueString = city.getName();

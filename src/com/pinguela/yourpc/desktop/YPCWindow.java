@@ -316,6 +316,7 @@ public class YPCWindow {
 		return authenticatedUser;
 	}
 
+	// TODO: Refactor permission system
 	public void setPermissions() {
 		String department = authenticatedUser.getDepartmentHistory().get(0).getDepartmentId();
 

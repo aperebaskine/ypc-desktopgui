@@ -5,15 +5,15 @@ import javax.swing.JTable;
 import com.pinguela.yourpc.desktop.components.AttributeValueInputPane;
 import com.pinguela.yourpc.desktop.components.InputPane;
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.model.ActionPaneMapTableModel;
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.desktop.model.MapTableModel;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 
 @SuppressWarnings("serial")
 public class EditAttributeAction 
-extends GetInputAction<Attribute<?>> {
+extends GetInputAction<AttributeDTO<?>> {
 
 	private JTable table;
-	private Attribute<?> editingAttribute;
+	private AttributeDTO<?> editingAttribute;
 	
 	private Integer handlingMode;
 	private boolean showUnassignedValues;
@@ -31,16 +31,16 @@ extends GetInputAction<Attribute<?>> {
 	}
 
 	@Override
-	protected InputPane<Attribute<?>> initializeInputPane() {
-		this.editingAttribute = (Attribute<?>) table.getCellEditor().getCellEditorValue();
+	protected InputPane<AttributeDTO<?>> initializeInputPane() {
+		this.editingAttribute = (AttributeDTO<?>) table.getCellEditor().getCellEditorValue();
 		return new AttributeValueInputPane(editingAttribute, handlingMode, showUnassignedValues);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onConfirm() {
-		ActionPaneMapTableModel<String, Attribute<?>> model =
-				(ActionPaneMapTableModel<String, Attribute<?>>) table.getModel();
+		MapTableModel<String, AttributeDTO<?>> model =
+				(MapTableModel<String, AttributeDTO<?>>) table.getModel();
 		model.updateRow(getInput(), model.getIndexOf(editingAttribute.getName()));
 	}
 

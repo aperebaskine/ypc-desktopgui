@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import java.awt.Component;
 
-import com.pinguela.yourpc.desktop.view.StatisticsSearchView;
+import com.pinguela.yourpc.desktop.view.ProductStatisticsSearchView;
 
 @SuppressWarnings("serial")
 public class OpenStatisticsTabAction
@@ -14,7 +14,7 @@ extends OpenTabAction {
 	
 	@Override
 	protected Component initializeTab() {
-		return new StatisticsSearchView();
+		return new ProductStatisticsSearchView();
 	}
 
 }

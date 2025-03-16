@@ -2,7 +2,7 @@ package com.pinguela.yourpc.desktop.actions;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
 import com.pinguela.yourpc.desktop.view.ProductView;
-import com.pinguela.yourpc.model.Attribute;
+import com.pinguela.yourpc.model.dto.AttributeDTO;
 import com.pinguela.yourpc.service.AttributeService;
 
 @SuppressWarnings("serial")
@@ -25,7 +25,7 @@ extends GetAttributeInputAction<ProductView> {
 
 	@Override
 	protected void onConfirm() {
-		Attribute<?> attribute = getInput();
+		AttributeDTO<?> attribute = getInput();
 		getView().addAttribute(attribute);
 	}
 

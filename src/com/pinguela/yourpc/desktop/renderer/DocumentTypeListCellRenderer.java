@@ -18,7 +18,7 @@ extends DefaultListCellRenderer {
 		DocumentType documentType = (DocumentType) value;
 		String valueString;
 		
-		if (documentType.getId() == null) {
+		if (documentType == null) {
 			valueString = "Select a document type...";
 		} else {
 			valueString = documentType.getName();

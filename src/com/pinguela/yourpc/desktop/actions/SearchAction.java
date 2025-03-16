@@ -9,7 +9,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
 
 import com.pinguela.yourpc.desktop.constants.Icons;
-import com.pinguela.yourpc.desktop.view.SearchView;
+import com.pinguela.yourpc.desktop.view.AbstractSearchView;
 
 @SuppressWarnings("serial")
 public abstract class SearchAction<T>
@@ -19,33 +19,33 @@ extends YPCAction {
 
 	private static final int DELAY = 75;
 
-	private SearchView<T> view;
+	private AbstractSearchView<T> view;
 	
 	private Timer timer;
 	private final ActionListener timerActionListener = (e) -> {
-		view.setModel(fetchData());
+		view.setTableModel(fetchData());
 	};
 
-	public SearchAction(SearchView<T> view) {
+	public SearchAction(AbstractSearchView<T> view) {
 		this(view, LABEL, Icons.SEARCH_ICON);
 		timer = new Timer(DELAY, timerActionListener);
 		timer.setRepeats(false);
 	}
 
-	public SearchAction(SearchView<T> view, Icon icon) {
+	public SearchAction(AbstractSearchView<T> view, Icon icon) {
 		this(view, LABEL, icon);
 	}
 
-	public SearchAction(SearchView<T> view, String name) {
+	public SearchAction(AbstractSearchView<T> view, String name) {
 		this(view, name, Icons.SEARCH_ICON);
 	}
 
-	public SearchAction(SearchView<T> view, String name, Icon icon) {
+	public SearchAction(AbstractSearchView<T> view, String name, Icon icon) {
 		super(name, icon);
 		this.view = view;
 	}
 
-	protected SearchView<T> getView() {
+	protected AbstractSearchView<T> getView() {
 		return view;
 	}
 

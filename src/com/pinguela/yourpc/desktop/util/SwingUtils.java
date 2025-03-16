@@ -15,8 +15,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 
-import com.pinguela.yourpc.model.NullObject;
-
 public class SwingUtils {
 
 	// During resizing, specify whether to check the horizontal or vertical margin size
@@ -80,7 +78,7 @@ public class SwingUtils {
 	@SuppressWarnings("unchecked")
 	public static <T> ComboBoxModel<T> createComboBoxModel(Collection<T> content, Class<? super T> targetClass) {
 		T[] items = (T[]) Array.newInstance(targetClass, content.size()+1);
-		items[0] = (T) NullObject.getInstance(targetClass); // Add blank object as the first value
+		items[0] = null; // Add blank object as the first value
 	
 		Iterator<T> iterator = content.iterator();
 		for (int i = 1; i < items.length; i++) {

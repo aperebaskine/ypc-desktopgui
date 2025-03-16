@@ -3,4 +3,10 @@
 /resources/product/
 /logs/
 /target/
+<<<<<<< HEAD
 /config/
+=======
+.classpath
+.project
+.settings/
+>>>>>>> branch 'main' of https://gitlab.com/aperebaskine/yourpc-desktopgui.git

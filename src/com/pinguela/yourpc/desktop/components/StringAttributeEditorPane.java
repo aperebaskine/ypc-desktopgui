@@ -57,12 +57,20 @@ extends AttributeEditorPane<String> {
 		add(valueSelectionPanel, BorderLayout.NORTH);
 		
 		valueComboBox = ComponentFactory.createComboBox(getSavedAttribute().getValues(), AttributeValueDTO.class);
+		valueComboBox.setEditable(true);
 		valueSelectionPanel.add(valueComboBox);
 		
 		JButton addValueButton = new JButton("Add", Icons.ADD_ICON);
 		addValueButton.addActionListener((evt) -> {
-			((DefaultListModel<String>) selectedValuesList.getModel())
-			.addElement(((AttributeValueDTO<String>) valueComboBox.getSelectedItem()).getValue());
+			DefaultListModel<String> model = (DefaultListModel<String>) selectedValuesList.getModel();
+			Object value = valueComboBox.getSelectedItem();
+		
+			if (value instanceof AttributeValueDTO) {
+				model.addElement(((AttributeValueDTO<String>) value).getValue());
+			} else if (value instanceof String) {
+				model.addElement((String) value);
+			}
+
 		});
 		valueSelectionPanel.add(addValueButton);
 	}

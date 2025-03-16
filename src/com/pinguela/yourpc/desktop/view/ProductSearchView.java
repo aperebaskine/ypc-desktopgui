@@ -10,6 +10,7 @@ import com.pinguela.yourpc.desktop.components.ProductCriteriaPanel;
 import com.pinguela.yourpc.desktop.renderer.ProductTableCellRenderer;
 import com.pinguela.yourpc.model.dto.LocalizedProductDTO;
 
+
 @SuppressWarnings("serial")
 public class ProductSearchView 
 extends AbstractPaginatedSearchView<LocalizedProductDTO> {
@@ -23,7 +24,7 @@ extends AbstractPaginatedSearchView<LocalizedProductDTO> {
 		setPreferredSize(new Dimension(960, 720));
 		setTableCellRenderer(Object.class, new ProductTableCellRenderer());
 	}
-	
+
 	@Override
 	protected CriteriaPanel<LocalizedProductDTO> initializeCriteriaPanel() {
 		return new ProductCriteriaPanel();

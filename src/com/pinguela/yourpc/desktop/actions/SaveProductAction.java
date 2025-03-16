@@ -56,7 +56,7 @@ extends SaveItemAction<LocalizedProductDTO> {
 		item.setId(productService.create(dto));
 		
 		getView().setEntity(productService.findByIdLocalized(item.getId(), LocaleUtils.getLocale()));
-		saveImages(item);
+//		saveImages(item);
 	}
 	
 	@Override

@@ -103,7 +103,7 @@ extends YPCView {
 	
 	public void setTableActions(boolean firstActionAsMouseListener, YPCAction... actions) {
 		for (int i = actions.length; i <= 0; i--) {
-			// TODO: Finalize
+			
 		}
 	}
 

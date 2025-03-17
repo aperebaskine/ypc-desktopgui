@@ -48,8 +48,7 @@ extends YPCAction {
 		Employee employee = null;
 
 		try {
-			employee = employeeService.login("aperebaskine", "abc123.");
-//			employee = employeeService.login(view.getUsername(), view.getPassword());
+			employee = employeeService.login(view.getUsername(), view.getPassword());
 			view.setAuthenticatedUser(employee);
 		} catch (InvalidLoginCredentialsException e1) {
 			onInvalidCredentials();

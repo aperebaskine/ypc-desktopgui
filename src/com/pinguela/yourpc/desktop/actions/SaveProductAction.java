@@ -66,10 +66,14 @@ extends SaveItemAction<LocalizedProductDTO> {
 
 		Map<Locale, String> nameI18n = new HashMap<>();
 		nameI18n.put(LocaleUtils.getLocale(), item.getName());
+		nameI18n.put(Locale.forLanguageTag("fr-FR"), item.getName());
+		nameI18n.put(Locale.forLanguageTag("es-ES"), item.getName());
 		dto.setNameI18n(nameI18n);
 		
 		Map<Locale, String> descrI18n = new HashMap<>();
 		descrI18n.put(LocaleUtils.getLocale(), item.getDescription());
+		descrI18n.put(Locale.forLanguageTag("fr-FR"), item.getDescription());
+		descrI18n.put(Locale.forLanguageTag("es-ES"), item.getDescription());
 		dto.setDescriptionI18n(descrI18n);
 		
 		dto.setId(item.getId());

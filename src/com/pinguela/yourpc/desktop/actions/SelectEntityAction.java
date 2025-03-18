@@ -41,7 +41,7 @@ extends OpenDialogAction<T> {
 	@Override
 	protected final YPCDialog createDialog(ActionEvent e) {
 		view = initializeSearchView();
-		view.setTableActions(false, new CloseDialogAction(Icons.OK_ICON, (JPanel) view));
+		view.setTableActions(new CloseDialogAction(Icons.OK_ICON, (JPanel) view));
 		return new YPCDialog(null, (JPanel) view);
 	}
 

@@ -16,7 +16,7 @@ extends OpenTabAction {
 	protected Component initializeTab() {
 		EmployeeSearchView view = new EmployeeSearchView();
 		YPCAction editEmployeeDialogAction = new OpenEmployeeResultDialogAction(view);
-		view.setTableActions(true, editEmployeeDialogAction);
+		view.setTableActions(editEmployeeDialogAction);
 		return view;
 	}
 

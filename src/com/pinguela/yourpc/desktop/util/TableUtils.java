@@ -34,23 +34,27 @@ implements TableConstants {
 	
 	public static void initializeActionPanes(JTable table, Action... actions) {
 		
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.setRowHeight(30);
+		table.addPropertyChangeListener("model", evt -> {
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			table.setRowHeight(30);
+			
+			// Reflect changes made to the table's cell selection background by the look-and-feel
+			table.addPropertyChangeListener(SELECTION_BACKGROUND_PROPERTY, ACTION_PANE_SELECTION_BACKGROUND_LISTENER);
+			
+			ActionPaneCellRenderer renderer = new ActionPaneCellRenderer();
+			ActionPaneCellEditor editor = new ActionPaneCellEditor();
+			
+			for (Action action : actions) {
+				renderer.addAction(action);
+				editor.addAction(action, ActionCommands.TABLE_BUTTON);
+			}
+			
+			table.setDefaultRenderer(ActionPane.class, renderer);
+			table.setDefaultEditor(ActionPane.class, editor);
+		});
 		
-		// Reflect changes made to the table's cell selection background by the look-and-feel
-		table.addPropertyChangeListener(SELECTION_BACKGROUND_PROPERTY, ACTION_PANE_SELECTION_BACKGROUND_LISTENER);
 		
-		ActionPaneCellRenderer renderer = new ActionPaneCellRenderer();
-		ActionPaneCellEditor editor = new ActionPaneCellEditor();
-		
-		for (Action action : actions) {
-			renderer.addAction(action);
-			editor.addAction(action, ActionCommands.TABLE_BUTTON);
-		}
-		
-		table.setDefaultRenderer(ActionPane.class, renderer);
-		table.setDefaultEditor(ActionPane.class, editor);
 	}
 
 }

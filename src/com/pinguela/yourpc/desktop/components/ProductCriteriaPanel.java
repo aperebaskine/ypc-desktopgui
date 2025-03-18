@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ import javax.swing.SwingConstants;
 
 import com.pinguela.yourpc.desktop.actions.DeleteAttributeAction;
 import com.pinguela.yourpc.desktop.actions.EditAttributeAction;
+import com.pinguela.yourpc.desktop.actions.ResetCriteriaAction;
+import com.pinguela.yourpc.desktop.actions.SetProductCriteriaForCategoryAction;
 import com.pinguela.yourpc.desktop.constants.AttributeTableConstants;
 import com.pinguela.yourpc.desktop.factory.ComponentFactory;
 import com.pinguela.yourpc.desktop.model.MapTableModel;
@@ -258,9 +261,9 @@ extends EntityCriteriaPanel<Long, LocalizedProductDTO> {
 
 	private void postInitialize() {
 
-		attributeTable.setModel(new MapTableModel<String, AttributeDTO<?>>(AttributeTableConstants.COLUMN_NAMES));
 		TableUtils.initializeActionPanes(attributeTable, new DeleteAttributeAction(attributeTable),
 				new EditAttributeAction(attributeTable, AttributeService.NO_UNASSIGNED_VALUES));
+		attributeTable.setModel(new MapTableModel<String, AttributeDTO<?>>(AttributeTableConstants.COLUMN_NAMES));
 		attributeTable.setDefaultRenderer(Object.class, new AttributeTableCellRenderer());
 		attributeTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -281,8 +284,8 @@ extends EntityCriteriaPanel<Long, LocalizedProductDTO> {
 
 		// TODO: Add listener for ID field
 
-//		categoryComboBox.addActionListener(new SetProductCriteriaForCategoryAction(this));
-//		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
+		categoryComboBox.addActionListener(new SetProductCriteriaForCategoryAction(this));
+		categoryComboBox.addActionListener(new ResetCriteriaAction(this));
 		
 		addPropertyChangeListener(ATTRIBUTE_CRITERIA_PROPERTY, attributeCriteriaListener);
 	}

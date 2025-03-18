@@ -17,7 +17,7 @@ extends OpenTabAction {
 		RMASearchView view = new RMASearchView();
 		YPCAction openEditDialogAction = new OpenRMAResultDialogAction(view);
 		
-		view.setTableActions(true, openEditDialogAction);
+		view.setTableActions(openEditDialogAction);
 		
 		return view;
 	}

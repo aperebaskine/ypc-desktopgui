@@ -16,7 +16,7 @@ extends OpenTabAction {
 	protected Component initializeTab() {
 		CustomerSearchView view = new CustomerSearchView();
 		YPCAction editCustomerDialogAction = new OpenCustomerResultDialogAction(view);
-		view.setTableActions(true, editCustomerDialogAction, new DeleteCustomerAction(view));
+		view.setTableActions(new DeleteCustomerAction(view), editCustomerDialogAction);
 		return view;
 	}
 

@@ -56,7 +56,7 @@ extends SaveItemAction<LocalizedProductDTO> {
 		item.setId(productService.create(dto));
 		
 		getView().setEntity(productService.findByIdLocalized(item.getId(), LocaleUtils.getLocale()));
-//		saveImages(item);
+		saveImages(item);
 	}
 	
 	@Override
@@ -84,6 +84,8 @@ extends SaveItemAction<LocalizedProductDTO> {
 		dto.setPurchasePrice(item.getPurchasePrice());
 		dto.setSalePrice(item.getSalePrice());
 		dto.setReplacementId(item.getReplacementId());
+		
+		dto.setAttributes(item.getAttributes());
 		
 		productService.update(dto);
 		

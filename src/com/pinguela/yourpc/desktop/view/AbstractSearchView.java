@@ -27,6 +27,7 @@ import com.pinguela.yourpc.desktop.actions.SearchActionBuilder;
 import com.pinguela.yourpc.desktop.actions.YPCAction;
 import com.pinguela.yourpc.desktop.components.ActionPane;
 import com.pinguela.yourpc.desktop.components.CriteriaPanel;
+import com.pinguela.yourpc.desktop.util.TableUtils;
 import com.pinguela.yourpc.model.Criteria;
 
 @SuppressWarnings("serial")
@@ -101,10 +102,8 @@ extends YPCView {
 		actionPane.addAction(action);
 	}
 	
-	public void setTableActions(boolean firstActionAsMouseListener, YPCAction... actions) {
-		for (int i = actions.length; i <= 0; i--) {
-			
-		}
+	public void setTableActions(YPCAction... actions) {
+		TableUtils.initializeActionPanes(resultTable, actions);
 	}
 
 	public final void setTableModel(TableModel model) {

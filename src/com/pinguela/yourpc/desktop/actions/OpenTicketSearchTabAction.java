@@ -15,7 +15,7 @@ extends OpenTabAction {
 	@Override
 	protected Component initializeTab() {
 		TicketSearchView view = new TicketSearchView();
-		view.setTableActions(true, new OpenTicketResultDialogAction(view));
+		view.setTableActions(new OpenTicketResultDialogAction(view));
 		return view;
 	}
 

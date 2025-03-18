@@ -16,7 +16,7 @@ extends OpenTabAction {
 	protected Component initializeTab() {
 		CustomerOrderSearchView view = new CustomerOrderSearchView();
 		YPCAction openDialogAction = new OpenCustomerOrderResultDialogAction(view);
-		view.setTableActions(true, openDialogAction);
+		view.setTableActions(openDialogAction);
 		return view;
 	}
 
